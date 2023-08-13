@@ -1,9 +1,5 @@
-const LandingPage = () => {
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            12
-        </main>
-    )
-}
+import LandingView from '@/views/landing'
 
-export default LandingPage
+export default function LandingPage() {
+    return <LandingView />
+}

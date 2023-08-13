@@ -1,3 +1,3 @@
 ```sh
-npm run translate
+npm run trans
 ```
