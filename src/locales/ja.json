@@ -1,10 +1,1 @@
-{
-    "Index": {
-        "title": "Hello world12!"
-    },
-    "LocaleSwitcher": {
-        "label": "Sprache ändern",
-        "locale": "{locale, select, de {Deutsch} en {Englisch} other {Unbekannt}}"
-    },
-    "HELLO": "Arigato gozaimasu"
-}
+{"HELLO":"こんにちは","ABOUTS":"概要"}

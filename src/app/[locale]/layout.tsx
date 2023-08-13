@@ -1,11 +1,11 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { NextIntlClientProvider } from 'next-intl'
-import { Inter } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 import { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
+import GlobalProvider from '@/global-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
 export const metadata: Metadata = {
     title: 'Cocokitene Application',
@@ -35,10 +35,10 @@ export default async function RootLayout({
 
     return (
         <html lang={locale}>
-            <body className={inter.className}>
-                <NextIntlClientProvider locale={locale} messages={messages}>
+            <body className={roboto.className}>
+                <GlobalProvider locale={locale} messages={messages}>
                     {children}
-                </NextIntlClientProvider>
+                </GlobalProvider>
             </body>
         </html>
     )
