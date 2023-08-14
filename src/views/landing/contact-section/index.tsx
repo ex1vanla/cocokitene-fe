@@ -1,5 +1,9 @@
 const ContactSection = () => {
-    return <h1>This is contact section</h1>
+    return (
+        <div className="min-h-[85vh] bg-landing-registration-bg">
+            <div>Registration form</div>
+        </div>
+    )
 }
 
 export default ContactSection

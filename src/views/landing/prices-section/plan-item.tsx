@@ -79,17 +79,17 @@ const PlanItem = ({
                     }`}
                 >
                     <Text className={quantityTextClass}>
-                        {t(getNumberLimitedPlan(meetingsQuantity))}{' '}
+                        {getNumberLimitedPlan(meetingsQuantity, t)}{' '}
                         {t('MEETINGS')}
                     </Text>
                     <Text className={quantityTextClass}>
-                        {t(getNumberLimitedPlan(videosQuantity))} {t('VIDEOS')}
+                        {getNumberLimitedPlan(videosQuantity, t)} {t('VIDEOS')}
                     </Text>
                     <Text className={quantityTextClass}>
-                        {t(getNumberLimitedPlan(imagesQuantity))} {t('IMAGES')}
+                        {getNumberLimitedPlan(imagesQuantity, t)} {t('IMAGES')}
                     </Text>
                     <Text className={quantityTextClass}>
-                        {t(getNumberLimitedPlan(storageQuantity))}{' '}
+                        {getNumberLimitedPlan(storageQuantity, t)}{' '}
                         {t('GB_STORAGE')}
                     </Text>
                 </div>
