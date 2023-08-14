@@ -9,7 +9,7 @@ const AboutSection = () => {
     const t = useTranslations()
     return (
         <div
-            id="about-section"
+            id="abouts"
             className="absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2"
         >
             <Title
@@ -23,7 +23,7 @@ const AboutSection = () => {
                 <span className="text-yellow-sunrise">{t('BLOCKCHAIN')}</span>{' '}
                 {t('TECHNOLOGY')}
             </Title>
-            <Title level={5} className="font-normal text-white">
+            <Title level={5} className="text-center font-normal text-white">
                 {t('ABOUT_SUB_TITLE')}
             </Title>
         </div>

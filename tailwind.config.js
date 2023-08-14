@@ -18,6 +18,7 @@ module.exports = {
                 primary: 'rgba(81, 81, 229, 1)',
                 secondary: 'rgba(106, 40, 190, 1)',
                 'yellow-sunrise': 'rgba(255, 236, 61, 1)',
+                neutral: 'rgba(217, 217, 217, 1)',
             },
         },
     },

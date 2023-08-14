@@ -5,9 +5,10 @@ const theme: ThemeConfig = {
         colorPrimary: 'rgba(81, 81, 229, 1)',
     },
     components: {
-        // Typography: {
-        //     fontWeightStrong: 500,
-        // },
+        Typography: {
+            colorText: 'rgba(0, 0, 0,0.85)',
+            colorTextHeading: 'rgba(0, 0, 0,0.85)',
+        },
     },
 }
 
