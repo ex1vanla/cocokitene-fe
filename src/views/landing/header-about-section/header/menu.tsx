@@ -19,8 +19,8 @@ const MenuItem = ({
     return (
         <Link
             href={path}
-            className={`h-inherit flex items-center ${
-                isActive ? 'border-b-2 border-white' : ''
+            className={`h-inherit flex items-center border-b-2 ${
+                isActive ? 'border-white' : 'border-transparent'
             }`}
         >
             <Text className="text-sm font-medium leading-[22px] text-white">
