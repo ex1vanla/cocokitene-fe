@@ -9,8 +9,8 @@ const AboutSection = () => {
     const t = useTranslations()
     return (
         <div
-            id="abouts"
-            className="absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2"
+            // id="abouts"
+            className="absolute left-1/2 top-[40%] z-20 -translate-x-1/2 -translate-y-1/2"
         >
             <Title
                 level={1}

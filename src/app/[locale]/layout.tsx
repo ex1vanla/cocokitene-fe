@@ -34,7 +34,7 @@ export default async function RootLayout({
     }
 
     return (
-        <html lang={locale}>
+        <html lang={locale} className="scroll-smooth">
             <body className={roboto.className}>
                 <GlobalProvider locale={locale} messages={messages}>
                     {children}
