@@ -23,6 +23,7 @@ module.exports = {
                 'neutral/5': 'rgba(217, 217, 217, 1)',
                 'neutral/4': 'rgba(240, 240, 240, 1)',
                 'orange-sunset': 'rgba(255, 247, 230, 1)',
+                'gray-sunset': 'rgb(245, 245, 245)',
             },
         },
     },
