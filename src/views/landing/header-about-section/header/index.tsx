@@ -37,7 +37,7 @@ const LandingHeader = () => {
             id="landing-header"
             className={`fixed top-0 z-10 w-full transition-colors ${metaClass}`}
         >
-            <div className="mx-auto flex max-w-[1280px] justify-between">
+            <div className="mx-auto flex max-w-[1200px] justify-between">
                 <Link className="flex-shrink-0 cursor-pointer" href={'/'}>
                     <Image
                         src={'/images/logo.png'}

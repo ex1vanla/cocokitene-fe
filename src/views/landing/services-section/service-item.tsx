@@ -20,7 +20,7 @@ const ServiceItem = ({
     return (
         <div
             id="service-item-wrapper"
-            className="flex max-h-[380px] max-w-[380px] flex-col items-center border border-solid border-neutral/5 p-10"
+            className="flex flex-col items-center border border-solid border-neutral/5 p-10"
         >
             <Image
                 src={serviceImage}

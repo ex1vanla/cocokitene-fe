@@ -30,7 +30,7 @@ const ServicesSection = () => {
     const t = useTranslations()
 
     return (
-        <div id="services" className="py-[100px]">
+        <div id="services" className="mx-auto max-w-[1200px] py-[100px]">
             <div id="services-title" className="mb-10 text-center">
                 <Title level={2} className="font-bold">
                     {t('OUR_SERVICE')}
