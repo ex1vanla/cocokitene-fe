@@ -94,7 +94,9 @@ const PlanItem = ({
                     </Text>
                 </div>
                 <Button
-                    className={`h-12 w-[280px] ${isBold ? 'text-primary' : ''}`}
+                    className={`h-10 w-[280px] rounded-sm text-base font-normal ${
+                        isBold ? 'text-primary' : ''
+                    }`}
                 >
                     {t('GET_THIS')}
                 </Button>
