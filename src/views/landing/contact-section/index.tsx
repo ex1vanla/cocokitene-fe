@@ -120,8 +120,8 @@ const ContactSection = () => {
                                 </Col>
                             </Row>
                             <Row gutter={24}>
-                                <Col span={24}>
-                                    <Form.Item wrapperCol={{ offset: 10 }}>
+                                <Col span={24} className="text-center">
+                                    <Form.Item>
                                         <Button
                                             type="primary"
                                             htmlType="submit"
