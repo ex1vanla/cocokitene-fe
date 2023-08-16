@@ -37,6 +37,10 @@ const Menu = () => {
 
     useEffect(() => {
         setHashFragment(`/${window.location.hash}`)
+        if (window.location.hash) {
+            const el = document.querySelector(window.location.hash)
+            el?.scrollIntoView()
+        }
     }, [params])
 
     const data = [
