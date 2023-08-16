@@ -20,7 +20,7 @@ const ContactSection = () => {
     const groupContactClass = 'flex gap-2 font-normal'
 
     return (
-        <div className="bg-gray-sunset">
+        <div id="contact" className="bg-gray-sunset">
             <div className="bg-covert relative mx-auto my-0 min-h-[790px] max-w-[1250px] bg-landing-registration-bg bg-no-repeat">
                 <div className="registration-form__wrapper absolute right-0 top-1/2 w-[560px] -translate-y-1/2 bg-white p-10 drop-shadow-md">
                     <Title className="text-center font-bold" level={2}>

@@ -33,7 +33,7 @@ const MenuItem = ({
 const Menu = () => {
     const t = useTranslations()
     const params = useParams()
-    const [hashFragment, setHashFragment] = useState('/#abouts')
+    const [hashFragment, setHashFragment] = useState(``)
 
     useEffect(() => {
         setHashFragment(`/${window.location.hash}`)

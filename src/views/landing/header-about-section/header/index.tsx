@@ -15,9 +15,9 @@ const LandingHeader = () => {
         const handleScroll = () => {
             const top = window.scrollY
             if (top > 64) {
-                setMetaClass('bg-primary pb-2 opacity-1')
+                setMetaClass('bg-primary pb-2 opacity-100')
             } else if (top < 64) {
-                setMetaClass('opacity-1')
+                setMetaClass('opacity-100')
             }
         }
         window.addEventListener('scroll', handleScroll)
@@ -35,7 +35,7 @@ const LandingHeader = () => {
     return (
         <div
             id="landing-header"
-            className={`fixed top-0 z-10 w-full transition-colors ${metaClass}`}
+            className={`fixed top-0 z-10 w-full opacity-0 transition-all ${metaClass}`}
         >
             <div className="mx-auto flex max-w-[1200px] justify-between">
                 <Link className="flex-shrink-0 cursor-pointer" href={'/'}>
