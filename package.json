@@ -9,7 +9,7 @@
         "lint": "next lint",
         "format": "prettier --write \"src/**/*.{ts,tsx}\"",
         "format:lint-staged": "lint-staged",
-        "prepare": "husky install && chmod ug+x .husky/*",
+        "prepare-husky": "husky install && chmod ug+x .husky/*",
         "trans": "node scripts/translate.js"
     },
     "dependencies": {
