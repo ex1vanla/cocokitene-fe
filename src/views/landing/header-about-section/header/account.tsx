@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Dropdown } from 'antd'
 import type { MenuProps } from 'antd'
@@ -5,9 +7,12 @@ import { DownOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Typography } from 'antd'
+import { useTranslations } from 'next-intl'
 
 const { Text } = Typography
 const Account = ({ name, avatar }: { name: string; avatar: string }) => {
+    const t = useTranslations()
+
     const items: MenuProps['items'] = [
         {
             key: '1',
@@ -17,7 +22,7 @@ const Account = ({ name, avatar }: { name: string; avatar: string }) => {
                     rel="noopener noreferrer"
                     href="/role"
                 >
-                    Role
+                    {t('ROLE')}
                 </Link>
             ),
         },
@@ -29,7 +34,7 @@ const Account = ({ name, avatar }: { name: string; avatar: string }) => {
                     rel="noopener noreferrer"
                     href="/profile"
                 >
-                    My Profile
+                    {t('MY_PROFILE')}
                 </Link>
             ),
         },
@@ -41,14 +46,16 @@ const Account = ({ name, avatar }: { name: string; avatar: string }) => {
                     rel="noopener noreferrer"
                     href="/reset-password"
                 >
-                    Reset Password
+                    {t('RESET_PASSWORD')}
                 </Link>
             ),
         },
         {
             key: '4',
             label: (
-                <div className="py-[5px] text-sm leading-[22px]">Logout</div>
+                <div className="py-[5px] text-sm leading-[22px]">
+                    {t('LOGOUT')}
+                </div>
             ),
         },
     ]
