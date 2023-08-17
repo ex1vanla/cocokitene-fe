@@ -7,7 +7,7 @@ const HeaderAboutSection = () => {
         <div className="relative">
             <LandingHeader />
             <div
-                id="#abouts"
+                id="abouts"
                 className="relative min-h-[85vh]  [clip-path:polygon(0_0,100%_0,100%_70vh,0_100%)]"
             >
                 <AboutSection />
