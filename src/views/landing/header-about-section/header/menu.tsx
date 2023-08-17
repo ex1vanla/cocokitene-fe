@@ -9,6 +9,7 @@ const { Text } = Typography
 
 const MenuItem = ({
     text,
+    //eslint-disable-next-line
     path,
     isActive = false,
 }: {
@@ -36,29 +37,32 @@ const Menu = () => {
     const [hashFragment, setHashFragment] = useState(``)
 
     useEffect(() => {
-        setHashFragment(`/${window.location.hash}`)
+        if (!window) return
+        setHashFragment(`${window.location.hash}`)
         if (window.location.hash) {
             const el = document.querySelector(window.location.hash)
             el?.scrollIntoView()
         }
     }, [params])
 
+    console.log(hashFragment)
+
     const data = [
         {
             text: t('ABOUTS'),
-            path: '/#abouts',
+            path: '#abouts',
         },
         {
             text: t('SERVICES'),
-            path: '/#services',
+            path: '#services',
         },
         {
             text: t('PRICES'),
-            path: '/#prices',
+            path: '#prices',
         },
         {
             text: t('CONTACT'),
-            path: '/#contact',
+            path: '#contact',
         },
     ]
 
