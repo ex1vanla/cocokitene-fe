@@ -10,7 +10,7 @@ export interface ISidebarItem {
     key: string
 }
 
-export const sidebarItems: ISidebarItem[] = [
+export const SIDEBAR_ITEMS: ISidebarItem[] = [
     {
         icon: DashboardOutlined,
         label: 'DASHBOARD',
@@ -27,3 +27,6 @@ export const sidebarItems: ISidebarItem[] = [
         key: '/meeting',
     },
 ]
+
+export const SIDEBAR_OPEN_WIDTH: number = 208
+export const SIDEBAR_CLOSE_WIDTH: number = 80

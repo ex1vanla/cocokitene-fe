@@ -4,7 +4,7 @@ import Content from '@/components/workspace-layout/content'
 import Header from '@/components/workspace-layout/header'
 import Sidebar from '@/components/workspace-layout/sidebar'
 import { Layout } from 'antd'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 
 export interface IWorkspaceLayout {
     pageName: string
@@ -12,12 +12,17 @@ export interface IWorkspaceLayout {
 }
 
 const WorkspaceLayout = (props: IWorkspaceLayout) => {
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
+
     return (
         <Layout className="min-h-screen">
             <Header />
             <Layout className="mt-12">
-                <Sidebar />
-                <Content {...props} />
+                <Sidebar
+                    isCollapsed={isCollapsed}
+                    setIsCollapsed={setIsCollapsed}
+                />
+                <Content isCollapsed={isCollapsed} {...props} />
             </Layout>
         </Layout>
     )

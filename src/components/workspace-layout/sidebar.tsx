@@ -1,30 +1,37 @@
-import { sidebarItems } from '@/constants/common'
-import { Layout, Menu, MenuProps } from 'antd'
+import {
+    SIDEBAR_CLOSE_WIDTH,
+    SIDEBAR_ITEMS,
+    SIDEBAR_OPEN_WIDTH,
+} from '@/constants/common'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { Button, Layout, Menu, MenuProps } from 'antd'
 import { useTranslations } from 'next-intl'
 import { usePathname, useRouter } from 'next/navigation'
-import { createElement, useCallback, useState } from 'react'
+import { createElement, useCallback } from 'react'
 
 type MenuItem = Required<MenuProps>['items'][number]
 
-const Sidebar = () => {
-    const pathname = usePathname()
+interface ISidebar {
+    isCollapsed: boolean
+    // eslint-disable-next-line
+    setIsCollapsed: (value: boolean) => void
+}
 
-    console.log('pathname: ' + pathname)
+const Sidebar = ({ isCollapsed, setIsCollapsed }: ISidebar) => {
+    const pathname = usePathname()
 
     const router = useRouter()
     const t = useTranslations()
-
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
 
     const redirect = ({ key }: { key: string }) => {
         router.push(key)
     }
 
-    const toggle = () => {
+    const toggleSidebar = () => {
         setIsCollapsed(!isCollapsed)
     }
 
-    const menuItems: MenuItem[] = sidebarItems.map((sidebarItem) => {
+    const menuItems: MenuItem[] = SIDEBAR_ITEMS.map((sidebarItem) => {
         const { label, key, icon } = sidebarItem
         return {
             key,
@@ -35,7 +42,7 @@ const Sidebar = () => {
 
     const getSelectedKey = useCallback(() => {
         let selectedKey: string = ''
-        for (const sidebarItem of sidebarItems) {
+        for (const sidebarItem of SIDEBAR_ITEMS) {
             if (pathname.includes(sidebarItem.key)) {
                 selectedKey = sidebarItem.key
                 break
@@ -44,11 +51,13 @@ const Sidebar = () => {
         return selectedKey
     }, [pathname])
 
+    const sidebarWidth = isCollapsed ? SIDEBAR_CLOSE_WIDTH : SIDEBAR_OPEN_WIDTH
+
     return (
         <Layout.Sider
-            width={208}
+            width={sidebarWidth}
             collapsible
-            onCollapse={toggle}
+            trigger={null}
             collapsed={isCollapsed}
             className="fixed h-full overflow-auto bg-white"
         >
@@ -59,6 +68,22 @@ const Sidebar = () => {
                 selectedKeys={[getSelectedKey()]}
                 items={menuItems}
             />
+            <div
+                className={`fixed bottom-0 left-0 z-20 flex h-10 items-center border-t border-neutral/4 px-6`}
+                style={{ width: `${sidebarWidth}px` }}
+            >
+                <Button
+                    type="text"
+                    icon={
+                        isCollapsed ? (
+                            <MenuUnfoldOutlined />
+                        ) : (
+                            <MenuFoldOutlined />
+                        )
+                    }
+                    onClick={toggleSidebar}
+                />
+            </div>
         </Layout.Sider>
     )
 }
