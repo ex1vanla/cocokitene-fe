@@ -7,7 +7,6 @@ import { Layout } from 'antd'
 import { ReactNode, useState } from 'react'
 
 export interface IWorkspaceLayout {
-    pageName: string
     children: ReactNode
 }
 

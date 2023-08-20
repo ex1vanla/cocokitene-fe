@@ -52,7 +52,7 @@ const ContactSection = () => {
                                             },
                                         ]}
                                     >
-                                        <Input className="h-10 rounded-sm" />
+                                        <Input size="large" />
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
@@ -74,7 +74,7 @@ const ContactSection = () => {
                                             },
                                         ]}
                                     >
-                                        <Input className="h-10 rounded-sm" />
+                                        <Input size="large" />
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -92,7 +92,7 @@ const ContactSection = () => {
                                             },
                                         ]}
                                     >
-                                        <Input className="h-10 rounded-sm" />
+                                        <Input size="large" />
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
@@ -108,14 +108,14 @@ const ContactSection = () => {
                                             },
                                         ]}
                                     >
-                                        <Input className="h-10 rounded-sm" />
+                                        <Input size="large" />
                                     </Form.Item>
                                 </Col>
                             </Row>
                             <Row gutter={24}>
                                 <Col span={24}>
                                     <Form.Item label={t('NOTE')} name="note">
-                                        <Input className="h-10 rounded-sm" />
+                                        <Input size="large" />
                                     </Form.Item>
                                 </Col>
                             </Row>
@@ -125,7 +125,7 @@ const ContactSection = () => {
                                         <Button
                                             type="primary"
                                             htmlType="submit"
-                                            className="h-10 rounded-sm px-4 py-[7px]"
+                                            size="large"
                                         >
                                             {t('SUBMIT')}
                                         </Button>

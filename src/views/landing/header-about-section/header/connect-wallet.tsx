@@ -9,7 +9,8 @@ const ConnectWallet = () => {
     return (
         <Button
             type="default"
-            className="h-10 rounded-sm px-6 py-[7px] text-base font-normal text-primary"
+            size="large"
+            className="text-base font-normal text-primary"
         >
             {t('CONNECT_WALLET')}
         </Button>

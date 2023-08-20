@@ -94,7 +94,8 @@ const PlanItem = ({
                     </Text>
                 </div>
                 <Button
-                    className={`h-10 w-[280px] rounded-sm text-base font-normal ${
+                    size="large"
+                    className={`w-[280px] text-base font-normal ${
                         isBold ? 'text-primary' : ''
                     }`}
                 >
