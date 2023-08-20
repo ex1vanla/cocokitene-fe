@@ -10,7 +10,7 @@ import { Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 
 const { Text } = Typography
-const Account = ({ name, avatar }: { name: string; avatar: string }) => {
+const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
 
     const items: MenuProps['items'] = [
@@ -66,6 +66,7 @@ const Account = ({ name, avatar }: { name: string; avatar: string }) => {
             menu={{ items }}
             placement="bottomLeft"
             overlayStyle={{ borderRadius: '2px' }}
+            className="cursor-pointer"
         >
             <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2">
@@ -80,4 +81,4 @@ const Account = ({ name, avatar }: { name: string; avatar: string }) => {
     )
 }
 
-export default Account
+export default AccountInfo

@@ -1,11 +1,11 @@
 'use client'
-import Image from 'next/image'
 // import Logo from '@/public/images/logo.png'
+import { LogoAppIcon } from '@/components/svgs'
 import Link from 'next/link'
-import Menu from './menu'
-import ConnectWallet from './connect-wallet'
 import { useEffect, useState } from 'react'
-import Account from './account'
+import AccountInfo from '../../../../components/account-info'
+import ConnectWallet from './connect-wallet'
+import Menu from './menu'
 
 const LandingHeader = () => {
     const [metaClass, setMetaClass] = useState('')
@@ -37,19 +37,14 @@ const LandingHeader = () => {
             id="landing-header"
             className={`fixed top-0 z-10 w-full opacity-0 transition-all ${metaClass}`}
         >
-            <div className="mx-auto flex max-w-[1200px] justify-between">
+            <div className="mx-auto flex max-w-[1200px] justify-between py-3">
                 <Link className="flex-shrink-0 cursor-pointer" href={'/'}>
-                    <Image
-                        src={'/images/logo.png'}
-                        height={64}
-                        width={178}
-                        alt="logo"
-                    />
+                    <LogoAppIcon />
                 </Link>
                 <div className="flex items-center gap-10">
                     <Menu />
                     {isConnected ? (
-                        <Account
+                        <AccountInfo
                             name="Stan Lee"
                             avatar="/images/default-avatar.png"
                         />
