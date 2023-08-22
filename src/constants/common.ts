@@ -1,5 +1,7 @@
 import {
     DashboardOutlined,
+    SettingOutlined,
+    TeamOutlined,
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons'
@@ -17,14 +19,24 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         key: '/dashboard',
     },
     {
+        icon: VideoCameraOutlined,
+        label: 'MEETINGS',
+        key: '/meeting',
+    },
+    {
         icon: UserOutlined,
-        label: 'ACCOUNT',
+        label: 'ACCOUNTS',
         key: '/account',
     },
     {
-        icon: VideoCameraOutlined,
-        label: 'MEETING',
-        key: '/meeting',
+        icon: TeamOutlined,
+        label: 'SHAREHOLDERS',
+        key: '/shareholder',
+    },
+    {
+        icon: SettingOutlined,
+        label: 'SETTING_ROLES',
+        key: '/setting-role',
     },
 ]
 

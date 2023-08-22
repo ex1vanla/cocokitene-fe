@@ -1,9 +1,3 @@
-export function generateStaticParams() {
-    return [{ pageName: 'Account page' }]
-}
+import AccountView from '@/views/account'
 
-const AccountPage = () => {
-    return <h1>This is account page</h1>
-}
-
-export default AccountPage
+export default AccountView

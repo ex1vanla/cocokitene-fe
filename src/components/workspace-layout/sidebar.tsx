@@ -3,6 +3,7 @@ import {
     SIDEBAR_ITEMS,
     SIDEBAR_OPEN_WIDTH,
 } from '@/constants/common'
+import { capitalizeFirstLetter } from '@/utils/format-string'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Button, Layout, Menu, MenuProps } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -36,7 +37,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }: ISidebar) => {
         return {
             key,
             icon: createElement(icon),
-            label: t(label),
+            label: capitalizeFirstLetter(t(label)),
         }
     })
 

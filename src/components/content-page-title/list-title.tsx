@@ -1,14 +1,24 @@
 import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
-import { PlusOutlined, SettingOutlined } from '@ant-design/icons'
+import { SettingOutlined } from '@ant-design/icons'
 import { Button, Input, Select, Typography } from 'antd'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
+import { ReactNode } from 'react'
 
 const { Title } = Typography
 
-interface IListTitle extends IBaseTitle {}
+interface IListTitle extends IBaseTitle {
+    addIcon: ReactNode
+    createLink: string
+}
 
-const ListTitle = ({ pageName }: IListTitle) => {
+const ListTitle = ({ pageName, addIcon, createLink }: IListTitle) => {
+    const router = useRouter()
+
+    const t = useTranslations()
+
     const handleChange = (value: string) => {
         console.log(`selected ${value}`)
     }
@@ -28,24 +38,25 @@ const ListTitle = ({ pageName }: IListTitle) => {
 
                 <Select
                     className="w-[200px]"
-                    defaultValue="lucy"
+                    defaultValue="Short by newest"
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChange}
                     options={[
-                        { value: 'jack', label: 'Jack' },
-                        { value: 'lucy', label: 'Lucy' },
-                        { value: 'Yiminghe', label: 'yiminghe' },
+                        { value: '0', label: 'Short by newest' },
+                        { value: '1', label: 'Short by latest' },
                     ]}
                 />
 
                 <Button
                     type="primary"
-                    icon={<PlusOutlined />}
+                    icon={addIcon}
                     size="large"
-                    onClick={() => {}}
+                    onClick={() => {
+                        router.push(createLink)
+                    }}
                 >
-                    Add New
+                    {t('ADD_NEW')}
                 </Button>
             </div>
         </LayoutTitle>

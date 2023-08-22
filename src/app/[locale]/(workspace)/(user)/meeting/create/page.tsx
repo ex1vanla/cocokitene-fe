@@ -1,5 +1,5 @@
-const MeetingCreatePage = () => {
-    return <h1>This is meeting create page</h1>
-}
+'use client'
 
-export default MeetingCreatePage
+import MeetingCreate from '@/views/meeting/meeting-create'
+
+export default MeetingCreate

@@ -1,5 +1,5 @@
-const MeetingUpdatePage = () => {
-    return <h1>This is meeting update page</h1>
-}
+'use client'
 
-export default MeetingUpdatePage
+import MeetingUpdate from '@/views/meeting/meeting-update'
+
+export default MeetingUpdate
