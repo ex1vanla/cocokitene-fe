@@ -3,6 +3,7 @@ import LayoutTitle, {
 } from '@/components/content-page-title/layout-title'
 import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Typography } from 'antd'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 
 const { Title } = Typography
@@ -10,6 +11,7 @@ const { Title } = Typography
 interface IDetailTitle extends IBaseTitle {}
 
 const DetailTitle = ({ pageName }: IDetailTitle) => {
+    const t = useTranslations()
     const router = useRouter()
 
     return (
@@ -31,7 +33,7 @@ const DetailTitle = ({ pageName }: IDetailTitle) => {
                     size="large"
                     onClick={() => {}}
                 >
-                    Edit
+                    {t('EDIT')}
                 </Button>
             </div>
         </LayoutTitle>

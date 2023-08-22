@@ -33,18 +33,18 @@ const ListTitle = ({ pageName, addIcon, createLink }: IListTitle) => {
                     className="w-[200px]"
                     size="large"
                     addonAfter={<SettingOutlined />}
-                    placeholder="Search"
+                    placeholder={t('SEARCH')}
                 />
 
                 <Select
                     className="w-[200px]"
-                    defaultValue="Short by newest"
+                    defaultValue="最新順に短い"
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChange}
                     options={[
-                        { value: '0', label: 'Short by newest' },
-                        { value: '1', label: 'Short by latest' },
+                        { value: '0', label: '最新順に短い' },
+                        { value: '1', label: '最新順に短い' },
                     ]}
                 />
 
