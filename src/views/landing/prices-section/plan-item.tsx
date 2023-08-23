@@ -32,10 +32,7 @@ const PlanItem = ({
     }`
 
     return (
-        <div
-            id="plan-item-wrapper"
-            className="flex∂∂ relative flex-col bg-white"
-        >
+        <div id="plan-item-wrapper" className="relative flex flex-col bg-white">
             {isRecommended && (
                 <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-primary bg-yellow-sunrise px-4">
                     <Text>{t('RECOMMEND')}</Text>
