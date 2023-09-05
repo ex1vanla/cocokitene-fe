@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { usePathname, useRouter } from 'next-intl/client'
 import { ChangeEvent, useTransition } from 'react'
 
-export default function LocaleSwitcher() {
+const LocaleSwitcher = () => {
     const t = useTranslations('LocaleSwitcher')
 
     const [isPending, startTransition] = useTransition()
@@ -44,3 +44,5 @@ export default function LocaleSwitcher() {
         </label>
     )
 }
+
+export default LocaleSwitcher

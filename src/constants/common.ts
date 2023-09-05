@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import {
     DashboardOutlined,
     SettingOutlined,
@@ -42,3 +44,10 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
 
 export const SIDEBAR_OPEN_WIDTH: number = 208
 export const SIDEBAR_CLOSE_WIDTH: number = 80
+
+export enum AvatarBgHexColors {
+    GREEK_BLUE = '#2F54EB',
+    VOLCANO = '#fa541c',
+    CYAN = '#13C2C2',
+    GOLDEN_PURPLE = '#722ED1',
+}

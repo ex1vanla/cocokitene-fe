@@ -24,9 +24,20 @@ module.exports = {
                 'neutral/4': 'rgba(240, 240, 240, 1)',
                 'orange-sunset': 'rgba(255, 247, 230, 1)',
                 'gray-sunset': 'rgb(245, 245, 245)',
+                'black-45': 'rgba(0, 0, 0, .45)',
+                'black-25': 'rgba(0, 0, 0, .25)',
+                'dust-red': 'rgba(255, 77, 79, 1)',
+            },
+            boxShadow: {
+                '01': '0px -1px 0px 0px #F0F0F0 inset',
             },
         },
     },
-    plugins: [],
+    plugins: [
+        function ({ addVariant }) {
+            addVariant('child', '& > *')
+            addVariant('child-hover', '& > *:hover')
+        },
+    ],
     important: true,
 }
