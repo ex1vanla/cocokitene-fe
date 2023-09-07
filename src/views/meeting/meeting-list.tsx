@@ -1,7 +1,8 @@
 import ListTitle from '@/components/content-page-title/list-title'
+import ListMeetingFeature from '@/views/meeting/meeting-list/list-meeting-feature'
+import ListMeetingPast from '@/views/meeting/meeting-list/list-meeting-past'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
 
 const MeetingList = () => {
     const t = useTranslations()
@@ -14,12 +15,8 @@ const MeetingList = () => {
                 createLink="/meeting/create"
             />
             <div className="p-6">
-                <div>
-                    <Link href="/meeting/detail/1">Go to detail page</Link>
-                </div>
-                <div>
-                    <Link href="/meeting/update/1">Go to update page</Link>
-                </div>
+                <ListMeetingFeature />
+                <ListMeetingPast />
             </div>
         </div>
     )
