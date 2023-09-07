@@ -1,5 +1,5 @@
 import ListTitle from '@/components/content-page-title/list-title'
-import ListMeetingFeature from '@/views/meeting/meeting-list/list-meeting-feature'
+import ListMeetingFuture from '@/views/meeting/meeting-list/list-meeting-future'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-meeting-past'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { useTranslations } from 'next-intl'
@@ -15,7 +15,7 @@ const MeetingList = () => {
                 createLink="/meeting/create"
             />
             <div className="p-6">
-                <ListMeetingFeature />
+                <ListMeetingFuture />
                 <ListMeetingPast />
             </div>
         </div>
