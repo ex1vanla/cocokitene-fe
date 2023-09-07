@@ -11,7 +11,7 @@ export interface IMeetingItem {
     meetingSummary: String
     meetingType: String
     meetingStatus: String
-    meetingCategory: 'feature' | 'past'
+    meetingCategory: 'future' | 'past'
 }
 
 const MeetingItem = ({

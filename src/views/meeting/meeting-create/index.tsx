@@ -12,10 +12,10 @@ const MeetingCreate = () => {
         <div>
             <CreateTitle pageName={t('CREATE_NEW_MEETING')} />
             <div className="flex flex-col gap-6 p-6">
-                <MeetingInformation />
+                {/* <MeetingInformation />
                 <Resolutions />
                 <AmendmentResolutions />
-                <Participants />
+                <Participants /> */}
             </div>
         </div>
     )
