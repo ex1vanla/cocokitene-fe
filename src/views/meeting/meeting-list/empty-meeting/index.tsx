@@ -5,25 +5,25 @@ import Image from 'next/image'
 const { Text } = Typography
 
 export interface IMeetingEmpty {
-    NoMeetingsMessage: string
+    emptyMeetingMessage: string
 }
 
-const MeetingEmpty = ({ NoMeetingsMessage }: IMeetingEmpty) => {
+const EmptyMeeting = ({ emptyMeetingMessage }: IMeetingEmpty) => {
     const t = useTranslations();
     return (
         <div className="flex flex-col items-center">
             <Image
                 src="/images/logo-meeting-past.png"
-                alt="service-image-alt"
-                width={80}
-                height={80}
+                alt="servi ce-image-alt"
+                width={72}
+                height={48}
             />
-            <Text className="mt-4 text-xl font-bold text-black/[40%]">
+            <Text className="mt-6 text-xl font-medium text-black-45">
                 {t('NO_MEETING')}
             </Text>
-            <Text className="mt-3 text-black/[45%]">{NoMeetingsMessage}</Text>
+            <Text className="mt-2 text-black-45">{emptyMeetingMessage}</Text>
         </div>
     )
 }
 
-export default MeetingEmpty
+export default EmptyMeeting
