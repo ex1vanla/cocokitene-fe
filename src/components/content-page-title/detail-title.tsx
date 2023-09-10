@@ -5,12 +5,15 @@ import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons'
 import { Button, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { ReactNode } from 'react'
 
 const { Title } = Typography
 
-interface IDetailTitle extends IBaseTitle {}
+interface IDetailTitle extends IBaseTitle {
+    extraButton?: ReactNode
+}
 
-const DetailTitle = ({ pageName }: IDetailTitle) => {
+const DetailTitle = ({ pageName, extraButton }: IDetailTitle) => {
     const t = useTranslations()
     const router = useRouter()
 
@@ -35,6 +38,7 @@ const DetailTitle = ({ pageName }: IDetailTitle) => {
                 >
                     {t('EDIT')}
                 </Button>
+                {extraButton}
             </div>
         </LayoutTitle>
     )

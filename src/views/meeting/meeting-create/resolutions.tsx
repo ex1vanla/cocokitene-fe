@@ -1,6 +1,6 @@
 import BoxArea from '@/components/box-area'
-import ResolutionItem from '@/components/resolution-item'
-import { ResolutionType } from '@/constants/resolution'
+import CreateResolutionItem from '@/components/create-resolution-item'
+import { ResolutionType } from '@/constants/meeting'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -14,7 +14,7 @@ const Resolutions = () => {
         <BoxArea title={t('RESOLUTIONS')}>
             <div className="mb-6 flex flex-col gap-6">
                 {data.map((x, index) => (
-                    <ResolutionItem
+                    <CreateResolutionItem
                         key={index}
                         type={ResolutionType.RESOLUTION}
                         index={index + 1}
