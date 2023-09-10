@@ -38,13 +38,13 @@ const ListTitle = ({ pageName, addIcon, createLink }: IListTitle) => {
 
                 <Select
                     className="w-[200px]"
-                    defaultValue="最新順に短い"
+                    defaultValue={t('SORT_NEWEST_MEETING')}
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChange}
                     options={[
-                        { value: '0', label: '最新順に短い' },
-                        { value: '1', label: '最新順に短い' },
+                        { value: '0', label: t('SORT_NEWEST_MEETING') },
+                        { value: '1', label: t('SORT_OLDEST_MEETING') },
                     ]}
                 />
 
