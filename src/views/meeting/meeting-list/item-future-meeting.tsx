@@ -57,13 +57,14 @@ const ItemFutureMeeting = ({
                 <Col span={2} className="flex items-center justify-center ">
                     <li className="text-primary">{meetingStatus}</li>
                 </Col>
-                <Col span={4} className="flex items-center justify-end space-x-2">
+                <Col
+                    span={4}
+                    className="flex items-center justify-end space-x-2"
+                >
                     <Button type="primary" size="middle" onClick={showModal}>
                         {t('BTN_JOIN')}
                     </Button>
-                    <Button size="middle">
-                        {t('BTN_VIEW_DETAIL')}
-                    </Button>
+                    <Button size="middle">{t('BTN_VIEW_DETAIL')}</Button>
                 </Col>
             </Row>
             <Modal

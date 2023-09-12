@@ -9,12 +9,12 @@ export interface IMeetingEmpty {
 }
 
 const EmptyMeeting = ({ emptyMeetingMessage }: IMeetingEmpty) => {
-    const t = useTranslations();
+    const t = useTranslations()
     return (
         <div className="flex flex-col items-center">
             <Image
                 src="/images/logo-meeting-past.png"
-                alt="servi ce-image-alt"
+                alt="service-image-alt"
                 width={72}
                 height={48}
             />

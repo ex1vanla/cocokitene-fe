@@ -10,7 +10,7 @@ interface ListPastMeetingProps {
     hasData: boolean
 }
 
-const ListPastMeeting = ({data, hasData}: ListPastMeetingProps) => {
+const ListPastMeeting = ({ data, hasData }: ListPastMeetingProps) => {
     const t = useTranslations()
     return (
         <div className="list-meeting-past mt-6">

@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl'
 
 interface ListFutureMeetingProps {
     data: IMeetingItem[]
-    hasData: boolean;
+    hasData: boolean
 }
 
 const ListFutureMeeting = ({ data, hasData }: ListFutureMeetingProps) => {
