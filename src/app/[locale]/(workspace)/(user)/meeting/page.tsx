@@ -1,5 +1,5 @@
 'use client'
 
-import MeetingList from '@/views/meeting/meeting-list'
+import MeetingList from '@/views/meeting'
 
 export default MeetingList
