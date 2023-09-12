@@ -1,4 +1,5 @@
-import { ResolutionType } from '@/constants/resolution'
+import { ResolutionType } from '@/constants/meeting'
+import { Resolution } from '@/constants/resolution'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Input, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -6,17 +7,15 @@ import { useTranslations } from 'next-intl'
 const { Text } = Typography
 const { TextArea } = Input
 
-interface IResolutionItem {
+interface ICreateResolutionItem extends Resolution {
     type: ResolutionType
     index: number
-    title: string
-    content: string
     onChangeTitle: () => void
     onChangeContent: () => void
     onDelete: () => void
 }
 
-const ResolutionItem = ({
+const CreateResolutionItem = ({
     type,
     index,
     title,
@@ -24,7 +23,7 @@ const ResolutionItem = ({
     onChangeTitle,
     onChangeContent,
     onDelete,
-}: IResolutionItem) => {
+}: ICreateResolutionItem) => {
     const t = useTranslations()
 
     return (
@@ -53,4 +52,4 @@ const ResolutionItem = ({
     )
 }
 
-export default ResolutionItem
+export default CreateResolutionItem

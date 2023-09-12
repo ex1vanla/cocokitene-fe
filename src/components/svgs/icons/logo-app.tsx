@@ -1,4 +1,4 @@
-export const Icon = () => {
+const Icon = () => {
     return (
         <div className="flex items-center gap-3">
             <svg

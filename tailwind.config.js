@@ -22,11 +22,13 @@ module.exports = {
                 'yellow-sunrise': 'rgba(255, 236, 61, 1)',
                 'neutral/5': 'rgba(217, 217, 217, 1)',
                 'neutral/4': 'rgba(240, 240, 240, 1)',
+                'neutral/2': 'rgba(250, 250, 250, 1)',
                 'orange-sunset': 'rgba(255, 247, 230, 1)',
                 'gray-sunset': 'rgb(245, 245, 245)',
                 'black-45': 'rgba(0, 0, 0, .45)',
                 'black-25': 'rgba(0, 0, 0, .25)',
                 'dust-red': 'rgba(255, 77, 79, 1)',
+                'polar-green': 'rgba(82, 196, 26, 1)',
             },
             boxShadow: {
                 '01': '0px -1px 0px 0px #F0F0F0 inset',
