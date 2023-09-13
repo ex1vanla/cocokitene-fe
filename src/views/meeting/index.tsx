@@ -7,9 +7,91 @@ import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { useState } from 'react'
 import { Button } from 'antd'
 
-const meetingsList: IMeetingItem[] = [
+const meetingFutureList: IMeetingItem[] = [
     {
-        meetingLogo: '/images/logo-meeting-future.png',
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+    {
+        meetingTime: '10:00 AM - 10:45 AM',
+        meetingDate: '20/07/2023',
+        meetingSummary:
+            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
+        meetingType: 'う まくいくといいね ',
+        meetingStatus: 'To do',
+    },
+]
+
+const meetingPastList: IMeetingItem[] = [
+    {
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -18,7 +100,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -27,7 +108,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -36,7 +116,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -45,7 +124,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -54,7 +132,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -63,7 +140,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -72,7 +148,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -81,7 +156,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -90,7 +164,6 @@ const meetingsList: IMeetingItem[] = [
         meetingStatus: 'Done',
     },
     {
-        meetingLogo: '/images/logo-meeting-future.png',
         meetingTime: '10:00 AM - 10:45 AM',
         meetingDate: '20/07/2023',
         meetingSummary:
@@ -114,8 +187,8 @@ const MeetingList = () => {
                 <Button size="middle" onClick={() => setHasData(!hasData)}>
                     Set data
                 </Button>
-                <ListMeetingFuture data={meetingsList} hasData={hasData} />
-                <ListMeetingPast data={meetingsList} hasData={hasData}/>
+                <ListMeetingFuture data={meetingFutureList} hasData={hasData} />
+                <ListMeetingPast data={meetingPastList} hasData={hasData}/>
             </div>
         </div>
     )

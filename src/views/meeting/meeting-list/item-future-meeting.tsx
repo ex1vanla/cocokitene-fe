@@ -7,7 +7,6 @@ import { useState } from 'react'
 const { Text } = Typography
 
 const ItemFutureMeeting = ({
-    meetingLogo,
     meetingTime,
     meetingDate,
     meetingSummary,
@@ -31,12 +30,12 @@ const ItemFutureMeeting = ({
     return (
         <>
             <Row
-                className="border-true-gray-300 rounded-lg border p-2"
+                className="border-true-gray-300 mb-2 rounded-lg border p-2"
                 gutter={[16, 16]}
             >
                 <Col span={5} className="flex items-center space-x-2">
                     <Image
-                        src={meetingLogo}
+                        src='/images/logo-meeting-future.png'
                         alt="service-image-alt"
                         width={72}
                         height={48}

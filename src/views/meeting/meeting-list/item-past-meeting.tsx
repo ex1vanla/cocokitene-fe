@@ -6,7 +6,6 @@ import Image from 'next/image'
 const { Text } = Typography
 
 const ItemPastMeeting = ({
-    meetingLogo,
     meetingTime,
     meetingDate,
     meetingSummary,
@@ -21,7 +20,7 @@ const ItemPastMeeting = ({
         >
             <Col span={5} className="flex items-center space-x-2">
                 <Image
-                    src={meetingLogo}
+                    src='/images/logo-meeting-past.png'
                     alt="service-image-alt"
                     width={72}
                     height={48}
