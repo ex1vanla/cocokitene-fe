@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { useState } from 'react'
 import { Button } from 'antd'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const meetingFutureList: IMeetingItem[] = [
     {
@@ -178,6 +179,7 @@ const MeetingList = () => {
     const [hasData, setHasData] = useState<boolean>(false)
     return (
         <div>
+            <ConnectButton />;
             <ListTitle
                 pageName={t('LIST_MEETINGS')}
                 addIcon={<VideoCameraAddOutlined />}
