@@ -179,7 +179,6 @@ const MeetingList = () => {
     const [hasData, setHasData] = useState<boolean>(false)
     return (
         <div>
-            <ConnectButton />;
             <ListTitle
                 pageName={t('LIST_MEETINGS')}
                 addIcon={<VideoCameraAddOutlined />}
