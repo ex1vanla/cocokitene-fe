@@ -1,19 +1,15 @@
 'use client'
-import { Button } from 'antd'
+import ButtonConnectWallet from '@/connect-wallet/button-connect-wallet'
 import { useTranslations } from 'next-intl'
-import React from 'react'
 
 const ConnectWallet = () => {
     const t = useTranslations()
 
     return (
-        <Button
-            type="default"
-            size="large"
-            className="text-base font-normal text-primary"
-        >
-            {t('CONNECT_WALLET')}
-        </Button>
+        <ButtonConnectWallet
+            connectWalletText={t('CONNECT_WALLET')}
+            wrongNetworkText={t('WRONG_NETWORK')}
+        />
     )
 }
 

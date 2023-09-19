@@ -1,23 +1,26 @@
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { CHAINS } from './chains'
-import { alchemyProvider } from 'wagmi/dist/providers/alchemy'
-import { publicProvider } from 'wagmi/dist/providers/public'
+import { connectorsForWallets, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import { configureChains, createConfig } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { CHAINS } from './chains'
 
-export const { chains, publicClient } = configureChains(CHAINS, [
-    // alchemyProvider({ apiKey: process.env.ALCHEMY_ID ?? '' }),
-    publicProvider(),
-])
+export const { chains, publicClient, webSocketPublicClient } = configureChains(
+    CHAINS,
+    [publicProvider()],
+)
 
-export const metaMaskConnector = new MetaMaskConnector({
+const projectId = 'YOUR_PROJECT_ID'
+
+const { wallets } = getDefaultWallets({
+    appName: 'Cocokitene',
+    projectId,
     chains,
-    options: {
-        shimDisconnect: false,
-    },
 })
 
+export const connectors = connectorsForWallets([...wallets])
+
 export const wagmiConfig = createConfig({
-    autoConnect: false,
+    autoConnect: true,
+    connectors,
     publicClient,
-    connectors: [metaMaskConnector],
+    webSocketPublicClient,
 })
