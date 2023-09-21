@@ -1,14 +1,14 @@
 import { connectorsForWallets, getDefaultWallets } from '@rainbow-me/rainbowkit'
 import { configureChains, createConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { CHAINS } from './chains'
+import { CHAINS } from '@/connect-wallet/chains'
 
 export const { chains, publicClient, webSocketPublicClient } = configureChains(
     CHAINS,
     [publicProvider()],
 )
 
-const projectId = 'YOUR_PROJECT_ID'
+const projectId = 'a0b1a5cdc30d5cefee76a1037d04102a'
 
 const { wallets } = getDefaultWallets({
     appName: 'Cocokitene',

@@ -1,6 +1,7 @@
 import { DownOutlined } from '@ant-design/icons'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { Button } from 'antd'
+import Image from 'next/image'
 
 interface IButtonProp {
     connectWalletText: string
@@ -17,7 +18,6 @@ const ButtonConnectWallet = ({
                 account,
                 chain,
                 openChainModal,
-                openAccountModal,
                 openConnectModal,
                 mounted,
             }) => {
@@ -58,102 +58,22 @@ const ButtonConnectWallet = ({
                             }
 
                             return (
-                                <div style={{ display: 'flex', gap: 10 }}>
+                                <div>
                                     <button
                                         onClick={openChainModal}
-                                        style={{
-                                            display: 'flex',
-                                            gap: 6,
-                                            alignItems: 'center',
-                                            padding: '8px 10px',
-                                            boxShadow:
-                                                '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                                            borderRadius: 12,
-                                            fontWeight: 700,
-                                            background: 'white',
-                                        }}
+                                        className="flex items-center gap-2 py-1 text-sm text-white"
                                         type="button"
                                     >
-                                        {chain.hasIcon && (
-                                            <div
-                                                style={{
-                                                    background:
-                                                        chain.iconBackground,
-                                                    borderRadius: 999,
-                                                    overflow: 'hidden',
-                                                    marginRight: 4,
-                                                }}
-                                            >
-                                                {chain.iconUrl && (
-                                                    <img
-                                                        alt={
-                                                            chain.name ??
-                                                            'Chain icon'
-                                                        }
-                                                        src={chain.iconUrl}
-                                                        style={{
-                                                            width: 24,
-                                                            height: 24,
-                                                        }}
-                                                    />
-                                                )}
-                                            </div>
+                                        {chain.iconUrl && (
+                                            <Image
+                                                src={chain.iconUrl}
+                                                alt={chain.name ?? 'Chain icon'}
+                                                width={24}
+                                                height={24}
+                                            />
                                         )}
                                         {chain.name}
-                                        <DownOutlined />
-                                    </button>
-
-                                    <button
-                                        onClick={openAccountModal}
-                                        type="button"
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            boxShadow:
-                                                '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                                            borderRadius: 12,
-                                            fontWeight: 700,
-                                            background: 'white',
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                padding: '8px 8px 8px 12px',
-                                            }}
-                                        >
-                                            {account.displayBalance
-                                                ? `${account.displayBalance}`
-                                                : ''}
-                                        </div>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                gap: 6,
-                                                alignItems: 'center',
-                                                background:
-                                                    'linear-gradient(0deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06))',
-                                                borderColor: '#FFF',
-                                                height: '100%',
-                                                padding: '6px 8px',
-                                                margin: '1.6px',
-                                                borderWidth: 2,
-                                                borderStyle: 'solid',
-                                                borderRadius: 12,
-                                            }}
-                                        >
-                                            {account.ensAvatar && (
-                                                <img
-                                                    alt={'Avatar'}
-                                                    src={account.ensAvatar}
-                                                    style={{
-                                                        width: 24,
-                                                        height: 24,
-                                                    }}
-                                                />
-                                            )}
-                                            {account.displayName}
-                                            <DownOutlined />
-                                        </div>
+                                        <DownOutlined className="h-[10px] w-[10px] text-white"/>
                                     </button>
                                 </div>
                             )

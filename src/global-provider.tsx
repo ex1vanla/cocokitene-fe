@@ -5,7 +5,7 @@ import theme from '@/theme/theme-config'
 import { ConfigProvider } from 'antd'
 import { AbstractIntlMessages, NextIntlClientProvider } from 'next-intl'
 import { FC, ReactNode } from 'react'
-import GlobalConnectWalletProvider from './connect-wallet/config'
+import GlobalConnectWalletProvider from '@/connect-wallet/config'
 
 interface ProvidersProps {
     children: ReactNode
@@ -15,15 +15,15 @@ interface ProvidersProps {
 
 const GlobalProvider: FC<ProvidersProps> = ({ children, locale, messages }) => {
     return (
-        <GlobalConnectWalletProvider>
-            <NextIntlClientProvider locale={locale} messages={messages}>
-                <ConfigProvider theme={theme}>
-                    <StyledComponentsRegistry>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+            <ConfigProvider theme={theme}>
+                <StyledComponentsRegistry>
+                    <GlobalConnectWalletProvider>
                         {children}
-                    </StyledComponentsRegistry>
-                </ConfigProvider>
-            </NextIntlClientProvider>
-        </GlobalConnectWalletProvider>
+                    </GlobalConnectWalletProvider>
+                </StyledComponentsRegistry>
+            </ConfigProvider>
+        </NextIntlClientProvider>
     )
 }
 

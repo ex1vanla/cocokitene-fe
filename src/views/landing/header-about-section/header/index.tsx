@@ -3,13 +3,14 @@
 import { LogoAppIcon } from '@/components/svgs'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import AccountInfo from '../../../../components/account-info'
+import { useAccount } from 'wagmi'
 import ConnectWallet from './connect-wallet'
 import Menu from './menu'
+import AccountInfo from '@/components/account-info'
 
 const LandingHeader = () => {
+    const { isConnected } = useAccount()
     const [metaClass, setMetaClass] = useState('')
-    const [isConnected, setConnected] = useState(false)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -28,10 +29,6 @@ const LandingHeader = () => {
         }
     }, [])
 
-    const onConnect = () => {
-        setConnected(true)
-    }
-
     return (
         <div
             id="landing-header"
@@ -43,17 +40,15 @@ const LandingHeader = () => {
                 </Link>
                 <div className="flex items-center gap-10">
                     <Menu />
-                    {isConnected ? (
+                    <div>
+                        <ConnectWallet />
+                    </div>
+                    {isConnected && (
                         <AccountInfo
                             name="Stan Lee"
                             avatar="/images/default-avatar.png"
                         />
-                    ) : (
-                        <div onClick={onConnect}>
-                            <ConnectWallet />
-                        </div>
-                    )}{' '}
-                    {/*just for test*/}
+                    )}
                 </div>
             </div>
         </div>

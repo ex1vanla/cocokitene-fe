@@ -1,12 +1,11 @@
 import ListTitle from '@/components/content-page-title/list-title'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
-import { VideoCameraAddOutlined } from '@ant-design/icons'
-import { useTranslations } from 'next-intl'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
-import { useState } from 'react'
+import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
 
 const meetingFutureList: IMeetingItem[] = [
     {

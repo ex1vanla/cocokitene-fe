@@ -1,7 +1,7 @@
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { FC, ReactNode } from 'react'
 import { WagmiConfig } from 'wagmi'
-import { chains, wagmiConfig } from './wagmi'
+import { chains, wagmiConfig } from '@/connect-wallet/wagmi'
 
 interface ProvidersProps {
     children: ReactNode
