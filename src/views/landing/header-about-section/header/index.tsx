@@ -1,5 +1,5 @@
 'use client'
-// import Logo from '@/public/images/logo.png'
+
 import { LogoAppIcon } from '@/components/svgs'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -40,9 +40,7 @@ const LandingHeader = () => {
                 </Link>
                 <div className="flex items-center gap-10">
                     <Menu />
-                    <div>
-                        <ConnectWallet />
-                    </div>
+                    <ConnectWallet />
                     {isConnected && (
                         <AccountInfo
                             name="Stan Lee"

@@ -1,6 +1,11 @@
 import AboutSection from '@/views/landing/header-about-section/about-section'
-import LandingHeader from '@/views/landing/header-about-section/header'
 import Masks from './masks'
+import dynamic from 'next/dynamic'
+
+const LandingHeader = dynamic(
+    () => import('@/views/landing/header-about-section/header'),
+    { ssr: false },
+)
 
 const HeaderAboutSection = () => {
     return (
