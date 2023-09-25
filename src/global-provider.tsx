@@ -6,6 +6,8 @@ import { ConfigProvider } from 'antd'
 import { AbstractIntlMessages, NextIntlClientProvider } from 'next-intl'
 import { FC, ReactNode } from 'react'
 import GlobalConnectWalletProvider from '@/connect-wallet/config'
+import { Provider } from 'react-redux'
+import store from './stores'
 
 interface ProvidersProps {
     children: ReactNode
@@ -15,15 +17,17 @@ interface ProvidersProps {
 
 const GlobalProvider: FC<ProvidersProps> = ({ children, locale, messages }) => {
     return (
-        <NextIntlClientProvider locale={locale} messages={messages}>
-            <ConfigProvider theme={theme}>
-                <StyledComponentsRegistry>
-                    <GlobalConnectWalletProvider>
-                        {children}
-                    </GlobalConnectWalletProvider>
-                </StyledComponentsRegistry>
-            </ConfigProvider>
-        </NextIntlClientProvider>
+        <Provider store={store}>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+                <ConfigProvider theme={theme}>
+                    <StyledComponentsRegistry>
+                        <GlobalConnectWalletProvider>
+                            {children}
+                        </GlobalConnectWalletProvider>
+                    </StyledComponentsRegistry>
+                </ConfigProvider>
+            </NextIntlClientProvider>
+        </Provider>
     )
 }
 
