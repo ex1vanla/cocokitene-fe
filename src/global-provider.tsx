@@ -7,8 +7,8 @@ import { AbstractIntlMessages, NextIntlClientProvider } from 'next-intl'
 import { FC, ReactNode } from 'react'
 import GlobalConnectWalletProvider from '@/connect-wallet/config'
 import { Provider as ReduxProvider } from 'react-redux'
-import { persistor, useStore } from './stores'
-import { PersistGate } from 'redux-persist/integration/react'
+import { useStore } from './stores'
+// import { PersistGate } from 'redux-persist/integration/react'
 
 interface ProvidersProps {
     children: ReactNode
@@ -22,17 +22,17 @@ const GlobalProvider: FC<ProvidersProps> = ({ children, locale, messages }) => {
 
     return (
         <ReduxProvider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <NextIntlClientProvider locale={locale} messages={messages}>
-                    <ConfigProvider theme={theme}>
-                        <StyledComponentsRegistry>
-                            <GlobalConnectWalletProvider>
-                                {children}
-                            </GlobalConnectWalletProvider>
-                        </StyledComponentsRegistry>
-                    </ConfigProvider>
-                </NextIntlClientProvider>
-            </PersistGate>
+            {/* <PersistGate loading={null} persistor={persistor}> */}
+            <NextIntlClientProvider locale={locale} messages={messages}>
+                <ConfigProvider theme={theme}>
+                    <StyledComponentsRegistry>
+                        <GlobalConnectWalletProvider>
+                            {children}
+                        </GlobalConnectWalletProvider>
+                    </StyledComponentsRegistry>
+                </ConfigProvider>
+            </NextIntlClientProvider>
+            {/* </PersistGate> */}
         </ReduxProvider>
     )
 }
