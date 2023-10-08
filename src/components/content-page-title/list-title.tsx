@@ -1,28 +1,40 @@
 import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
-import { SettingOutlined } from '@ant-design/icons'
+import { SORT } from '@/constants/meeting'
+import { SearchOutlined, SettingOutlined } from '@ant-design/icons'
 import { Button, Input, Select, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ChangeEvent, ReactNode } from 'react'
 
 const { Title } = Typography
 
 interface IListTitle extends IBaseTitle {
     addIcon: ReactNode
     createLink: string
+    onChangeInput: (value: string) => void
+    onChangeSelect: (value: string) => void
 }
 
-const ListTitle = ({ pageName, addIcon, createLink }: IListTitle) => {
+const ListTitle = ({
+    pageName,
+    addIcon,
+    createLink,
+    onChangeInput,
+    onChangeSelect,
+}: IListTitle) => {
     const router = useRouter()
 
     const t = useTranslations()
 
-    const handleChange = (value: string) => {
-        console.log(`selected ${value}`)
+    const handleChangeSelect = (value: string) => {
+        onChangeSelect(value)
     }
 
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        onChangeInput(event.target.value)
+    }
     return (
         <LayoutTitle>
             <Title level={4} className="mb-0 font-medium">
@@ -32,8 +44,9 @@ const ListTitle = ({ pageName, addIcon, createLink }: IListTitle) => {
                 <Input
                     className="w-[200px]"
                     size="large"
-                    addonAfter={<SettingOutlined />}
+                    addonAfter={<SearchOutlined />}
                     placeholder={t('SEARCH')}
+                    onChange={handleInputChange}
                 />
 
                 <Select
@@ -41,10 +54,10 @@ const ListTitle = ({ pageName, addIcon, createLink }: IListTitle) => {
                     defaultValue={t('SORT_NEWEST_MEETING')}
                     size="large"
                     style={{ width: 120 }}
-                    onChange={handleChange}
+                    onChange={handleChangeSelect}
                     options={[
-                        { value: '0', label: t('SORT_NEWEST_MEETING') },
-                        { value: '1', label: t('SORT_OLDEST_MEETING') },
+                        { value: SORT.ASC, label: t('SORT_NEWEST_MEETING') },
+                        { value: SORT.DESC, label: t('SORT_OLDEST_MEETING') },
                     ]}
                 />
 

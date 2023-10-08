@@ -1,27 +1,48 @@
 import BoxArea from '@/components/box-area'
+import { MeetingType } from '@/constants/meeting'
+import { RootState, useAppDispatch } from '@/stores'
+import { getAllMeetings } from '@/stores/meetings/thunk'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 import ItemFutureMeeting from '@/views/meeting/meeting-list/item-future-meeting'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Pagination } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useSelector } from 'react-redux'
 
 interface ListFutureMeetingProps {
     data: IMeetingItem[]
-    hasData: boolean
 }
 
-const ListFutureMeeting = ({ data, hasData }: ListFutureMeetingProps) => {
+const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
+    const { page, limit, totalFutureMeetingItem } = useSelector(
+        (state: RootState) => state.meeting,
+    )
+    const dispatch = useAppDispatch()
     const t = useTranslations()
+    const handlePageChange = (pageChange: number) => {
+        dispatch(
+            getAllMeetings({
+                page: pageChange,
+                limit,
+                type: MeetingType.MEETING_FUTURE,
+            }) as any,
+        )
+    }
     return (
         <div className="list-meeting-future">
             <BoxArea title={t('MEETING_FUTURE_LIST')}>
-                {hasData && data && data.length > 0 ? (
+                {data && data.length > 0 ? (
                     <>
                         {data.map((item, index) => (
                             <ItemFutureMeeting key={index} {...item} />
                         ))}
                         <div className="mt-6 flex justify-end">
-                            <Pagination defaultCurrent={1} total={50} />
+                            <Pagination
+                                pageSize={limit}
+                                defaultCurrent={page}
+                                total={totalFutureMeetingItem}
+                                onChange={handlePageChange}
+                            />
                         </div>
                     </>
                 ) : (

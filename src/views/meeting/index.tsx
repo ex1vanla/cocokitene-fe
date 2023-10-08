@@ -1,194 +1,97 @@
 import ListTitle from '@/components/content-page-title/list-title'
+import { MeetingType, SORT } from '@/constants/meeting'
+import { useNotification } from '@/hooks/use-notification'
+import useDebounce from '@/hooks/useDebounce'
+import { RootState, useAppDispatch } from '@/stores'
+import { resetStatusMeeting } from '@/stores/attendance/slice'
+import { getAllMeetings, getAllPassMeetings } from '@/stores/meetings/thunk'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
-import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
-
-const meetingFutureList: IMeetingItem[] = [
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'To do',
-    },
-]
-
-const meetingPastList: IMeetingItem[] = [
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-    {
-        meetingTime: '10:00 AM - 10:45 AM',
-        meetingDate: '20/07/2023',
-        meetingSummary:
-            '謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡謹んで新年のお喜びを申し上げます｡',
-        meetingType: 'う まくいくといいね ',
-        meetingStatus: 'Done',
-    },
-]
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const MeetingList = () => {
+    const { statusMeeting, meetingIdJoin } = useSelector(
+        (state: RootState) => state.attendance,
+    )
+    const { openNotification, contextHolder } = useNotification()
+    const [keywordSearch, setKeywordSearch] = useState<string>('')
+    const [sort, setSort] = useState<string>('ASC')
+    const { page, limit, meetingFutureList, meetingPassList } = useSelector(
+        (state: RootState) => state.meeting,
+    )
+    const searchDebounceValue = useDebounce(keywordSearch, 300)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        dispatch(
+            getAllMeetings({
+                page,
+                limit,
+                type: MeetingType.MEETING_FUTURE,
+                searchQuery: searchDebounceValue?.trim(),
+                sortOrder: 'ASC',
+            }) as any,
+        )
+
+        dispatch(
+            getAllPassMeetings({
+                page,
+                limit,
+                type: MeetingType.MEETING_PASS,
+                searchQuery: searchDebounceValue?.trim(),
+                sortOrder: sort === 'ASC' ? 'ASC' : 'DESC',
+            }) as any,
+        )
+    }, [dispatch, searchDebounceValue])
+
+    const handleInputChange = (value: string) => {
+        setKeywordSearch(value)
+    }
+
+    const handleSelectChange = (value: string) => {
+        value == SORT.ASC ? setSort(SORT.ASC) : setSort(SORT.DESC)
+    }
+
     const t = useTranslations()
-    const [hasData, setHasData] = useState<boolean>(false)
+    const router = useRouter()
+
+    useEffect(() => {
+        if (statusMeeting === 0) {
+            openNotification({
+                message: t('MESSAGE_MEETING_NOT_START_YET'),
+                placement: 'bottomRight',
+                type: 'info',
+            })
+        }
+        if (statusMeeting === 1 && meetingIdJoin != null) {
+            dispatch(resetStatusMeeting({meetingId: 1}));
+            router.push("/meeting/detail/" + meetingIdJoin);
+        }
+        if(statusMeeting === 2) {
+            openNotification({
+                message: t('MESSAGE_MEETING_CANCELED'),
+                placement: 'bottomRight',
+                type: 'error',
+            })
+        }
+    }, [statusMeeting, meetingIdJoin])
+
     return (
         <div>
+            {contextHolder}
             <ListTitle
                 pageName={t('LIST_MEETINGS')}
                 addIcon={<VideoCameraAddOutlined />}
                 createLink="/meeting/create"
+                onChangeInput={handleInputChange}
+                onChangeSelect={handleSelectChange}
             />
             <div className="p-6">
-                <Button size="middle" onClick={() => setHasData(!hasData)}>
-                    Set data
-                </Button>
-                <ListMeetingFuture data={meetingFutureList} hasData={hasData} />
-                <ListMeetingPast data={meetingPastList} hasData={hasData}/>
+                <ListMeetingFuture data={meetingFutureList} />
+                <ListMeetingPast data={meetingPassList} />
             </div>
         </div>
     )

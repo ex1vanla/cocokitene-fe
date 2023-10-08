@@ -1,7 +1,7 @@
 export interface ApiResponse<T = {}> {
     success: boolean;
     code?: string | number;
-    content?: T;
+    data?: T;
     message?: string;
 }
 

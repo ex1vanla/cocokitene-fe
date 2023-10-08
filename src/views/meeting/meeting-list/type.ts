@@ -1,7 +1,9 @@
 export interface IMeetingItem {
-    meetingTime: String
-    meetingDate: String
-    meetingSummary: String
-    meetingType: String
-    meetingStatus: String
+    meetings_id: number
+    meetings_title: string
+    meetings_start_time: string
+    meetings_end_time: string
+    meetings_meeting_link: string
+    isJoined: string
+    meetings_status_meeting_happen: string
 }

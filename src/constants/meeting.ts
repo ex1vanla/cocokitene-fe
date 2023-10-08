@@ -11,9 +11,24 @@ export enum MeetingResourceType {
     MEETING_LINKS = 'MEETING_LINKS',
 }
 
+export enum MeetingType {
+    MEETING_FUTURE = 'future',
+    MEETING_PASS = 'pass'
+}
+
+export enum MeetingStatus {
+    MEETING_FUTURE = 'Future',
+    MEETING_IN_PROGRESS = 'In Progress'
+}
+
 export enum FileType {
     PDF = 'PDF',
     EXCEL = 'EXCEL',
     WORD = 'WORD',
     LINK = 'LINK',
+}
+
+export enum SORT {
+    ASC = 'ASC',
+    DESC = 'DESC'
 }

@@ -7,7 +7,7 @@ const serviceUser = {
         const response = await get('/users', {
             walletAddress,
         })
-        const nonce = response.content
+        const nonce = response.data
 
         return nonce
     },
