@@ -6,8 +6,9 @@ import { ConfigProvider } from 'antd'
 import { AbstractIntlMessages, NextIntlClientProvider } from 'next-intl'
 import { FC, ReactNode } from 'react'
 import GlobalConnectWalletProvider from '@/connect-wallet/config'
-import { Provider } from 'react-redux'
-import store from './stores'
+import { Provider as ReduxProvider } from 'react-redux'
+import { persistor, useStore } from './stores'
+import { PersistGate } from 'redux-persist/integration/react'
 
 interface ProvidersProps {
     children: ReactNode
@@ -16,18 +17,23 @@ interface ProvidersProps {
 }
 
 const GlobalProvider: FC<ProvidersProps> = ({ children, locale, messages }) => {
+    // init state
+    const store = useStore(undefined)
+
     return (
-        <Provider store={store}>
-            <NextIntlClientProvider locale={locale} messages={messages}>
-                <ConfigProvider theme={theme}>
-                    <StyledComponentsRegistry>
-                        <GlobalConnectWalletProvider>
-                            {children}
-                        </GlobalConnectWalletProvider>
-                    </StyledComponentsRegistry>
-                </ConfigProvider>
-            </NextIntlClientProvider>
-        </Provider>
+        <ReduxProvider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    <ConfigProvider theme={theme}>
+                        <StyledComponentsRegistry>
+                            <GlobalConnectWalletProvider>
+                                {children}
+                            </GlobalConnectWalletProvider>
+                        </StyledComponentsRegistry>
+                    </ConfigProvider>
+                </NextIntlClientProvider>
+            </PersistGate>
+        </ReduxProvider>
     )
 }
 

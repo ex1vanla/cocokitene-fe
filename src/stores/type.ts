@@ -1,7 +1,9 @@
-import { Action } from "@reduxjs/toolkit";
+/* eslint-disable */
+
+import { Action } from '@reduxjs/toolkit'
 
 export interface IAction<Payload = any> extends Action {
-    payload: Payload;
+    payload: Payload
 }
 
 export enum EActionStatus {
@@ -12,7 +14,12 @@ export enum EActionStatus {
 }
 
 export interface IGetAllDataQuery {
-    page: number;
-    limit: number;
-    keyword?: string;
+    page: number
+    limit: number
+    keyword?: string
+}
+
+export interface FetchError {
+    errorCode: string
+    errorMessage: string
 }

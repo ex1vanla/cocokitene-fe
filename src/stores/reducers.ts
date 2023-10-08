@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import authReducer from '@/stores/auth/slice'
-import meetingReducer from '@/stores/meetings/slice'
+import meetingCreateReducer from '@/stores/meeting/createSlice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    meeting: meetingReducer,
+    meetingCreate: meetingCreateReducer,
 })
 
 export default rootReducer

@@ -1,16 +1,108 @@
-import { useDispatch } from 'react-redux'
-import { configureStore } from '@reduxjs/toolkit'
-import thunk from 'redux-thunk'
-import rootReducer from './reducers'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { useMemo } from 'react'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
-const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(thunk),
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from 'redux-persist'
+
+import storage from 'redux-persist/lib/storage'
+
+import authReducer from '@/stores/auth/slice'
+import meetingCreateReducer from '@/stores/meeting/createSlice'
+
+const reducer = combineReducers({
+    auth: authReducer,
+    meetingCreate: meetingCreateReducer,
 })
 
-store.subscribe(() => {})
+const PERSIST_CONFIG_VERSION = 1
+const PERSISTED_KEYS: string[] = ['']
 
-export type RootState = ReturnType<typeof store.getState>
+const persistConfig = {
+    key: 'root',
+    storage,
+    version: PERSIST_CONFIG_VERSION,
+    whitelist: PERSISTED_KEYS,
+}
+
+const persistedReducer = persistReducer(persistConfig, reducer)
+
+// eslint-disable-next-line import/no-mutable-exports
+let store: ReturnType<typeof makeStore> | undefined
+
+export function makeStore(preloadedState = undefined) {
+    return configureStore({
+        reducer: persistedReducer,
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                thunk: true,
+                serializableCheck: {
+                    ignoredActions: [
+                        FLUSH,
+                        REHYDRATE,
+                        PAUSE,
+                        PERSIST,
+                        PURGE,
+                        REGISTER,
+                    ],
+                },
+            }),
+        devTools: process.env.NODE_ENV === 'development',
+        preloadedState,
+    })
+}
+
+export const initializeStore = (preloadedState: any = undefined) => {
+    let _store = store ?? makeStore(preloadedState)
+
+    // After navigating to a page with an initial Redux state, merge that state
+    // with the current state in the store, and create a new store
+    if (preloadedState && store) {
+        _store = makeStore({
+            ...store.getState(),
+            ...preloadedState,
+        })
+        // Reset the current store
+        store = undefined
+    }
+
+    // For SSG and SSR always create a new store
+    if (typeof window === 'undefined') return _store
+
+    // Create the store once in the client
+    if (!store) {
+        store = _store
+    }
+
+    return _store
+}
+
+store = initializeStore()
+
+/**
+ * @see https://redux-toolkit.js.org/usage/usage-with-typescript#getting-the-dispatch-type
+ */
 export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+
 export const useAppDispatch = () => useDispatch<AppDispatch>()
+
+export const useAppSelector: TypedUseSelectorHook<
+    ReturnType<typeof store.getState>
+> = useSelector
+
+export const persistor = persistStore(store)
+
+export function useStore(initialState: any) {
+    return useMemo(() => initializeStore(initialState), [initialState])
+}
+
 export default store
