@@ -18,5 +18,6 @@ export function useCreateMeetingInformation(): [
         [dispatch],
     )
 
+
     return [data, setCreateMeetingInformation]
 }

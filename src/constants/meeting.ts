@@ -17,3 +17,11 @@ export enum FileType {
     WORD = 'WORD',
     LINK = 'LINK',
 }
+
+export enum MeetingFileType {
+    MEETING_INVITATION = 'invitations',
+    MEETING_MINUTES = 'minutes',
+    REPORTS = 'reports',
+}
+
+export const ACCEPT_FILE_TYPES = ".xlsx,.xls,.doc,.docx,.pdf"

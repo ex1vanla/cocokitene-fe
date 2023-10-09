@@ -10,3 +10,7 @@ export interface IGetAllDataReponse<T> {
     items: T[];
     meta: IMeta;
 }
+
+export interface UploadResponse {
+    uploadUrls: string[];
+}

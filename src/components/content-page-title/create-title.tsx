@@ -13,6 +13,10 @@ interface ICreateTitle extends IBaseTitle {}
 const CreateTitle = ({ pageName }: ICreateTitle) => {
     const t = useTranslations()
     const router = useRouter()
+
+    // const onSave = () => {
+
+    // }
     return (
         <LayoutTitle>
             <div className="flex items-center gap-2">
@@ -26,7 +30,7 @@ const CreateTitle = ({ pageName }: ICreateTitle) => {
                 </Title>
             </div>
             <div className="flex items-center gap-2">
-                <Button type="primary" size="large" onClick={() => {}}>
+                <Button type="default" className='text-white bg-primary' size="large" onClick={() => {}}>
                     {t('SAVE')}
                 </Button>
             </div>
