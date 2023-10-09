@@ -1,4 +1,4 @@
-/* eslint disable */
+/* eslint-disable */
 import { ResolutionType } from '@/constants/meeting'
 import { Resolution } from '@/constants/resolution'
 import { DeleteOutlined } from '@ant-design/icons'
@@ -28,9 +28,11 @@ const CreateResolutionItem = ({
 }: ICreateResolutionItem) => {
     const t = useTranslations()
 
-    const onChange = (callback: (value: string) => void) => (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        callback(event.target.value)
-    }
+    const onChange =
+        (callback: (value: string) => void) =>
+        (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            callback(event.target.value)
+        }
 
     return (
         <div className="flex flex-row items-start gap-2">
@@ -53,7 +55,11 @@ const CreateResolutionItem = ({
                 />
             </div>
             <div></div>
-            <DeleteOutlined className={`h-10 text-dust-red ${index === 1 && 'invisible'}`} disabled={index === 1} onClick={onDelete} />
+            <DeleteOutlined
+                className={`h-10 text-dust-red ${index === 1 && 'invisible'}`}
+                disabled={index === 1}
+                onClick={onDelete}
+            />
         </div>
     )
 }

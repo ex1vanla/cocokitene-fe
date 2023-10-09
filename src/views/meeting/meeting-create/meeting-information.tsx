@@ -1,10 +1,19 @@
-/* eslint disable*/
+/* eslint-disable */
 import BoxArea from '@/components/box-area'
 import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
 import serviceUpload from '@/services/upload'
 import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import { UploadOutlined } from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Upload, Typography, UploadFile } from 'antd'
+import {
+    Button,
+    Col,
+    Form,
+    Input,
+    Row,
+    Upload,
+    Typography,
+    UploadFile,
+} from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
 
@@ -17,39 +26,51 @@ const MeetingInformation = () => {
         const { name, value } = event.target
         setData({
             ...data,
-            [name]: value
+            [name]: value,
         })
     }
-    const onUpload = (name: string, fileType: MeetingFileType) => async (file: RcFile) => {
-        try {
-            const res = await serviceUpload.upload([file], fileType)
-            console.log("🚀 ~ file: meeting-information.tsx:27 ~ onUpload ~ res:", res)
-            return res.uploadUrls[0]
-        } catch (error) {
-            return ''
+    const onUpload =
+        (name: string, fileType: MeetingFileType) => async (file: RcFile) => {
+            try {
+                const res = await serviceUpload.upload([file], fileType)
+                console.log(
+                    '🚀 ~ file: meeting-information.tsx:27 ~ onUpload ~ res:',
+                    res,
+                )
+                return res.uploadUrls[0]
+            } catch (error) {
+                return ''
+            }
         }
-    }
-    const onFileChange = (name: 'meetingInvitations' | 'meetingReports', fileType: MeetingFileType) => (info: UploadChangeParam<UploadFile>) => {
-        if (info.file.status === 'done') {
-            const url = info.file.xhr.responseURL
-            const values = data[name]
-            setData({
-                ...data,
-                [name]: [...values, {
-                    url,
-                    fileType
-                }]
-            })
+    const onFileChange =
+        (
+            name: 'meetingInvitations' | 'meetingReports',
+            fileType: MeetingFileType,
+        ) =>
+        (info: UploadChangeParam<UploadFile>) => {
+            if (info.file.status === 'done') {
+                const url = info.file.xhr.responseURL
+                const values = data[name]
+                setData({
+                    ...data,
+                    [name]: [
+                        ...values,
+                        {
+                            url,
+                            fileType,
+                        },
+                    ],
+                })
+            }
+            if (info.file.status === 'removed') {
+                const url = info.file.xhr.responseURL
+                const values = data[name].filter((item) => item.url !== url)
+                setData({
+                    ...data,
+                    [name]: values,
+                })
+            }
         }
-        if (info.file.status === 'removed') {
-            const url = info.file.xhr.responseURL
-            const values = data[name].filter(item => item.url !== url)
-            setData({
-                ...data,
-                [name]: values
-            })
-        }
-    }
 
     return (
         <BoxArea title={t('MEETING_INFORMATION')}>
@@ -62,7 +83,12 @@ const MeetingInformation = () => {
                             rules={[{ required: true }]}
                             className="mb-0"
                         >
-                            <Input name='title' size="large" value={data.title} onChange={onChange} />
+                            <Input
+                                name="title"
+                                size="large"
+                                value={data.title}
+                                onChange={onChange}
+                            />
                         </Form.Item>
                     </Form>
                 </Col>
@@ -74,7 +100,13 @@ const MeetingInformation = () => {
                             className="mb-0"
                             rules={[{ required: false }, {}]}
                         >
-                            <Input size="large" name='meetingLink' addonBefore="https://" value={data.meetingLink} onChange={onChange} />
+                            <Input
+                                size="large"
+                                name="meetingLink"
+                                addonBefore="https://"
+                                value={data.meetingLink}
+                                onChange={onChange}
+                            />
                         </Form.Item>
                     </Form>
                 </Col>
@@ -86,8 +118,18 @@ const MeetingInformation = () => {
                             className="mb-0"
                         >
                             <Upload
-                                onChange={onFileChange('meetingInvitations', MeetingFileType.MEETING_INVITATION)}
-                                method='PUT' action={onUpload('meetingInvitations', MeetingFileType.MEETING_INVITATION)} accept={ACCEPT_FILE_TYPES} name='meeting-invitations' >
+                                onChange={onFileChange(
+                                    'meetingInvitations',
+                                    MeetingFileType.MEETING_INVITATION,
+                                )}
+                                method="PUT"
+                                action={onUpload(
+                                    'meetingInvitations',
+                                    MeetingFileType.MEETING_INVITATION,
+                                )}
+                                accept={ACCEPT_FILE_TYPES}
+                                name="meeting-invitations"
+                            >
                                 <div className="flex flex-col items-start">
                                     <Button icon={<UploadOutlined />}>
                                         {t('CLICK_TO_UPLOAD')}
@@ -107,7 +149,17 @@ const MeetingInformation = () => {
                             label={t('MEETING_MINUTES') + ':'}
                             className="mb-0"
                         >
-                            <Upload onChange={onFileChange('meetingReports', MeetingFileType.MEETING_MINUTES)} accept={ACCEPT_FILE_TYPES} action={onUpload('meetingReports', MeetingFileType.MEETING_MINUTES)} >
+                            <Upload
+                                onChange={onFileChange(
+                                    'meetingReports',
+                                    MeetingFileType.MEETING_MINUTES,
+                                )}
+                                accept={ACCEPT_FILE_TYPES}
+                                action={onUpload(
+                                    'meetingReports',
+                                    MeetingFileType.MEETING_MINUTES,
+                                )}
+                            >
                                 <div className="flex flex-col items-start">
                                     <Button icon={<UploadOutlined />}>
                                         {t('CLICK_TO_UPLOAD')}

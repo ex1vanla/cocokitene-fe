@@ -1,4 +1,4 @@
-/* eslint disable*/
+/* eslint-disable */
 import CreateTitle from '@/components/content-page-title/create-title'
 // import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import AmendmentResolutions from '@/views/meeting/meeting-create/amendment-resolutions'
