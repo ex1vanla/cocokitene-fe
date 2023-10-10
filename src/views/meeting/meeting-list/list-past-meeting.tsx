@@ -1,7 +1,7 @@
 import BoxArea from '@/components/box-area'
 import { MeetingType } from '@/constants/meeting'
 import { RootState, useAppDispatch } from '@/stores'
-import { getAllPassMeetings } from '@/stores/meetings/thunk'
+import { getAllPassMeetings } from '@/stores/meeting/listSlice'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 import ItemPastMeeting from '@/views/meeting/meeting-list/item-past-meeting'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
@@ -15,7 +15,7 @@ interface ListPastMeetingProps {
 
 const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
     const { page, limit, totalPassMeetingItem } = useSelector(
-        (state: RootState) => state.meeting,
+        (state: RootState) => state.meetingList,
     )
     const dispatch = useAppDispatch()
     const t = useTranslations()

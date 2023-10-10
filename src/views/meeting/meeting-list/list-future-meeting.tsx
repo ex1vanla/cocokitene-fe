@@ -1,7 +1,7 @@
 import BoxArea from '@/components/box-area'
 import { MeetingType } from '@/constants/meeting'
 import { RootState, useAppDispatch } from '@/stores'
-import { getAllMeetings } from '@/stores/meetings/thunk'
+import { getAllMeetings } from '@/stores/meeting/listSlice'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 import ItemFutureMeeting from '@/views/meeting/meeting-list/item-future-meeting'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
@@ -15,7 +15,7 @@ interface ListFutureMeetingProps {
 
 const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
     const { page, limit, totalFutureMeetingItem } = useSelector(
-        (state: RootState) => state.meeting,
+        (state: RootState) => state.meetingList,
     )
     const dispatch = useAppDispatch()
     const t = useTranslations()

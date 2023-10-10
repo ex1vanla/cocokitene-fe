@@ -1,18 +1,14 @@
-import { MeetingStatus } from '@/constants/meeting'
-import { useNotification } from '@/hooks/use-notification'
-import { RootState, useAppDispatch } from '@/stores'
+import { useAppDispatch } from '@/stores'
 import { setMeetingIdJoin } from '@/stores/attendance/slice'
 import { joinAttendanceMeeting } from '@/stores/attendance/thunk'
 import { formatDate, formatTimeMeeting, statusDateMeeting } from '@/utils/date'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Button, Col, Modal, Row, Typography } from 'antd'
-import { format, parseISO } from 'date-fns'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 const { Text } = Typography
 

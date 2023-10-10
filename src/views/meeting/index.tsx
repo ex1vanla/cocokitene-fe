@@ -4,7 +4,7 @@ import { useNotification } from '@/hooks/use-notification'
 import useDebounce from '@/hooks/useDebounce'
 import { RootState, useAppDispatch } from '@/stores'
 import { resetStatusMeeting } from '@/stores/attendance/slice'
-import { getAllMeetings, getAllPassMeetings } from '@/stores/meetings/thunk'
+import { getAllMeetings, getAllPassMeetings } from '@/stores/meeting/listSlice'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
@@ -21,7 +21,7 @@ const MeetingList = () => {
     const [keywordSearch, setKeywordSearch] = useState<string>('')
     const [sort, setSort] = useState<string>('ASC')
     const { page, limit, meetingFutureList, meetingPassList } = useSelector(
-        (state: RootState) => state.meeting,
+        (state: RootState) => state.meetingList,
     )
     const searchDebounceValue = useDebounce(keywordSearch, 300)
     const dispatch = useAppDispatch()

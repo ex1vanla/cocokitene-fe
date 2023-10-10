@@ -1,12 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import authReducer from '@/stores/auth/slice'
 import meetingCreateReducer from '@/stores/meeting/createSlice'
-import meetingReducer from '@/stores/meetings/slice'
+import meetingListReducer from '@/stores/meeting/listSlice'
 import attendanceReducer from '@/stores/attendance/slice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    meeting: meetingReducer,
+    meetingList: meetingListReducer,
     meetingCreate: meetingCreateReducer,
     attendance: attendanceReducer
 })

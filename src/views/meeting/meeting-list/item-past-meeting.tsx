@@ -8,12 +8,10 @@ import Link from 'next/link'
 const { Text } = Typography
 
 const ItemPastMeeting = ({
-    meetings_id,
     meetings_title,
     meetings_start_time,
     meetings_end_time,
     meetings_meeting_link,
-    isJoined,
     meetings_status_meeting_happen,
 }: IMeetingItem) => {
     const t = useTranslations()

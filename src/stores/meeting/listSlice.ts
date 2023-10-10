@@ -47,7 +47,7 @@ export const getAllPassMeetings = createAsyncThunk(
     },
 )
 
-const meetingSlice = createSlice({
+const meetingListSlice = createSlice({
     name: 'meeting',
     initialState,
     reducers: {},
@@ -80,4 +80,4 @@ const meetingSlice = createSlice({
     },
 })
 
-export default meetingSlice.reducer
+export default meetingListSlice.reducer

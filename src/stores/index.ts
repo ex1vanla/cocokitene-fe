@@ -17,10 +17,14 @@ import storage from 'redux-persist/lib/storage'
 
 import authReducer from '@/stores/auth/slice'
 import meetingCreateReducer from '@/stores/meeting/createSlice'
+import meetingListReducer from '@/stores/meeting/listSlice'
+import attendanceReducer from '@/stores/attendance/slice'
 
 const reducer = combineReducers({
     auth: authReducer,
     meetingCreate: meetingCreateReducer,
+    meetingList: meetingListReducer,
+    attendance: attendanceReducer
 })
 
 const PERSIST_CONFIG_VERSION = 1
