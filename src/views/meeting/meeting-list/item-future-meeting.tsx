@@ -1,26 +1,38 @@
+import { useAppDispatch } from '@/stores'
+import { setMeetingIdJoin } from '@/stores/attendance/slice'
+import { joinAttendanceMeeting } from '@/stores/attendance/thunk'
+import { formatDate, formatTimeMeeting, statusDateMeeting } from '@/utils/date'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Button, Col, Modal, Row, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const { Text } = Typography
 
 const ItemFutureMeeting = ({
-    meetingTime,
-    meetingDate,
-    meetingSummary,
-    meetingType,
-    meetingStatus,
+    meetings_id,
+    meetings_title,
+    meetings_start_time,
+    meetings_end_time,
+    meetings_meeting_link,
+    isJoined,
+    meetings_status_meeting_happen,
 }: IMeetingItem) => {
+    const router = useRouter()
     const t = useTranslations()
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const dispatch = useAppDispatch()
 
-    const showModal = () => {
+    const showModal = (idMeeting: number) => {
         setIsModalOpen(true)
     }
 
-    const handleOk = () => {
+    const handleOk = (idMeeting: number) => {
+        dispatch(joinAttendanceMeeting(idMeeting))
+        dispatch(setMeetingIdJoin({ meetingId: idMeeting }))
         setIsModalOpen(false)
     }
 
@@ -35,41 +47,84 @@ const ItemFutureMeeting = ({
             >
                 <Col span={5} className="flex items-center space-x-2">
                     <Image
-                        src='/images/logo-meeting-future.png'
+                        src="/images/logo-meeting-future.png"
                         alt="service-image-alt"
                         width={72}
                         height={48}
                     />
-                    <Text className="font-medium">{meetingTime}</Text>
+                    <Text className="font-medium">
+                        {formatTimeMeeting(
+                            meetings_start_time.toString(),
+                            meetings_end_time.toString(),
+                        )}
+                    </Text>
                 </Col>
                 <Col span={2} className="flex items-center ">
-                    <Text>{meetingDate}</Text>
+                    <Text>
+                        {formatDate(
+                            meetings_start_time.toString(),
+                            'YYYY-MM-DD',
+                        )}
+                    </Text>
                 </Col>
                 <Col span={8} className="flex items-center">
                     <Text className="overflow-hidden overflow-ellipsis whitespace-nowrap ">
-                        {meetingSummary}
+                        {meetings_title}
                     </Text>
                 </Col>
                 <Col span={3} className="flex items-center pl-4">
-                    <Text>{meetingType}</Text>
+                    <Link href={meetings_meeting_link.toString()}>
+                        <Text>Headquarters & Online</Text>
+                    </Link>
                 </Col>
-                <Col span={2} className="flex items-center justify-center ">
-                    <li className="text-primary">{meetingStatus}</li>
+                <Col span={2} className="flex items-center pl-3">
+                    {meetings_status_meeting_happen == '0' ? (
+                        <li className="text-red-500">{t('PENDING')}</li>
+                    ) : statusDateMeeting(
+                          meetings_start_time.toString(),
+                          meetings_end_time.toString(),
+                      ) ? (
+                        <li className="text-green-500">{t('IN_PROGRESS')}</li>
+                    ) : (
+                        <li className="text-primary">{t('FUTURE')}</li>
+                    )}
                 </Col>
                 <Col
                     span={4}
                     className="flex items-center justify-end space-x-2"
                 >
-                    <Button type="primary" size="middle" onClick={showModal}>
-                        {t('BTN_JOIN')}
+                    {isJoined === '0' ? (
+                        <Button
+                            type="primary"
+                            size="middle"
+                            onClick={() => showModal(meetings_id)}
+                        >
+                            {t('BTN_JOIN')}
+                        </Button>
+                    ) : (
+                        <Button
+                            disabled
+                            type="primary"
+                            size="middle"
+                            onClick={() => showModal(meetings_id)}
+                        >
+                            {t('JOINED')}
+                        </Button>
+                    )}
+                    <Button
+                        size="middle"
+                        onClick={() => {
+                            router.push('/meeting/detail/1')
+                        }}
+                    >
+                        {t('BTN_VIEW_DETAIL')}
                     </Button>
-                    <Button size="middle">{t('BTN_VIEW_DETAIL')}</Button>
                 </Col>
             </Row>
             <Modal
                 title={t('TITLE_CONFIRM_MEETING_POPUP')}
                 open={isModalOpen}
-                onOk={handleOk}
+                onOk={() => handleOk(meetings_id)}
                 onCancel={handleCancel}
                 okText={t('BTN_CONFIRM')}
                 cancelText={t('BTN_CANCLE')}
