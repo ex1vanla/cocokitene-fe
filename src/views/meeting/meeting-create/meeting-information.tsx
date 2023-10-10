@@ -98,7 +98,7 @@ const MeetingInformation = () => {
             dt.startTime = new Date(dateString[0]).toISOString()
         }
         if (dateString[1]) {
-            dt.endTime = new Date(dateString[0]).toISOString()
+            dt.endTime = new Date(dateString[1]).toISOString()
         }
         setData(dt)
     }
