@@ -97,9 +97,10 @@ const MeetingInformation = () => {
         if (dateString[0]) {
             dt.startTime = new Date(dateString[0]).toISOString()
         }
-        if (dateString[0]) {
+        if (dateString[1]) {
             dt.endTime = new Date(dateString[0]).toISOString()
         }
+        setData(dt)
     }
 
     const onOkDateTime = (
