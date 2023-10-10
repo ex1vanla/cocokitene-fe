@@ -1,18 +1,18 @@
-import { AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { instance } from './axios';
 // import serviceUser from './user'
-import { notification } from "antd";
-import { ApiResponse } from './request.type';
+import serviceUser from './user';
+import { ApiResponse } from './response.type';
 
 type Obj = { [key: string]: any }
 
 instance.interceptors.request.use(
-    (config) => {
-        // const token = serviceUser.getAccessToken()
-        // if (token) {
-        //     config.headers['Authorization'] = `Bearer ${token}`
-        // }
-        return config
+    (config: AxiosRequestConfig) => {
+        const accessToken = serviceUser.getAccessTokenStorage();
+        if (!!accessToken && config.headers && !config.headers['Authorization']) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
+        return config;
     },
     (error) => {
         return Promise.reject(error)
@@ -20,25 +20,27 @@ instance.interceptors.request.use(
 )
 
 instance.interceptors.response.use(
-    function (response: AxiosResponse) {
-        // Any status code that lie within the range of 2xx cause this function to trigger
-        // Do something with response data
-        return response.data
-    },
-    function (error) {
-        const status = error.response ? error.response.status : null
-        const message = error.response ? error.response.data.message : 'error'
-        if (status === 401) {
-            notification.error({
-                message: message,
-                description: 'Please handle accordingly.',
-            })
+    (response: AxiosResponse<ApiResponse>) => {
+        const { status, data } = response;
+
+        if (status === 200 || status === 201) {
+            return data;
         }
-        // Any status codes that falls outside the range of 2xx cause this function to trigger
-        // Do something with response error
-        return Promise.reject(error)
+
+        return Promise.reject(data); 
     },
-)
+    async (error: any) => {
+        const prevRequest = error?.config;
+        if (error?.response?.status === 401 && !prevRequest?.sent) {
+            prevRequest.sent = true;
+            const newAccessToken = await serviceUser.getRefreshToken();
+            prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+            return instance(prevRequest);
+        }
+
+        return Promise.reject(error);
+    },
+);
 
 function get<T, R = ApiResponse<T>>(route: string, params?: Obj): Promise<R> {
     return instance.get(route, { params })

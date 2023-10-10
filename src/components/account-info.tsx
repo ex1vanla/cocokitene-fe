@@ -8,10 +8,19 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Typography } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useAppDispatch } from '@/stores'
+import { signOut } from '@/stores/auth/slice'
+import { useDisconnect } from 'wagmi'
 
 const { Text } = Typography
 const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
+    const { disconnect } = useDisconnect()
+    const dispatch = useAppDispatch()
+    const handleLogout = () => {
+        dispatch(signOut())
+        disconnect();
+    }
 
     const items: MenuProps['items'] = [
         {
@@ -65,7 +74,10 @@ const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
         {
             key: '4',
             label: (
-                <div className="py-[5px] text-sm leading-[22px]">
+                <div
+                    className="py-[5px] text-sm leading-[22px]"
+                    onClick={() => handleLogout()}
+                >
                     {t('LOGOUT')}
                 </div>
             ),

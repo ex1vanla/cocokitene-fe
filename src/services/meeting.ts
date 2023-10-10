@@ -11,6 +11,7 @@ const serviceMeeting = {
             searchQuery,
             sortOrder
         });
+    
         return response.data;
     }
 }

@@ -27,23 +27,23 @@ const MeetingList = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(
-            getAllMeetings({
+            getAllMeetings({param: {
+                    page,
+                    limit,
+                    type: MeetingType.MEETING_FUTURE,
+                    searchQuery: searchDebounceValue?.trim(),
+                    sortOrder: 'ASC',
+            }}),
+        )
+
+        dispatch(
+            getAllPassMeetings({param: {
                 page,
                 limit,
                 type: MeetingType.MEETING_FUTURE,
                 searchQuery: searchDebounceValue?.trim(),
                 sortOrder: 'ASC',
-            }) as any,
-        )
-
-        dispatch(
-            getAllPassMeetings({
-                page,
-                limit,
-                type: MeetingType.MEETING_PASS,
-                searchQuery: searchDebounceValue?.trim(),
-                sortOrder: sort === 'ASC' ? 'ASC' : 'DESC',
-            }) as any,
+        }}),
         )
     }, [dispatch, searchDebounceValue])
 

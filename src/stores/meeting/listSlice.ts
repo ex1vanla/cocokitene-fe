@@ -1,8 +1,10 @@
-import { MeetingType } from "@/constants/meeting"
-import { EActionStatus } from "../type"
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import serviceMeeting from "@/services/meeting"
-import { IGetAllMeetingQuery, IMeetingState } from "./types"
+import { MeetingType } from '@/constants/meeting'
+import { EActionStatus, FetchError } from '../type'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import serviceMeeting from '@/services/meeting'
+import { IGetAllMeetingQuery, IMeeting, IMeetingState } from './types'
+import { AxiosError } from 'axios'
+import { IGetAllDataReponse } from '@/services/response.type'
 
 const initialState: IMeetingState = {
     status: EActionStatus.Idle,
@@ -17,10 +19,15 @@ const initialState: IMeetingState = {
     type: MeetingType.MEETING_FUTURE,
 }
 
-export const getAllMeetings = createAsyncThunk(
-    'meeting/getFutureMeetingAll',
-    async (action: IGetAllMeetingQuery) => {
-        const { page, limit, type, searchQuery, sortOrder } = action
+export const getAllMeetings = createAsyncThunk<
+    IGetAllDataReponse<IMeeting> | undefined,
+    { param: IGetAllMeetingQuery },
+    {
+        rejectValue: FetchError
+    }
+>('meeting/getFutureMeetingAll', async ({ param }, { rejectWithValue }) => {
+    try {
+        const { page, limit, type, searchQuery, sortOrder } = param
         const data = await serviceMeeting.getAllMeetings({
             type,
             page,
@@ -29,13 +36,25 @@ export const getAllMeetings = createAsyncThunk(
             sortOrder,
         })
         return data
-    },
-)
+    } catch (error) {
+        const err = error as AxiosError
+        const responseData: any = err.response?.data
+        return rejectWithValue({
+            errorMessage: responseData?.message,
+            errorCode: responseData?.code,
+        })
+    }
+})
 
-export const getAllPassMeetings = createAsyncThunk(
-    'meeting/getPassMeetingAll',
-    async (action: IGetAllMeetingQuery) => {
-        const { page, limit, type, searchQuery, sortOrder } = action
+export const getAllPassMeetings = createAsyncThunk<
+    IGetAllDataReponse<IMeeting> | undefined,
+    { param: IGetAllMeetingQuery },
+    {
+        rejectValue: FetchError
+    }
+>('meeting/getPassMeetingAll', async ({ param }, { rejectWithValue }) => {
+    try {
+        const { page, limit, type, searchQuery, sortOrder } = param
         const data = await serviceMeeting.getAllMeetings({
             type,
             page,
@@ -44,8 +63,15 @@ export const getAllPassMeetings = createAsyncThunk(
             sortOrder,
         })
         return data
-    },
-)
+    } catch (error) {
+        const err = error as AxiosError
+        const responseData: any = err.response?.data
+        return rejectWithValue({
+            errorMessage: responseData?.message,
+            errorCode: responseData?.code,
+        })
+    }
+})
 
 const meetingListSlice = createSlice({
     name: 'meeting',

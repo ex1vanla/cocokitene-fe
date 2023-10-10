@@ -7,10 +7,12 @@ import { useAccount } from 'wagmi'
 import ConnectWallet from './connect-wallet'
 import Menu from './menu'
 import AccountInfo from '@/components/account-info'
+import { RootState } from '@/stores'
+import { useSelector } from 'react-redux'
 
 const LandingHeader = () => {
-    const { isConnected } = useAccount()
     const [metaClass, setMetaClass] = useState('')
+    const auth = useSelector((state: RootState) => state.auth)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -41,9 +43,9 @@ const LandingHeader = () => {
                 <div className="flex items-center gap-10">
                     <Menu />
                     <ConnectWallet />
-                    {isConnected && (
+                    {auth.isAuthenticated && (
                         <AccountInfo
-                            name="Stan Lee"
+                            name={auth.userData?.username ?? "Unknow"}
                             avatar="/images/default-avatar.png"
                         />
                     )}
