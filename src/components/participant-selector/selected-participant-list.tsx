@@ -1,9 +1,10 @@
+/* eslint-disable */
 import { IParticipants } from '@/components/participant-selector'
 import SelectedParticipantItem from '@/components/participant-selector/selected-participant-item'
 
 interface ISelectedParticipantList {
     selectedParticipants: IParticipants[]
-    onDeleteParticipant: () => void
+    onDeleteParticipant: (p: IParticipants) => void
 }
 
 const SelectedParticipantList = ({
@@ -15,10 +16,11 @@ const SelectedParticipantList = ({
             {selectedParticipants.map((participant, index) => (
                 <SelectedParticipantItem
                     key={index}
-                    name={participant.name}
+                    id={participant.id}
+                    username={participant.username}
                     defaultAvatarHashColor={participant.defaultAvatarHashColor}
                     avatar={participant.avatar}
-                    onDeleteParticipant={onDeleteParticipant}
+                    onDeleteParticipant={() => onDeleteParticipant(participant)}
                 />
             ))}
         </div>

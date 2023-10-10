@@ -1,6 +1,5 @@
-import { Cookies } from 'react-cookie'
 import { get } from './fetcher'
-const cookies = new Cookies()
+import { IAccountListResponse } from './response.type'
 
 const serviceUser = {
     getNonce: async (walletAddress: string) => {
@@ -11,6 +10,23 @@ const serviceUser = {
 
         return nonce
     },
+
+    getAccountList: async (
+        query?: string,
+        page: number = 1,
+        limit: number = 5,
+    ): Promise<IAccountListResponse> => {
+        const params = {
+            query,
+            limit,
+            page,
+        }
+        const response = await get<any, { data: IAccountListResponse }>(
+            '/users',
+            params,
+        )
+        return response.data
+    },
 }
 
-export default serviceUser;
+export default serviceUser

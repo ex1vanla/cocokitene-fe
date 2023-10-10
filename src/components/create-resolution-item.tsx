@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { ResolutionType } from '@/constants/meeting'
+import { ResolutionType } from '@/constants/resolution'
 import { Resolution } from '@/constants/resolution'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Input, Typography } from 'antd'

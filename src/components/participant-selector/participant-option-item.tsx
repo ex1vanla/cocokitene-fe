@@ -1,28 +1,30 @@
 import { IParticipants } from '@/components/participant-selector'
 import { truncateString } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
-import { CloseCircleFilled } from '@ant-design/icons'
 import { Avatar, Typography } from 'antd'
 import Color from 'color'
 
 const { Text } = Typography
 
-interface ISelectedParticipantItem extends IParticipants {
-    onDeleteParticipant: () => void
+interface IParticipantOptionItem extends IParticipants {
+    onSelectParticipant: () => void
 }
 
-const SelectedParticipantItem = ({
+const ParticipantOptionItem = ({
     defaultAvatarHashColor,
     username,
     avatar,
-    onDeleteParticipant,
-}: ISelectedParticipantItem) => {
+    onSelectParticipant,
+}: IParticipantOptionItem) => {
     const backgroundAvatarColor = Color(defaultAvatarHashColor)
         .lighten(0.6)
         .hex()
 
     return (
-        <div className="flex items-center justify-between">
+        <div
+            className="flex cursor-pointer items-center justify-between p-1 transition-colors hover:bg-neutral/4 "
+            onClick={onSelectParticipant}
+        >
             <div className="flex items-center gap-2">
                 {avatar ? (
                     <Avatar
@@ -51,14 +53,8 @@ const SelectedParticipantItem = ({
                     {truncateString({ text: username, start: 15, end: 0 })}
                 </Text>
             </div>
-            <CloseCircleFilled
-                className="cursor-pointer text-black-25"
-                width={14}
-                height={14}
-                onClick={onDeleteParticipant}
-            />
         </div>
     )
 }
 
-export default SelectedParticipantItem
+export default ParticipantOptionItem

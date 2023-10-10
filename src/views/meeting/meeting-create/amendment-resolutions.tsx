@@ -11,36 +11,41 @@ const AmendmentResolutions = () => {
 
     const [data, setData] = useCreateMeetingInformation()
 
-    const onChange = (name: 'title' | 'description', index: number) => (value: string) => {
-        const amendmentResolutions = [...data.amendmentResolutions]
-        amendmentResolutions[index] = {
-            ...amendmentResolutions[index],
-            [name]: value
+    const onChange =
+        (name: 'title' | 'description', index: number) => (value: string) => {
+            const amendmentResolutions = [...data.amendmentResolutions]
+            amendmentResolutions[index] = {
+                ...amendmentResolutions[index],
+                [name]: value,
+            }
+            setData({
+                ...data,
+                amendmentResolutions,
+            })
         }
-        setData({
-            ...data,
-            amendmentResolutions
-        })
-    }
 
     const onDelete = (index: number) => () => {
         setData({
             ...data,
-            amendmentResolutions: data.amendmentResolutions.filter((r, i) => i !== index)
+            amendmentResolutions: data.amendmentResolutions.filter(
+                (r, i) => i !== index,
+            ),
         })
     }
 
     const onAddNew = () => {
         setData({
             ...data,
-            amendmentResolutions: [...data.amendmentResolutions, {
-                type: ResolutionType.RESOLUTION,
-                title: '',
-                description: ''
-            }]
+            amendmentResolutions: [
+                ...data.amendmentResolutions,
+                {
+                    type: ResolutionType.AMENDMENT_RESOLUTION,
+                    title: '',
+                    description: '',
+                },
+            ],
         })
     }
-
 
     return (
         <BoxArea title={t('AMENDMENT_RESOLUTIONS')}>
@@ -58,7 +63,9 @@ const AmendmentResolutions = () => {
                     />
                 ))}
             </div>
-            <Button onClick={onAddNew} icon={<PlusOutlined />}>{t('ADD_NEW')}</Button>
+            <Button onClick={onAddNew} icon={<PlusOutlined />}>
+                {t('ADD_NEW')}
+            </Button>
         </BoxArea>
     )
 }

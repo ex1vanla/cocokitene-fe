@@ -1,32 +1,29 @@
+import { IParticipants } from '@/components/participant-selector'
+import { ResolutionType } from '@/constants/resolution'
+
 export interface ICreateMeeting {
-    title: string;
-    meetingLink: string;
-    startTime: string;
-    endTime: string;
-    meetingReports: MeetingReport[];
-    meetingInvitations: MeetingInvitation[];
-    resolutions: IMeetingResolution[];
-    amendmentResolutions: IMeetingResolution[];
-    hosts: number[];
-    controlBoards: number[];
-    directors: number[];
-    administrativeCouncils: number[];
-    shareholders: number[];
+    title: string
+    meetingLink: string
+    startTime: string
+    endTime: string
+    meetingReports: IMeetingDocument[]
+    meetingInvitations: IMeetingDocument[]
+    resolutions: IMeetingResolution[]
+    amendmentResolutions: IMeetingResolution[]
+    hosts: IParticipants[]
+    controlBoards: IParticipants[]
+    directors: IParticipants[]
+    administrativeCouncils: IParticipants[]
+    shareholders: IParticipants[]
 }
 
-
-interface MeetingReport {
-    url: string;
-    fileType: string;
-}
-
-interface MeetingInvitation {
-    url: string;
-    fileType: string;
+export interface IMeetingDocument {
+    url: string
+    fileType: string
 }
 
 export interface IMeetingResolution {
-    title: string;
-    description: string;
-    type: string;
+    title: string
+    description: string
+    type: ResolutionType
 }

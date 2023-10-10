@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 export enum ResolutionType {
-    RESOLUTION = 'RESOLUTION',
-    AMENDMENT_RESOLUTION = 'AMENDMENT_RESOLUTION',
+    RESOLUTION = 'resolution',
+    AMENDMENT_RESOLUTION = 'amendment_resolution',
 }
 
 export enum MeetingResourceType {
@@ -24,4 +24,4 @@ export enum MeetingFileType {
     REPORTS = 'reports',
 }
 
-export const ACCEPT_FILE_TYPES = ".xlsx,.xls,.doc,.docx,.pdf"
+export const ACCEPT_FILE_TYPES = '.xlsx,.xls,.doc,.docx,.pdf'

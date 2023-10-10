@@ -6,6 +6,6 @@ export interface Resolution {
 }
 
 export enum ResolutionType {
-    RESOLUTION = 'RESOLUTION',
-    AMENDMENT_RESOLUTION = 'AMENDMENT_RESOLUTION',
+    RESOLUTION = 'resolution',
+    AMENDMENT_RESOLUTION = 'amendment_resolution',
 }

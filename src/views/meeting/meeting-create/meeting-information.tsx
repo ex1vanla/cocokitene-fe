@@ -33,10 +33,6 @@ const MeetingInformation = () => {
         (name: string, fileType: MeetingFileType) => async (file: RcFile) => {
             try {
                 const res = await serviceUpload.upload([file], fileType)
-                console.log(
-                    '🚀 ~ file: meeting-information.tsx:27 ~ onUpload ~ res:',
-                    res,
-                )
                 return res.uploadUrls[0]
             } catch (error) {
                 return ''
@@ -49,28 +45,43 @@ const MeetingInformation = () => {
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
             if (info.file.status === 'done') {
-                const url = info.file.xhr.responseURL
-                const values = data[name]
-                setData({
-                    ...data,
-                    [name]: [
-                        ...values,
-                        {
-                            url,
-                            fileType,
-                        },
-                    ],
-                })
+                const url = info.file?.xhr?.responseURL
+                if (url) {
+                    const values = data[name]
+                    setData({
+                        ...data,
+                        [name]: [
+                            ...values,
+                            {
+                                url: url.split('?')[0],
+                                fileType,
+                            },
+                        ],
+                    })
+                }
             }
             if (info.file.status === 'removed') {
-                const url = info.file.xhr.responseURL
-                const values = data[name].filter((item) => item.url !== url)
-                setData({
-                    ...data,
-                    [name]: values,
-                })
+                const url = info.file?.xhr?.responseURL?.split('?')[0]
+                if (url) {
+                    const values = data[name].filter((item) => item.url !== url)
+                    setData({
+                        ...data,
+                        [name]: values,
+                    })
+                }
             }
         }
+    const validateFile = (file: RcFile, FileList: RcFile[]) => {
+        if (file.size > 10 * (1024 * 1024)) {
+            return Upload.LIST_IGNORE
+        }
+        const extension = file.name.split('.').slice(-1)[0]
+        if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
+            return Upload.LIST_IGNORE
+        }
+
+        return true
+    }
 
     return (
         <BoxArea title={t('MEETING_INFORMATION')}>
@@ -80,8 +91,9 @@ const MeetingInformation = () => {
                         <Form.Item
                             name="title"
                             label={t('MEETING_NAME')}
-                            rules={[{ required: true }]}
+                            rules={[{ required: true, whitespace: true }]}
                             className="mb-0"
+                            initialValue={data.title}
                         >
                             <Input
                                 name="title"
@@ -98,7 +110,15 @@ const MeetingInformation = () => {
                             name="meetingLink"
                             label={t('MEETING_LINK')}
                             className="mb-0"
-                            rules={[{ required: false }, {}]}
+                            rules={[
+                                {
+                                    required: true,
+                                    whitespace: true,
+                                    type: 'url',
+                                },
+                                {},
+                            ]}
+                            initialValue={data.meetingLink}
                         >
                             <Input
                                 size="large"
@@ -122,6 +142,7 @@ const MeetingInformation = () => {
                                     'meetingInvitations',
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
+                                beforeUpload={validateFile}
                                 method="PUT"
                                 action={onUpload(
                                     'meetingInvitations',
@@ -154,6 +175,8 @@ const MeetingInformation = () => {
                                     'meetingReports',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
+                                beforeUpload={validateFile}
+                                method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
                                 action={onUpload(
                                     'meetingReports',

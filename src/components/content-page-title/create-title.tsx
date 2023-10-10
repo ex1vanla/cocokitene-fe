@@ -1,9 +1,9 @@
 import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
+import SaveCreateMeetingButton from '@/views/meeting/meeting-create/save-button'
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import { Button, Typography } from 'antd'
-import { useTranslations } from 'next-intl'
+import { Typography } from 'antd'
 import { useRouter } from 'next/navigation'
 
 const { Title } = Typography
@@ -11,7 +11,6 @@ const { Title } = Typography
 interface ICreateTitle extends IBaseTitle {}
 
 const CreateTitle = ({ pageName }: ICreateTitle) => {
-    const t = useTranslations()
     const router = useRouter()
 
     // const onSave = () => {
@@ -30,9 +29,7 @@ const CreateTitle = ({ pageName }: ICreateTitle) => {
                 </Title>
             </div>
             <div className="flex items-center gap-2">
-                <Button type="default" className='text-white bg-primary' size="large" onClick={() => {}}>
-                    {t('SAVE')}
-                </Button>
+                <SaveCreateMeetingButton />
             </div>
         </LayoutTitle>
     )

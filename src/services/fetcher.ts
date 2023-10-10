@@ -1,23 +1,23 @@
-import { AxiosResponse } from 'axios';
-import { instance } from './axios';
-// import serviceUser from './user'
-import { notification } from "antd";
-import { ApiResponse } from './request.type';
+import { AxiosResponse } from 'axios'
+import { instance } from './axios'
+import { notification } from 'antd'
+import { ApiResponse } from './request.type'
+import { ACCESS_TOKEN_KEY } from '@/constants/common'
 
 type Obj = { [key: string]: any }
 
-instance.interceptors.request.use(
-    (config) => {
-        // const token = serviceUser.getAccessToken()
-        // if (token) {
-        //     config.headers['Authorization'] = `Bearer ${token}`
-        // }
+instance.interceptors.request.use((config) => {
+    try {
+        const token = localStorage.getItem(ACCESS_TOKEN_KEY)
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`
+        }
         return config
-    },
-    (error) => {
-        return Promise.reject(error)
-    },
-)
+    } catch (error) {
+        console.log('🚀 ~ file: fetcher.ts:19 ~ error:', error)
+        return config
+    }
+})
 
 instance.interceptors.response.use(
     function (response: AxiosResponse) {
@@ -91,5 +91,4 @@ function upload<T, R = ApiResponse<T>>(
     return instance.post(route, formData)
 }
 
-export { del, get, patch, post, put, upload };
-
+export { del, get, patch, post, put, upload }
