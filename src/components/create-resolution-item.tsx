@@ -37,7 +37,7 @@ const CreateResolutionItem = ({
     return (
         <div className="flex flex-row items-start gap-2">
             <Text className="leading-10">
-                {t(type)} {index}:
+                {t(type.toUpperCase())} {index}:
             </Text>
             <div className="flex flex-grow flex-col gap-2">
                 <Input

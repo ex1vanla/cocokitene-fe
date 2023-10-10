@@ -14,7 +14,6 @@ instance.interceptors.request.use((config) => {
         }
         return config
     } catch (error) {
-        console.log('🚀 ~ file: fetcher.ts:19 ~ error:', error)
         return config
     }
 })

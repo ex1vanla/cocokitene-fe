@@ -17,7 +17,7 @@ const serviceUser = {
         limit: number = 5,
     ): Promise<IAccountListResponse> => {
         const params = {
-            query,
+            searchQuery: query,
             limit,
             page,
         }

@@ -12,10 +12,12 @@ import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 
 export interface ISelectParticipantGroup {
     onSelectParticipant: (p: IParticipants) => void
+    selectedParticipants: IParticipants[]
 }
 
 const SelectParticipantGroup = ({
     onSelectParticipant,
+    selectedParticipants,
 }: ISelectParticipantGroup) => {
     const t = useTranslations()
     const [query, setQuery] = useState('')
@@ -48,7 +50,7 @@ const SelectParticipantGroup = ({
                     })
                     const optionsRes = await serviceUser.getAccountList(query)
                     console.log(
-                        '🚀 ~ file: select-participant-group.tsx:46 ~ optionsRes:',
+                        '🚀 ~ file: select-participant-group.tsx:53 ~ ; ~ optionsRes:',
                         optionsRes,
                     )
                     setOptionsData({
@@ -90,6 +92,11 @@ const SelectParticipantGroup = ({
                                 }
                                 avatar={option.avatar}
                                 onSelectParticipant={() => onSelect(option)}
+                                selected={
+                                    selectedParticipants.findIndex(
+                                        (p) => p.id === option.id,
+                                    ) >= 0
+                                }
                             />
                         ))}
                     </div>

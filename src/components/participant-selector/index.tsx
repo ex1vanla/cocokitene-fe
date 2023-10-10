@@ -28,7 +28,10 @@ const ParticipantSelector = ({
     return (
         <div className="max-w-sm">
             <Text className="text-sm">{title}</Text>
-            <SelectParticipantGroup onSelectParticipant={onSelectParticipant} />
+            <SelectParticipantGroup
+                selectedParticipants={selectedParticipants}
+                onSelectParticipant={onSelectParticipant}
+            />
             <SelectedParticipantList
                 selectedParticipants={selectedParticipants}
                 onDeleteParticipant={onDeleteParticipant}

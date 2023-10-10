@@ -13,9 +13,15 @@ import {
     Upload,
     Typography,
     UploadFile,
+    DatePicker,
 } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
+import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
+import dayjs from 'dayjs'
+import { urlRegex } from '@/constants/common'
+
+const { RangePicker } = DatePicker
 
 const { Text } = Typography
 
@@ -83,6 +89,25 @@ const MeetingInformation = () => {
         return true
     }
 
+    const onChangeDateTime = (
+        value: DatePickerProps['value'] | RangePickerProps['value'],
+        dateString: [string, string] | string,
+    ) => {
+        const dt = { ...data }
+        if (dateString[0]) {
+            dt.startTime = new Date(dateString[0]).toISOString()
+        }
+        if (dateString[0]) {
+            dt.endTime = new Date(dateString[0]).toISOString()
+        }
+    }
+
+    const onOkDateTime = (
+        value: DatePickerProps['value'] | RangePickerProps['value'],
+    ) => {
+        // console.log('onOk: ', value);
+    }
+
     return (
         <BoxArea title={t('MEETING_INFORMATION')}>
             <Row gutter={[16, 24]}>
@@ -114,9 +139,12 @@ const MeetingInformation = () => {
                                 {
                                     required: true,
                                     whitespace: true,
-                                    type: 'url',
                                 },
-                                {},
+                                // { type: 'url',  },
+                                {
+                                    pattern: urlRegex,
+                                    message: t('INVALID_LINK_ERROR_MESSAGE'),
+                                },
                             ]}
                             initialValue={data.meetingLink}
                         >
@@ -192,6 +220,45 @@ const MeetingInformation = () => {
                                     </Text>
                                 </div>
                             </Upload>
+                        </Form.Item>
+                    </Form>
+                </Col>
+                {/* <Col xs={24} lg={12}>
+                    <Form layout="vertical">
+                        <Form.Item
+                            name="title"
+                            label={t('START_TIME')}
+                            rules={[{ required: true, whitespace: true }]}
+                            className="mb-0"
+                            initialValue={data.title}
+                        >
+                            <DatePicker size='large' style={{ width: '100%' }} />
+                        </Form.Item>
+                    </Form>
+                </Col> */}
+                <Col xs={24} lg={12}>
+                    <Form layout="vertical">
+                        <Form.Item
+                            label={t('TIME')}
+                            rules={[{ required: true }]}
+                            className="mb-0"
+                        >
+                            <RangePicker
+                                name={'TIME'}
+                                size="large"
+                                showTime={{ format: 'HH:mm' }}
+                                format="YYYY-MM-DD HH:mm"
+                                style={{ width: '100%' }}
+                                // value={data.startTime}
+                                onChange={onChangeDateTime}
+                                onOk={onOkDateTime}
+                                // defaultPickerValue={}
+                                allowEmpty={[false, false]}
+                                value={[
+                                    dayjs(data.startTime),
+                                    dayjs(data.endTime),
+                                ]}
+                            />
                         </Form.Item>
                     </Form>
                 </Col>

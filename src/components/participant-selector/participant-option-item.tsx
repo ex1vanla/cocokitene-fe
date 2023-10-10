@@ -8,6 +8,7 @@ const { Text } = Typography
 
 interface IParticipantOptionItem extends IParticipants {
     onSelectParticipant: () => void
+    selected: boolean
 }
 
 const ParticipantOptionItem = ({
@@ -15,6 +16,7 @@ const ParticipantOptionItem = ({
     username,
     avatar,
     onSelectParticipant,
+    selected,
 }: IParticipantOptionItem) => {
     const backgroundAvatarColor = Color(defaultAvatarHashColor)
         .lighten(0.6)
@@ -22,7 +24,9 @@ const ParticipantOptionItem = ({
 
     return (
         <div
-            className="flex cursor-pointer items-center justify-between p-1 transition-colors hover:bg-neutral/4 "
+            className={`flex cursor-pointer items-center justify-between p-1 transition-colors ${
+                selected && 'selected bg-neutral/5'
+            } [&:not(.selected)]:hover:bg-neutral/4 `}
             onClick={onSelectParticipant}
         >
             <div className="flex items-center gap-2">

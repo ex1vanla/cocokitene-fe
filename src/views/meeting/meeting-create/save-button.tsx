@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import { FETCH_STATUS, urlRegex } from '@/constants/common'
 import serviceMeeting from '@/services/meeting'
 import { ICreateMeetingPayload } from '@/services/request.type'
@@ -5,17 +6,22 @@ import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import { ICreateMeeting } from '@/stores/meeting/types'
 import { Button, Spin, notification } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const SaveCreateMeetingButton = () => {
     const t = useTranslations()
     const [data, , resetData] = useCreateMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
+    const router = useRouter()
 
     const onValidate = (data: ICreateMeeting) => {
         const payload = {
             ...data,
-            meetingLink: data.meetingLink,
+            meetingLink:
+                data.meetingLink && !data.meetingLink.startsWith('https://')
+                    ? `https://${data.meetingLink}`
+                    : data.meetingLink,
             hosts: data.hosts.map((i) => i.id),
             controlBoards: data.controlBoards.map((i) => i.id),
             shareholders: data.shareholders.map((i) => i.id),
@@ -76,14 +82,15 @@ const SaveCreateMeetingButton = () => {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
                 const res = await serviceMeeting.createMeeting(validate.payload)
-                console.log('🚀 ~ file: save-button.tsx:77 ~ res:', res)
                 notification.success({
                     message: 'Created',
                     description: 'Create meeting successfully!',
                 })
 
                 resetData()
+
                 setStatus(FETCH_STATUS.SUCCESS)
+                router.push('/meeting')
             })()
         } catch (error) {
             notification.error({

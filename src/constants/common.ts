@@ -62,4 +62,4 @@ export enum FETCH_STATUS {
 export const ACCESS_TOKEN_KEY = 'ACCESS_TOKEN'
 
 export const urlRegex =
-    /(www\.)?[\w-]+\.[a-z]{2,}(?:\.[a-z]{2,})?([/\w-./?%&=]*)?$/
+    /^(https?:\/\/)?((?!\/\/)[\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/
