@@ -1,5 +1,8 @@
 import { RootState, useAppDispatch, useAppSelector } from '@/stores'
-import { updateCreateMeetingInformation } from '@/stores/meeting/createSlice'
+import {
+    resetCreateMeetingData,
+    updateCreateMeetingInformation,
+} from '@/stores/meeting/createSlice'
 import { ICreateMeeting } from '@/stores/meeting/types'
 import { useCallback } from 'react'
 
@@ -7,6 +10,7 @@ export function useCreateMeetingInformation(): [
     ICreateMeeting,
     // eslint-disable-next-line
     (data: ICreateMeeting) => void,
+    () => void,
 ] {
     const dispatch = useAppDispatch()
     const data = useAppSelector((state: RootState) => state.meetingCreate)
@@ -18,5 +22,9 @@ export function useCreateMeetingInformation(): [
         [dispatch],
     )
 
-    return [data, setCreateMeetingInformation]
+    const resetData = useCallback(() => {
+        dispatch(resetCreateMeetingData())
+    }, [dispatch])
+
+    return [data, setCreateMeetingInformation, resetData]
 }

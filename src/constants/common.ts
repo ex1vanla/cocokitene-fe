@@ -51,3 +51,15 @@ export enum AvatarBgHexColors {
     CYAN = '#13C2C2',
     GOLDEN_PURPLE = '#722ED1',
 }
+
+export enum FETCH_STATUS {
+    IDLE = 'IDLE',
+    LOADING = 'LOADING',
+    SUCCESS = 'SUCCESS',
+    ERROR = 'ERROR',
+}
+
+export const ACCESS_TOKEN_KEY = 'ACCESS_TOKEN'
+
+export const urlRegex =
+    /^(https?:\/\/)?((?!\/\/)[\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/

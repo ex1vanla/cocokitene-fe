@@ -1,9 +1,73 @@
-import { ICreateMeeting } from '@/stores/meeting/types'
+import { ResolutionType } from '@/constants/resolution'
+import { ICreateMeeting, IMeetingResolution } from '@/stores/meeting/types'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 const initialState: ICreateMeeting = {
     title: '',
-    link: '',
+    meetingLink: '',
+    startTime: new Date().toISOString(),
+    endTime: new Date().toISOString(),
+    meetingReports: [],
+    meetingInvitations: [],
+    resolutions: [
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.RESOLUTION,
+        },
+    ],
+    amendmentResolutions: [
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.AMENDMENT_RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.AMENDMENT_RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.AMENDMENT_RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.AMENDMENT_RESOLUTION,
+        },
+        {
+            title: '',
+            description: '',
+            type: ResolutionType.AMENDMENT_RESOLUTION,
+        },
+    ],
+    hosts: [],
+    controlBoards: [],
+    directors: [],
+    administrativeCouncils: [],
+    shareholders: [],
 }
 
 // export const getLastPriceList = createAsyncThunk<
@@ -40,12 +104,29 @@ export const meetingCreateSlice = createSlice({
             state: ICreateMeeting,
             action: PayloadAction<ICreateMeeting>,
         ) => {
-            state.title = action.payload.title
-            state.link = action.payload.link
+            // state.title = action.payload.title
+            // state.link = action.payload.link]
+            return action.payload
+        },
+
+        updateCreateMeetingResolution: (
+            state: ICreateMeeting,
+            action: PayloadAction<{ data: IMeetingResolution; index: number }>,
+        ) => {
+            // state.title = action.payload.title
+            // state.link = action.payload.link]
+            state.resolutions[action.payload.index] = action.payload.data
+        },
+        resetCreateMeetingData: () => {
+            return initialState
         },
     },
 })
 
-export const { updateCreateMeetingInformation } = meetingCreateSlice.actions
+export const {
+    updateCreateMeetingInformation,
+    updateCreateMeetingResolution,
+    resetCreateMeetingData,
+} = meetingCreateSlice.actions
 
 export default meetingCreateSlice.reducer

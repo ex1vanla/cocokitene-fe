@@ -1,18 +1,22 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { instance } from './axios';
+// import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { instance } from './axios'
 // import serviceUser from './user'
-import serviceUser from './user';
-import { ApiResponse } from './response.type';
+import serviceUser from './user'
+import { ApiResponse } from './response.type'
 
 type Obj = { [key: string]: any }
 
 instance.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-        const accessToken = serviceUser.getAccessTokenStorage();
-        if (!!accessToken && config.headers && !config.headers['Authorization']) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;
+    (config) => {
+        const accessToken = serviceUser.getAccessTokenStorage()
+        if (
+            !!accessToken &&
+            config.headers &&
+            !config.headers['Authorization']
+        ) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`
         }
-        return config;
+        return config
     },
     (error) => {
         return Promise.reject(error)
@@ -20,27 +24,27 @@ instance.interceptors.request.use(
 )
 
 instance.interceptors.response.use(
-    (response: AxiosResponse<ApiResponse>) => {
-        const { status, data } = response;
+    (response) => {
+        const { status, data } = response
 
         if (status === 200 || status === 201) {
-            return data;
+            return data
         }
 
-        return Promise.reject(data); 
+        return Promise.reject(data)
     },
     async (error: any) => {
-        const prevRequest = error?.config;
+        const prevRequest = error?.config
         if (error?.response?.status === 401 && !prevRequest?.sent) {
-            prevRequest.sent = true;
-            const newAccessToken = await serviceUser.getRefreshToken();
-            prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-            return instance(prevRequest);
+            prevRequest.sent = true
+            const newAccessToken = await serviceUser.getRefreshToken()
+            prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
+            return instance(prevRequest)
         }
 
-        return Promise.reject(error);
+        return Promise.reject(error)
     },
-);
+)
 
 function get<T, R = ApiResponse<T>>(route: string, params?: Obj): Promise<R> {
     return instance.get(route, { params })
@@ -93,5 +97,4 @@ function upload<T, R = ApiResponse<T>>(
     return instance.post(route, formData)
 }
 
-export { del, get, patch, post, put, upload };
-
+export { del, get, patch, post, put, upload }

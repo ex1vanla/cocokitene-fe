@@ -1,9 +1,33 @@
-import { MeetingType } from "@/constants/meeting"
-import { EActionStatus } from "../type"
+import { MeetingType } from '@/constants/meeting'
+import { EActionStatus } from '../type'
+import { IParticipants } from '@/components/participant-selector'
+import { ResolutionType } from '@/constants/resolution'
 
 export interface ICreateMeeting {
     title: string
-    link: string
+    meetingLink: string
+    startTime: string
+    endTime: string
+    meetingReports: IMeetingDocument[]
+    meetingInvitations: IMeetingDocument[]
+    resolutions: IMeetingResolution[]
+    amendmentResolutions: IMeetingResolution[]
+    hosts: IParticipants[]
+    controlBoards: IParticipants[]
+    directors: IParticipants[]
+    administrativeCouncils: IParticipants[]
+    shareholders: IParticipants[]
+}
+
+export interface IMeetingDocument {
+    url: string
+    fileType: string
+}
+
+export interface IMeetingResolution {
+    title: string
+    description: string
+    type: ResolutionType
 }
 
 export interface IMeeting {
@@ -29,5 +53,5 @@ export interface IMeetingState extends IGetAllMeetingQuery {
     meetingFutureList: IMeeting[]
     meetingPassList: IMeeting[]
     totalFutureMeetingItem: number
-    totalPassMeetingItem : number
+    totalPassMeetingItem: number
 }
