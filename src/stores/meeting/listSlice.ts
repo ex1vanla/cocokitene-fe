@@ -1,8 +1,13 @@
 import { MeetingType } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '../type'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import serviceMeeting from '@/services/meeting'
-import { IGetAllMeetingQuery, IMeeting, IMeetingState } from './types'
+import {
+    IGetAllMeetingQuery,
+    IMeeting,
+    IMeetingState,
+    ListParamsFilter,
+} from './types'
 import { AxiosError } from 'axios'
 import { IGetAllDataReponse } from '@/services/response.type'
 
@@ -14,8 +19,11 @@ const initialState: IMeetingState = {
     limit: 8,
     totalFutureMeetingItem: 0,
     totalPassMeetingItem: 0,
-    searchQuery: '',
-    sortOrder: 'ASC',
+    filter: {
+        searchQuery: '',
+        sortOrder: 'ASC',
+        sortField: 'startTime',
+    },
     type: MeetingType.MEETING_FUTURE,
 }
 
@@ -27,13 +35,13 @@ export const getAllMeetings = createAsyncThunk<
     }
 >('meeting/getFutureMeetingAll', async ({ param }, { rejectWithValue }) => {
     try {
-        const { page, limit, type, searchQuery, sortOrder } = param
+        const { page, limit, type, filter } = param
+        console.log("filter", filter)
         const data = await serviceMeeting.getAllMeetings({
             type,
             page,
             limit,
-            searchQuery,
-            sortOrder,
+            filter: {...filter},
         })
         return data
     } catch (error) {
@@ -54,13 +62,12 @@ export const getAllPassMeetings = createAsyncThunk<
     }
 >('meeting/getPassMeetingAll', async ({ param }, { rejectWithValue }) => {
     try {
-        const { page, limit, type, searchQuery, sortOrder } = param
+        const { page, limit, type, filter } = param
         const data = await serviceMeeting.getAllMeetings({
             type,
             page,
             limit,
-            searchQuery,
-            sortOrder,
+            filter: {...filter},
         })
         return data
     } catch (error) {
@@ -76,7 +83,11 @@ export const getAllPassMeetings = createAsyncThunk<
 const meetingListSlice = createSlice({
     name: 'meetingListSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        setFilter(state, action: PayloadAction<ListParamsFilter>) {
+            state.filter = action.payload
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getAllMeetings.pending, (state) => {
@@ -105,5 +116,7 @@ const meetingListSlice = createSlice({
             })
     },
 })
+
+export const { setFilter } = meetingListSlice.actions
 
 export default meetingListSlice.reducer

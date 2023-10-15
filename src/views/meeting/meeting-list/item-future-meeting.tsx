@@ -26,7 +26,7 @@ const ItemFutureMeeting = ({
     const [isModalOpen, setIsModalOpen] = useState(false)
     const dispatch = useAppDispatch()
 
-    const showModal = (idMeeting: number) => {
+    const showModal = () => {
         setIsModalOpen(true)
     }
 
@@ -61,10 +61,7 @@ const ItemFutureMeeting = ({
                 </Col>
                 <Col span={2} className="flex items-center ">
                     <Text>
-                        {formatDate(
-                            meetings_start_time.toString(),
-                            'YYYY-MM-DD',
-                        )}
+                        {formatDate(meetings_start_time.toString(), 'YYYY-MM-DD')}
                     </Text>
                 </Col>
                 <Col span={8} className="flex items-center">
@@ -97,7 +94,7 @@ const ItemFutureMeeting = ({
                         <Button
                             type="primary"
                             size="middle"
-                            onClick={() => showModal(meetings_id)}
+                            onClick={() => showModal()}
                         >
                             {t('BTN_JOIN')}
                         </Button>
@@ -106,7 +103,6 @@ const ItemFutureMeeting = ({
                             disabled
                             type="primary"
                             size="middle"
-                            onClick={() => showModal(meetings_id)}
                         >
                             {t('JOINED')}
                         </Button>

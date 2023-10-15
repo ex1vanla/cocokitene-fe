@@ -45,12 +45,17 @@ export interface IMeeting {
     meetings_status_meeting_happen: string
 }
 
+export interface ListParamsFilter{
+    searchQuery?: string
+    sortOrder?: string
+    sortField?: string
+}
+
 export interface IGetAllMeetingQuery {
     page: number
     limit: number
     type: MeetingType
-    searchQuery?: string
-    sortOrder?: string
+    filter?: ListParamsFilter
 }
 
 export interface IMeetingState extends IGetAllMeetingQuery {

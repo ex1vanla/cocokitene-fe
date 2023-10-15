@@ -14,7 +14,7 @@ interface ListFutureMeetingProps {
 }
 
 const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
-    const { page, limit, totalFutureMeetingItem } = useSelector(
+    const { page, limit, filter, totalFutureMeetingItem } = useSelector(
         (state: RootState) => state.meetingList,
     )
     const dispatch = useAppDispatch()
@@ -22,10 +22,13 @@ const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
     const handlePageChange = (pageChange: number) => {
         dispatch(
             getAllMeetings({
-                page: pageChange,
-                limit,
-                type: MeetingType.MEETING_FUTURE,
-            }) as any,
+                param: {
+                    page: pageChange,
+                    limit,
+                    type: MeetingType.MEETING_FUTURE,
+                    filter: {...filter}
+                },
+            }),
         )
     }
     return (

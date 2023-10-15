@@ -1,10 +1,10 @@
 import ListTitle from '@/components/content-page-title/list-title'
-import { MeetingType, SORT } from '@/constants/meeting'
+import { MeetingType, SORT, UserJoinMeetingStatusEnum } from '@/constants/meeting'
 import { useNotification } from '@/hooks/use-notification'
 import useDebounce from '@/hooks/useDebounce'
 import { RootState, useAppDispatch } from '@/stores'
 import { resetStatusMeeting } from '@/stores/attendance/slice'
-import { getAllMeetings, getAllPassMeetings } from '@/stores/meeting/listSlice'
+import { getAllMeetings, getAllPassMeetings, setFilter } from '@/stores/meeting/listSlice'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
@@ -14,13 +14,14 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const MeetingList = () => {
+    const t = useTranslations()
+    const router = useRouter()
     const { statusMeeting, meetingIdJoin } = useSelector(
         (state: RootState) => state.attendance,
     )
     const { openNotification, contextHolder } = useNotification()
     const [keywordSearch, setKeywordSearch] = useState<string>('')
-    const [sort, setSort] = useState<string>('ASC')
-    const { page, limit, meetingFutureList, meetingPassList } = useSelector(
+    const { page, limit, filter, meetingFutureList, meetingPassList } = useSelector(
         (state: RootState) => state.meetingList,
     )
     const searchDebounceValue = useDebounce(keywordSearch, 300)
@@ -31,8 +32,7 @@ const MeetingList = () => {
                     page,
                     limit,
                     type: MeetingType.MEETING_FUTURE,
-                    searchQuery: searchDebounceValue?.trim(),
-                    sortOrder: 'ASC',
+                    filter: {...filter}
             }}),
         )
 
@@ -40,37 +40,33 @@ const MeetingList = () => {
             getAllPassMeetings({param: {
                 page,
                 limit,
-                type: MeetingType.MEETING_FUTURE,
-                searchQuery: searchDebounceValue?.trim(),
-                sortOrder: 'ASC',
+                type: MeetingType.MEETING_PASS,
+                filter: {...filter}
         }}),
         )
-    }, [dispatch, searchDebounceValue])
+    }, [dispatch, filter])
 
     const handleInputChange = (value: string) => {
-        setKeywordSearch(value)
+        dispatch(setFilter({...filter, searchQuery: value}))
     }
 
     const handleSelectChange = (value: string) => {
-        value == SORT.ASC ? setSort(SORT.ASC) : setSort(SORT.DESC)
+        dispatch(setFilter({...filter, sortOrder: value}))
     }
 
-    const t = useTranslations()
-    const router = useRouter()
-
     useEffect(() => {
-        if (statusMeeting === 0) {
+        if (statusMeeting === UserJoinMeetingStatusEnum.USER_JOIN_WHEN_MEETING_IS_NOT_START) {
             openNotification({
                 message: t('MESSAGE_MEETING_NOT_START_YET'),
                 placement: 'bottomRight',
                 type: 'info',
             })
         }
-        if (statusMeeting === 1 && meetingIdJoin != null) {
+        if (statusMeeting === UserJoinMeetingStatusEnum.USER_JOIN_MEETING_WHEN_MEETING_START_A_LITTLE && meetingIdJoin != null) {
             dispatch(resetStatusMeeting({meetingId: 1}));
             router.push("/meeting/detail/" + meetingIdJoin);
         }
-        if(statusMeeting === 2) {
+        if(statusMeeting === UserJoinMeetingStatusEnum.MEETING_WAS_CANCEL) {
             openNotification({
                 message: t('MESSAGE_MEETING_CANCELED'),
                 placement: 'bottomRight',

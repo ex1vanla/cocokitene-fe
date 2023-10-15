@@ -50,7 +50,6 @@ const ItemPastMeeting = ({
                 </Link>
             </Col>
             <Col span={2} className="flex items-center pl-3">
-                {/* <li className="text-green-500">Done</li> */}
                 {meetings_status_meeting_happen == '0' ? (
                     <li className="text-red-500">{t('PENDING')}</li>
                 ) : (

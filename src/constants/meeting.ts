@@ -24,6 +24,13 @@ export enum MeetingStatus {
     DELAYED = '4',
 }
 
+export enum UserJoinMeetingStatusEnum {
+    USER_JOIN_WHEN_MEETING_IS_NOT_START = 0,
+    USER_JOIN_MEETING_WHEN_MEETING_START_A_LITTLE = 1,
+    MEETING_WAS_CANCEL = 2,
+    MEETING_WAS_DELAYED = 3,
+}
+
 export enum FileType {
     PDF = 'PDF',
     EXCEL = 'EXCEL',

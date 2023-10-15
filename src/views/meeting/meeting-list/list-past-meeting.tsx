@@ -14,7 +14,7 @@ interface ListPastMeetingProps {
 }
 
 const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
-    const { page, limit, totalPassMeetingItem } = useSelector(
+    const { page, limit, filter, totalPassMeetingItem } = useSelector(
         (state: RootState) => state.meetingList,
     )
     const dispatch = useAppDispatch()
@@ -22,10 +22,13 @@ const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
     const handlePageChange = (pageChange: number) => {
         dispatch(
             getAllPassMeetings({
-                page: pageChange,
-                limit,
-                type: MeetingType.MEETING_PASS,
-            }) as any,
+                param: {
+                    page: pageChange,
+                    limit,
+                    type: MeetingType.MEETING_PASS,
+                    filter: {...filter}
+                },
+            }),
         )
     }
     return (

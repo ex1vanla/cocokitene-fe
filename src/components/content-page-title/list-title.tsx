@@ -51,13 +51,13 @@ const ListTitle = ({
 
                 <Select
                     className="w-[200px]"
-                    defaultValue={t('SORT_NEWEST_MEETING')}
+                    defaultValue={t('SORT_OLDEST_MEETING')}
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChangeSelect}
                     options={[
-                        { value: SORT.ASC, label: t('SORT_NEWEST_MEETING') },
-                        { value: SORT.DESC, label: t('SORT_OLDEST_MEETING') },
+                        { value: SORT.ASC, label: t('SORT_OLDEST_MEETING') },
+                        { value: SORT.DESC, label: t('SORT_NEWEST_MEETING') },
                     ]}
                 />
 
