@@ -31,8 +31,10 @@ const ConnectWallet = () => {
         if (signMessageData && signMessageData != null) {
             dispatch(
                 login({
-                    walletAddress: address ?? '',
-                    signature: signMessageData,
+                    param: {
+                        walletAddress: address ?? '',
+                        signature: signMessageData,
+                    },
                 }),
             )
         }
