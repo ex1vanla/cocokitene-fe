@@ -36,7 +36,6 @@ export const getAllMeetings = createAsyncThunk<
 >('meeting/getFutureMeetingAll', async ({ param }, { rejectWithValue }) => {
     try {
         const { page, limit, type, filter } = param
-        console.log("filter", filter)
         const data = await serviceMeeting.getAllMeetings({
             type,
             page,
