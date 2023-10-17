@@ -1,13 +1,15 @@
-import { EActionStatus } from "../type";
+/* eslint-disable */
+
+import { EActionStatus } from '../type'
 
 export interface IAttendanceState {
-    status: EActionStatus;
-    statusMeeting: any;
-    meetingIdJoin: number | null;
+    status: EActionStatus
+    statusMeeting: any
+    meetingIdJoin: number | null
 }
 
 export interface IAttendanceMeeting {
-    userJoinMeetingStatus: UserMeetingStatusEnum;
+    userJoinMeetingStatus: UserMeetingStatusEnum
 }
 
 export enum UserMeetingStatusEnum {

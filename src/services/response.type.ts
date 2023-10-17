@@ -1,4 +1,11 @@
 import { IParticipants } from '@/components/participant-selector'
+import {
+    MeetingFileType,
+    MeetingStatus,
+    ResolutionType,
+} from '@/constants/meeting'
+import { VoteProposalResult } from '@/constants/resolution'
+import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
 export interface IMeta {
     totalItems: number
@@ -14,13 +21,13 @@ export interface IGetAllDataReponse<T> {
 }
 
 export interface ApiResponse<T = {}> {
-    success: boolean
-    code?: string | number
-    data?: T
-    message?: string
+    code: string | number
+    data: T
+    metadata: {
+        timestamp: Date
+        query: unknown
+    }
 }
-
-export type DataResponse<Data = null, Error = any> = [Data, Error]
 
 export interface IUploadResponse {
     uploadUrls: string[]
@@ -29,4 +36,58 @@ export interface IUploadResponse {
 export interface IAccountListResponse {
     items: IParticipants[]
     meta: IMeta
+}
+
+export interface IMeetingFileResponse {
+    id: number
+    url: string
+    meetingId: number
+    fileType: MeetingFileType
+}
+
+export interface IProposalResponse {
+    id: number
+    title: string
+    description: string
+    type: ResolutionType
+    votedQuantity: number | null
+    unVotedQuantity: number | null
+    notVoteYetQuantity: number | null
+    voteResult: VoteProposalResult
+    meetingId: number
+    creatorId: number
+}
+
+export interface IUserMeetingResponse {
+    id: number
+    status: UserMeetingStatusEnum
+    user: {
+        id: number
+        username: string
+        email: string
+        avatar: string | null
+        defaultAvatarHashColor: string | null
+    }
+}
+
+export interface IMeetingDetailResponse {
+    id: number
+    title: string
+    startTime: string
+    endTime: string
+    meetingLink: string
+    status: MeetingStatus
+    companyId: number
+    creatorId: number
+    meetingFiles: IMeetingFileResponse[]
+    proposals: IProposalResponse[]
+    hosts: IUserMeetingResponse[]
+    controlBoards: IUserMeetingResponse[]
+    directors: IUserMeetingResponse[]
+    administrativeCouncils: IUserMeetingResponse[]
+    shareholders: IUserMeetingResponse[]
+    shareholdersTotal: number
+    shareholdersJoined: number
+    votedMeetingShares: number
+    totalMeetingShares: number
 }

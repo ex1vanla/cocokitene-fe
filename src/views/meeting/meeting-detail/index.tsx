@@ -1,16 +1,36 @@
 import DetailTitle from '@/components/content-page-title/detail-title'
+import Loader from '@/components/loader'
+import { useMeetingDetail } from '@/stores/meeting/hooks'
+import { EActionStatus } from '@/stores/type'
 import AmendmentResolutions from '@/views/meeting/meeting-detail/amendment-resolutions'
 import DetailInformation from '@/views/meeting/meeting-detail/detail-information'
 import Documents from '@/views/meeting/meeting-detail/documents'
 import Participants from '@/views/meeting/meeting-detail/participants'
 import Resolutions from '@/views/meeting/meeting-detail/resolutions'
 import SendEmailButton from '@/views/meeting/meeting-detail/send-email-button'
+import { useParams } from 'next/navigation'
+import { useEffect } from 'react'
 
 const MeetingDetail = () => {
+    const [{ meeting, status }, fetchMeetingDetail] = useMeetingDetail()
+
+    const params = useParams()
+
+    const meetingId = Number(params.id)
+
+    useEffect(() => {
+        if (meetingId) {
+            fetchMeetingDetail(meetingId)
+        }
+    }, [meetingId, fetchMeetingDetail])
+
+    if (!meeting || status === EActionStatus.Pending) {
+        return <Loader />
+    }
     return (
         <div>
             <DetailTitle
-                pageName={'2nd Ordinary General Meeting of Shareholders'}
+                pageName={meeting.title}
                 extraButton={<SendEmailButton />}
             />
             <div className="flex flex-col gap-6 p-6">

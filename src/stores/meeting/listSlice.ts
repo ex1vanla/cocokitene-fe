@@ -74,7 +74,7 @@ export const getAllPassMeetings = createAsyncThunk<
 })
 
 const meetingListSlice = createSlice({
-    name: 'meeting',
+    name: 'meetingListSlice',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -86,7 +86,7 @@ const meetingListSlice = createSlice({
                 state.status = EActionStatus.Succeeded
                 state.meetingFutureList = action.payload?.items ?? []
                 state.totalFutureMeetingItem =
-                    action.payload?.meta.totalItems ?? 0
+                    action.payload?.meta?.totalItems ?? 0
             })
             .addCase(getAllMeetings.rejected, (state) => {
                 state.status = EActionStatus.Failed
@@ -98,7 +98,7 @@ const meetingListSlice = createSlice({
                 state.status = EActionStatus.Succeeded
                 state.meetingPassList = action.payload?.items ?? []
                 state.totalPassMeetingItem =
-                    action.payload?.meta.totalItems ?? 0
+                    action.payload?.meta?.totalItems ?? 0
             })
             .addCase(getAllPassMeetings.rejected, (state) => {
                 state.status = EActionStatus.Failed

@@ -17,8 +17,11 @@ export enum MeetingType {
 }
 
 export enum MeetingStatus {
-    MEETING_FUTURE = 'Future',
-    MEETING_IN_PROGRESS = 'In Progress',
+    NOT_HAPPEN = '0',
+    HAPPENING = '1',
+    HAPPENED = '2',
+    CANCELED = '3',
+    DELAYED = '4',
 }
 
 export enum FileType {

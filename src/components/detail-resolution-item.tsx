@@ -1,4 +1,5 @@
-import { Resolution } from '@/constants/resolution'
+import { Resolution, VoteProposalResult } from '@/constants/resolution'
+import { formatNumber } from '@/utils/format-number'
 import { Radio, RadioChangeEvent, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
@@ -8,6 +9,7 @@ const { Text } = Typography
 interface IDetailResolutionItem extends Resolution {
     index: number
     percentVoted: number
+    voteResult: VoteProposalResult
 }
 
 const DetailResolutionItem = ({
@@ -15,8 +17,9 @@ const DetailResolutionItem = ({
     title,
     content,
     percentVoted,
+    voteResult,
 }: IDetailResolutionItem) => {
-    const [value, setValue] = useState(1)
+    const [value, setValue] = useState(voteResult)
 
     const t = useTranslations()
 
@@ -39,13 +42,22 @@ const DetailResolutionItem = ({
             </div>
             <div className="flex items-center gap-8">
                 <div className="flex items-center gap-2">
-                    <Text className="text-polar-green">{percentVoted}%</Text>
+                    <Text className="text-polar-green">
+                        {formatNumber(percentVoted, {
+                            maximumFractionDigits: 1,
+                        })}
+                        %
+                    </Text>
                     <Text className="text-black-45">{t('VOTED')}</Text>
                 </div>
                 <Radio.Group onChange={onChange} value={value}>
-                    <Radio value={1}>{t('VOTED')}</Radio>
-                    <Radio value={2}>{t('UNVOTED')}</Radio>
-                    <Radio value={3}>{t('NO_IDEA')}</Radio>
+                    <Radio value={VoteProposalResult.VOTE}>{t('VOTED')}</Radio>
+                    <Radio value={VoteProposalResult.UN_VOTE}>
+                        {t('UNVOTED')}
+                    </Radio>
+                    <Radio value={VoteProposalResult.NO_IDEA}>
+                        {t('NO_IDEA')}
+                    </Radio>
                 </Radio.Group>
             </div>
         </div>

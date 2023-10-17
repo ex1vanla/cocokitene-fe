@@ -1,7 +1,12 @@
-import { MeetingType } from '@/constants/meeting'
-import { EActionStatus } from '../type'
+import {
+    MeetingFileType,
+    MeetingStatus,
+    MeetingType,
+} from '@/constants/meeting'
+import { EActionStatus, FetchError } from '../type'
 import { IParticipants } from '@/components/participant-selector'
-import { ResolutionType } from '@/constants/resolution'
+import { ResolutionType, VoteProposalResult } from '@/constants/resolution'
+import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
 export interface ICreateMeeting {
     title: string
@@ -54,4 +59,71 @@ export interface IMeetingState extends IGetAllMeetingQuery {
     meetingPassList: IMeeting[]
     totalFutureMeetingItem: number
     totalPassMeetingItem: number
+}
+
+export interface IMeetingFile {
+    id: number
+    url: string
+    meetingId: number
+    fileType: MeetingFileType
+}
+
+export interface IProposal {
+    id: number
+    title: string
+    description: string
+    type: ResolutionType
+    votedQuantity: number | null
+    unVotedQuantity: number | null
+    notVoteYetQuantity: number | null
+    voteResult: VoteProposalResult
+    meetingId: number
+    creatorId: number
+}
+
+export interface IUserMeeting {
+    id: number
+    status: UserMeetingStatusEnum
+    user: {
+        id: number
+        username: string
+        email: string
+        avatar: string | null
+        defaultAvatarHashColor: string | null
+    }
+}
+
+export interface IMeetingDetail {
+    id: number
+    title: string
+    startTime: string
+    endTime: string
+    meetingLink: string
+    status: MeetingStatus
+    companyId: number
+    creatorId: number
+    meetingFiles: IMeetingFile[]
+    proposals: IProposal[]
+    hosts: IUserMeeting[]
+    controlBoards: IUserMeeting[]
+    directors: IUserMeeting[]
+    administrativeCouncils: IUserMeeting[]
+    shareholders: IUserMeeting[]
+    shareholdersTotal: number
+    shareholdersJoined: number
+    votedMeetingShares: number
+    totalMeetingShares: number
+}
+
+export type KeyRoles =
+    | 'hosts'
+    | 'controlBoards'
+    | 'directors'
+    | 'administrativeCouncils'
+    | 'shareholders'
+
+export interface IDetailMeetingState {
+    status: EActionStatus
+    meeting: IMeetingDetail | undefined
+    error: FetchError | undefined
 }

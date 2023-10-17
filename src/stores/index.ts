@@ -1,31 +1,21 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import { useMemo } from 'react'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 
 import {
-    persistStore,
-    persistReducer,
     FLUSH,
-    REHYDRATE,
     PAUSE,
     PERSIST,
     PURGE,
     REGISTER,
+    REHYDRATE,
+    persistReducer,
+    persistStore,
 } from 'redux-persist'
 
 import storage from 'redux-persist/lib/storage'
 
-import authReducer from '@/stores/auth/slice'
-import meetingCreateReducer from '@/stores/meeting/createSlice'
-import meetingListReducer from '@/stores/meeting/listSlice'
-import attendanceReducer from '@/stores/attendance/slice'
-
-const reducer = combineReducers({
-    auth: authReducer,
-    meetingCreate: meetingCreateReducer,
-    meetingList: meetingListReducer,
-    attendance: attendanceReducer
-})
+import rootReducer from '@/stores/reducers'
 
 const PERSIST_CONFIG_VERSION = 1
 const PERSISTED_KEYS: string[] = ['']
@@ -37,7 +27,7 @@ const persistConfig = {
     whitelist: PERSISTED_KEYS,
 }
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 // eslint-disable-next-line import/no-mutable-exports
 let store: ReturnType<typeof makeStore> | undefined

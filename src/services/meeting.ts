@@ -1,4 +1,8 @@
-import { IGetAllDataReponse, IUploadResponse } from './response.type'
+import {
+    IGetAllDataReponse,
+    IMeetingDetailResponse,
+    IUploadResponse,
+} from './response.type'
 import { get, post } from './fetcher'
 import { IGetAllMeetingQuery, IMeeting } from '@/stores/meeting/types'
 import { ICreateMeetingPayload } from './request.type'
@@ -21,12 +25,13 @@ const serviceMeeting = {
 
         return response.data
     },
-    createMeeting: async (
-        payload: ICreateMeetingPayload,
-    ): Promise<IUploadResponse> => {
-        const response: { data: IUploadResponse } = await post(
-            '/meetings',
-            payload,
+    createMeeting: async (payload: ICreateMeetingPayload) => {
+        const response = await post<IUploadResponse>('/meetings', payload)
+        return response.data
+    },
+    getDetailMeeting: async (meetingId: number) => {
+        const response = await get<IMeetingDetailResponse>(
+            `/meetings/${meetingId}`,
         )
         return response.data
     },
