@@ -1,45 +1,19 @@
 import BoxArea from '@/components/box-area'
 import { PdfIcon } from '@/components/svgs'
-import { MeetingResourceType, FileType } from '@/constants/meeting'
+import {
+    MeetingResourceType,
+    FileType,
+    MeetingFileType,
+} from '@/constants/meeting'
+import { useMeetingDetail, useMeetingFiles } from '@/stores/meeting/hooks'
+import { truncateString } from '@/utils/format-string'
 import { Col, Row, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 
 const { Text } = Typography
 
-const data1 = [
-    {
-        url: 'meeting2023.pdf',
-        type: FileType.PDF,
-    },
-    {
-        url: 'meeting2024.pdf',
-        type: FileType.PDF,
-    },
-    {
-        url: 'meeting2025.pdf',
-        type: FileType.PDF,
-    },
-]
-
-const data2 = [
-    {
-        url: 'recordmeeting2023.pdf',
-        type: FileType.PDF,
-    },
-    {
-        url: 'recordmeeting2024.pdf',
-        type: FileType.PDF,
-    },
-]
-
-const data3 = [
-    {
-        url: 'zoom.us/meeting/28102hakdna0120',
-        type: FileType.LINK,
-    },
-]
-
-interface MeetingResource {
+export interface MeetingResource {
     url: string
     type: FileType
 }
@@ -58,10 +32,39 @@ const Resource = ({ url, type }: MeetingResource) => {
                 return null
         }
     }
+
+    const getShortNameFromUrl = () => {
+        const splitUrl = url.split('/')
+
+        if (
+            splitUrl.some((text) =>
+                Object.values(MeetingFileType).includes(
+                    text as MeetingFileType,
+                ),
+            )
+        ) {
+            const shortName = url.split('/').at(-1)
+            return shortName
+        }
+
+        return url
+    }
+
     return (
         <div className="flex items-center gap-2">
             {getIconFromFileType()}
-            <Text className="cursor-pointer text-primary">{url}</Text>
+            <Link href={url} target="_blank">
+                <Text
+                    title={getShortNameFromUrl()}
+                    className="cursor-pointer text-primary"
+                >
+                    {truncateString({
+                        text: getShortNameFromUrl() as string,
+                        start: 5,
+                        end: 15,
+                    })}
+                </Text>
+            </Link>
         </div>
     )
 }
@@ -86,7 +89,13 @@ const DocumentList = ({ meetingResourceType, resources }: IDocumentList) => {
 }
 
 const Documents = () => {
+    const [{ meeting }] = useMeetingDetail()
+
+    const { invitations, minutes } = useMeetingFiles()
+
     const t = useTranslations()
+
+    if (!meeting) return null
 
     return (
         <BoxArea title={t('DOCUMENTS')}>
@@ -96,7 +105,7 @@ const Documents = () => {
                         meetingResourceType={
                             MeetingResourceType.MEETING_INVITATIONS
                         }
-                        resources={data1}
+                        resources={invitations}
                     />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
@@ -104,13 +113,18 @@ const Documents = () => {
                         meetingResourceType={
                             MeetingResourceType.MEETING_MINUTES
                         }
-                        resources={data2}
+                        resources={minutes}
                     />
                 </Col>
                 <Col xs={24} md={12} lg={8}>
                     <DocumentList
                         meetingResourceType={MeetingResourceType.MEETING_LINKS}
-                        resources={data3}
+                        resources={[
+                            {
+                                url: meeting.meetingLink,
+                                type: FileType.LINK,
+                            },
+                        ]}
                     />
                 </Col>
             </Row>

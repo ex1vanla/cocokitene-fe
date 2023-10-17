@@ -1,5 +1,8 @@
+import BoxArea from '@/components/box-area'
 import { LikeIcon, ShareholdersIcon } from '@/components/svgs'
+import { useMeetingDetail } from '@/stores/meeting/hooks'
 import { Col, Row, Typography } from 'antd'
+import moment from 'moment'
 import { useTranslations } from 'next-intl'
 import { ReactNode } from 'react'
 
@@ -58,26 +61,61 @@ export const BoxGeneralInformation = ({
 }
 
 const DetailInformation = () => {
+    const [{ meeting }] = useMeetingDetail()
+
     const t = useTranslations()
+
+    if (!meeting) return null
+
     return (
-        <Row gutter={[16, 24]}>
-            <Col xs={24} lg={12}>
-                <BoxGeneralInformation
-                    icon={<LikeIcon fill1="#EFEFFF" fill2="#5151E5" />}
-                    title={t('TOTAL_VOTES_BY_SHAREHOLDERS')}
-                    realNumber={900}
-                    totalNumber={1200}
-                />
-            </Col>
-            <Col xs={24} lg={12}>
-                <BoxGeneralInformation
-                    icon={<ShareholdersIcon fill1="#EFEFFF" fill2="#5151E5" />}
-                    title={t('TOTAL_SHAREHOLDERS_JOINED')}
-                    realNumber={1000}
-                    totalNumber={1200}
-                />
-            </Col>
-        </Row>
+        <>
+            <Row gutter={[16, 24]}>
+                <Col xs={24} lg={12}>
+                    <BoxGeneralInformation
+                        icon={<LikeIcon fill1="#EFEFFF" fill2="#5151E5" />}
+                        title={t('TOTAL_VOTES_BY_SHAREHOLDERS')}
+                        realNumber={meeting.votedMeetingShares}
+                        totalNumber={meeting.totalMeetingShares}
+                    />
+                </Col>
+                <Col xs={24} lg={12}>
+                    <BoxGeneralInformation
+                        icon={
+                            <ShareholdersIcon fill1="#EFEFFF" fill2="#5151E5" />
+                        }
+                        title={t('TOTAL_SHAREHOLDERS_JOINED')}
+                        realNumber={meeting.shareholdersJoined}
+                        totalNumber={meeting.shareholdersTotal}
+                    />
+                </Col>
+                <Col xs={24} lg={24}>
+                    <BoxArea title={t('MEETING_INFORMATION')}>
+                        <div className="flex gap-6">
+                            <div className="flex gap-3">
+                                <Text className="text-black-45">
+                                    {t('START_TIME')}:
+                                </Text>
+                                <div className="flex flex-col gap-1">
+                                    {moment(meeting.startTime).format(
+                                        'YYYY/MM/DD HH:mm:ss',
+                                    )}
+                                </div>
+                            </div>
+                            <div className="flex gap-3">
+                                <Text className="text-black-45">
+                                    {t('START_TIME')}:
+                                </Text>
+                                <div className="flex flex-col gap-1">
+                                    {moment(meeting.endTime).format(
+                                        'YYYY/MM/DD HH:mm:ss',
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    </BoxArea>
+                </Col>
+            </Row>
+        </>
     )
 }
 
