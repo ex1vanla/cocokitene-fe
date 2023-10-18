@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-/* eslint-disable */
-
-import { EActionStatus } from '../type'
-
-export interface IAttendanceState {
-    status: EActionStatus
-    statusMeeting: any
-    meetingIdJoin: number | null
-}
-
-export interface IAttendanceMeeting {
-    userJoinMeetingStatus: UserMeetingStatusEnum
-=======
 import { EActionStatus, FetchError } from "../type";
 
 export interface IAttendanceState extends FetchError {
@@ -21,7 +7,6 @@ export interface IAttendanceState extends FetchError {
 
 export interface IAttendanceMeeting {
     meetingId: number;
->>>>>>> ac433a9 (refactor: fix api login and meeting)
 }
 
 export enum UserMeetingStatusEnum {
