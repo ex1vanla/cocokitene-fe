@@ -1,4 +1,4 @@
-import { MeetingType } from '@/constants/meeting'
+import { MeetingType, SORT, SortField } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '../type'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import serviceMeeting from '@/services/meeting'
@@ -10,6 +10,7 @@ import {
 } from './types'
 import { AxiosError } from 'axios'
 import { IGetAllDataReponse } from '@/services/response.type'
+import { CONSTANT_EMPTY_STRING } from '@/constants/common'
 
 const initialState: IMeetingState = {
     status: EActionStatus.Idle,
@@ -20,60 +21,50 @@ const initialState: IMeetingState = {
     totalFutureMeetingItem: 0,
     totalPassMeetingItem: 0,
     filter: {
-        searchQuery: '',
-        sortOrder: 'ASC',
-        sortField: 'startTime',
+        searchQuery: CONSTANT_EMPTY_STRING,
+        sortOrder: SORT.ASC,
+        sortField: SortField.START_TIME,
     },
     type: MeetingType.MEETING_FUTURE,
+    errorCode: '',
+    errorMessage: ''
 }
 
 export const getAllMeetings = createAsyncThunk<
-    IGetAllDataReponse<IMeeting> | undefined,
-    { param: IGetAllMeetingQuery },
+    IGetAllDataReponse<IMeeting>,
+    IGetAllMeetingQuery,
     {
         rejectValue: FetchError
     }
->('meeting/getFutureMeetingAll', async ({ param }, { rejectWithValue }) => {
+>('meeting/getFutureMeetingAll', async (param, { rejectWithValue }) => {
     try {
-        const { page, limit, type, filter } = param
-        const data = await serviceMeeting.getAllMeetings({
-            type,
-            page,
-            limit,
-            filter: {...filter},
-        })
+        const data = await serviceMeeting.getAllMeetings(param)
         return data
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data
         return rejectWithValue({
-            errorMessage: responseData?.message,
+            errorMessage: responseData?.info?.message,
             errorCode: responseData?.code,
         })
     }
 })
 
 export const getAllPassMeetings = createAsyncThunk<
-    IGetAllDataReponse<IMeeting> | undefined,
-    { param: IGetAllMeetingQuery },
+    IGetAllDataReponse<IMeeting>,
+    IGetAllMeetingQuery,
     {
         rejectValue: FetchError
     }
->('meeting/getPassMeetingAll', async ({ param }, { rejectWithValue }) => {
+>('meeting/getPassMeetingAll', async (param, { rejectWithValue }) => {
     try {
-        const { page, limit, type, filter } = param
-        const data = await serviceMeeting.getAllMeetings({
-            type,
-            page,
-            limit,
-            filter: {...filter},
-        })
+        const data = await serviceMeeting.getAllMeetings(param)
         return data
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data
         return rejectWithValue({
-            errorMessage: responseData?.message,
+            errorMessage: responseData?.info?.message,
             errorCode: responseData?.code,
         })
     }
@@ -98,8 +89,10 @@ const meetingListSlice = createSlice({
                 state.totalFutureMeetingItem =
                     action.payload?.meta?.totalItems ?? 0
             })
-            .addCase(getAllMeetings.rejected, (state) => {
+            .addCase(getAllMeetings.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
+                state.errorCode = action.payload?.errorCode ?? ""
+                state.errorMessage = action.payload?.errorMessage ?? ""
             })
             .addCase(getAllPassMeetings.pending, (state) => {
                 state.status = EActionStatus.Pending
@@ -110,8 +103,10 @@ const meetingListSlice = createSlice({
                 state.totalPassMeetingItem =
                     action.payload?.meta?.totalItems ?? 0
             })
-            .addCase(getAllPassMeetings.rejected, (state) => {
+            .addCase(getAllPassMeetings.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
+                state.errorCode = action.payload?.errorCode ?? ""
+                state.errorMessage = action.payload?.errorMessage ?? ""
             })
     },
 })

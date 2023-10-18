@@ -67,11 +67,11 @@ const serviceUser = {
 
         return nonce
     },
-    login: async ({ walletAddress, signature }: ILoginRequest) => {
-        const response = await post<ILoginResponse>('/auths/login', {
-            walletAddress,
-            signature,
-        })
+    login: async (payload: ILoginRequest): Promise<ILoginResponse> => {
+        const response: { data: ILoginResponse } = await post(
+            '/auths/login',
+            payload,
+        )
         return response.data
     },
     getAccountList: async (

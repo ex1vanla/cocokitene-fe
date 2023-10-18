@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 import {
     MeetingFileType,
     MeetingStatus,
     MeetingType,
 } from '@/constants/meeting'
+=======
+import { MeetingType } from '@/constants/meeting'
+>>>>>>> ac433a9 (refactor: fix api login and meeting)
 import { EActionStatus, FetchError } from '../type'
 import { IParticipants } from '@/components/participant-selector'
 import { ResolutionType, VoteProposalResult } from '@/constants/resolution'
@@ -58,7 +62,7 @@ export interface IGetAllMeetingQuery {
     filter?: ListParamsFilter
 }
 
-export interface IMeetingState extends IGetAllMeetingQuery {
+export interface IMeetingState extends IGetAllMeetingQuery, FetchError {
     status: EActionStatus
     meetingFutureList: IMeeting[]
     meetingPassList: IMeeting[]

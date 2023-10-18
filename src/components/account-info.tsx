@@ -1,25 +1,25 @@
 'use client'
 
-import React from 'react'
-import { Dropdown } from 'antd'
-import type { MenuProps } from 'antd'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { DownOutlined } from '@ant-design/icons'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Typography } from 'antd'
+import type { MenuProps } from 'antd'
+import { Dropdown, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useAppDispatch } from '@/stores'
-import { signOut } from '@/stores/auth/slice'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useDisconnect } from 'wagmi'
 
 const { Text } = Typography
 const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
+    const router = useRouter()
     const t = useTranslations()
     const { disconnect } = useDisconnect()
-    const dispatch = useAppDispatch()
+    const {logoutAction} = useAuthLogin();
     const handleLogout = () => {
-        dispatch(signOut())
+        logoutAction();
         disconnect();
+        router.push('/en');
     }
 
     const items: MenuProps['items'] = [

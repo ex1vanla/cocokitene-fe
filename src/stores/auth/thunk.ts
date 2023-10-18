@@ -13,24 +13,19 @@ export const getNonceThunk = createAsyncThunk(
 )
 
 export const login = createAsyncThunk<
-    ILoginResponse | undefined,
-    {param: ILoginRequest},
+    ILoginResponse,
+    ILoginRequest ,
     {
         rejectValue: FetchError
     }
->('auth/login', async ({param}, { rejectWithValue }) => {
+>('auth/login', async (loginData, { rejectWithValue }) => {
     try {
-        const loginResponse: ILoginResponse | undefined = await serviceUser.login(param)
-        if (loginResponse) {
-            const { userData, accessToken, refreshToken } = loginResponse;
-            serviceUser.storeInfo(userData);
-            serviceUser.storeAccessToken(accessToken);
-            serviceUser.storeRefreshToken(refreshToken);
-
-            return loginResponse
-        } else {
-            throw new Error('Login failed.')
-        }
+        const loginResponse: ILoginResponse = await serviceUser.login(loginData)
+        const { userData, accessToken, refreshToken } = loginResponse
+        serviceUser.storeInfo(userData)
+        serviceUser.storeAccessToken(accessToken)
+        serviceUser.storeRefreshToken(refreshToken)
+        return loginResponse
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data

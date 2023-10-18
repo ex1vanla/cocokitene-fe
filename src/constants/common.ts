@@ -42,6 +42,8 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
     },
 ]
 
+export const CONSTANT_EMPTY_STRING : string = ''
+
 export const SIDEBAR_OPEN_WIDTH: number = 208
 export const SIDEBAR_CLOSE_WIDTH: number = 80
 

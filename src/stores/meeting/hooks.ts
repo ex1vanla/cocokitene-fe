@@ -12,11 +12,15 @@ import {
     ICreateMeeting,
     IMeetingDetail,
     KeyRoles,
+    IGetAllMeetingQuery,
+    IMeetingState,
+    ListParamsFilter,
 } from '@/stores/meeting/types'
 import { EActionStatus } from '@/stores/type'
 import { getFileTypeByUrl } from '@/utils/file'
 import { MeetingResource } from '@/views/meeting/meeting-detail/documents'
 import { useCallback } from 'react'
+import { getAllMeetings, getAllPassMeetings, setFilter } from './listSlice'
 
 export function useCreateMeetingInformation(): [
     ICreateMeeting,
@@ -40,6 +44,7 @@ export function useCreateMeetingInformation(): [
 
     return [data, setCreateMeetingInformation, resetData]
 }
+
 
 export function useMeetingDetail(): [
     {
@@ -69,6 +74,48 @@ export function useMeetingDetail(): [
         fetchMeetingDetail,
     ]
 }
+
+            
+type ListMeetingType = {
+    meetingState: IMeetingState
+    getListFutureMeetingAction: (data: IGetAllMeetingQuery) => void
+    getListPassMeetingAction: (data: IGetAllMeetingQuery) => void
+    setFilterAction: (data: ListParamsFilter) => void
+}
+
+export const useListMeeting = (): ListMeetingType => {
+    const dispatch = useAppDispatch()
+    const meetingState = useAppSelector((state: RootState) => state.meetingList)
+
+    const getListFutureMeetingAction = useCallback(
+        (data: IGetAllMeetingQuery) => {
+            dispatch(getAllMeetings(data))
+        },
+        [dispatch],
+    )
+
+    const getListPassMeetingAction = useCallback(
+        (data: IGetAllMeetingQuery) => {
+            dispatch(getAllPassMeetings(data))
+        },
+        [dispatch],
+    )
+
+    const setFilterAction = useCallback(
+        (data: ListParamsFilter) => {
+            dispatch(setFilter(data))
+        },
+        [dispatch],
+    )
+
+    return {
+        meetingState,
+        getListFutureMeetingAction,
+        getListPassMeetingAction,
+        setFilterAction,
+    }
+}
+    
 
 export function useMeetingFiles(): {
     invitations: MeetingResource[]
@@ -106,6 +153,7 @@ export function useMeetingFiles(): {
         minutes,
     }
 }
+
 
 export function useParticipants(): {
     hosts: IParticipants[]
@@ -158,6 +206,7 @@ export function useParticipants(): {
         shareholders,
     }
 }
+
 
 export function useResolutions(type: ResolutionType): {
     title: string

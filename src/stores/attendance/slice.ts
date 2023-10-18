@@ -1,50 +1,57 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { EActionStatus } from '../type'
-import { joinAttendanceMeeting } from './thunk'
 import { IAttendanceState } from './type'
+import { joinMeeting } from './thunk'
 
 const initialState: IAttendanceState = {
     status: EActionStatus.Idle,
-    statusMeeting: null,
-    meetingIdJoin: null
+    meetingIdJoin: null,
+    errorCode: '',
+    errorMessage: '',
 }
 
 const attendanceSlice = createSlice({
     name: 'attendance',
     initialState,
     reducers: {
-        setMeetingIdJoin: (state: IAttendanceState, action: PayloadAction<{ meetingId: number }>) => {
-            state.meetingIdJoin = action.payload.meetingId;
+        setMeetingIdJoin: (
+            state: IAttendanceState,
+            action: PayloadAction<{ meetingId: number }>,
+        ) => {
+            state.meetingIdJoin = action.payload.meetingId
         },
-        resetStatusMeeting: (state: IAttendanceState, _: PayloadAction<{ meetingId: number }>) => {
-            state.statusMeeting = null;
-        }
+        // resetStatusMeeting: (
+        //     state: IAttendanceState,
+        //     _: PayloadAction<{ meetingId: number }>,
+        // ) => {
+        //     state.statusMeeting = null
+        // },
     },
     extraReducers: (builder) => {
         builder
+            .addCase(joinMeeting.pending, (state: IAttendanceState) => {
+                state.status = EActionStatus.Pending
+                // state.statusMeeting = null
+            })
             .addCase(
-                joinAttendanceMeeting.pending,
-                (state: IAttendanceState) => {
-                    state.status = EActionStatus.Pending
-                    state.statusMeeting = null
-                },
-            )
-            .addCase(
-                joinAttendanceMeeting.fulfilled,
-                (state: IAttendanceState, action) => {
+                joinMeeting.fulfilled,
+                (state: IAttendanceState, action: PayloadAction<{meetingId: number}>) => {
                     state.status = EActionStatus.Succeeded
-                    state.statusMeeting = action.payload;
+                    state.meetingIdJoin = action.payload.meetingId
                 },
             )
             .addCase(
-                joinAttendanceMeeting.rejected,
-                (state: IAttendanceState) => {
+                joinMeeting.rejected,
+                (state: IAttendanceState, action) => {
+                    console.log("rejected", action.payload?.errorMessage);
                     state.status = EActionStatus.Failed
+                    state.errorCode = action.payload?.errorCode ?? ''
+                    state.errorMessage = action.payload?.errorMessage ?? ''
                 },
             )
     },
 })
 
-export const { setMeetingIdJoin, resetStatusMeeting } = attendanceSlice.actions;
+export const { setMeetingIdJoin } = attendanceSlice.actions
 
 export default attendanceSlice.reducer

@@ -1,42 +1,36 @@
 'use client'
 import ButtonConnectWallet from '@/connect-wallet/button-connect-wallet'
-import { RootState, useAppDispatch } from '@/stores'
-import { getNonceThunk, login } from '@/stores/auth/thunk'
+import { CONSTANT_EMPTY_STRING } from '@/constants/common'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { useTranslations } from 'next-intl'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { useAccount, useSignMessage } from 'wagmi'
 
 const ConnectWallet = () => {
     const { data: signMessageData, signMessage } = useSignMessage()
     const t = useTranslations()
     const { isConnected, address } = useAccount()
-    const dispatch = useAppDispatch()
-    const auth = useSelector((state: RootState) => state.auth)
+    const {authState, loginAction, getNonceAction} = useAuthLogin()
     useEffect(() => {
         if (isConnected) {
-            dispatch(getNonceThunk(address ?? '') as any)
+            getNonceAction(address ?? '')
         }
-    }, [dispatch, isConnected])
+    }, [isConnected])
 
     useEffect(() => {
-        if (auth.nonce != '') {
+        if (authState.nonce != '') {
             signMessage({
-                message: 'Please confirm to login - nonce:' + auth.nonce,
+                message: 'Please confirm to login - nonce:' + authState.nonce,
             })
         }
-    }, [auth.nonce])
+    }, [authState.nonce])
 
     useEffect(() => {
         if (signMessageData && signMessageData != null) {
-            dispatch(
-                login({
-                    param: {
-                        walletAddress: address ?? '',
-                        signature: signMessageData,
-                    },
-                }),
-            )
+            loginAction({
+                walletAddress: address ?? CONSTANT_EMPTY_STRING,
+                signature: signMessageData,
+            })
         }
     }, [signMessageData])
     return (
@@ -44,7 +38,7 @@ const ConnectWallet = () => {
             <ButtonConnectWallet
                 connectWalletText={t('CONNECT_WALLET')}
                 wrongNetworkText={t('WRONG_NETWORK')}
-                isAuthenticated={auth.isAuthenticated}
+                isAuthenticated={authState.isAuthenticated}
             />
         </>
     )

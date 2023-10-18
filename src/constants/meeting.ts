@@ -42,6 +42,11 @@ export enum SORT {
     ASC = 'ASC',
     DESC = 'DESC',
 }
+
+export enum SortField {
+    START_TIME = 'startTime'
+}
+
 export enum MeetingFileType {
     MEETING_INVITATION = 'invitations',
     MEETING_MINUTES = 'minutes',

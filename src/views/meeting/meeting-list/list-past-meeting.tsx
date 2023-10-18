@@ -22,13 +22,12 @@ const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
     const handlePageChange = (pageChange: number) => {
         dispatch(
             getAllPassMeetings({
-                param: {
                     page: pageChange,
                     limit,
                     type: MeetingType.MEETING_PASS,
                     filter: {...filter}
                 },
-            }),
+            ),
         )
     }
     return (

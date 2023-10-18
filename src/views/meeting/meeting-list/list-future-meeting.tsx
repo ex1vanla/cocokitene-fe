@@ -22,13 +22,12 @@ const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
     const handlePageChange = (pageChange: number) => {
         dispatch(
             getAllMeetings({
-                param: {
                     page: pageChange,
                     limit,
                     type: MeetingType.MEETING_FUTURE,
                     filter: {...filter}
                 },
-            }),
+            ),
         )
     }
     return (

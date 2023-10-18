@@ -1,14 +1,15 @@
 import { useAppDispatch } from '@/stores'
+import { useAttendance } from '@/stores/attendance/hooks'
 import { setMeetingIdJoin } from '@/stores/attendance/slice'
-import { joinAttendanceMeeting } from '@/stores/attendance/thunk'
+import { EActionStatus } from '@/stores/type'
 import { formatDate, formatTimeMeeting, statusDateMeeting } from '@/utils/date'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
-import { Button, Col, Modal, Row, Typography } from 'antd'
+import { Button, Col, Modal, Row, Typography, notification } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const { Text } = Typography
 
@@ -24,15 +25,15 @@ const ItemFutureMeeting = ({
     const router = useRouter()
     const t = useTranslations()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const dispatch = useAppDispatch()
+    const { joinMeetingAction } = useAttendance()
 
     const showModal = () => {
         setIsModalOpen(true)
     }
 
     const handleOk = (idMeeting: number) => {
-        dispatch(joinAttendanceMeeting(idMeeting))
-        dispatch(setMeetingIdJoin({ meetingId: idMeeting }))
+        joinMeetingAction(idMeeting)
+        // dispatch(setMeetingIdJoin({ meetingId: idMeeting }))
         setIsModalOpen(false)
     }
 
@@ -61,7 +62,10 @@ const ItemFutureMeeting = ({
                 </Col>
                 <Col span={2} className="flex items-center ">
                     <Text>
-                        {formatDate(meetings_start_time.toString(), 'YYYY-MM-DD')}
+                        {formatDate(
+                            meetings_start_time.toString(),
+                            'YYYY-MM-DD',
+                        )}
                     </Text>
                 </Col>
                 <Col span={8} className="flex items-center">
@@ -99,11 +103,7 @@ const ItemFutureMeeting = ({
                             {t('BTN_JOIN')}
                         </Button>
                     ) : (
-                        <Button
-                            disabled
-                            type="primary"
-                            size="middle"
-                        >
+                        <Button disabled type="primary" size="middle">
                             {t('JOINED')}
                         </Button>
                     )}
