@@ -46,11 +46,11 @@ const serviceUser = {
     },
     getRefreshToken: async () => {
         const refreshToken = cookies.get(USER_REFRESH_TOKEN_STORAGE_KEY)
-        const response = await get<{
+        const response = await post<{
             accessToken: string
-        }>('/auths/refresh-token', {
+        }>('/auths/user/refresh-token', 
             refreshToken,
-        })
+        )
         const accessToken = response.data?.accessToken
         if (accessToken) {
             cookies.set(USER_TOKEN_STORAGE_KEY, JSON.stringify(accessToken), {

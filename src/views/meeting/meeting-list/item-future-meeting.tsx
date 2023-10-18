@@ -110,7 +110,7 @@ const ItemFutureMeeting = ({
                     <Button
                         size="middle"
                         onClick={() => {
-                            router.push('/meeting/detail/1')
+                            router.push('/meeting/detail/' + meetings_id)
                         }}
                     >
                         {t('BTN_VIEW_DETAIL')}
