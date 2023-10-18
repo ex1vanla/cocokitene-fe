@@ -16,7 +16,7 @@ export const getMeetingDetail = createAsyncThunk<
     {
         rejectValue: FetchError
     }
->('meeting/getFutureMeetingAll', async (meetingId, { rejectWithValue }) => {
+>('meeting/getMeetingDetail', async (meetingId, { rejectWithValue }) => {
     try {
         const meetingDetail = await serviceMeeting.getDetailMeeting(meetingId)
 

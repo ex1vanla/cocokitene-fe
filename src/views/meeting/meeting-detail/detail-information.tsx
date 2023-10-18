@@ -53,7 +53,10 @@ export const BoxGeneralInformation = ({
             </div>
             <div className="mt-2 text-right">
                 <Text className="font-bold text-polar-green">
-                    {Math.round((realNumber * 100) / totalNumber)}%
+                    {totalNumber === 0
+                        ? 0
+                        : Math.round((realNumber * 100) / totalNumber)}
+                    %
                 </Text>
             </div>
         </div>

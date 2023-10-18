@@ -4,10 +4,12 @@ import { Button, Col, Row, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const { Text } = Typography
 
 const ItemPastMeeting = ({
+    meetings_id,
     meetings_title,
     meetings_start_time,
     meetings_end_time,
@@ -15,6 +17,8 @@ const ItemPastMeeting = ({
     meetings_status_meeting_happen,
 }: IMeetingItem) => {
     const t = useTranslations()
+
+    const router = useRouter()
     return (
         <Row
             className="border-true-gray-300 mb-2 rounded-lg border p-2"
@@ -57,7 +61,14 @@ const ItemPastMeeting = ({
                 )}
             </Col>
             <Col span={4} className="flex items-center justify-end">
-                <Button size="middle">{t('BTN_VIEW_DETAIL')}</Button>
+                <Button
+                    size="middle"
+                    onClick={() => {
+                        router.push('/meeting/detail/' + meetings_id)
+                    }}
+                >
+                    {t('BTN_VIEW_DETAIL')}
+                </Button>
             </Col>
         </Row>
     )
