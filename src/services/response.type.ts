@@ -45,6 +45,13 @@ export interface IMeetingFileResponse {
     fileType: MeetingFileType
 }
 
+export interface IProposalCreatorResponse {
+    username: string
+    email: string
+    avatar: string | null
+    defaultAvatarHashColor: string | null
+}
+
 export interface IProposalResponse {
     id: number
     title: string
@@ -55,7 +62,7 @@ export interface IProposalResponse {
     notVoteYetQuantity: number | null
     voteResult: VoteProposalResult
     meetingId: number
-    creatorId: number
+    creator: IProposalCreatorResponse
 }
 
 export interface IUserMeetingResponse {
@@ -88,6 +95,6 @@ export interface IMeetingDetailResponse {
     shareholders: IUserMeetingResponse[]
     shareholdersTotal: number
     shareholdersJoined: number
-    votedMeetingShares: number
+    joinedMeetingShares: number
     totalMeetingShares: number
 }
