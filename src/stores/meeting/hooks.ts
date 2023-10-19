@@ -15,6 +15,7 @@ import {
     IGetAllMeetingQuery,
     IMeetingState,
     ListParamsFilter,
+    IProposalCreator,
 } from '@/stores/meeting/types'
 import { EActionStatus } from '@/stores/type'
 import { getFileTypeByUrl } from '@/utils/file'
@@ -45,7 +46,6 @@ export function useCreateMeetingInformation(): [
     return [data, setCreateMeetingInformation, resetData]
 }
 
-
 export function useMeetingDetail(): [
     {
         meeting: IMeetingDetail | undefined
@@ -75,11 +75,13 @@ export function useMeetingDetail(): [
     ]
 }
 
-            
 type ListMeetingType = {
     meetingState: IMeetingState
+    // eslint-disable-next-line
     getListFutureMeetingAction: (data: IGetAllMeetingQuery) => void
+    // eslint-disable-next-line
     getListPassMeetingAction: (data: IGetAllMeetingQuery) => void
+    // eslint-disable-next-line
     setFilterAction: (data: ListParamsFilter) => void
 }
 
@@ -115,7 +117,6 @@ export const useListMeeting = (): ListMeetingType => {
         setFilterAction,
     }
 }
-    
 
 export function useMeetingFiles(): {
     invitations: MeetingResource[]
@@ -153,7 +154,6 @@ export function useMeetingFiles(): {
         minutes,
     }
 }
-
 
 export function useParticipants(): {
     hosts: IParticipants[]
@@ -207,12 +207,14 @@ export function useParticipants(): {
     }
 }
 
-
 export function useResolutions(type: ResolutionType): {
     title: string
     content: string
     percentVoted: number
+    percentUnVoted: number
+    percentNotVoteYet: number
     voteResult: VoteProposalResult
+    creator: IProposalCreator
 }[] {
     const meeting = useAppSelector(
         (state: RootState) => state.meetingDetail.meeting,
@@ -237,11 +239,22 @@ export function useResolutions(type: ResolutionType): {
             totalShareholders === 0
                 ? 0
                 : (votedQuantity * 100) / totalShareholders
+        const percentUnVoted =
+            totalShareholders === 0
+                ? 0
+                : (unVotedQuantity * 100) / totalShareholders
+        const percentNotVoteYet =
+            totalShareholders === 0
+                ? 0
+                : (notVoteYetQuantity * 100) / totalShareholders
         return {
             title: resolution.title,
             content: resolution.description,
             percentVoted,
+            percentUnVoted,
+            percentNotVoteYet,
             voteResult: resolution.voteResult,
+            creator: resolution.creator,
         }
     })
 }

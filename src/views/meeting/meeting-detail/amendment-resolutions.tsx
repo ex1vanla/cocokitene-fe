@@ -22,6 +22,11 @@ const AmendmentResolutions = () => {
                         content={amendmentResolution.content}
                         percentVoted={amendmentResolution.percentVoted}
                         voteResult={amendmentResolution.voteResult}
+                        creator={amendmentResolution.creator}
+                        percentUnVoted={amendmentResolution.percentUnVoted}
+                        percentNotVoteYet={
+                            amendmentResolution.percentNotVoteYet
+                        }
                     />
                 ))}
             </div>

@@ -38,7 +38,7 @@ export const getMeetingDetail = createAsyncThunk<
             shareholders: meetingDetail.shareholders,
             shareholdersTotal: meetingDetail.shareholdersTotal,
             shareholdersJoined: meetingDetail.shareholdersJoined,
-            votedMeetingShares: meetingDetail.votedMeetingShares,
+            joinedMeetingShares: meetingDetail.joinedMeetingShares,
             totalMeetingShares: meetingDetail.totalMeetingShares,
         } as IMeetingDetail
     } catch (error) {

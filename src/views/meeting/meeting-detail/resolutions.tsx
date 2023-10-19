@@ -20,6 +20,9 @@ const Resolutions = () => {
                         content={resolution.content}
                         percentVoted={resolution.percentVoted}
                         voteResult={resolution.voteResult}
+                        creator={resolution.creator}
+                        percentUnVoted={resolution.percentUnVoted}
+                        percentNotVoteYet={resolution.percentNotVoteYet}
                     />
                 ))}
             </div>

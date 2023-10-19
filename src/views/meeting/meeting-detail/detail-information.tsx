@@ -76,8 +76,8 @@ const DetailInformation = () => {
                 <Col xs={24} lg={12}>
                     <BoxGeneralInformation
                         icon={<LikeIcon fill1="#EFEFFF" fill2="#5151E5" />}
-                        title={t('TOTAL_VOTES_BY_SHAREHOLDERS')}
-                        realNumber={meeting.votedMeetingShares}
+                        title={t('TOTAL_SHARES_BY_SHAREHOLDERS_JOINED')}
+                        realNumber={meeting.joinedMeetingShares}
                         totalNumber={meeting.totalMeetingShares}
                     />
                 </Col>
@@ -106,7 +106,7 @@ const DetailInformation = () => {
                             </div>
                             <div className="flex gap-3">
                                 <Text className="text-black-45">
-                                    {t('START_TIME')}:
+                                    {t('END_TIME')}:
                                 </Text>
                                 <div className="flex flex-col gap-1">
                                     {moment(meeting.endTime).format(

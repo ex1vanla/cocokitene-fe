@@ -1,4 +1,8 @@
-import { MeetingFileType, MeetingStatus, MeetingType } from '@/constants/meeting'
+import {
+    MeetingFileType,
+    MeetingStatus,
+    MeetingType,
+} from '@/constants/meeting'
 import { EActionStatus, FetchError } from '../type'
 import { IParticipants } from '@/components/participant-selector'
 import { ResolutionType, VoteProposalResult } from '@/constants/resolution'
@@ -41,7 +45,7 @@ export interface IMeeting {
     meetings_status_meeting_happen: string
 }
 
-export interface ListParamsFilter{
+export interface ListParamsFilter {
     searchQuery?: string
     sortOrder?: string
     sortField?: string
@@ -69,6 +73,13 @@ export interface IMeetingFile {
     fileType: MeetingFileType
 }
 
+export interface IProposalCreator {
+    username: string
+    email: string
+    avatar: string | null
+    defaultAvatarHashColor: string | null
+}
+
 export interface IProposal {
     id: number
     title: string
@@ -79,7 +90,7 @@ export interface IProposal {
     notVoteYetQuantity: number | null
     voteResult: VoteProposalResult
     meetingId: number
-    creatorId: number
+    creator: IProposalCreator
 }
 
 export interface IUserMeeting {
@@ -112,7 +123,7 @@ export interface IMeetingDetail {
     shareholders: IUserMeeting[]
     shareholdersTotal: number
     shareholdersJoined: number
-    votedMeetingShares: number
+    joinedMeetingShares: number
     totalMeetingShares: number
 }
 
