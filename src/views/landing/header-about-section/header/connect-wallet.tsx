@@ -3,36 +3,40 @@ import ButtonConnectWallet from '@/connect-wallet/button-connect-wallet'
 import { CONSTANT_EMPTY_STRING } from '@/constants/common'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { useTranslations } from 'next-intl'
-import { useEffect } from 'react'
-import { useAccount, useSignMessage } from 'wagmi'
+import { useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
+import { signMessage } from 'wagmi/actions'
 
 const ConnectWallet = () => {
-    const { data: signMessageData, signMessage } = useSignMessage()
+    const [signature, setSignature] = useState<string | null>(null);
     const t = useTranslations()
     const { isConnected, address } = useAccount()
     const {authState, loginAction, getNonceAction} = useAuthLogin()
     useEffect(() => {
-        if (isConnected) {
+        if (isConnected && !authState.isAuthenticated) {
             getNonceAction(address ?? '')
         }
     }, [isConnected])
 
     useEffect(() => {
-        if (authState.nonce != '') {
-            signMessage({
-                message: 'Please confirm to login - nonce:' + authState.nonce,
-            })
-        }
+        (async () => {
+            if (authState.nonce) {
+                const sign = await signMessage({
+                    message: 'Please confirm to login - nonce:' + authState.nonce,
+                });
+                if (sign) setSignature(sign);
+            }
+        })();
     }, [authState.nonce])
 
     useEffect(() => {
-        if (signMessageData && signMessageData != null) {
+        if (signature) {
             loginAction({
                 walletAddress: address ?? CONSTANT_EMPTY_STRING,
-                signature: signMessageData,
+                signature: signature,
             })
         }
-    }, [signMessageData])
+    }, [signature])
     return (
         <>
             <ButtonConnectWallet
