@@ -2,10 +2,12 @@ import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
 import { IAttendanceState } from './type'
 import { joinMeeting } from './thunk'
+import { resetStatusMeeting } from './slice'
 
 type AttendanceType = {
     attendanceState: IAttendanceState
     joinMeetingAction: (meetingId: number) => void
+    resetStateAttendance: () => void
 }
 
 export const useAttendance = (): AttendanceType => {
@@ -21,5 +23,9 @@ export const useAttendance = (): AttendanceType => {
         [dispatch],
     )
 
-    return { attendanceState, joinMeetingAction }
+    const resetStateAttendance = useCallback(() => {
+        dispatch(resetStatusMeeting())
+    }, [dispatch])
+
+    return { attendanceState, joinMeetingAction, resetStateAttendance }
 }

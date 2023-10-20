@@ -9,10 +9,11 @@ import Menu from './menu'
 import AccountInfo from '@/components/account-info'
 import { RootState } from '@/stores'
 import { useSelector } from 'react-redux'
+import { useAuthLogin } from '@/stores/auth/hooks'
 
 const LandingHeader = () => {
     const [metaClass, setMetaClass] = useState('')
-    const auth = useSelector((state: RootState) => state.auth)
+    const {authState} = useAuthLogin();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,9 +44,9 @@ const LandingHeader = () => {
                 <div className="flex items-center gap-10">
                     <Menu />
                     <ConnectWallet />
-                    {auth.isAuthenticated && (
+                    {authState.isAuthenticated && (
                         <AccountInfo
-                            name={auth.userData?.username ?? "Unknow"}
+                            name={authState.userData?.username ?? "Unknow"}
                             avatar="/images/default-avatar.png"
                         />
                     )}

@@ -1,7 +1,12 @@
-import AccountInfo from '@/components/account-info'
 import { LogoAppIcon } from '@/components/svgs'
 import { Layout } from 'antd'
+import dynamic from 'next/dynamic';
 import Link from 'next/link'
+
+const AccountInfo = dynamic(() => import('../../components/account-info'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false,
+});
 
 const Header = () => (
     <Layout.Header className="fixed z-10 h-12 w-full bg-primary px-4 py-0 text-white">

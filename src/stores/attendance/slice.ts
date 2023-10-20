@@ -20,12 +20,11 @@ const attendanceSlice = createSlice({
         ) => {
             state.meetingIdJoin = action.payload.meetingId
         },
-        // resetStatusMeeting: (
-        //     state: IAttendanceState,
-        //     _: PayloadAction<{ meetingId: number }>,
-        // ) => {
-        //     state.statusMeeting = null
-        // },
+        resetStatusMeeting: (
+            state: IAttendanceState,
+        ) => {
+            state.status = EActionStatus.Idle
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -43,7 +42,6 @@ const attendanceSlice = createSlice({
             .addCase(
                 joinMeeting.rejected,
                 (state: IAttendanceState, action) => {
-                    console.log("rejected", action.payload?.errorMessage);
                     state.status = EActionStatus.Failed
                     state.errorCode = action.payload?.errorCode ?? ''
                     state.errorMessage = action.payload?.errorMessage ?? ''
@@ -52,6 +50,6 @@ const attendanceSlice = createSlice({
     },
 })
 
-export const { setMeetingIdJoin } = attendanceSlice.actions
+export const { setMeetingIdJoin, resetStatusMeeting } = attendanceSlice.actions
 
 export default attendanceSlice.reducer

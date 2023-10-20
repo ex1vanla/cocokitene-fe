@@ -15,7 +15,7 @@ const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
     const router = useRouter()
     const t = useTranslations()
     const { disconnect } = useDisconnect()
-    const {logoutAction} = useAuthLogin();
+    const {authState, logoutAction} = useAuthLogin();
     const handleLogout = () => {
         logoutAction();
         disconnect();
@@ -96,7 +96,7 @@ const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
                 <div className="flex items-center gap-2">
                     <Image src={avatar} alt={'avatar'} width={24} height={24} />
                     <Text className="text-sm leading-[22px] text-white">
-                        {name}
+                        {authState.userData?.username ?? "Unknow"}
                     </Text>
                 </div>
                 <DownOutlined className="h-[10px] w-[10px] text-white" />

@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 const MeetingList = () => {
     const router = useRouter()
     const t = useTranslations()
-    const { attendanceState } = useAttendance()
+    const { attendanceState, resetStateAttendance } = useAttendance()
     const { openNotification, contextHolder } = useNotification()
     const [keywordSearch, setKeywordSearch] = useState<string>('')
     const searchDebounceValue = useDebounce(keywordSearch, 300)
@@ -58,6 +58,7 @@ const MeetingList = () => {
                 placement: 'bottomRight',
                 type: 'info',
             })
+            resetStateAttendance();
             router.push('/meeting/detail/' + attendanceState.meetingIdJoin)
         }
 
