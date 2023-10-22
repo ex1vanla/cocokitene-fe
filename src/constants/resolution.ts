@@ -10,7 +10,7 @@ export enum ResolutionType {
     AMENDMENT_RESOLUTION = 'amendment_resolution',
 }
 
-export enum VoteProposalResult {
+export enum VoteProposalOption {
     VOTE = 'vote',
     UN_VOTE = 'un_vote',
     NO_IDEA = 'no_idea',

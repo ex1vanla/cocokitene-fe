@@ -16,6 +16,7 @@ const AmendmentResolutions = () => {
             <div className="mb-6 flex flex-col gap-6">
                 {amendmentResolutions.map((amendmentResolution, index) => (
                     <DetailResolutionItem
+                        id={amendmentResolution.id}
                         key={index}
                         index={index + 1}
                         title={amendmentResolution.title}

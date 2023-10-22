@@ -19,7 +19,6 @@ export const getMeetingDetail = createAsyncThunk<
 >('meeting/getMeetingDetail', async (meetingId, { rejectWithValue }) => {
     try {
         const meetingDetail = await serviceMeeting.getDetailMeeting(meetingId)
-
         return {
             id: meetingDetail.id,
             title: meetingDetail.title,

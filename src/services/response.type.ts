@@ -1,10 +1,11 @@
 import { IParticipants } from '@/components/participant-selector'
+import { IParticipantsView } from '@/components/participants-detail'
 import {
     MeetingFileType,
     MeetingStatus,
     ResolutionType,
 } from '@/constants/meeting'
-import { VoteProposalResult } from '@/constants/resolution'
+import { VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
 export interface IMeta {
@@ -60,7 +61,7 @@ export interface IProposalResponse {
     votedQuantity: number | null
     unVotedQuantity: number | null
     notVoteYetQuantity: number | null
-    voteResult: VoteProposalResult
+    voteResult: VoteProposalOption
     meetingId: number
     creator: IProposalCreatorResponse
 }
@@ -97,4 +98,20 @@ export interface IMeetingDetailResponse {
     shareholdersJoined: number
     joinedMeetingShares: number
     totalMeetingShares: number
+}
+
+export interface IVoteProposalResult {
+    result: VoteProposalOption
+    userId: number
+    proposalId: number
+    deletedAt: null | string
+    id: number
+}
+
+export interface IMeetingParticipantsResponse {
+    hosts: IParticipantsView[]
+    controlBoards: IParticipantsView[]
+    directors: IParticipantsView[]
+    shareholders: IParticipantsView[]
+    administrativeCouncils: IParticipantsView[]
 }

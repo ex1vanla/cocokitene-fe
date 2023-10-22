@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl'
 
 const Resolutions = () => {
     const resolutions = useResolutions(ResolutionType.RESOLUTION)
-
     const t = useTranslations()
 
     return (
@@ -14,6 +13,7 @@ const Resolutions = () => {
             <div className="mb-6 flex flex-col gap-6">
                 {resolutions.map((resolution, index) => (
                     <DetailResolutionItem
+                        id={resolution.id}
                         key={index}
                         index={index + 1}
                         title={resolution.title}

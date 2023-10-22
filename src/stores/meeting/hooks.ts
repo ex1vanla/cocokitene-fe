@@ -1,6 +1,6 @@
-import { IParticipants } from '@/components/participants-detail'
+import { IParticipantsView } from '@/components/participants-detail'
 import { MeetingFileType } from '@/constants/meeting'
-import { ResolutionType, VoteProposalResult } from '@/constants/resolution'
+import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { RootState, useAppDispatch, useAppSelector } from '@/stores'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 import {
@@ -156,11 +156,11 @@ export function useMeetingFiles(): {
 }
 
 export function useParticipants(): {
-    hosts: IParticipants[]
-    controlBoards: IParticipants[]
-    directors: IParticipants[]
-    administrativeCouncils: IParticipants[]
-    shareholders: IParticipants[]
+    hosts: IParticipantsView[]
+    controlBoards: IParticipantsView[]
+    directors: IParticipantsView[]
+    administrativeCouncils: IParticipantsView[]
+    shareholders: IParticipantsView[]
 } {
     const meeting = useAppSelector(
         (state: RootState) => state.meetingDetail.meeting,
@@ -186,7 +186,7 @@ export function useParticipants(): {
                     joined:
                         userMeeting.status ===
                         UserMeetingStatusEnum.PARTICIPATE,
-                }) as IParticipants,
+                }) as IParticipantsView,
         )
     }
 
@@ -213,8 +213,9 @@ export function useResolutions(type: ResolutionType): {
     percentVoted: number
     percentUnVoted: number
     percentNotVoteYet: number
-    voteResult: VoteProposalResult
+    voteResult: VoteProposalOption
     creator: IProposalCreator
+    id: number
 }[] {
     const meeting = useAppSelector(
         (state: RootState) => state.meetingDetail.meeting,
@@ -248,6 +249,7 @@ export function useResolutions(type: ResolutionType): {
                 ? 0
                 : (notVoteYetQuantity * 100) / totalShareholders
         return {
+            id: resolution.id,
             title: resolution.title,
             content: resolution.description,
             percentVoted,

@@ -3,7 +3,7 @@ import { Typography } from 'antd'
 
 const { Text } = Typography
 
-export interface IParticipants {
+export interface IParticipantsView {
     defaultAvatarHashColor: string
     avatar?: string
     name: string
@@ -12,7 +12,7 @@ export interface IParticipants {
 
 interface IParticipantDetail {
     title: string
-    participantList: IParticipants[]
+    participantList: IParticipantsView[]
 }
 
 const ParticipantDetail = ({ title, participantList }: IParticipantDetail) => {

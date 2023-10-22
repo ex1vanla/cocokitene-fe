@@ -5,7 +5,7 @@ import {
 } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '../type'
 import { IParticipants } from '@/components/participant-selector'
-import { ResolutionType, VoteProposalResult } from '@/constants/resolution'
+import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
 export interface ICreateMeeting {
@@ -88,7 +88,7 @@ export interface IProposal {
     votedQuantity: number | null
     unVotedQuantity: number | null
     notVoteYetQuantity: number | null
-    voteResult: VoteProposalResult
+    voteResult: VoteProposalOption
     meetingId: number
     creator: IProposalCreator
 }

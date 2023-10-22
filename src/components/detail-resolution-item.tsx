@@ -1,4 +1,6 @@
-import { Resolution, VoteProposalResult } from '@/constants/resolution'
+import { FETCH_STATUS } from '@/constants/common'
+import { Resolution, VoteProposalOption } from '@/constants/resolution'
+import serviceProposal from '@/services/proposal'
 import { IProposalCreator } from '@/stores/meeting/types'
 import { formatNumber } from '@/utils/format-number'
 import { truncateString } from '@/utils/format-string'
@@ -15,8 +17,9 @@ interface IDetailResolutionItem extends Resolution {
     percentVoted: number
     percentUnVoted: number
     percentNotVoteYet: number
-    voteResult: VoteProposalResult
+    voteResult: VoteProposalOption
     creator: IProposalCreator
+    id: number
 }
 
 const DetailResolutionItem = ({
@@ -28,9 +31,16 @@ const DetailResolutionItem = ({
     percentNotVoteYet,
     voteResult,
     creator,
+    id,
 }: IDetailResolutionItem) => {
     const [value, setValue] = useState(voteResult)
     const [modalOpen, setOpenModal] = useState<boolean>(false)
+    const [votePercent, setVotePercent] = useState({
+        percentUnVoted,
+        percentVoted,
+        percentNotVoteYet,
+    })
+    const [voteStatus, setVoteStatus] = useState(FETCH_STATUS.IDLE)
 
     const t = useTranslations()
 
@@ -44,8 +54,41 @@ const DetailResolutionItem = ({
         .hex()
 
     const onChange = (e: RadioChangeEvent) => {
-        console.log('radio checked', e.target.value)
-        setValue(e.target.value)
+        ;(async () => {
+            try {
+                setVoteStatus(FETCH_STATUS.LOADING)
+                setValue(e.target.value)
+                const proposal = await serviceProposal.voteProposal(
+                    id,
+                    e.target.value,
+                )
+                const notVoteYetQuantity = Number(proposal.notVoteYetQuantity)
+                const votedQuantity = Number(proposal.votedQuantity)
+                const unVotedQuantity = Number(proposal.unVotedQuantity)
+                const totalShareholders =
+                    notVoteYetQuantity + votedQuantity + unVotedQuantity
+                const percentVoted =
+                    totalShareholders === 0
+                        ? 0
+                        : (votedQuantity * 100) / totalShareholders
+                const percentUnVoted =
+                    totalShareholders === 0
+                        ? 0
+                        : (unVotedQuantity * 100) / totalShareholders
+                const percentNotVoteYet =
+                    totalShareholders === 0
+                        ? 0
+                        : (notVoteYetQuantity * 100) / totalShareholders
+                setVotePercent({
+                    percentVoted,
+                    percentNotVoteYet,
+                    percentUnVoted,
+                })
+                setVoteStatus(FETCH_STATUS.SUCCESS)
+            } catch (error) {
+                setVoteStatus(FETCH_STATUS.ERROR)
+            }
+        })()
     }
     return (
         <div className="flex items-center justify-between border-b border-b-neutral/4 py-3">
@@ -114,34 +157,38 @@ const DetailResolutionItem = ({
                     </Text>
                     <Text className="text-black-45">{t('VOTED')}</Text>
                 </div> */}
-                <Radio.Group onChange={onChange} value={value}>
-                    <Radio value={VoteProposalResult.VOTE}>
+                <Radio.Group
+                    onChange={onChange}
+                    value={value}
+                    disabled={voteStatus === FETCH_STATUS.LOADING}
+                >
+                    <Radio value={VoteProposalOption.VOTE}>
                         <div className="flex flex-col">
                             <div>{t('VOTED')}</div>
                             <Text className="text-polar-green">
-                                {formatNumber(percentVoted, {
+                                {formatNumber(votePercent.percentVoted, {
                                     maximumFractionDigits: 1,
                                 })}
                                 %
                             </Text>
                         </div>
                     </Radio>
-                    <Radio value={VoteProposalResult.UN_VOTE}>
+                    <Radio value={VoteProposalOption.UN_VOTE}>
                         <div className="flex flex-col">
                             <div>{t('UNVOTED')}</div>
                             <Text className="text-polar-green">
-                                {formatNumber(percentUnVoted, {
+                                {formatNumber(votePercent.percentUnVoted, {
                                     maximumFractionDigits: 1,
                                 })}
                                 %
                             </Text>
                         </div>
                     </Radio>
-                    <Radio value={VoteProposalResult.NO_IDEA}>
+                    <Radio value={VoteProposalOption.NO_IDEA}>
                         <div className="flex flex-col">
                             <div>{t('NO_IDEA')}</div>
                             <Text className="text-polar-green">
-                                {formatNumber(percentNotVoteYet, {
+                                {formatNumber(votePercent.percentNotVoteYet, {
                                     maximumFractionDigits: 1,
                                 })}
                                 %

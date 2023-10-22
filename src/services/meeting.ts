@@ -1,6 +1,7 @@
 import {
     IGetAllDataReponse,
     IMeetingDetailResponse,
+    IMeetingParticipantsResponse,
     IUploadResponse,
 } from './response.type'
 import { get, post } from './fetcher'
@@ -29,6 +30,18 @@ const serviceMeeting = {
     getDetailMeeting: async (meetingId: number) => {
         const response = await get<IMeetingDetailResponse>(
             `/meetings/${meetingId}`,
+        )
+        return response.data
+    },
+
+    getMeetingParticipants: async (meetingId: number, searchQuery: string) => {
+        const response = await get<IMeetingParticipantsResponse>(
+            `/meetings/${meetingId}/participants`,
+            {
+                searchQuery,
+                page: 1, // just to test
+                limit: 100, // just to test
+            },
         )
         return response.data
     },

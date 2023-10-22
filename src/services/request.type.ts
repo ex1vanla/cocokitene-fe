@@ -16,6 +16,4 @@ export interface ICreateMeetingPayload {
     shareholders: number[]
 }
 
-export interface IListMeetingPayload {
-
-}
+export interface IListMeetingPayload {}
