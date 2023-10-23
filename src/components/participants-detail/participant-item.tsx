@@ -1,4 +1,4 @@
-import { IParticipants } from '@/components/participants-detail'
+import { IParticipantsView } from '@/components/participants-detail'
 import { truncateString } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { Avatar, Typography } from 'antd'
@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl'
 
 const { Text } = Typography
 
-interface IParticipantItem extends IParticipants {}
+interface IParticipantItem extends IParticipantsView {}
 
 const ParticipantItem = ({
     defaultAvatarHashColor,

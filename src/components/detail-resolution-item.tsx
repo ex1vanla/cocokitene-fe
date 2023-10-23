@@ -5,7 +5,14 @@ import { IProposalCreator } from '@/stores/meeting/types'
 import { formatNumber } from '@/utils/format-number'
 import { truncateString } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
-import { Avatar, Modal, Radio, RadioChangeEvent, Typography } from 'antd'
+import {
+    Avatar,
+    Modal,
+    Radio,
+    RadioChangeEvent,
+    Typography,
+    notification,
+} from 'antd'
 import Color from 'color'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
@@ -53,43 +60,60 @@ const DetailResolutionItem = ({
         .lighten(0.6)
         .hex()
 
-    const onChange = (e: RadioChangeEvent) => {
-        ;(async () => {
-            try {
-                setVoteStatus(FETCH_STATUS.LOADING)
-                setValue(e.target.value)
-                const proposal = await serviceProposal.voteProposal(
-                    id,
-                    e.target.value,
-                )
-                const notVoteYetQuantity = Number(proposal.notVoteYetQuantity)
-                const votedQuantity = Number(proposal.votedQuantity)
-                const unVotedQuantity = Number(proposal.unVotedQuantity)
-                const totalShareholders =
-                    notVoteYetQuantity + votedQuantity + unVotedQuantity
-                const percentVoted =
-                    totalShareholders === 0
-                        ? 0
-                        : (votedQuantity * 100) / totalShareholders
-                const percentUnVoted =
-                    totalShareholders === 0
-                        ? 0
-                        : (unVotedQuantity * 100) / totalShareholders
-                const percentNotVoteYet =
-                    totalShareholders === 0
-                        ? 0
-                        : (notVoteYetQuantity * 100) / totalShareholders
-                setVotePercent({
-                    percentVoted,
-                    percentNotVoteYet,
-                    percentUnVoted,
-                })
-                setVoteStatus(FETCH_STATUS.SUCCESS)
-            } catch (error) {
-                setVoteStatus(FETCH_STATUS.ERROR)
-            }
-        })()
+    const onVoteConfirm = (e: RadioChangeEvent) => {
+        const config = {
+            title,
+            content: t('DO_YOU_WANT_TO_CHANGE_YOUR_VOTE_RESULT?'),
+            okText: t('OK'),
+            cancelText: t('CANCEL'),
+            onOk() {
+                onChange(e)
+            },
+        }
+
+        Modal.confirm(config)
     }
+
+    const onChange = async (e: RadioChangeEvent) => {
+        try {
+            setVoteStatus(FETCH_STATUS.LOADING)
+            setValue(e.target.value)
+            const proposal = await serviceProposal.voteProposal(
+                id,
+                e.target.value,
+            )
+            const notVoteYetQuantity = Number(proposal.notVoteYetQuantity)
+            const votedQuantity = Number(proposal.votedQuantity)
+            const unVotedQuantity = Number(proposal.unVotedQuantity)
+            const totalShareholders =
+                notVoteYetQuantity + votedQuantity + unVotedQuantity
+            const percentVoted =
+                totalShareholders === 0
+                    ? 0
+                    : (votedQuantity * 100) / totalShareholders
+            const percentUnVoted =
+                totalShareholders === 0
+                    ? 0
+                    : (unVotedQuantity * 100) / totalShareholders
+            const percentNotVoteYet =
+                totalShareholders === 0
+                    ? 0
+                    : (notVoteYetQuantity * 100) / totalShareholders
+            setVotePercent({
+                percentVoted,
+                percentNotVoteYet,
+                percentUnVoted,
+            })
+            setVoteStatus(FETCH_STATUS.SUCCESS)
+            notification.success({
+                message: t('VOTED_PROPOSAL'),
+                description: t('CHANGE_VOTE_RESULT_PROPOSAL_SUCCESSFULLY'),
+            })
+        } catch (error) {
+            setVoteStatus(FETCH_STATUS.ERROR)
+        }
+    }
+
     return (
         <div className="flex items-center justify-between border-b border-b-neutral/4 py-3">
             <Modal
@@ -158,7 +182,7 @@ const DetailResolutionItem = ({
                     <Text className="text-black-45">{t('VOTED')}</Text>
                 </div> */}
                 <Radio.Group
-                    onChange={onChange}
+                    onChange={onVoteConfirm}
                     value={value}
                     disabled={voteStatus === FETCH_STATUS.LOADING}
                 >

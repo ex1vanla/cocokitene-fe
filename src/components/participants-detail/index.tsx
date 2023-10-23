@@ -13,13 +13,21 @@ export interface IParticipantsView {
 interface IParticipantDetail {
     title: string
     participantList: IParticipantsView[]
+    isLoading: boolean
 }
 
-const ParticipantDetail = ({ title, participantList }: IParticipantDetail) => {
+const ParticipantDetail = ({
+    title,
+    participantList,
+    isLoading,
+}: IParticipantDetail) => {
     return (
         <div className="flex max-w-sm flex-col gap-4">
             <Text className="text-sm">{title}</Text>
-            <ParticipantList participantList={participantList} />
+            <ParticipantList
+                participantList={participantList}
+                isLoading={isLoading}
+            />
         </div>
     )
 }
