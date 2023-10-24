@@ -1,15 +1,12 @@
 'use client'
 
+import AccountInfo from '@/components/account-info'
 import { LogoAppIcon } from '@/components/svgs'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
 import ConnectWallet from './connect-wallet'
 import Menu from './menu'
-import AccountInfo from '@/components/account-info'
-import { RootState } from '@/stores'
-import { useSelector } from 'react-redux'
-import { useAuthLogin } from '@/stores/auth/hooks'
 
 const LandingHeader = () => {
     const [metaClass, setMetaClass] = useState('')

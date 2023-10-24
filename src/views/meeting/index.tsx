@@ -1,9 +1,9 @@
+import withAuth from '@/components/component-auth'
 import ListTitle from '@/components/content-page-title/list-title'
-import { MeetingType, UserJoinMeetingStatusEnum } from '@/constants/meeting'
+import { MeetingType } from '@/constants/meeting'
 import { useNotification } from '@/hooks/use-notification'
 import useDebounce from '@/hooks/useDebounce'
 import { useAttendance } from '@/stores/attendance/hooks'
-import { useAuthLogin } from '@/stores/auth/hooks'
 import { useListMeeting } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
@@ -99,4 +99,4 @@ const MeetingList = () => {
     )
 }
 
-export default MeetingList
+export default withAuth(MeetingList)

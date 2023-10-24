@@ -12,11 +12,12 @@ const ConnectWallet = () => {
     const t = useTranslations()
     const { isConnected, address } = useAccount()
     const {authState, loginAction, getNonceAction} = useAuthLogin()
+    console.log("check", isConnected);
     useEffect(() => {
         if (isConnected && !authState.isAuthenticated) {
             getNonceAction(address ?? '')
         }
-    }, [isConnected])
+    }, [isConnected, authState.isAuthenticated])
 
     useEffect(() => {
         (async () => {

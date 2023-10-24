@@ -4,6 +4,6 @@ export interface IMeetingItem {
     meetings_start_time: string
     meetings_end_time: string
     meetings_meeting_link: string
-    isJoined: string
+    isJoined: number
     meetings_status_meeting_happen: string
 }
