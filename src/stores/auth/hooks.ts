@@ -1,12 +1,14 @@
 import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
 import { IAuthState, ILoginRequest } from './type'
-import { signOut, updateAuthLogin } from './slice'
+import { signOut } from './slice'
 import { getNonceThunk, login } from './thunk'
 
 type AuthLoginType = {
     authState: IAuthState
+    // eslint-disable-next-line
     loginAction: (loginData: ILoginRequest) => void
+    // eslint-disable-next-line
     getNonceAction: (walletAddress: string) => void
     logoutAction: () => void
 }

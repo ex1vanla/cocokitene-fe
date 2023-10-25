@@ -3,41 +3,42 @@ import ButtonConnectWallet from '@/connect-wallet/button-connect-wallet'
 import { CONSTANT_EMPTY_STRING } from '@/constants/common'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
 import { signMessage } from 'wagmi/actions'
 
 const ConnectWallet = () => {
-    const [signature, setSignature] = useState<string | null>(null);
+    // const [signature, setSignature] = useState<string | null>(null);
     const t = useTranslations()
     const { isConnected, address } = useAccount()
-    const {authState, loginAction, getNonceAction} = useAuthLogin()
-    console.log("check", isConnected);
+    const { authState, loginAction, getNonceAction } = useAuthLogin()
+
+    console.log('check', isConnected)
+
     useEffect(() => {
         if (isConnected && !authState.isAuthenticated) {
             getNonceAction(address ?? '')
         }
-    }, [isConnected, authState.isAuthenticated])
+        // eslint-disable-next-line
+    }, [isConnected, address])
 
     useEffect(() => {
-        (async () => {
-            if (authState.nonce) {
+        const signAndLogin = async () => {
+            if (isConnected && authState.nonce && !authState.isAuthenticated) {
                 const sign = await signMessage({
-                    message: 'Please confirm to login - nonce:' + authState.nonce,
-                });
-                if (sign) setSignature(sign);
+                    message:
+                        'Please confirm to login - nonce:' + authState.nonce,
+                })
+                loginAction({
+                    walletAddress: address ?? CONSTANT_EMPTY_STRING,
+                    signature: sign,
+                })
             }
-        })();
-    }, [authState.nonce])
-
-    useEffect(() => {
-        if (signature) {
-            loginAction({
-                walletAddress: address ?? CONSTANT_EMPTY_STRING,
-                signature: signature,
-            })
         }
-    }, [signature])
+        signAndLogin()
+        // eslint-disable-next-line
+    }, [authState.nonce, isConnected, address])
+
     return (
         <>
             <ButtonConnectWallet

@@ -7,18 +7,16 @@ import { Dropdown, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useDisconnect } from 'wagmi'
 
 const { Text } = Typography
-const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
-    const router = useRouter()
+const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
     const { authState, logoutAction } = useAuthLogin()
     const { disconnect } = useDisconnect()
     const handleLogout = async () => {
-        await Promise.all([disconnect(), logoutAction() ])
-        await router.push('/en')
+        disconnect()
+        logoutAction()
     }
 
     const items: MenuProps['items'] = [
