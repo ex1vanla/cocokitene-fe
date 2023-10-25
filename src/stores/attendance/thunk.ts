@@ -13,8 +13,8 @@ export const joinMeeting = createAsyncThunk<
     }
 >('attendance/joinMeeting', async ({ meetingId }, { rejectWithValue }) => {
     try {
-        const data = await attendanceMeeting.attendanceMeeting(meetingId)
-        return data
+        await attendanceMeeting.attendanceMeeting(meetingId)
+        return {meetingId};
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data
