@@ -94,7 +94,7 @@ const ItemFutureMeeting = ({
                     span={4}
                     className="flex items-center justify-end space-x-2"
                 >
-                    {isJoined === '0' ? (
+                    {isJoined === 0 ? (
                         <Button
                             type="primary"
                             size="middle"

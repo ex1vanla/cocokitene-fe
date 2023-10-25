@@ -14,12 +14,11 @@ const { Text } = Typography
 const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
     const router = useRouter()
     const t = useTranslations()
+    const { authState, logoutAction } = useAuthLogin()
     const { disconnect } = useDisconnect()
-    const {authState, logoutAction} = useAuthLogin();
-    const handleLogout = () => {
-        logoutAction();
-        disconnect();
-        router.push('/en');
+    const handleLogout = async () => {
+        await Promise.all([disconnect(), logoutAction() ])
+        await router.push('/en')
     }
 
     const items: MenuProps['items'] = [
@@ -96,7 +95,7 @@ const AccountInfo = ({ name, avatar }: { name: string; avatar: string }) => {
                 <div className="flex items-center gap-2">
                     <Image src={avatar} alt={'avatar'} width={24} height={24} />
                     <Text className="text-sm leading-[22px] text-white">
-                        {authState.userData?.username ?? "Unknow"}
+                        {authState.userData?.username ?? 'Unknow'}
                     </Text>
                 </div>
                 <DownOutlined className="h-[10px] w-[10px] text-white" />

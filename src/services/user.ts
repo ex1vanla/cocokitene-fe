@@ -49,9 +49,9 @@ const serviceUser = {
         const response = await post<{
             accessToken: string
         }>('/auths/user/refresh-token', 
-            refreshToken,
+            {refreshToken: refreshToken},
         )
-        const accessToken = response.data?.accessToken
+        const accessToken = response.data
         if (accessToken) {
             cookies.set(USER_TOKEN_STORAGE_KEY, JSON.stringify(accessToken), {
                 path: '/',
