@@ -8,7 +8,7 @@ export const { chains, publicClient, webSocketPublicClient } = configureChains(
     [publicProvider()],
 )
 
-const projectId = 'a0b1a5cdc30d5cefee76a1037d04102a'
+const projectId = '4dbdec9c7b7116b9f3ce28893b70794c'
 
 const { wallets } = getDefaultWallets({
     appName: 'Cocokitene',
