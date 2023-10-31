@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
-import { ICompanyState, IGetAllCompanyQuery } from './type'
-import { getAllCompany } from './listSlice'
+import { ICompanyState, IGetAllCompanyQuery, ListParamsFilter } from './type'
+import { getAllCompany, setFilter } from './listSlice'
 
 type ListCompanyType = {
     companyState: ICompanyState
     getListCompanyAction: (data: IGetAllCompanyQuery) => void
+    setFilterAction: (data: ListParamsFilter) => void
 }
 
 export const useListCompany = (): ListCompanyType => {
@@ -19,8 +20,16 @@ export const useListCompany = (): ListCompanyType => {
         [dispatch],
     )
 
+    const setFilterAction = useCallback(
+        (data: ListParamsFilter) => {
+            dispatch(setFilter(data))
+        },
+        [dispatch],
+    )
+
     return {
         companyState,
         getListCompanyAction,
+        setFilterAction
     }
 }

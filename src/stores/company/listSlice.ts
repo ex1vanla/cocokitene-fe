@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 import { EActionStatus, FetchError } from '../type'
 import {
-    ICompany,
+    ICompanyList,
     ICompanyState,
     IGetAllCompanyQuery,
     ListParamsFilter,
@@ -15,13 +15,13 @@ const initialState: ICompanyState = {
     companyList: [],
     totalCompanyItem: 0,
     page: 1,
-    limit: 8,
+    limit: 2,
     errorCode: '',
     errorMessage: '',
 }
 
 export const getAllCompany = createAsyncThunk<
-    IGetAllDataReponse<ICompany>,
+    IGetAllDataReponse<ICompanyList>,
     IGetAllCompanyQuery,
     {
         rejectValue: FetchError
@@ -29,7 +29,22 @@ export const getAllCompany = createAsyncThunk<
 >('company/getCompanyAll', async (param, { rejectWithValue }) => {
     try {
         const data = await serviceCompany.getAllCompanys(param)
-        return data
+        const mappedData = data.items.map((item, index) => {
+            return {
+                id: item.companys_id,
+                companyName: item.companys_company_name,
+                servicePlan: item.planName,
+                representative: item.companys_representative_user,
+                totalCreatedAccount: item.totalCreatedAccount,
+                totalCreatedMTGs: item.totalCreatedMTGs,
+                status: item.companyStatus
+            }
+        }) as ICompanyList[];
+
+        return {
+            ...data,
+            items: mappedData
+        } as IGetAllDataReponse<ICompanyList>;
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data

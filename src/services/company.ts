@@ -1,4 +1,4 @@
-import { ICompany, IGetAllCompanyQuery } from "@/stores/company/type"
+import { IGetAllCompanyQuery, IListCompanyResponse } from "@/stores/company/type"
 import { IGetAllDataReponse } from "./response.type"
 import { get } from "./fetcher"
 
@@ -7,9 +7,9 @@ const serviceCompany = {
         page,
         limit,
         filter,
-    }: IGetAllCompanyQuery): Promise<IGetAllDataReponse<ICompany>> => {
+    }: IGetAllCompanyQuery): Promise<IGetAllDataReponse<IListCompanyResponse>> => {
         const payload = { page, limit, ...filter }
-        const response: { data: IGetAllDataReponse<ICompany> } = await get(
+        const response: { data: IGetAllDataReponse<IListCompanyResponse> } = await get(
             '/system-admin/get-all-companys',
             payload,
         )

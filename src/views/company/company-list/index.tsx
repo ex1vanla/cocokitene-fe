@@ -1,4 +1,7 @@
 import { AvatarBgHexColors } from '@/constants/common'
+import { SERVICE_PLAN_ITEMS } from '@/constants/company'
+import { useListCompany } from '@/stores/company/hooks'
+import { ICompanyList } from '@/stores/company/type'
 import { truncateString } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { Avatar, Badge, Space, Tag, Typography } from 'antd'
@@ -11,52 +14,41 @@ const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
     .lighten(0.6)
     .hex()
 
-interface DataType {
-    id: number
-    companyName: string
-    servicePlan: number
-    representative: string
-    totalAccount: number
-    totalMTGs: number
-    status: boolean
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<ICompanyList> = [
     {
         title: 'No.',
         dataIndex: 'id',
-        key: 'id',
-        width: '56px'
+        width: '56px',
     },
     {
         title: 'Company Name',
         dataIndex: 'companyName',
-        key: 'companyName',
     },
     {
         title: 'Service Plan',
         dataIndex: 'servicePlan',
-        key: 'servicePlan',
         render: (_, record) => {
+            const indexItem = SERVICE_PLAN_ITEMS.find(
+                (item) => item.value === record.servicePlan,
+            )
             const planOptions: {
                 [key: number]: { text: string; textColorClass: string }
             } = {
-                0: { text: 'Pay of month', textColorClass: 'text-green-500' },
-                1: { text: 'Trial', textColorClass: 'text-orange-500' },
-                2: { text: 'Free', textColorClass: 'text-black' },
+                1: { text: 'Free', textColorClass: 'text-black' },
+                2: { text: 'Trial', textColorClass: 'text-orange-500' },
+                3: { text: 'Pay of month', textColorClass: 'text-green-500' },
+                4: { text: 'Error', textColorClass: 'text-red-500' },
             }
 
-            const { text, textColorClass } =
-                planOptions[record.servicePlan] || planOptions[2]
+            const { text, textColorClass } = planOptions[indexItem?.key ?? 4]
 
             return <span className={textColorClass}>{text}</span>
         },
-        width: '10%'
+        width: '10%',
     },
     {
         title: 'Representative',
         dataIndex: 'representative',
-        key: 'representative',
         render: (_, record) => {
             return (
                 <div className="flex items-center gap-2">
@@ -79,23 +71,20 @@ const columns: ColumnsType<DataType> = [
                 </div>
             )
         },
-        width: '18%'
+        width: '18%',
     },
     {
         title: 'Total Created Account',
-        dataIndex: 'totalAccount',
-        key: 'totalAccount',
-        width: '9%'
+        dataIndex: 'totalCreatedAccount',
+        width: '9%',
     },
     {
         title: 'Total Created MTGs',
-        dataIndex: 'totalMTGs',
-        key: 'totalMTGs',
-        width: '9%'
+        dataIndex: 'totalCreatedMTGs',
+        width: '9%',
     },
     {
         title: 'Status',
-        key: 'status',
         dataIndex: 'status',
         render: (_, record) => (
             <>
@@ -106,50 +95,42 @@ const columns: ColumnsType<DataType> = [
                 )}{' '}
             </>
         ),
-        width: '8%'
+        width: '8%',
     },
     {
         title: '',
         key: 'action',
         render: () => <a>See Detail</a>,
-        width: '8%'
+        width: '8%',
     },
 ]
 
-const data: DataType[] = [
-    {
-        id: 1,
-        companyName: 'United Motor Service Center, Inc.',
-        servicePlan: 0,
-        representative: 'Tanaka',
-        totalAccount: 6,
-        totalMTGs: 1,
-        status: true,
-    },
-    {
-        id: 2,
-        companyName: 'Legacy Mechanics',
-        servicePlan: 1,
-        representative: 'Williamson',
-        totalAccount: 3,
-        totalMTGs: 11,
-        status: true,
-    },
-    {
-        id: 3,
-        companyName: 'Midtown Center Auto Repair',
-        servicePlan: 2,
-        representative: 'Kathryn Murphy',
-        totalAccount: 8,
-        totalMTGs: 15,
-        status: false,
-    },
-]
+interface CompanyListProps {
+    data: ICompanyList[]
+}
 
-const CompanyList = () => {
+const CompanyList = ({ data }: CompanyListProps) => {
+    const { companyState, getListCompanyAction } = useListCompany()
+    const handlePageChange = (pageChange: number) => {
+        getListCompanyAction({
+            page: pageChange,
+            limit: companyState.limit,
+            filter: { ...companyState.filter },
+        })
+    }
     return (
         <div className="bg-white p-6 ">
-            <Table columns={columns} dataSource={data} />;
+            <Table
+                columns={columns}
+                dataSource={data}
+                rowKey="id"
+                pagination={{
+                    pageSize: companyState.limit,
+                    defaultCurrent: companyState.page,
+                    total: companyState.totalCompanyItem,
+                    onChange: handlePageChange,
+                }}
+            />
         </div>
     )
 }

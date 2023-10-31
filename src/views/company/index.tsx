@@ -7,7 +7,8 @@ import { useEffect } from 'react'
 
 const CompanyView = () => {
     const t = useTranslations()
-    const { companyState, getListCompanyAction } = useListCompany()
+    const { companyState, getListCompanyAction, setFilterAction } =
+        useListCompany()
 
     useEffect(() => {
         getListCompanyAction({
@@ -17,8 +18,10 @@ const CompanyView = () => {
         })
     }, [companyState.filter])
 
-    console.log("checkkkkkk", companyState.companyList);
-    const handleInputChange = () => {}
+    const handleInputChange = (value: string) => {
+        console.log("value", value);
+        setFilterAction({ ...companyState.filter, searchQuery: value })
+    }
 
     const handleSelectChange = () => {}
     return (
@@ -31,7 +34,7 @@ const CompanyView = () => {
                 onChangeSelect={handleSelectChange}
             />
             <div className="p-6">
-                <CompanyList />
+                <CompanyList data={companyState.companyList} />
             </div>
         </div>
     )
