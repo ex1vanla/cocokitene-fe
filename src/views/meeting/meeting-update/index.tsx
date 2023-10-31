@@ -6,6 +6,7 @@ import AmendmentResolutions from '@/views/meeting/meeting-update/amendment-resol
 import MeetingInformation from '@/views/meeting/meeting-update/meeting-information'
 import Participants from '@/views/meeting/meeting-update/participants'
 import Resolutions from '@/views/meeting/meeting-update/resolutions'
+import SaveUpdateMeetingButton from '@/views/meeting/meeting-update/save-button'
 import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { useEffect } from 'react'
@@ -31,7 +32,10 @@ const MeetingUpdate = () => {
 
     return (
         <div>
-            <UpdateTitle pageName={t('UPDATE_MEETING')} />
+            <UpdateTitle
+                pageName={t('UPDATE_MEETING')}
+                saveButton={<SaveUpdateMeetingButton />}
+            />
             <div className="flex flex-col gap-6 p-6">
                 <MeetingInformation />
                 <Resolutions />

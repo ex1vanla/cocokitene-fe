@@ -143,6 +143,7 @@ export interface IDetailMeetingState {
 export interface IUpdateMeeting {
     id: number
     title: string
+    status: MeetingStatus
     meetingLink: string
     startTime: string
     endTime: string

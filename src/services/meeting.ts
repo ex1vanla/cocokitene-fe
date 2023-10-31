@@ -1,12 +1,11 @@
+import { IGetAllMeetingQuery, IMeeting } from '@/stores/meeting/types'
+import { get, patch, post } from './fetcher'
+import { ICreateMeetingPayload, IUpdateMeetingPayload } from './request.type'
 import {
     IGetAllDataReponse,
     IMeetingDetailResponse,
     IMeetingParticipantsResponse,
-    IUploadResponse,
 } from './response.type'
-import { get, post } from './fetcher'
-import { IGetAllMeetingQuery, IMeeting } from '@/stores/meeting/types'
-import { ICreateMeetingPayload } from './request.type'
 
 const serviceMeeting = {
     getAllMeetings: async ({
@@ -24,7 +23,14 @@ const serviceMeeting = {
         return response.data
     },
     createMeeting: async (payload: ICreateMeetingPayload) => {
-        const response = await post<IUploadResponse>('/meetings', payload)
+        const response = await post<any>('/meetings', payload)
+        return response.data
+    },
+    updateMeeting: async (
+        meetingId: number,
+        payload: IUpdateMeetingPayload,
+    ) => {
+        const response = await patch<any>(`/meetings/${meetingId}`, payload)
         return response.data
     },
     getDetailMeeting: async (meetingId: number) => {

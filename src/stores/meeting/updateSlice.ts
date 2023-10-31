@@ -1,5 +1,5 @@
 import { IParticipants } from '@/components/participant-selector'
-import { MeetingFileType } from '@/constants/meeting'
+import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType } from '@/constants/resolution'
 import serviceMeeting from '@/services/meeting'
 import {
@@ -18,6 +18,7 @@ const initialState: IUpdateMeetingState = {
         id: 0,
         title: '',
         meetingLink: '',
+        status: MeetingStatus.NOT_HAPPEN,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
         meetingMinutes: [],
@@ -130,6 +131,7 @@ export const initUpdateMeeting = createAsyncThunk<
             id: meetingDetail.id,
             title: meetingDetail.title,
             meetingLink: meetingDetail.meetingLink,
+            status: meetingDetail.status,
             startTime: new Date(meetingDetail.startTime).toISOString(),
             endTime: new Date(meetingDetail.endTime).toISOString(),
             meetingInvitations: getMeetingFilesByType(

@@ -19,6 +19,16 @@ export enum MeetingStatus {
     DELAYED = '4',
 }
 
+export const MeetingStatusName: {
+    [key in MeetingStatus]: string
+} = {
+    [MeetingStatus.NOT_HAPPEN]: 'NOT_HAPPEN',
+    [MeetingStatus.HAPPENING]: 'HAPPENING',
+    [MeetingStatus.HAPPENED]: 'HAPPENED',
+    [MeetingStatus.CANCELED]: 'CANCELED',
+    [MeetingStatus.DELAYED]: 'DELAYED',
+}
+
 export enum UserJoinMeetingStatusEnum {
     USER_JOIN_WHEN_MEETING_IS_NOT_START = 0,
     USER_JOIN_MEETING_WHEN_MEETING_START_A_LITTLE = 1,

@@ -2,16 +2,17 @@ import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import { Button, Typography } from 'antd'
-import { useTranslations } from 'next-intl'
+import { Typography } from 'antd'
 import { useRouter } from 'next/navigation'
+import { ReactNode } from 'react'
 
 const { Title } = Typography
 
-interface IUpdateTitle extends IBaseTitle {}
+interface IUpdateTitle extends IBaseTitle {
+    saveButton: ReactNode
+}
 
-const UpdateTitle = ({ pageName }: IUpdateTitle) => {
-    const t = useTranslations()
+const UpdateTitle = ({ pageName, saveButton }: IUpdateTitle) => {
     const router = useRouter()
     return (
         <LayoutTitle>
@@ -25,11 +26,7 @@ const UpdateTitle = ({ pageName }: IUpdateTitle) => {
                     {pageName}
                 </Title>
             </div>
-            <div className="flex items-center gap-2">
-                <Button type="primary" size="large" onClick={() => {}}>
-                    {t('SAVE')}
-                </Button>
-            </div>
+            <div className="flex items-center gap-2">{saveButton}</div>
         </LayoutTitle>
     )
 }

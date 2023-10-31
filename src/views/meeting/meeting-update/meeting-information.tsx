@@ -1,6 +1,11 @@
 /* eslint-disable */
 import BoxArea from '@/components/box-area'
-import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
+import {
+    ACCEPT_FILE_TYPES,
+    MeetingFileType,
+    MeetingStatus,
+    MeetingStatusName,
+} from '@/constants/meeting'
 import serviceUpload from '@/services/upload'
 import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
 import { UploadOutlined } from '@ant-design/icons'
@@ -14,6 +19,7 @@ import {
     Typography,
     UploadFile,
     DatePicker,
+    Select,
 } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
@@ -22,6 +28,7 @@ import dayjs from 'dayjs'
 import { urlRegex } from '@/constants/common'
 import { useEffect, useState } from 'react'
 import { getShortNameFromUrl } from '@/utils/meeting'
+import { enumToArray } from '@/utils'
 
 const { RangePicker } = DatePicker
 
@@ -38,29 +45,6 @@ const MeetingInformation = () => {
         })
     }
 
-    // const [meetingInvitations, setMeetingInvitations] = useState<UploadFile[]>()
-    const [meetingMinutes, setMeetingMinutes] = useState<UploadFile[]>()
-
-    useEffect(() => {
-        // if (data.meetingInvitations && data.meetingInvitations.length) {
-        //     const invitations = data.meetingInvitations.map((file, index) => ({
-        //         uid: index.toString(),
-        //         name: getShortNameFromUrl(file.url) as string,
-        //         url: file.url,
-        //     }))
-        //     setMeetingInvitations(invitations)
-        // }
-
-        if (data.meetingMinutes && data.meetingMinutes.length) {
-            const minutes = data.meetingMinutes.map((file, index) => ({
-                uid: index.toString(),
-                name: getShortNameFromUrl(file.url) as string,
-                url: file.url,
-            }))
-            setMeetingMinutes(minutes)
-        }
-    }, [data.meetingMinutes])
-
     const onUpload =
         (name: string, fileType: MeetingFileType) => async (file: RcFile) => {
             try {
@@ -76,6 +60,9 @@ const MeetingInformation = () => {
             fileType: MeetingFileType,
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
+            console.log('info')
+            console.log(info)
+
             if (info.file.status === 'done') {
                 const url = info.file?.xhr?.responseURL
                 if (url) {
@@ -133,6 +120,13 @@ const MeetingInformation = () => {
         value: DatePickerProps['value'] | RangePickerProps['value'],
     ) => {
         // console.log('onOk: ', value);
+    }
+
+    const onChangeStatus = (value: MeetingStatus) => {
+        setData({
+            ...data,
+            status: value,
+        })
     }
 
     return (
@@ -200,6 +194,7 @@ const MeetingInformation = () => {
                                             file.url,
                                         ) as string,
                                         url: file.url,
+                                        status: 'done',
                                     }),
                                 )}
                                 onChange={onFileChange(
@@ -235,7 +230,16 @@ const MeetingInformation = () => {
                             className="mb-0"
                         >
                             <Upload
-                                fileList={meetingMinutes}
+                                fileList={data?.meetingMinutes?.map(
+                                    (file, index) => ({
+                                        uid: index.toString(),
+                                        name: getShortNameFromUrl(
+                                            file.url,
+                                        ) as string,
+                                        url: file.url,
+                                        status: 'done',
+                                    }),
+                                )}
                                 onChange={onFileChange(
                                     'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
@@ -295,6 +299,28 @@ const MeetingInformation = () => {
                                     dayjs(data.startTime),
                                     dayjs(data.endTime),
                                 ]}
+                            />
+                        </Form.Item>
+                    </Form>
+                </Col>
+                <Col xs={24} lg={12}>
+                    <Form layout="vertical">
+                        <Form.Item
+                            label={t('STATUS')}
+                            rules={[{ required: true }]}
+                            className="mb-0"
+                        >
+                            <Select
+                                size="large"
+                                style={{ width: '100%' }}
+                                defaultValue={data.status}
+                                onChange={onChangeStatus}
+                                options={enumToArray(MeetingStatus).map(
+                                    (status) => ({
+                                        value: status,
+                                        label: t(MeetingStatusName[status]),
+                                    }),
+                                )}
                             />
                         </Form.Item>
                     </Form>

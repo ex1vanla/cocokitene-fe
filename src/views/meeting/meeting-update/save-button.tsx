@@ -1,21 +1,19 @@
 /*eslint-disable*/
 import { FETCH_STATUS, urlRegex } from '@/constants/common'
 import serviceMeeting from '@/services/meeting'
-import { ICreateMeetingPayload } from '@/services/request.type'
+import { IUpdateMeetingPayload } from '@/services/request.type'
 import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
-import { ICreateMeeting } from '@/stores/meeting/types'
+import { IUpdateMeeting } from '@/stores/meeting/types'
 import { Button, Spin, notification } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
-const SaveEditMeetingButton = () => {
+const SaveUpdateMeetingButton = () => {
     const t = useTranslations()
     const [data] = useUpdateMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
-    const router = useRouter()
 
-    const onValidate = (data: ICreateMeeting) => {
+    const onValidate = (data: IUpdateMeeting) => {
         const payload = {
             ...data,
             meetingLink:
@@ -40,7 +38,7 @@ const SaveEditMeetingButton = () => {
         const rs: {
             isValid: boolean
             errors: { [key: string]: string }
-            payload: ICreateMeetingPayload
+            payload: IUpdateMeetingPayload
         } = {
             isValid: true,
             errors: {},
@@ -81,16 +79,12 @@ const SaveEditMeetingButton = () => {
         try {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
-                const res = await serviceMeeting.createMeeting(validate.payload)
+                await serviceMeeting.updateMeeting(data.id, validate.payload)
                 notification.success({
-                    message: t('CREATED'),
-                    description: t('CREATED_MEETING_SUCCESSFULLY'),
+                    message: t('UPDATED'),
+                    description: t('UPDATED_MEETING_SUCCESSFULLY'),
                 })
-
-                // resetData()
-
                 setStatus(FETCH_STATUS.SUCCESS)
-                router.push('/meeting')
             })()
         } catch (error) {
             notification.error({
@@ -116,4 +110,4 @@ const SaveEditMeetingButton = () => {
     )
 }
 
-export default SaveEditMeetingButton
+export default SaveUpdateMeetingButton
