@@ -1,11 +1,7 @@
 import { IParticipants } from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
-import {
-    MeetingFileType,
-    MeetingStatus,
-    ResolutionType,
-} from '@/constants/meeting'
-import { VoteProposalOption } from '@/constants/resolution'
+import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
+import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
 export interface IMeta {

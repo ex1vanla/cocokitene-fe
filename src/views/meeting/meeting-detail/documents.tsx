@@ -1,12 +1,9 @@
 import BoxArea from '@/components/box-area'
 import { PdfIcon } from '@/components/svgs'
-import {
-    MeetingResourceType,
-    FileType,
-    MeetingFileType,
-} from '@/constants/meeting'
+import { FileType, MeetingResourceType } from '@/constants/meeting'
 import { useMeetingDetail, useMeetingFiles } from '@/stores/meeting/hooks'
 import { truncateString } from '@/utils/format-string'
+import { getShortNameFromUrl } from '@/utils/meeting'
 import { Col, Row, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -33,33 +30,16 @@ const Resource = ({ url, type }: MeetingResource) => {
         }
     }
 
-    const getShortNameFromUrl = () => {
-        const splitUrl = url.split('/')
-
-        if (
-            splitUrl.some((text) =>
-                Object.values(MeetingFileType).includes(
-                    text as MeetingFileType,
-                ),
-            )
-        ) {
-            const shortName = url.split('/').at(-1)
-            return shortName
-        }
-
-        return url
-    }
-
     return (
         <div className="flex items-center gap-2">
             {getIconFromFileType()}
             <Link href={url} target="_blank">
                 <Text
-                    title={getShortNameFromUrl()}
+                    title={getShortNameFromUrl(url)}
                     className="cursor-pointer text-primary"
                 >
                     {truncateString({
-                        text: getShortNameFromUrl() as string,
+                        text: getShortNameFromUrl(url) as string,
                         start: 5,
                         end: 15,
                     })}

@@ -5,7 +5,7 @@ export interface ICreateMeetingPayload {
     meetingLink: string
     startTime: string
     endTime: string
-    meetingReports: IMeetingDocument[]
+    meetingMinutes: IMeetingDocument[]
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]

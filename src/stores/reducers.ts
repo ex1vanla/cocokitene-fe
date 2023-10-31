@@ -3,6 +3,7 @@ import authReducer from '@/stores/auth/slice'
 import meetingCreateReducer from '@/stores/meeting/createSlice'
 import meetingListReducer from '@/stores/meeting/listSlice'
 import meetingDetailReducer from '@/stores/meeting/detailSlice'
+import meetingUpdateReducer from '@/stores/meeting/updateSlice'
 import attendanceReducer from '@/stores/attendance/slice'
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
     meetingList: meetingListReducer,
     meetingCreate: meetingCreateReducer,
     meetingDetail: meetingDetailReducer,
+    meetingUpdate: meetingUpdateReducer,
     attendance: attendanceReducer,
 })
 

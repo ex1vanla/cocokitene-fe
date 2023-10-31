@@ -1,10 +1,5 @@
 /* eslint-disable */
 
-export enum ResolutionType {
-    RESOLUTION = 'resolution',
-    AMENDMENT_RESOLUTION = 'amendment_resolution',
-}
-
 export enum MeetingResourceType {
     MEETING_INVITATIONS = 'MEETING_INVITATIONS',
     MEETING_MINUTES = 'MEETING_MINUTES',
@@ -44,13 +39,13 @@ export enum SORT {
 }
 
 export enum SortField {
-    START_TIME = 'startTime'
+    START_TIME = 'startTime',
 }
 
 export enum MeetingFileType {
-    MEETING_INVITATION = 'invitations',
-    MEETING_MINUTES = 'minutes',
-    REPORTS = 'reports',
+    MEETING_INVITATION = '0',
+    MEETING_MINUTES = '1',
+    REPORTS = '2',
 }
 
 export const ACCEPT_FILE_TYPES = '.xlsx,.xls,.doc,.docx,.pdf'

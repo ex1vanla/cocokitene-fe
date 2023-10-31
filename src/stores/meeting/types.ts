@@ -13,7 +13,7 @@ export interface ICreateMeeting {
     meetingLink: string
     startTime: string
     endTime: string
-    meetingReports: IMeetingDocument[]
+    meetingMinutes: IMeetingDocument[]
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
@@ -137,5 +137,28 @@ export type KeyRoles =
 export interface IDetailMeetingState {
     status: EActionStatus
     meeting: IMeetingDetail | undefined
+    error: FetchError | undefined
+}
+
+export interface IUpdateMeeting {
+    id: number
+    title: string
+    meetingLink: string
+    startTime: string
+    endTime: string
+    meetingMinutes: IMeetingDocument[]
+    meetingInvitations: IMeetingDocument[]
+    resolutions: IMeetingResolution[]
+    amendmentResolutions: IMeetingResolution[]
+    hosts: IParticipants[]
+    controlBoards: IParticipants[]
+    directors: IParticipants[]
+    administrativeCouncils: IParticipants[]
+    shareholders: IParticipants[]
+}
+
+export interface IUpdateMeetingState {
+    status: EActionStatus
+    meeting: IUpdateMeeting
     error: FetchError | undefined
 }
