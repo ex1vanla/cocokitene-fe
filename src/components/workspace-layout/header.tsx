@@ -4,21 +4,10 @@ import { Layout } from 'antd'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
-const AccountInfo = dynamic(() => import('../../components/account-info'), {
+const AccountInfo = dynamic(() => import('../account-info'), {
     loading: () => <p>Loading...</p>,
     ssr: false,
 })
-
-const ConnectWallet = dynamic(
-    () =>
-        import(
-            '../../views/landing/header-about-section/header/connect-wallet'
-        ),
-    {
-        loading: () => <p>Loading...</p>,
-        ssr: false,
-    },
-)
 
 const Header = () => {
     const { authState } = useAuthLogin()
@@ -28,13 +17,11 @@ const Header = () => {
                 <Link href="/dashboard">
                     <LogoAppIcon />
                 </Link>
-                {authState.isAuthenticated ? (
+                {authState.isAuthenticated && (
                     <AccountInfo
                         name="Stan Lee"
                         avatar="/images/default-avatar.png"
                     />
-                ) : (
-                    <ConnectWallet />
                 )}
             </div>
         </Layout.Header>

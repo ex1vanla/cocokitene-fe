@@ -8,12 +8,9 @@ import { useAccount } from 'wagmi'
 import { signMessage } from 'wagmi/actions'
 
 const ConnectWallet = () => {
-    // const [signature, setSignature] = useState<string | null>(null);
     const t = useTranslations()
     const { isConnected, address } = useAccount()
     const { authState, loginAction, getNonceAction } = useAuthLogin()
-
-    console.log('check', isConnected)
 
     useEffect(() => {
         if (isConnected && !authState.isAuthenticated) {
