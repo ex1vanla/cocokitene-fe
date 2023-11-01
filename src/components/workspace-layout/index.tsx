@@ -3,27 +3,26 @@
 import Content from '@/components/workspace-layout/content'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { Layout } from 'antd'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import Header from './header'
-import dynamic from 'next/dynamic'
+import Sidebar from './sidebar'
 
 export interface IWorkspaceLayout {
     children: ReactNode
 }
 
-const Sidebar = dynamic(() => import('./sidebar'), {
-    loading: () => <p>Loading...</p>,
-    ssr: false,
-})
-
 const WorkspaceLayout = (props: IWorkspaceLayout) => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
     const { authState } = useAuthLogin()
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        setMounted(true)
+    }, [])
     return (
         <Layout className="min-h-screen">
             <Header />
             <Layout className="mt-12">
-                {authState.isAuthenticated && (
+                {mounted && authState.isAuthenticated && (
                     <Sidebar
                         isCollapsed={isCollapsed}
                         setIsCollapsed={setIsCollapsed}
