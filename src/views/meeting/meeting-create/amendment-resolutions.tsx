@@ -1,6 +1,6 @@
 import BoxArea from '@/components/box-area'
 import CreateResolutionItem from '@/components/create-resolution-item'
-import { ResolutionType } from '@/constants/meeting'
+import { ResolutionType } from '@/constants/resolution'
 import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'

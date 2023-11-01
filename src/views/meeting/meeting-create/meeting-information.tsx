@@ -46,7 +46,7 @@ const MeetingInformation = () => {
         }
     const onFileChange =
         (
-            name: 'meetingInvitations' | 'meetingReports',
+            name: 'meetingInvitations' | 'meetingMinutes',
             fileType: MeetingFileType,
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
@@ -201,14 +201,14 @@ const MeetingInformation = () => {
                         >
                             <Upload
                                 onChange={onFileChange(
-                                    'meetingReports',
+                                    'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
                                 beforeUpload={validateFile}
                                 method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
                                 action={onUpload(
-                                    'meetingReports',
+                                    'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
                             >

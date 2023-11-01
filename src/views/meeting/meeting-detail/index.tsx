@@ -27,10 +27,12 @@ const MeetingDetail = () => {
     if (!meeting || status === EActionStatus.Pending) {
         return <Loader />
     }
+
     return (
         <div>
             <DetailTitle
                 pageName={meeting.title}
+                editUrl={`/meeting/update/${meetingId}`}
                 extraButton={<SendEmailButton />}
             />
             <div className="flex flex-col gap-6 p-6">

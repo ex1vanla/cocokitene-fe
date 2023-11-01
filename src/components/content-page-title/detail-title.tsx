@@ -11,9 +11,10 @@ const { Title } = Typography
 
 interface IDetailTitle extends IBaseTitle {
     extraButton?: ReactNode
+    editUrl: string
 }
 
-const DetailTitle = ({ pageName, extraButton }: IDetailTitle) => {
+const DetailTitle = ({ pageName, extraButton, editUrl }: IDetailTitle) => {
     const t = useTranslations()
     const router = useRouter()
 
@@ -34,7 +35,7 @@ const DetailTitle = ({ pageName, extraButton }: IDetailTitle) => {
                     icon={<EditOutlined />}
                     type="default"
                     size="large"
-                    onClick={() => {}}
+                    onClick={() => router.push(editUrl)}
                 >
                     {t('EDIT')}
                 </Button>

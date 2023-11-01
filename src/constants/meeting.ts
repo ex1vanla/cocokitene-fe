@@ -1,10 +1,5 @@
 /* eslint-disable */
 
-export enum ResolutionType {
-    RESOLUTION = 'resolution',
-    AMENDMENT_RESOLUTION = 'amendment_resolution',
-}
-
 export enum MeetingResourceType {
     MEETING_INVITATIONS = 'MEETING_INVITATIONS',
     MEETING_MINUTES = 'MEETING_MINUTES',
@@ -22,6 +17,26 @@ export enum MeetingStatus {
     HAPPENED = '2',
     CANCELED = '3',
     DELAYED = '4',
+}
+
+export const MeetingStatusName: {
+    [key in MeetingStatus]: string
+} = {
+    [MeetingStatus.NOT_HAPPEN]: 'NOT_HAPPEN',
+    [MeetingStatus.HAPPENING]: 'HAPPENING',
+    [MeetingStatus.HAPPENED]: 'HAPPENED',
+    [MeetingStatus.CANCELED]: 'CANCELED',
+    [MeetingStatus.DELAYED]: 'DELAYED',
+}
+
+export const MeetingStatusColor: {
+    [key in MeetingStatus]: string
+} = {
+    [MeetingStatus.NOT_HAPPEN]: 'blue',
+    [MeetingStatus.HAPPENING]: 'green',
+    [MeetingStatus.HAPPENED]: 'grey',
+    [MeetingStatus.CANCELED]: '#FDDA0D',
+    [MeetingStatus.DELAYED]: 'red',
 }
 
 export enum UserJoinMeetingStatusEnum {
@@ -44,13 +59,13 @@ export enum SORT {
 }
 
 export enum SortField {
-    START_TIME = 'startTime'
+    START_TIME = 'startTime',
 }
 
 export enum MeetingFileType {
-    MEETING_INVITATION = 'invitations',
-    MEETING_MINUTES = 'minutes',
-    REPORTS = 'reports',
+    MEETING_INVITATION = '0',
+    MEETING_MINUTES = '1',
+    REPORTS = '2',
 }
 
 export const ACCEPT_FILE_TYPES = '.xlsx,.xls,.doc,.docx,.pdf'

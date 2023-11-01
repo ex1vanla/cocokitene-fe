@@ -7,7 +7,7 @@ const initialState: ICreateMeeting = {
     meetingLink: '',
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
-    meetingReports: [],
+    meetingMinutes: [],
     meetingInvitations: [],
     resolutions: [
         {

@@ -6,8 +6,15 @@ export interface Resolution {
 }
 
 export enum ResolutionType {
-    RESOLUTION = 'resolution',
-    AMENDMENT_RESOLUTION = 'amendment_resolution',
+    RESOLUTION = '0',
+    AMENDMENT_RESOLUTION = '1',
+}
+
+export const ResolutionTitle: {
+    [key in ResolutionType]: string
+} = {
+    [ResolutionType.RESOLUTION]: 'RESOLUTION',
+    [ResolutionType.AMENDMENT_RESOLUTION]: 'AMENDMENT_RESOLUTION',
 }
 
 export enum VoteProposalOption {

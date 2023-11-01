@@ -16,12 +16,17 @@ import {
     IMeetingState,
     ListParamsFilter,
     IProposalCreator,
+    IUpdateMeeting,
 } from '@/stores/meeting/types'
 import { EActionStatus } from '@/stores/type'
 import { getFileTypeByUrl } from '@/utils/file'
 import { MeetingResource } from '@/views/meeting/meeting-detail/documents'
 import { useCallback } from 'react'
 import { getAllMeetings, getAllPassMeetings, setFilter } from './listSlice'
+import {
+    initUpdateMeeting,
+    updateMeetingInformation,
+} from '@/stores/meeting/updateSlice'
 
 export function useCreateMeetingInformation(): [
     ICreateMeeting,
@@ -259,4 +264,38 @@ export function useResolutions(type: ResolutionType): {
             creator: resolution.creator,
         }
     })
+}
+
+export function useUpdateMeetingInformation(): [
+    IUpdateMeeting,
+    // eslint-disable-next-line
+    (data: IUpdateMeeting) => void,
+    EActionStatus,
+    // eslint-disable-next-line
+    (meetingId: number) => void,
+] {
+    const dispatch = useAppDispatch()
+    const data = useAppSelector(
+        (state: RootState) => state.meetingUpdate.meeting,
+    )
+
+    const status = useAppSelector(
+        (state: RootState) => state.meetingUpdate.status,
+    )
+
+    const setUpdateMeetingInformation = useCallback(
+        (data: IUpdateMeeting) => {
+            dispatch(updateMeetingInformation(data))
+        },
+        [dispatch],
+    )
+
+    const initData = useCallback(
+        (meetingId: number) => {
+            dispatch(initUpdateMeeting(meetingId))
+        },
+        [dispatch],
+    )
+
+    return [data, setUpdateMeetingInformation, status, initData]
 }

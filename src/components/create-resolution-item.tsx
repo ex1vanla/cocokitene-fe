@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { ResolutionType } from '@/constants/resolution'
+import { ResolutionTitle, ResolutionType } from '@/constants/resolution'
 import { Resolution } from '@/constants/resolution'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Input, Typography } from 'antd'
@@ -37,7 +37,7 @@ const CreateResolutionItem = ({
     return (
         <div className="flex flex-row items-start gap-2">
             <Text className="leading-10">
-                {t(type.toUpperCase())} {index}:
+                {t(ResolutionTitle[type])} {index}:
             </Text>
             <div className="flex flex-grow flex-col gap-2">
                 <Input
