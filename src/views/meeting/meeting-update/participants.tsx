@@ -65,7 +65,7 @@ const Participants = () => {
                     title={t('SHAREHOLDERS')}
                     selectedParticipants={data.shareholders}
                     onSelectParticipant={onSelect('shareholders')}
-                    onDeleteParticipant={onDelete('hosts')}
+                    onDeleteParticipant={onDelete('shareholders')}
                 />
             </div>
         </BoxArea>

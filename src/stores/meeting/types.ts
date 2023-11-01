@@ -25,11 +25,13 @@ export interface ICreateMeeting {
 }
 
 export interface IMeetingDocument {
+    id?: number
     url: string
     fileType: string
 }
 
 export interface IMeetingResolution {
+    id?: number
     title: string
     description: string
     type: ResolutionType

@@ -4,6 +4,7 @@ import {
     ACCEPT_FILE_TYPES,
     MeetingFileType,
     MeetingStatus,
+    MeetingStatusColor,
     MeetingStatusName,
 } from '@/constants/meeting'
 import serviceUpload from '@/services/upload'
@@ -80,7 +81,8 @@ const MeetingInformation = () => {
                 }
             }
             if (info.file.status === 'removed') {
-                const url = info.file?.xhr?.responseURL?.split('?')[0]
+                const url =
+                    info.file?.xhr?.responseURL?.split('?')[0] || info.file.url
                 if (url) {
                     const values = data[name].filter((item) => item.url !== url)
                     setData({
@@ -187,7 +189,7 @@ const MeetingInformation = () => {
                             className="mb-0"
                         >
                             <Upload
-                                fileList={data?.meetingInvitations?.map(
+                                defaultFileList={data?.meetingInvitations?.map(
                                     (file, index) => ({
                                         uid: index.toString(),
                                         name: getShortNameFromUrl(
@@ -230,7 +232,7 @@ const MeetingInformation = () => {
                             className="mb-0"
                         >
                             <Upload
-                                fileList={data?.meetingMinutes?.map(
+                                defaultFileList={data?.meetingMinutes?.map(
                                     (file, index) => ({
                                         uid: index.toString(),
                                         name: getShortNameFromUrl(
@@ -318,7 +320,17 @@ const MeetingInformation = () => {
                                 options={enumToArray(MeetingStatus).map(
                                     (status) => ({
                                         value: status,
-                                        label: t(MeetingStatusName[status]),
+                                        label: (
+                                            <span
+                                                style={{
+                                                    color: MeetingStatusColor[
+                                                        status
+                                                    ],
+                                                }}
+                                            >
+                                                {t(MeetingStatusName[status])}
+                                            </span>
+                                        ),
                                     }),
                                 )}
                             />

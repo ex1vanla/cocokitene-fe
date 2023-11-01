@@ -99,6 +99,7 @@ export const initUpdateMeeting = createAsyncThunk<
             return meetingDetail.meetingFiles
                 .filter((file) => file.fileType === type)
                 .map((file) => ({
+                    id: file.id,
                     url: file.url,
                     fileType: file.fileType,
                 }))
@@ -108,6 +109,7 @@ export const initUpdateMeeting = createAsyncThunk<
             return meetingDetail.proposals
                 .filter((proposal) => proposal.type === type)
                 .map((resolution) => ({
+                    id: resolution.id,
                     title: resolution.title,
                     description: resolution.description,
                     type: resolution.type,

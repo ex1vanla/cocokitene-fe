@@ -29,6 +29,16 @@ export const MeetingStatusName: {
     [MeetingStatus.DELAYED]: 'DELAYED',
 }
 
+export const MeetingStatusColor: {
+    [key in MeetingStatus]: string
+} = {
+    [MeetingStatus.NOT_HAPPEN]: 'blue',
+    [MeetingStatus.HAPPENING]: 'green',
+    [MeetingStatus.HAPPENED]: 'grey',
+    [MeetingStatus.CANCELED]: '#FDDA0D',
+    [MeetingStatus.DELAYED]: 'red',
+}
+
 export enum UserJoinMeetingStatusEnum {
     USER_JOIN_WHEN_MEETING_IS_NOT_START = 0,
     USER_JOIN_MEETING_WHEN_MEETING_START_A_LITTLE = 1,
