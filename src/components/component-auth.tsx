@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl'
 import dynamic from 'next/dynamic'
 import { ComponentType, useEffect, useState } from 'react'
 
-const Page401 = dynamic(() => import('./errors/401'), {
+const WorkspaceLogin = dynamic(() => import('./workspace-login'), {
     loading: () => null,
     ssr: false,
 })
@@ -20,7 +20,7 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
             (authState.isAuthenticated ? (
                 <WrappedComponent {...props} />
             ) : (
-                <Page401 />
+                <WorkspaceLogin />
             ))
         )
     }

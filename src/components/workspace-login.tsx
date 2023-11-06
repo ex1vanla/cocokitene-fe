@@ -1,18 +1,17 @@
-import { Button, Modal, Spin, Typography } from 'antd'
-import dynamic from 'next/dynamic'
-import Link from 'next/link'
-import { useState } from 'react'
-import { LogoAppIcon } from '../svgs'
 import { useAuthLogin } from '@/stores/auth/hooks'
+import { Button, Spin, Typography } from 'antd'
+import { useTranslations } from 'next-intl'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 const { Text } = Typography
 
 const ConnectWallet = dynamic(
     () =>
         import(
-            '../../views/landing/header-about-section/header/connect-wallet'
+            '../views/landing/header-about-section/header/connect-wallet'
         ),
     {
         loading: () => <Spin />,
@@ -20,10 +19,11 @@ const ConnectWallet = dynamic(
     },
 )
 
-const Page401 = () => {
+const WorkspaceLogin = () => {
     const { authState } = useAuthLogin()
     const router = useRouter()
     const [isModalOpen, setIsModalOpen] = useState(!authState.isAuthenticated)
+    const t = useTranslations()
 
     return (
         <div className="grid h-[calc(100vh-3rem)] place-content-center px-4">
@@ -46,8 +46,7 @@ const Page401 = () => {
                                             </Text>
                                         </div>
                                         <h2 className="mb-8 text-2xl font-bold text-cyan-900 ">
-                                            Connect Wallet to unlock the best of
-                                            Cocokitene.
+                                            {t('TITLE_LOGIN')}
                                         </h2>
                                     </div>
                                     <div className="mt-10 flex justify-center gap-2">
@@ -60,7 +59,7 @@ const Page401 = () => {
                                             className="rounded bg-indigo-600 text-base text-sm font-medium font-normal text-white"
                                             style={{ fontWeight: 'bold' }}
                                         >
-                                            Go Back Home
+                                            {t('BTN_BACK_HOME')}
                                         </Button>
                                         <ConnectWallet />
                                     </div>
@@ -93,4 +92,4 @@ const Page401 = () => {
     )
 }
 
-export default Page401
+export default WorkspaceLogin
