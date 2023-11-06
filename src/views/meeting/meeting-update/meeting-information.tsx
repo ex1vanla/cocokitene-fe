@@ -27,18 +27,22 @@ import { useTranslations } from 'next-intl'
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
 import dayjs from 'dayjs'
 import { urlRegex } from '@/constants/common'
-import { useEffect, useState } from 'react'
 import { getShortNameFromUrl } from '@/utils/meeting'
 import { enumToArray } from '@/utils'
 
 const { RangePicker } = DatePicker
+const { TextArea } = Input
 
 const { Text } = Typography
 
 const MeetingInformation = () => {
     const t = useTranslations()
     const [data, setData] = useUpdateMeetingInformation()
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = (
+        event:
+            | React.ChangeEvent<HTMLInputElement>
+            | React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
         const { name, value } = event.target
         setData({
             ...data,
@@ -333,6 +337,34 @@ const MeetingInformation = () => {
                                         ),
                                     }),
                                 )}
+                            />
+                        </Form.Item>
+                    </Form>
+                </Col>
+                <Col xs={24} lg={24}>
+                    <Form layout="vertical">
+                        <Form.Item
+                            name="note"
+                            label={t('NOTE')}
+                            rules={[
+                                {
+                                    max: 5000,
+                                    message: t(
+                                        'NOTE_MUST_BE_UP_TO_{max}_CHARACTERS',
+                                        {
+                                            max: 5000,
+                                        },
+                                    ),
+                                },
+                            ]}
+                            className="mb-0"
+                            initialValue={data.note}
+                        >
+                            <TextArea
+                                name="note"
+                                size="large"
+                                value={data.note}
+                                onChange={onChange}
                             />
                         </Form.Item>
                     </Form>

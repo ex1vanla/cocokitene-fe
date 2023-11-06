@@ -13,6 +13,7 @@ export interface ICreateMeeting {
     meetingLink: string
     startTime: string
     endTime: string
+    note: string
     meetingMinutes: IMeetingDocument[]
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
@@ -110,6 +111,7 @@ export interface IUserMeeting {
 export interface IMeetingDetail {
     id: number
     title: string
+    note: string
     startTime: string
     endTime: string
     meetingLink: string
@@ -145,6 +147,7 @@ export interface IDetailMeetingState {
 export interface IUpdateMeeting {
     id: number
     title: string
+    note: string
     status: MeetingStatus
     meetingLink: string
     startTime: string

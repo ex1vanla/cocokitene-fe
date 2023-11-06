@@ -5,6 +5,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 const initialState: ICreateMeeting = {
     title: '',
     meetingLink: '',
+    note: '',
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
     meetingMinutes: [],

@@ -17,6 +17,7 @@ const initialState: IUpdateMeetingState = {
     meeting: {
         id: 0,
         title: '',
+        note: '',
         meetingLink: '',
         status: MeetingStatus.NOT_HAPPEN,
         startTime: new Date().toISOString(),
@@ -132,6 +133,7 @@ export const initUpdateMeeting = createAsyncThunk<
         return {
             id: meetingDetail.id,
             title: meetingDetail.title,
+            note: meetingDetail.note,
             meetingLink: meetingDetail.meetingLink,
             status: meetingDetail.status,
             startTime: new Date(meetingDetail.startTime).toISOString(),

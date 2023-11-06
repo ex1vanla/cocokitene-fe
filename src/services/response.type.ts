@@ -77,6 +77,7 @@ export interface IUserMeetingResponse {
 export interface IMeetingDetailResponse {
     id: number
     title: string
+    note: string
     startTime: string
     endTime: string
     meetingLink: string

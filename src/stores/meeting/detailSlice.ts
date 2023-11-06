@@ -22,6 +22,7 @@ export const getMeetingDetail = createAsyncThunk<
         return {
             id: meetingDetail.id,
             title: meetingDetail.title,
+            note: meetingDetail.note,
             startTime: meetingDetail.startTime,
             endTime: meetingDetail.endTime,
             meetingLink: meetingDetail.meetingLink,
