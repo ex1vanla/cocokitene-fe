@@ -29,6 +29,7 @@ import dayjs from 'dayjs'
 import { urlRegex } from '@/constants/common'
 import { getShortNameFromUrl } from '@/utils/meeting'
 import { enumToArray } from '@/utils'
+import { useState } from 'react'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -38,6 +39,33 @@ const { Text } = Typography
 const MeetingInformation = () => {
     const t = useTranslations()
     const [data, setData] = useUpdateMeetingInformation()
+
+    const [fileData, setFileData] = useState<{
+        [key in 'meetingInvitations' | 'meetingMinutes']: {
+            fileList: UploadFile[]
+            errorUniqueFile: boolean
+        }
+    }>({
+        meetingInvitations: {
+            fileList: data?.meetingInvitations?.map((file, index) => ({
+                uid: file.id?.toString() || index.toString(),
+                name: getShortNameFromUrl(file.url) as string,
+                url: file.url,
+                status: 'done',
+            })),
+            errorUniqueFile: false,
+        },
+        meetingMinutes: {
+            fileList: data?.meetingMinutes?.map((file, index) => ({
+                uid: file.id?.toString() || index.toString(),
+                name: getShortNameFromUrl(file.url) as string,
+                url: file.url,
+                status: 'done',
+            })),
+            errorUniqueFile: false,
+        },
+    })
+
     const onChange = (
         event:
             | React.ChangeEvent<HTMLInputElement>
@@ -65,9 +93,6 @@ const MeetingInformation = () => {
             fileType: MeetingFileType,
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
-            console.log('info')
-            console.log(info)
-
             if (info.file.status === 'done') {
                 const url = info.file?.xhr?.responseURL
                 if (url) {
@@ -79,16 +104,23 @@ const MeetingInformation = () => {
                             {
                                 url: url.split('?')[0],
                                 fileType,
+                                uid: info.file.uid,
                             },
                         ],
                     })
                 }
             }
             if (info.file.status === 'removed') {
-                const url =
-                    info.file?.xhr?.responseURL?.split('?')[0] || info.file.url
-                if (url) {
-                    const values = data[name].filter((item) => item.url !== url)
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        fileList: info.fileList,
+                        errorUniqueFile: false,
+                    },
+                })
+                const uid = info.file.uid
+                if (uid) {
+                    const values = data[name].filter((item) => item.uid !== uid)
                     setData({
                         ...data,
                         [name]: values,
@@ -96,17 +128,46 @@ const MeetingInformation = () => {
                 }
             }
         }
-    const validateFile = (file: RcFile, FileList: RcFile[]) => {
-        if (file.size > 10 * (1024 * 1024)) {
-            return Upload.LIST_IGNORE
-        }
-        const extension = file.name.split('.').slice(-1)[0]
-        if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
-            return Upload.LIST_IGNORE
-        }
+    const validateFile =
+        (name: 'meetingInvitations' | 'meetingMinutes') =>
+        (file: RcFile, listRcFile: RcFile[]) => {
+            // filter unique file
+            const listCurrentFileNames = fileData[name].fileList.map(
+                (file) => file.name,
+            )
 
-        return true
-    }
+            if (listCurrentFileNames.includes(file.name)) {
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        ...fileData[name],
+                        errorUniqueFile: true,
+                    },
+                })
+                return false
+            }
+
+            const newUploadedFiles = listRcFile.filter(
+                (file) => !listCurrentFileNames.includes(file.name),
+            )
+
+            setFileData({
+                ...fileData,
+                [name]: {
+                    fileList: [...fileData[name].fileList, ...newUploadedFiles],
+                    errorUniqueFile: false,
+                },
+            })
+            if (file.size > 10 * (1024 * 1024)) {
+                return Upload.LIST_IGNORE
+            }
+            const extension = file.name.split('.').slice(-1)[0]
+            if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
+                return Upload.LIST_IGNORE
+            }
+
+            return true
+        }
 
     const onChangeDateTime = (
         value: DatePickerProps['value'] | RangePickerProps['value'],
@@ -193,21 +254,25 @@ const MeetingInformation = () => {
                             className="mb-0"
                         >
                             <Upload
-                                defaultFileList={data?.meetingInvitations?.map(
-                                    (file, index) => ({
-                                        uid: index.toString(),
-                                        name: getShortNameFromUrl(
-                                            file.url,
-                                        ) as string,
-                                        url: file.url,
-                                        status: 'done',
-                                    }),
-                                )}
+                                // defaultFileList={data?.meetingInvitations?.map(
+                                //     (file, index) => ({
+                                //         uid: index.toString(),
+                                //         name: getShortNameFromUrl(
+                                //             file.url,
+                                //         ) as string,
+                                //         url: file.url,
+                                //         status: 'done',
+                                //     }),
+                                // )}
+                                multiple={true}
+                                fileList={fileData.meetingInvitations.fileList}
                                 onChange={onFileChange(
                                     'meetingInvitations',
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
-                                beforeUpload={validateFile}
+                                beforeUpload={validateFile(
+                                    'meetingInvitations',
+                                )}
                                 method="PUT"
                                 action={onUpload(
                                     'meetingInvitations',
@@ -223,6 +288,12 @@ const MeetingInformation = () => {
                                     <Text className="text-black-45">
                                         {t('INVITATION_FILE_UPLOAD_NOTICE')}
                                     </Text>
+                                    {fileData.meetingInvitations
+                                        .errorUniqueFile && (
+                                        <Text className="text-dust-red">
+                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
                                 </div>
                             </Upload>
                         </Form.Item>
@@ -236,21 +307,23 @@ const MeetingInformation = () => {
                             className="mb-0"
                         >
                             <Upload
-                                defaultFileList={data?.meetingMinutes?.map(
-                                    (file, index) => ({
-                                        uid: index.toString(),
-                                        name: getShortNameFromUrl(
-                                            file.url,
-                                        ) as string,
-                                        url: file.url,
-                                        status: 'done',
-                                    }),
-                                )}
+                                // defaultFileList={data?.meetingMinutes?.map(
+                                //     (file, index) => ({
+                                //         uid: index.toString(),
+                                //         name: getShortNameFromUrl(
+                                //             file.url,
+                                //         ) as string,
+                                //         url: file.url,
+                                //         status: 'done',
+                                //     }),
+                                // )}
+                                fileList={fileData.meetingMinutes.fileList}
                                 onChange={onFileChange(
                                     'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
-                                beforeUpload={validateFile}
+                                multiple={true}
+                                beforeUpload={validateFile('meetingMinutes')}
                                 method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
                                 action={onUpload(
@@ -265,6 +338,12 @@ const MeetingInformation = () => {
                                     <Text className="text-black-45">
                                         {t('INVITATION_FILE_UPLOAD_NOTICE')}
                                     </Text>
+                                    {fileData.meetingMinutes
+                                        .errorUniqueFile && (
+                                        <Text className="text-dust-red">
+                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
                                 </div>
                             </Upload>
                         </Form.Item>

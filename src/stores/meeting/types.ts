@@ -27,6 +27,7 @@ export interface ICreateMeeting {
 
 export interface IMeetingDocument {
     id?: number
+    uid?: string
     url: string
     fileType: string
 }

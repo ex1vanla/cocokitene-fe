@@ -108,6 +108,7 @@ export const initUpdateMeeting = createAsyncThunk<
                     id: file.id,
                     url: file.url,
                     fileType: file.fileType,
+                    uid: file.id.toString(),
                 }))
         }
 
