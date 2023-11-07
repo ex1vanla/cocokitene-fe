@@ -20,15 +20,38 @@ import { useTranslations } from 'next-intl'
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
 import dayjs from 'dayjs'
 import { urlRegex } from '@/constants/common'
+import { useState } from 'react'
 
 const { RangePicker } = DatePicker
+const { TextArea } = Input
 
 const { Text } = Typography
 
 const MeetingInformation = () => {
     const t = useTranslations()
     const [data, setData] = useCreateMeetingInformation()
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+    const [fileData, setFileData] = useState<{
+        [key in 'meetingInvitations' | 'meetingMinutes']: {
+            fileList: UploadFile[]
+            errorUniqueFile: boolean
+        }
+    }>({
+        meetingInvitations: {
+            fileList: [],
+            errorUniqueFile: false,
+        },
+        meetingMinutes: {
+            fileList: [],
+            errorUniqueFile: false,
+        },
+    })
+
+    const onChange = (
+        event:
+            | React.ChangeEvent<HTMLInputElement>
+            | React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
         const { name, value } = event.target
         setData({
             ...data,
@@ -50,6 +73,7 @@ const MeetingInformation = () => {
             fileType: MeetingFileType,
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
+            console.log(info)
             if (info.file.status === 'done') {
                 const url = info.file?.xhr?.responseURL
                 if (url) {
@@ -61,15 +85,23 @@ const MeetingInformation = () => {
                             {
                                 url: url.split('?')[0],
                                 fileType,
+                                uid: info.file.uid,
                             },
                         ],
                     })
                 }
             }
             if (info.file.status === 'removed') {
-                const url = info.file?.xhr?.responseURL?.split('?')[0]
-                if (url) {
-                    const values = data[name].filter((item) => item.url !== url)
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        fileList: info.fileList,
+                        errorUniqueFile: false,
+                    },
+                })
+                const uid = info.file.uid
+                if (uid) {
+                    const values = data[name].filter((item) => item.uid !== uid)
                     setData({
                         ...data,
                         [name]: values,
@@ -77,17 +109,47 @@ const MeetingInformation = () => {
                 }
             }
         }
-    const validateFile = (file: RcFile, FileList: RcFile[]) => {
-        if (file.size > 10 * (1024 * 1024)) {
-            return Upload.LIST_IGNORE
-        }
-        const extension = file.name.split('.').slice(-1)[0]
-        if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
-            return Upload.LIST_IGNORE
-        }
+    const validateFile =
+        (name: 'meetingInvitations' | 'meetingMinutes') =>
+        (file: RcFile, listRcFile: RcFile[]) => {
+            // filter unique file
+            const listCurrentFileNames = fileData[name].fileList.map(
+                (file) => file.name,
+            )
 
-        return true
-    }
+            if (listCurrentFileNames.includes(file.name)) {
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        ...fileData[name],
+                        errorUniqueFile: true,
+                    },
+                })
+                return false
+            }
+
+            const newUploadedFiles = listRcFile.filter(
+                (file) => !listCurrentFileNames.includes(file.name),
+            )
+
+            setFileData({
+                ...fileData,
+                [name]: {
+                    fileList: [...fileData[name].fileList, ...newUploadedFiles],
+                    errorUniqueFile: false,
+                },
+            })
+
+            if (file.size > 10 * (1024 * 1024)) {
+                return Upload.LIST_IGNORE
+            }
+            const extension = file.name.split('.').slice(-1)[0]
+            if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
+                return Upload.LIST_IGNORE
+            }
+
+            return true
+        }
 
     const onChangeDateTime = (
         value: DatePickerProps['value'] | RangePickerProps['value'],
@@ -171,7 +233,11 @@ const MeetingInformation = () => {
                                     'meetingInvitations',
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
-                                beforeUpload={validateFile}
+                                fileList={fileData.meetingInvitations.fileList}
+                                beforeUpload={validateFile(
+                                    'meetingInvitations',
+                                )}
+                                multiple={true}
                                 method="PUT"
                                 action={onUpload(
                                     'meetingInvitations',
@@ -187,6 +253,12 @@ const MeetingInformation = () => {
                                     <Text className="text-black-45">
                                         {t('INVITATION_FILE_UPLOAD_NOTICE')}
                                     </Text>
+                                    {fileData.meetingInvitations
+                                        .errorUniqueFile && (
+                                        <Text className="text-dust-red">
+                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
                                 </div>
                             </Upload>
                         </Form.Item>
@@ -204,7 +276,9 @@ const MeetingInformation = () => {
                                     'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
-                                beforeUpload={validateFile}
+                                fileList={fileData.meetingMinutes.fileList}
+                                beforeUpload={validateFile('meetingMinutes')}
+                                multiple={true}
                                 method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
                                 action={onUpload(
@@ -219,6 +293,12 @@ const MeetingInformation = () => {
                                     <Text className="text-black-45">
                                         {t('INVITATION_FILE_UPLOAD_NOTICE')}
                                     </Text>
+                                    {fileData.meetingMinutes
+                                        .errorUniqueFile && (
+                                        <Text className="text-dust-red">
+                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
                                 </div>
                             </Upload>
                         </Form.Item>
@@ -259,6 +339,35 @@ const MeetingInformation = () => {
                                     dayjs(data.startTime),
                                     dayjs(data.endTime),
                                 ]}
+                            />
+                        </Form.Item>
+                    </Form>
+                </Col>
+
+                <Col xs={24} lg={12}>
+                    <Form layout="vertical">
+                        <Form.Item
+                            name="note"
+                            label={t('NOTE')}
+                            rules={[
+                                {
+                                    max: 5000,
+                                    message: t(
+                                        'NOTE_MUST_BE_UP_TO_{max}_CHARACTERS',
+                                        {
+                                            max: 5000,
+                                        },
+                                    ),
+                                },
+                            ]}
+                            className="mb-0"
+                            initialValue={data.note}
+                        >
+                            <TextArea
+                                name="note"
+                                size="large"
+                                value={data.note}
+                                onChange={onChange}
                             />
                         </Form.Item>
                     </Form>

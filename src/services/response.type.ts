@@ -53,6 +53,7 @@ export interface IProposalResponse {
     id: number
     title: string
     description: string
+    oldDescription?: string
     type: ResolutionType
     votedQuantity: number | null
     unVotedQuantity: number | null
@@ -77,6 +78,7 @@ export interface IUserMeetingResponse {
 export interface IMeetingDetailResponse {
     id: number
     title: string
+    note: string
     startTime: string
     endTime: string
     meetingLink: string

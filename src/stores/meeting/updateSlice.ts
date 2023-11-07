@@ -17,6 +17,7 @@ const initialState: IUpdateMeetingState = {
     meeting: {
         id: 0,
         title: '',
+        note: '',
         meetingLink: '',
         status: MeetingStatus.NOT_HAPPEN,
         startTime: new Date().toISOString(),
@@ -54,26 +55,31 @@ const initialState: IUpdateMeetingState = {
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
         ],
@@ -102,6 +108,7 @@ export const initUpdateMeeting = createAsyncThunk<
                     id: file.id,
                     url: file.url,
                     fileType: file.fileType,
+                    uid: file.id.toString(),
                 }))
         }
 
@@ -112,6 +119,7 @@ export const initUpdateMeeting = createAsyncThunk<
                     id: resolution.id,
                     title: resolution.title,
                     description: resolution.description,
+                    oldDescription: resolution.oldDescription,
                     type: resolution.type,
                 }))
         }
@@ -132,6 +140,7 @@ export const initUpdateMeeting = createAsyncThunk<
         return {
             id: meetingDetail.id,
             title: meetingDetail.title,
+            note: meetingDetail.note,
             meetingLink: meetingDetail.meetingLink,
             status: meetingDetail.status,
             startTime: new Date(meetingDetail.startTime).toISOString(),

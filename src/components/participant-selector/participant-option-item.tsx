@@ -12,7 +12,7 @@ interface IParticipantOptionItem extends IParticipants {
 }
 
 const ParticipantOptionItem = ({
-    defaultAvatarHashColor,
+    defaultAvatarHashColor = '#E57B41',
     username,
     avatar,
     onSelectParticipant,

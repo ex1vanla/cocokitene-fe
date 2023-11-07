@@ -13,6 +13,7 @@ export interface ICreateMeeting {
     meetingLink: string
     startTime: string
     endTime: string
+    note: string
     meetingMinutes: IMeetingDocument[]
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
@@ -26,6 +27,7 @@ export interface ICreateMeeting {
 
 export interface IMeetingDocument {
     id?: number
+    uid?: string
     url: string
     fileType: string
 }
@@ -34,6 +36,7 @@ export interface IMeetingResolution {
     id?: number
     title: string
     description: string
+    oldDescription?: string
     type: ResolutionType
 }
 
@@ -86,6 +89,7 @@ export interface IProposal {
     id: number
     title: string
     description: string
+    oldDescription?: string
     type: ResolutionType
     votedQuantity: number | null
     unVotedQuantity: number | null
@@ -110,6 +114,7 @@ export interface IUserMeeting {
 export interface IMeetingDetail {
     id: number
     title: string
+    note: string
     startTime: string
     endTime: string
     meetingLink: string
@@ -145,6 +150,7 @@ export interface IDetailMeetingState {
 export interface IUpdateMeeting {
     id: number
     title: string
+    note: string
     status: MeetingStatus
     meetingLink: string
     startTime: string

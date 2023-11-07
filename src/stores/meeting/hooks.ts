@@ -215,6 +215,7 @@ export function useParticipants(): {
 export function useResolutions(type: ResolutionType): {
     title: string
     content: string
+    oldContent?: string
     percentVoted: number
     percentUnVoted: number
     percentNotVoteYet: number
@@ -257,6 +258,7 @@ export function useResolutions(type: ResolutionType): {
             id: resolution.id,
             title: resolution.title,
             content: resolution.description,
+            oldContent: resolution.oldDescription,
             percentVoted,
             percentUnVoted,
             percentNotVoteYet,

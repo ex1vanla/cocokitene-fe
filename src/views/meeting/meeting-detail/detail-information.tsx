@@ -115,6 +115,12 @@ const DetailInformation = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="mt-2 flex flex-col gap-1">
+                            <Text className="text-black-45">{t('NOTE')}:</Text>
+                            <div className="flex flex-col gap-1">
+                                {meeting.note}
+                            </div>
+                        </div>
                     </BoxArea>
                 </Col>
             </Row>

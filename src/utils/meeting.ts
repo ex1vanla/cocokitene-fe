@@ -9,8 +9,8 @@ export const getShortNameFromUrl = (url: string) => {
         )
     ) {
         const shortName = url.split('/').at(-1)
-        return shortName
+        return decodeURI(shortName as string)
     }
 
-    return url
+    return decodeURI(url)
 }

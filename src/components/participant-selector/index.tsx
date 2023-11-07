@@ -16,6 +16,7 @@ interface IParticipantSelector {
     title: string
     selectedParticipants: IParticipants[]
     onSelectParticipant: (p: IParticipants) => void
+    onSelectAllParticipants: (p: IParticipants[]) => void
     onDeleteParticipant: (p: IParticipants) => void
 }
 
@@ -23,6 +24,7 @@ const ParticipantSelector = ({
     title,
     selectedParticipants,
     onSelectParticipant,
+    onSelectAllParticipants,
     onDeleteParticipant,
 }: IParticipantSelector) => {
     return (
@@ -31,6 +33,7 @@ const ParticipantSelector = ({
             <SelectParticipantGroup
                 selectedParticipants={selectedParticipants}
                 onSelectParticipant={onSelectParticipant}
+                onSelectAllParticipants={onSelectAllParticipants}
             />
             <SelectedParticipantList
                 selectedParticipants={selectedParticipants}

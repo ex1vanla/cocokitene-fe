@@ -12,11 +12,13 @@ import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 
 export interface ISelectParticipantGroup {
     onSelectParticipant: (p: IParticipants) => void
+    onSelectAllParticipants: (p: IParticipants[]) => void
     selectedParticipants: IParticipants[]
 }
 
 const SelectParticipantGroup = ({
     onSelectParticipant,
+    onSelectAllParticipants,
     selectedParticipants,
 }: ISelectParticipantGroup) => {
     const t = useTranslations()
@@ -54,7 +56,14 @@ const SelectParticipantGroup = ({
                         optionsRes,
                     )
                     setOptionsData({
-                        options: optionsRes.items,
+                        options: [
+                            {
+                                defaultAvatarHashColor: '#E57B41',
+                                username: t('ALL'),
+                                id: 0,
+                            },
+                            ...optionsRes.items,
+                        ],
                         status: FETCH_STATUS.SUCCESS,
                     })
                 } catch (error) {}
@@ -63,6 +72,13 @@ const SelectParticipantGroup = ({
     }, [searchQuery, isFocus])
 
     const onSelect = (p: IParticipants) => {
+        // select all
+        if (p.id === 0) {
+            optionsData.options.shift()
+            onSelectAllParticipants(optionsData.options)
+            setFocus(false)
+            return
+        }
         onSelectParticipant(p)
         setFocus(false)
     }

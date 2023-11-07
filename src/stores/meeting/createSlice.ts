@@ -5,6 +5,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 const initialState: ICreateMeeting = {
     title: '',
     meetingLink: '',
+    note: '',
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
     meetingMinutes: [],
@@ -40,26 +41,31 @@ const initialState: ICreateMeeting = {
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
     ],

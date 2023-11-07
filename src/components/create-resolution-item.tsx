@@ -14,6 +14,7 @@ interface ICreateResolutionItem extends Resolution {
     index: number
     onChangeTitle: (value: string) => void
     onChangeContent: (value: string) => void
+    onChangeOldContent?: (value: string) => void
     onDelete: () => void
 }
 
@@ -22,8 +23,10 @@ const CreateResolutionItem = ({
     index,
     title,
     content,
+    oldContent,
     onChangeTitle,
     onChangeContent,
+    onChangeOldContent,
     onDelete,
 }: ICreateResolutionItem) => {
     const t = useTranslations()
@@ -53,6 +56,15 @@ const CreateResolutionItem = ({
                     value={content}
                     onChange={onChange(onChangeContent)}
                 />
+                {type === ResolutionType.AMENDMENT_RESOLUTION &&
+                    onChangeOldContent && (
+                        <TextArea
+                            className="placeholder:text-sm"
+                            placeholder={t('ENTER_OLD_RESOLUTION_DETAIL')}
+                            value={oldContent}
+                            onChange={onChange(onChangeOldContent)}
+                        />
+                    )}
             </div>
             <div></div>
             <DeleteOutlined
