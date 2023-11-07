@@ -12,7 +12,8 @@ const AmendmentResolutions = () => {
     const [data, setData] = useCreateMeetingInformation()
 
     const onChange =
-        (name: 'title' | 'description', index: number) => (value: string) => {
+        (name: 'title' | 'description' | 'oldDescription', index: number) =>
+        (value: string) => {
             const amendmentResolutions = [...data.amendmentResolutions]
             amendmentResolutions[index] = {
                 ...amendmentResolutions[index],
@@ -42,6 +43,7 @@ const AmendmentResolutions = () => {
                     type: ResolutionType.AMENDMENT_RESOLUTION,
                     title: '',
                     description: '',
+                    oldDescription: '',
                 },
             ],
         })
@@ -57,6 +59,10 @@ const AmendmentResolutions = () => {
                         index={index + 1}
                         title={data.amendmentResolutions[index].title}
                         content={data.amendmentResolutions[index].description}
+                        oldContent={
+                            data.amendmentResolutions[index].oldDescription
+                        }
+                        onChangeOldContent={onChange('oldDescription', index)}
                         onChangeTitle={onChange('title', index)}
                         onChangeContent={onChange('description', index)}
                         onDelete={onDelete(index)}

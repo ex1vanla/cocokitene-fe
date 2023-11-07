@@ -41,26 +41,31 @@ const initialState: ICreateMeeting = {
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
         {
             title: '',
             description: '',
+            oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
     ],

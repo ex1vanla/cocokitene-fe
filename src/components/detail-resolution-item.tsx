@@ -33,6 +33,7 @@ const DetailResolutionItem = ({
     index,
     title,
     content,
+    oldContent,
     percentVoted,
     percentUnVoted,
     percentNotVoteYet,
@@ -124,6 +125,12 @@ const DetailResolutionItem = ({
             >
                 <div className="text-black-45">{t('CONTENT')}</div>
                 <div>{content}</div>
+                {oldContent && (
+                    <>
+                        <div className="text-black-45">{t('OLD_CONTENT')}</div>
+                        <div>{oldContent}</div>
+                    </>
+                )}
                 <div className="mt-4 flex items-center gap-2">
                     <div className="text-black-45">{t('CREATED_BY')}:</div>
                     {avatar ? (

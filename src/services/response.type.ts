@@ -53,6 +53,7 @@ export interface IProposalResponse {
     id: number
     title: string
     description: string
+    oldDescription?: string
     type: ResolutionType
     votedQuantity: number | null
     unVotedQuantity: number | null

@@ -3,6 +3,7 @@
 export interface Resolution {
     title: string
     content: string
+    oldContent?: string
 }
 
 export enum ResolutionType {

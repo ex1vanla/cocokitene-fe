@@ -66,6 +66,14 @@ const Participants = () => {
         }
     }
 
+    const onSelectAll =
+        (key: ParticipantKey) => (participants: IParticipants[]) => {
+            setData({
+                ...data,
+                [key]: [...participants],
+            })
+        }
+
     const onDelete = (key: ParticipantKey) => (participant: IParticipants) => {
         setData({
             ...data,
@@ -79,30 +87,37 @@ const Participants = () => {
                     title={t('HOST')}
                     selectedParticipants={data.hosts}
                     onSelectParticipant={onSelect('hosts')}
+                    onSelectAllParticipants={onSelectAll('hosts')}
                     onDeleteParticipant={onDelete('hosts')}
                 />
                 <ParticipantSelector
                     title={t('CONTROL_BOARD')}
                     selectedParticipants={data.controlBoards}
                     onSelectParticipant={onSelect('controlBoards')}
+                    onSelectAllParticipants={onSelectAll('controlBoards')}
                     onDeleteParticipant={onDelete('controlBoards')}
                 />
                 <ParticipantSelector
                     title={t('DIRECTOR_GENERAL')}
                     selectedParticipants={data.directors}
                     onSelectParticipant={onSelect('directors')}
+                    onSelectAllParticipants={onSelectAll('directors')}
                     onDeleteParticipant={onDelete('directors')}
                 />
                 <ParticipantSelector
                     title={t('ADMINISTRATIVE_COUNCIL')}
                     selectedParticipants={data.administrativeCouncils}
                     onSelectParticipant={onSelect('administrativeCouncils')}
+                    onSelectAllParticipants={onSelectAll(
+                        'administrativeCouncils',
+                    )}
                     onDeleteParticipant={onDelete('administrativeCouncils')}
                 />
                 <ParticipantSelector
                     title={t('SHAREHOLDERS')}
                     selectedParticipants={data.shareholders}
                     onSelectParticipant={onSelect('shareholders')}
+                    onSelectAllParticipants={onSelectAll('shareholders')}
                     onDeleteParticipant={onDelete('shareholders')}
                 />
             </div>

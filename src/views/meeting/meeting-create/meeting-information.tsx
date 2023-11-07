@@ -177,6 +177,7 @@ const MeetingInformation = () => {
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
                                 beforeUpload={validateFile}
+                                multiple={true}
                                 method="PUT"
                                 action={onUpload(
                                     'meetingInvitations',
@@ -192,6 +193,9 @@ const MeetingInformation = () => {
                                     <Text className="text-black-45">
                                         {t('INVITATION_FILE_UPLOAD_NOTICE')}
                                     </Text>
+                                    {/* <Text className="text-black-45">
+                                        {t('INVALID_LINK_ERROR_MESSAGE')}
+                                    </Text> */}
                                 </div>
                             </Upload>
                         </Form.Item>
@@ -210,6 +214,7 @@ const MeetingInformation = () => {
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
                                 beforeUpload={validateFile}
+                                multiple={true}
                                 method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
                                 action={onUpload(

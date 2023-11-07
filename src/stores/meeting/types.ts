@@ -35,6 +35,7 @@ export interface IMeetingResolution {
     id?: number
     title: string
     description: string
+    oldDescription?: string
     type: ResolutionType
 }
 
@@ -87,6 +88,7 @@ export interface IProposal {
     id: number
     title: string
     description: string
+    oldDescription?: string
     type: ResolutionType
     votedQuantity: number | null
     unVotedQuantity: number | null

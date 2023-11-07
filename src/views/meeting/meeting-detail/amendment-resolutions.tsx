@@ -21,6 +21,7 @@ const AmendmentResolutions = () => {
                         index={index + 1}
                         title={amendmentResolution.title}
                         content={amendmentResolution.content}
+                        oldContent={amendmentResolution.oldContent}
                         percentVoted={amendmentResolution.percentVoted}
                         voteResult={amendmentResolution.voteResult}
                         creator={amendmentResolution.creator}

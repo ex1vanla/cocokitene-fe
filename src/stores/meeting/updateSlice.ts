@@ -55,26 +55,31 @@ const initialState: IUpdateMeetingState = {
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                oldDescription: '',
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
         ],
@@ -113,6 +118,7 @@ export const initUpdateMeeting = createAsyncThunk<
                     id: resolution.id,
                     title: resolution.title,
                     description: resolution.description,
+                    oldDescription: resolution.oldDescription,
                     type: resolution.type,
                 }))
         }
