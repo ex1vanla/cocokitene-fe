@@ -9,10 +9,7 @@ import { useState } from 'react'
 const { Text } = Typography
 
 const ConnectWallet = dynamic(
-    () =>
-        import(
-            '../views/landing/header-about-section/header/connect-wallet'
-        ),
+    () => import('../views/landing/header-about-section/header/connect-wallet'),
     {
         loading: () => <Spin />,
         ssr: false,
@@ -65,21 +62,7 @@ const WorkspaceLogin = () => {
                                     </div>
                                     <div className="mt-10 space-y-4 py-3 text-center text-gray-600 ">
                                         <p className="text-xs">
-                                            By proceeding, you agree to our{' '}
-                                            <a
-                                                href="/privacy-policy/"
-                                                className="underline"
-                                            >
-                                                Terms of Use{' '}
-                                            </a>
-                                            and confirm you have read our{' '}
-                                            <a
-                                                href="/privacy-policy/"
-                                                className="underline"
-                                            >
-                                                Privacy and Cookie Statement
-                                            </a>
-                                            .
+                                            {t('AGREEMENT_TEXT')}
                                         </p>
                                     </div>
                                 </div>
