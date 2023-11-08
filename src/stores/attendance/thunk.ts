@@ -1,5 +1,4 @@
 import attendanceMeeting from '@/services/attendance'
-import serviceMeeting from '@/services/meeting'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { IAttendanceMeeting } from './type'
 import { FetchError } from '../type'
@@ -14,7 +13,7 @@ export const joinMeeting = createAsyncThunk<
 >('attendance/joinMeeting', async ({ meetingId }, { rejectWithValue }) => {
     try {
         await attendanceMeeting.attendanceMeeting(meetingId)
-        return {meetingId};
+        return { meetingId }
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data

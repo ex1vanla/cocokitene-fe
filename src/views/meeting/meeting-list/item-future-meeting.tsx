@@ -1,15 +1,13 @@
-import { useAppDispatch } from '@/stores'
 import { useAttendance } from '@/stores/attendance/hooks'
-import { setMeetingIdJoin } from '@/stores/attendance/slice'
-import { EActionStatus } from '@/stores/type'
 import { formatDate, formatTimeMeeting, statusDateMeeting } from '@/utils/date'
+import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
-import { Button, Col, Modal, Row, Typography, notification } from 'antd'
+import { Button, Col, Modal, Row, Tooltip, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const { Text } = Typography
 
@@ -21,6 +19,7 @@ const ItemFutureMeeting = ({
     meetings_meeting_link,
     isJoined,
     meetings_status_meeting_happen,
+    meetings_note,
 }: IMeetingItem) => {
     const router = useRouter()
     const t = useTranslations()
@@ -42,81 +41,93 @@ const ItemFutureMeeting = ({
     }
     return (
         <>
-            <Row
-                className="border-true-gray-300 mb-2 rounded-lg border p-2"
-                gutter={[16, 16]}
+            <Tooltip
+                overlayStyle={{ color: 'red' }}
+                title={truncateString({
+                    text: meetings_note,
+                    start: 200,
+                    end: 0,
+                })}
             >
-                <Col span={5} className="flex items-center space-x-2">
-                    <Image
-                        src="/images/logo-meeting-future.png"
-                        alt="service-image-alt"
-                        width={72}
-                        height={48}
-                    />
-                    <Text className="font-medium">
-                        {formatTimeMeeting(
-                            meetings_start_time.toString(),
-                            meetings_end_time.toString(),
-                        )}
-                    </Text>
-                </Col>
-                <Col span={2} className="flex items-center ">
-                    <Text>
-                        {formatDate(
-                            meetings_start_time.toString(),
-                            'YYYY-MM-DD',
-                        )}
-                    </Text>
-                </Col>
-                <Col span={8} className="flex items-center">
-                    <Text className="overflow-hidden overflow-ellipsis whitespace-nowrap ">
-                        {meetings_title}
-                    </Text>
-                </Col>
-                <Col span={3} className="flex items-center pl-4">
-                    <Link href={meetings_meeting_link.toString()}>
-                        <Text>Headquarters & Online</Text>
-                    </Link>
-                </Col>
-                <Col span={2} className="flex items-center pl-3">
-                    {meetings_status_meeting_happen == '0' ? (
-                        <li className="text-red-500">{t('PENDING')}</li>
-                    ) : statusDateMeeting(
-                          meetings_start_time.toString(),
-                          meetings_end_time.toString(),
-                      ) ? (
-                        <li className="text-green-500">{t('IN_PROGRESS')}</li>
-                    ) : (
-                        <li className="text-primary">{t('FUTURE')}</li>
-                    )}
-                </Col>
-                <Col
-                    span={4}
-                    className="flex items-center justify-end space-x-2"
+                <Row
+                    className="border-true-gray-300 mb-2 rounded-lg border p-2"
+                    gutter={[16, 16]}
                 >
-                    {isJoined === 0 ? (
-                        <Button
-                            type="primary"
-                            size="middle"
-                            onClick={() => showModal()}
-                        >
-                            {t('BTN_JOIN')}
-                        </Button>
-                    ) : (
-                        <Button disabled type="primary" size="middle">
-                            {t('JOINED')}
-                        </Button>
-                    )}
-                    <Button
-                        size="middle"
-                        onClick={() => {
-                            router.push('/meeting/detail/' + meetings_id)
-                        }}
+                    <Col span={5} className="flex items-center space-x-2">
+                        <Image
+                            src="/images/logo-meeting-future.png"
+                            alt="service-image-alt"
+                            width={72}
+                            height={48}
+                        />
+                        <Text className="font-medium">
+                            {formatTimeMeeting(
+                                meetings_start_time.toString(),
+                                meetings_end_time.toString(),
+                            )}
+                        </Text>
+                    </Col>
+                    <Col span={2} className="flex items-center ">
+                        <Text>
+                            {formatDate(
+                                meetings_start_time.toString(),
+                                'YYYY-MM-DD',
+                            )}
+                        </Text>
+                    </Col>
+                    <Col span={8} className="flex items-center">
+                        <Text className="overflow-hidden overflow-ellipsis whitespace-nowrap ">
+                            {meetings_title}
+                        </Text>
+                    </Col>
+                    <Col span={3} className="flex items-center pl-4">
+                        <Link href={meetings_meeting_link.toString()}>
+                            <Text>Headquarters & Online</Text>
+                        </Link>
+                    </Col>
+                    <Col span={2} className="flex items-center pl-3">
+                        {meetings_status_meeting_happen == '0' ? (
+                            <li className="text-red-500">{t('PENDING')}</li>
+                        ) : statusDateMeeting(
+                              meetings_start_time.toString(),
+                              meetings_end_time.toString(),
+                          ) ? (
+                            <li className="text-green-500">
+                                {t('IN_PROGRESS')}
+                            </li>
+                        ) : (
+                            <li className="text-primary">{t('FUTURE')}</li>
+                        )}
+                    </Col>
+                    <Col
+                        span={4}
+                        className="flex items-center justify-end space-x-2"
                     >
-                        {t('BTN_VIEW_DETAIL')}
-                    </Button>
-                </Col>
-            </Row>
+                        {isJoined === 0 ? (
+                            <Button
+                                type="primary"
+                                size="middle"
+                                onClick={() => showModal()}
+                            >
+                                {t('BTN_JOIN')}
+                            </Button>
+                        ) : (
+                            <Button disabled type="primary" size="middle">
+                                {t('JOINED')}
+                            </Button>
+                        )}
+                        <Button
+                            size="middle"
+                            onClick={() => {
+                                router.push('/meeting/detail/' + meetings_id)
+                            }}
+                        >
+                            {t('BTN_VIEW_DETAIL')}
+                        </Button>
+                    </Col>
+                </Row>
+            </Tooltip>
+
             <Modal
                 title={t('TITLE_CONFIRM_MEETING_POPUP')}
                 open={isModalOpen}

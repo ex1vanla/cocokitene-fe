@@ -54,13 +54,12 @@ const SaveUpdateMeetingButton = () => {
             rs.errors.meetingLink = 'meetingLink'
         }
 
-        if (payload.resolutions.length === 0) {
+        if (
+            payload.resolutions.length + payload.amendmentResolutions.length ===
+            0
+        ) {
             rs.isValid = false
             rs.errors.resolution = 'resolution'
-        }
-        if (payload.amendmentResolutions.length === 0) {
-            rs.isValid = false
-            rs.errors.amendmentResolutions = 'amendmentResolutions'
         }
 
         // if (payload.amendmentResolutions.length === 0) {

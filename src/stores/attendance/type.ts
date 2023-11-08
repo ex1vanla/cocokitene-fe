@@ -1,12 +1,14 @@
-import { EActionStatus, FetchError } from "../type";
+/* eslint-disable */
+
+import { EActionStatus, FetchError } from '../type'
 
 export interface IAttendanceState extends FetchError {
-    status: EActionStatus;
-    meetingIdJoin: number | null;
+    status: EActionStatus
+    meetingIdJoin: number | null
 }
 
 export interface IAttendanceMeeting {
-    meetingId: number;
+    meetingId: number
 }
 
 export enum UserMeetingStatusEnum {

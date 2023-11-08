@@ -14,6 +14,9 @@ const theme: ThemeConfig = {
             itemBorderRadius: 0,
             itemMarginInline: 0,
         },
+        Tooltip: {
+            colorBgSpotlight: 'rgba(81, 81, 229, .8)',
+        },
     },
 }
 

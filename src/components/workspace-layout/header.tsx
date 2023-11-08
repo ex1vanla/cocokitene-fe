@@ -3,7 +3,6 @@ import { useAuthLogin } from '@/stores/auth/hooks'
 import { Layout } from 'antd'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 
 const AccountInfo = dynamic(() => import('../../components/account-info'), {
     loading: () => <p>Loading...</p>,

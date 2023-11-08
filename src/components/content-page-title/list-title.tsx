@@ -2,7 +2,7 @@ import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
 import { SORT } from '@/constants/meeting'
-import { SearchOutlined, SettingOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Select, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
@@ -13,7 +13,9 @@ const { Title } = Typography
 interface IListTitle extends IBaseTitle {
     addIcon: ReactNode
     createLink: string
+    // eslint-disable-next-line
     onChangeInput: (value: string) => void
+    // eslint-disable-next-line
     onChangeSelect: (value: string) => void
 }
 

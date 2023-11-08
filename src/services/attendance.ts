@@ -1,4 +1,3 @@
-import { IGetAllDataReponse } from './response.type'
 import { post } from './fetcher'
 import { IAttendanceMeeting } from '@/stores/attendance/type'
 

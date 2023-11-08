@@ -2,7 +2,6 @@ import withAuth from '@/components/component-auth'
 import ListTitle from '@/components/content-page-title/list-title'
 import { MeetingType } from '@/constants/meeting'
 import { useNotification } from '@/hooks/use-notification'
-import useDebounce from '@/hooks/useDebounce'
 import { useAttendance } from '@/stores/attendance/hooks'
 import { useListMeeting } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
@@ -11,15 +10,14 @@ import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 const MeetingList = () => {
     const router = useRouter()
     const t = useTranslations()
     const { attendanceState, resetStateAttendance } = useAttendance()
     const { openNotification, contextHolder } = useNotification()
-    const [keywordSearch, setKeywordSearch] = useState<string>('')
-    const searchDebounceValue = useDebounce(keywordSearch, 300)
+
     const {
         meetingState,
         getListFutureMeetingAction,
@@ -41,6 +39,7 @@ const MeetingList = () => {
             type: MeetingType.MEETING_PASS,
             filter: { ...meetingState.filter },
         })
+        // eslint-disable-next-line
     }, [meetingState.filter])
 
     const handleInputChange = (value: string) => {
@@ -58,7 +57,7 @@ const MeetingList = () => {
                 placement: 'bottomRight',
                 type: 'info',
             })
-            resetStateAttendance();
+            resetStateAttendance()
             router.push('/meeting/detail/' + attendanceState.meetingIdJoin)
         }
 
@@ -69,6 +68,7 @@ const MeetingList = () => {
                 type: 'error',
             })
         }
+        // eslint-disable-next-line
     }, [attendanceState.status])
 
     useEffect(() => {
@@ -79,6 +79,7 @@ const MeetingList = () => {
                 type: 'error',
             })
         }
+        // eslint-disable-next-line
     }, [meetingState.status])
 
     return (
