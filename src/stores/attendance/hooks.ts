@@ -6,6 +6,7 @@ import { resetStatusMeeting } from './slice'
 
 type AttendanceType = {
     attendanceState: IAttendanceState
+    // eslint-disable-next-line
     joinMeetingAction: (meetingId: number) => void
     resetStateAttendance: () => void
 }
