@@ -1,5 +1,7 @@
 /* eslint-disable */
+import withAuth from '@/components/component-auth'
 import CreateTitle from '@/components/content-page-title/create-title'
+import { PERMISSION_CREATE_MEETING } from '@/constants/permission'
 import AmendmentResolutions from '@/views/meeting/meeting-create/amendment-resolutions'
 import MeetingInformation from '@/views/meeting/meeting-create/meeting-information'
 import Participants from '@/views/meeting/meeting-create/participants'
@@ -26,4 +28,4 @@ const MeetingCreate = () => {
     )
 }
 
-export default MeetingCreate
+export default withAuth(MeetingCreate, PERMISSION_CREATE_MEETING)

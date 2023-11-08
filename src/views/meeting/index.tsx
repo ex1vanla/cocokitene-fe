@@ -1,8 +1,10 @@
 import withAuth from '@/components/component-auth'
 import ListTitle from '@/components/content-page-title/list-title'
 import { MeetingType } from '@/constants/meeting'
+import { PERMISSION_LIST_MEETING } from '@/constants/permission'
 import { useNotification } from '@/hooks/use-notification'
 import { useAttendance } from '@/stores/attendance/hooks'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { useListMeeting } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
@@ -100,4 +102,4 @@ const MeetingList = () => {
     )
 }
 
-export default withAuth(MeetingList)
+export default withAuth(MeetingList, PERMISSION_LIST_MEETING)
