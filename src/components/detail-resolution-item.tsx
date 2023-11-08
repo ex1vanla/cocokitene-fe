@@ -1,10 +1,11 @@
 import { FETCH_STATUS } from '@/constants/common'
 import { Resolution, VoteProposalOption } from '@/constants/resolution'
 import serviceProposal from '@/services/proposal'
-import { IProposalCreator } from '@/stores/meeting/types'
+import { IProposalCreator, IProposalFile } from '@/stores/meeting/types'
 import { formatNumber } from '@/utils/format-number'
 import { truncateString } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
+import { getShortNameFromUrl } from '@/utils/meeting'
 import {
     Avatar,
     Modal,
@@ -15,6 +16,7 @@ import {
 } from 'antd'
 import Color from 'color'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 import { useState } from 'react'
 
 const { Text } = Typography
@@ -26,6 +28,7 @@ interface IDetailResolutionItem extends Resolution {
     percentNotVoteYet: number
     voteResult: VoteProposalOption
     creator: IProposalCreator
+    proposalFiles?: IProposalFile[]
     id: number
 }
 
@@ -39,6 +42,7 @@ const DetailResolutionItem = ({
     percentNotVoteYet,
     voteResult,
     creator,
+    proposalFiles,
     id,
 }: IDetailResolutionItem) => {
     const [value, setValue] = useState(voteResult)
@@ -126,10 +130,39 @@ const DetailResolutionItem = ({
                 <div className="text-black-45">{t('CONTENT')}</div>
                 <div>{content}</div>
                 {oldContent && (
-                    <>
+                    <div className="mt-4">
                         <div className="text-black-45">{t('OLD_CONTENT')}</div>
                         <div>{oldContent}</div>
-                    </>
+                    </div>
+                )}
+                {proposalFiles && (
+                    <div className="mt-4">
+                        <div className="text-black-45">{t('DOCUMENTS')}</div>
+                        <div className="flex flex-col gap-1">
+                            {proposalFiles.map((proposalFile, index) => (
+                                <Link
+                                    href={proposalFile.url}
+                                    key={index}
+                                    target="_blank"
+                                >
+                                    <Text
+                                        title={getShortNameFromUrl(
+                                            proposalFile.url,
+                                        )}
+                                        className="cursor-pointer text-primary"
+                                    >
+                                        {truncateString({
+                                            text: getShortNameFromUrl(
+                                                proposalFile.url,
+                                            ) as string,
+                                            start: 5,
+                                            end: 40,
+                                        })}
+                                    </Text>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
                 )}
                 <div className="mt-4 flex items-center gap-2">
                     <div className="text-black-45">{t('CREATED_BY')}:</div>

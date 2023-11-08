@@ -38,6 +38,7 @@ const AmendmentResolutions = () => {
                 creator={amendmentResolution.creator}
                 percentUnVoted={amendmentResolution.percentUnVoted}
                 percentNotVoteYet={amendmentResolution.percentNotVoteYet}
+                proposalFiles={amendmentResolution.proposalFiles}
             />
         ))
     }, [amendmentResolutions])
