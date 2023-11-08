@@ -34,6 +34,7 @@ const Resolutions = () => {
                 creator={resolution.creator}
                 percentUnVoted={resolution.percentUnVoted}
                 percentNotVoteYet={resolution.percentNotVoteYet}
+                proposalFiles={resolution.proposalFiles}
             />
         ))
     }, [resolutions])

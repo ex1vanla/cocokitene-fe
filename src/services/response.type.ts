@@ -49,6 +49,10 @@ export interface IProposalCreatorResponse {
     defaultAvatarHashColor: string | null
 }
 
+export interface IProposalFileResponse {
+    url: string
+}
+
 export interface IProposalResponse {
     id: number
     title: string
@@ -61,6 +65,7 @@ export interface IProposalResponse {
     voteResult: VoteProposalOption
     meetingId: number
     creator: IProposalCreatorResponse
+    proposalFiles: IProposalFileResponse[]
 }
 
 export interface IUserMeetingResponse {

@@ -66,6 +66,16 @@ export enum MeetingFileType {
     MEETING_INVITATION = '0',
     MEETING_MINUTES = '1',
     REPORTS = '2',
+    PROPOSAL_FILES = '3',
+}
+
+export const MeetingFileTypeToFolderName: {
+    [key in MeetingFileType]: string
+} = {
+    [MeetingFileType.MEETING_INVITATION]: 'invitations',
+    [MeetingFileType.MEETING_MINUTES]: 'minutes',
+    [MeetingFileType.REPORTS]: 'reports',
+    [MeetingFileType.PROPOSAL_FILES]: 'proposals',
 }
 
 export const ACCEPT_FILE_TYPES = '.xlsx,.xls,.doc,.docx,.pdf'

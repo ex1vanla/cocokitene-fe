@@ -32,11 +32,18 @@ export interface IMeetingDocument {
     fileType: string
 }
 
+export interface IProposalFile {
+    id?: number
+    uid?: string
+    url: string
+}
+
 export interface IMeetingResolution {
     id?: number
     title: string
     description: string
     oldDescription?: string
+    files: IProposalFile[]
     type: ResolutionType
 }
 
@@ -98,6 +105,7 @@ export interface IProposal {
     voteResult: VoteProposalOption
     meetingId: number
     creator: IProposalCreator
+    proposalFiles: IProposalFile[]
 }
 
 export interface IUserMeeting {

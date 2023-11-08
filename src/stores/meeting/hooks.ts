@@ -17,6 +17,7 @@ import {
     ListParamsFilter,
     IProposalCreator,
     IUpdateMeeting,
+    IProposalFile,
 } from '@/stores/meeting/types'
 import { EActionStatus } from '@/stores/type'
 import { getFileTypeByUrl } from '@/utils/file'
@@ -222,6 +223,7 @@ export function useResolutions(type: ResolutionType): {
     voteResult: VoteProposalOption
     creator: IProposalCreator
     id: number
+    proposalFiles: IProposalFile[]
 }[] {
     const meeting = useAppSelector(
         (state: RootState) => state.meetingDetail.meeting,
@@ -264,6 +266,7 @@ export function useResolutions(type: ResolutionType): {
             percentNotVoteYet,
             voteResult: resolution.voteResult,
             creator: resolution.creator,
+            proposalFiles: resolution.proposalFiles,
         }
     })
 }
