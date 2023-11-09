@@ -1,4 +1,19 @@
-export const PERMISSION_LIST_MEETING = 'list_meeting'
-export const PERMISSION_CREATE_MEETING = 'create_meeting'
-export const PERMISSION_UPDATE_MEETING = 'update_meeting'
-export const PERMISSION_DETAIL_MEETING = 'detail_meeting'
+export enum Permissions {
+    CREATE_ACCOUNT = 'create_account',
+    EDIT_ACCOUNT = 'edit_account',
+    DETAIL_ACCOUNT = 'detail_account',
+    LIST_ACCOUNT = 'list_account',
+    CREATE_MEETING = 'create_meeting',
+    EDIT_MEETING = 'edit_meeting',
+    DETAIL_MEETING = 'detail_meeting',
+    LIST_MEETING = 'list_meeting',
+    DELETE_MEETING = 'delete_meeting',
+    PATICIPATE_MEETING = 'paticipate_meeting',
+    VOTING_PROPOSAL = 'voting_proposal',
+    EDIT_PROPOSAL = 'edit_proposal',
+    LIST_PROPOSAL = 'list_proposal',
+    DELETE_PROPOSAL = 'delete_proposal',
+    SEND_MAIL_TO_SHAREHOLDER = 'send_mail_to_shareholder',
+    LIST_USER_STATUS = 'list_user_status',
+    LIST_ROLES = 'list_roles',
+}

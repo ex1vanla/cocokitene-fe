@@ -7,8 +7,8 @@ export const formatTimeMeeting = (
     const startTime = moment(meetingsStartTime).utc(true)
     const endTime = moment(meetingsEndTime).utc(true)
 
-    const startTimeFormat = startTime.format('HH:mm A')
-    const endTimeFormat = endTime.format('HH:mm A')
+    const startTimeFormat = startTime.format('HH:mm')
+    const endTimeFormat = endTime.format('HH:mm')
 
     const timeRange = `${startTimeFormat} - ${endTimeFormat}`
     return timeRange

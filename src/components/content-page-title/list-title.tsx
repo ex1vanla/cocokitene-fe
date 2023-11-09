@@ -2,7 +2,10 @@ import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
 import { SORT } from '@/constants/meeting'
-import { SearchOutlined } from '@ant-design/icons'
+import { Permissions } from '@/constants/permission'
+import { useAuthLogin } from '@/stores/auth/hooks'
+import { checkPermission } from '@/utils/auth'
+import { SearchOutlined, SettingOutlined } from '@ant-design/icons'
 import { Button, Input, Select, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
@@ -29,6 +32,12 @@ const ListTitle = ({
     const router = useRouter()
 
     const t = useTranslations()
+
+    const { authState } = useAuthLogin()
+    const permissionCreateMeeting = checkPermission(
+        authState.userData?.permissionKeys,
+        Permissions.CREATE_MEETING
+    )
 
     const handleChangeSelect = (value: string) => {
         onChangeSelect(value)
@@ -62,17 +71,18 @@ const ListTitle = ({
                         { value: SORT.DESC, label: t('SORT_NEWEST_MEETING') },
                     ]}
                 />
-
-                <Button
-                    type="primary"
-                    icon={addIcon}
-                    size="large"
-                    onClick={() => {
-                        router.push(createLink)
-                    }}
-                >
-                    {t('ADD_NEW')}
-                </Button>
+                {permissionCreateMeeting && (
+                    <Button
+                        type="primary"
+                        icon={addIcon}
+                        size="large"
+                        onClick={() => {
+                            router.push(createLink)
+                        }}
+                    >
+                        {t('ADD_NEW')}
+                    </Button>
+                )}
             </div>
         </LayoutTitle>
     )
