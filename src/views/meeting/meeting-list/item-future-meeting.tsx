@@ -1,7 +1,11 @@
-import { MeetingStatus, MeetingStatusColor, MeetingStatusName } from '@/constants/meeting'
+import {
+    MeetingStatus,
+    MeetingStatusColor,
+    MeetingStatusName,
+} from '@/constants/meeting'
 import { useAttendance } from '@/stores/attendance/hooks'
 import { enumToArray } from '@/utils'
-import { formatDate, formatTimeMeeting, statusDateMeeting } from '@/utils/date'
+import { formatDate, formatTimeMeeting } from '@/utils/date'
 import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Button, Col, Modal, Row, Tooltip, Typography } from 'antd'
@@ -90,10 +94,13 @@ const ItemFutureMeeting = ({
                         </Link>
                     </Col>
                     <Col span={2} className="flex items-center pl-3">
-                        {enumToArray(MeetingStatus).map((status) => {
+                        {enumToArray(MeetingStatus).map((status, key) => {
                             if (status === meetings_status_meeting_happen) {
                                 return (
-                                    <li className={MeetingStatusColor[status]}>
+                                    <li
+                                        key={key}
+                                        className={MeetingStatusColor[status]}
+                                    >
                                         {t(MeetingStatusName[status])}
                                     </li>
                                 )

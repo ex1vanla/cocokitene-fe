@@ -1,5 +1,4 @@
 import { useAuthLogin } from '@/stores/auth/hooks'
-import { useTranslations } from 'next-intl'
 import dynamic from 'next/dynamic'
 import { ComponentType, useEffect, useState } from 'react'
 import NotFoundPage from './errors/NotFound'
@@ -24,7 +23,10 @@ const withAuth = <P extends object>(
         return (
             mounted &&
             (authState.isAuthenticated ? (
-                checkPermission(authState.userData?.permissionKeys, permission) ? (
+                checkPermission(
+                    authState.userData?.permissionKeys,
+                    permission,
+                ) ? (
                     <WrappedComponent {...props} />
                 ) : (
                     <NotFoundPage />

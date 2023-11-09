@@ -26,7 +26,7 @@ const Resolutions = () => {
 
     const onAddFile = (index: number) => (file: IProposalFile) => {
         const resolutions = [...data.resolutions]
-        const oldFiles = resolutions[index].files
+        const oldFiles = resolutions[index].files as IProposalFile[]
         resolutions[index] = {
             ...resolutions[index],
             files: [...oldFiles, file],
@@ -40,7 +40,7 @@ const Resolutions = () => {
     const onRemoveFile = (index: number) => (uid: string) => {
         const resolutions = [...data.resolutions]
 
-        const oldFiles = resolutions[index].files
+        const oldFiles = resolutions[index].files as IProposalFile[]
         const newFiles = oldFiles.filter((file) => file.uid !== uid)
 
         resolutions[index] = {

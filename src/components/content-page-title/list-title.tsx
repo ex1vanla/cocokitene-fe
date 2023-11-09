@@ -5,7 +5,7 @@ import { SORT } from '@/constants/meeting'
 import { Permissions } from '@/constants/permission'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { checkPermission } from '@/utils/auth'
-import { SearchOutlined, SettingOutlined } from '@ant-design/icons'
+import { SearchOutlined } from '@ant-design/icons'
 import { Button, Input, Select, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
@@ -36,7 +36,7 @@ const ListTitle = ({
     const { authState } = useAuthLogin()
     const permissionCreateMeeting = checkPermission(
         authState.userData?.permissionKeys,
-        Permissions.CREATE_MEETING
+        Permissions.CREATE_MEETING,
     )
 
     const handleChangeSelect = (value: string) => {

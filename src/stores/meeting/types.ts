@@ -43,7 +43,7 @@ export interface IMeetingResolution {
     title: string
     description: string
     oldDescription?: string
-    files: IProposalFile[]
+    files?: IProposalFile[]
     type: ResolutionType
 }
 

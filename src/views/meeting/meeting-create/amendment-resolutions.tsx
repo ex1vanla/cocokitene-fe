@@ -28,7 +28,7 @@ const AmendmentResolutions = () => {
 
     const onAddFile = (index: number) => (file: IProposalFile) => {
         const amendmentResolutions = [...data.amendmentResolutions]
-        const oldFiles = amendmentResolutions[index].files
+        const oldFiles = amendmentResolutions[index].files as IProposalFile[]
         amendmentResolutions[index] = {
             ...amendmentResolutions[index],
             files: [...oldFiles, file],
@@ -42,7 +42,7 @@ const AmendmentResolutions = () => {
     const onRemoveFile = (index: number) => (uid: string) => {
         const amendmentResolutions = [...data.amendmentResolutions]
 
-        const oldFiles = amendmentResolutions[index].files
+        const oldFiles = amendmentResolutions[index].files as IProposalFile[]
         const newFiles = oldFiles.filter((file) => file.uid !== uid)
 
         amendmentResolutions[index] = {

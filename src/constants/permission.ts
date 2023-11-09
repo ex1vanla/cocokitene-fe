@@ -1,3 +1,4 @@
+/* eslint-disable */
 export enum Permissions {
     CREATE_ACCOUNT = 'create_account',
     EDIT_ACCOUNT = 'edit_account',

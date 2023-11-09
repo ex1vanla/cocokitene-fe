@@ -19,7 +19,7 @@ const ConnectWallet = dynamic(
 const WorkspaceLogin = () => {
     const { authState } = useAuthLogin()
     const router = useRouter()
-    const [isModalOpen, setIsModalOpen] = useState(!authState.isAuthenticated)
+    const [isModalOpen] = useState(!authState.isAuthenticated)
     const t = useTranslations()
 
     return (
