@@ -64,7 +64,9 @@ const ItemPastMeeting = ({
                 </Col>
                 <Col span={3} className="flex items-center pl-4">
                     <Link href={meetings_meeting_link.toString()}>
-                        <Text>Headquarters & Online</Text>
+                        <Text className="text-blue-500 hover:underline">
+                            {t('MEETING_LINK')}
+                        </Text>
                     </Link>
                 </Col>
                 <Col span={2} className="flex items-center pl-3">

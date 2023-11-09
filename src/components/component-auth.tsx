@@ -1,7 +1,19 @@
 import { useAuthLogin } from '@/stores/auth/hooks'
+import { useTranslations } from 'next-intl'
+import dynamic from 'next/dynamic'
 import { ComponentType, useEffect, useState } from 'react'
+import NotFoundPage from './errors/NotFound'
+import { checkPermission } from '@/utils/auth'
 
-const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
+const WorkspaceLogin = dynamic(() => import('./workspace-login'), {
+    loading: () => null,
+    ssr: false,
+})
+
+const withAuth = <P extends object>(
+    WrappedComponent: ComponentType<P>,
+    permission: string,
+) => {
     return function WithAuth(props: P) {
         const { authState } = useAuthLogin()
         const [mounted, setMounted] = useState(false)
@@ -12,9 +24,13 @@ const withAuth = <P extends object>(WrappedComponent: ComponentType<P>) => {
         return (
             mounted &&
             (authState.isAuthenticated ? (
-                <WrappedComponent {...props} />
+                checkPermission(authState.userData?.permissionKeys, permission) ? (
+                    <WrappedComponent {...props} />
+                ) : (
+                    <NotFoundPage />
+                )
             ) : (
-                <div className="mx-auto bg-white">Vui Long dang nhap!</div>
+                <WorkspaceLogin />
             ))
         )
     }

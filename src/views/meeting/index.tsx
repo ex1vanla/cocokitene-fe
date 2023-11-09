@@ -1,10 +1,13 @@
 import withAuth from '@/components/component-auth'
 import ListTitle from '@/components/content-page-title/list-title'
-import { MeetingType } from '@/constants/meeting'
+import { MeetingStatus, MeetingStatusColor, MeetingType } from '@/constants/meeting'
+import { Permissions } from '@/constants/permission'
 import { useNotification } from '@/hooks/use-notification'
 import { useAttendance } from '@/stores/attendance/hooks'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { useListMeeting } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
+import { enumToArray } from '@/utils'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
 import { VideoCameraAddOutlined } from '@ant-design/icons'
@@ -100,4 +103,4 @@ const MeetingList = () => {
     )
 }
 
-export default withAuth(MeetingList)
+export default withAuth(MeetingList, Permissions.LIST_MEETING)

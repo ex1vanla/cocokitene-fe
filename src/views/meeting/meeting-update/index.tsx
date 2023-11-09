@@ -1,5 +1,7 @@
+import withAuth from '@/components/component-auth'
 import UpdateTitle from '@/components/content-page-title/update-title'
 import Loader from '@/components/loader'
+import { Permissions } from '@/constants/permission'
 import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
 import AmendmentResolutions from '@/views/meeting/meeting-update/amendment-resolutions'
@@ -46,4 +48,4 @@ const MeetingUpdate = () => {
     )
 }
 
-export default MeetingUpdate
+export default withAuth(MeetingUpdate, Permissions.EDIT_MEETING)

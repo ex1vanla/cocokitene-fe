@@ -1,4 +1,6 @@
+import { MeetingStatus, MeetingStatusColor, MeetingStatusName } from '@/constants/meeting'
 import { useAttendance } from '@/stores/attendance/hooks'
+import { enumToArray } from '@/utils'
 import { formatDate, formatTimeMeeting, statusDateMeeting } from '@/utils/date'
 import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
@@ -82,23 +84,23 @@ const ItemFutureMeeting = ({
                     </Col>
                     <Col span={3} className="flex items-center pl-4">
                         <Link href={meetings_meeting_link.toString()}>
-                            <Text>Headquarters & Online</Text>
+                            <Text className="text-blue-500 hover:underline">
+                                {t('MEETING_LINK')}
+                            </Text>
                         </Link>
                     </Col>
                     <Col span={2} className="flex items-center pl-3">
-                        {meetings_status_meeting_happen == '0' ? (
-                            <li className="text-red-500">{t('PENDING')}</li>
-                        ) : statusDateMeeting(
-                              meetings_start_time.toString(),
-                              meetings_end_time.toString(),
-                          ) ? (
-                            <li className="text-green-500">
-                                {t('IN_PROGRESS')}
-                            </li>
-                        ) : (
-                            <li className="text-primary">{t('FUTURE')}</li>
-                        )}
+                        {enumToArray(MeetingStatus).map((status) => {
+                            if (status === meetings_status_meeting_happen) {
+                                return (
+                                    <li className={MeetingStatusColor[status]}>
+                                        {t(MeetingStatusName[status])}
+                                    </li>
+                                )
+                            }
+                        })}
                     </Col>
+
                     <Col
                         span={4}
                         className="flex items-center justify-end space-x-2"

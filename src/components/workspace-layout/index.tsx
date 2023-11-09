@@ -1,10 +1,11 @@
 'use client'
 
 import Content from '@/components/workspace-layout/content'
-import Header from '@/components/workspace-layout/header'
-import Sidebar from '@/components/workspace-layout/sidebar'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { Layout } from 'antd'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
+import Header from './header'
+import Sidebar from './sidebar'
 
 export interface IWorkspaceLayout {
     children: ReactNode
@@ -12,15 +13,22 @@ export interface IWorkspaceLayout {
 
 const WorkspaceLayout = (props: IWorkspaceLayout) => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
-
+    const { authState } = useAuthLogin()
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        setMounted(true)
+    }, [])
     return (
         <Layout className="min-h-screen">
             <Header />
             <Layout className="mt-12">
-                <Sidebar
-                    isCollapsed={isCollapsed}
-                    setIsCollapsed={setIsCollapsed}
-                />
+                {mounted && authState.isAuthenticated && (
+                    <Sidebar
+                        isCollapsed={isCollapsed}
+                        setIsCollapsed={setIsCollapsed}
+                    />
+                )}
+
                 <Content isCollapsed={isCollapsed} {...props} />
             </Layout>
         </Layout>

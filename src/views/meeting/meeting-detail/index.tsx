@@ -1,5 +1,7 @@
+import withAuth from '@/components/component-auth'
 import DetailTitle from '@/components/content-page-title/detail-title'
 import Loader from '@/components/loader'
+import { Permissions } from '@/constants/permission'
 import { useMeetingDetail } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
 import AmendmentResolutions from '@/views/meeting/meeting-detail/amendment-resolutions'
@@ -46,4 +48,4 @@ const MeetingDetail = () => {
     )
 }
 
-export default MeetingDetail
+export default withAuth(MeetingDetail, Permissions.DETAIL_MEETING)
