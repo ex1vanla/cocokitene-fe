@@ -2,6 +2,8 @@ import BoxArea from '@/components/box-area'
 import CreateResolutionItem from '@/components/create-resolution-item'
 import { ResolutionType } from '@/constants/resolution'
 import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
+import { IProposalFile } from '@/stores/meeting/types'
+import { getShortNameFromUrl } from '@/utils/meeting'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -23,6 +25,35 @@ const Resolutions = () => {
             })
         }
 
+    const onAddFile = (index: number) => (file: IProposalFile) => {
+        const resolutions = [...data.resolutions]
+        const oldFiles = resolutions[index].files as IProposalFile[]
+        resolutions[index] = {
+            ...resolutions[index],
+            files: [...oldFiles, file],
+        }
+        setData({
+            ...data,
+            resolutions,
+        })
+    }
+
+    const onRemoveFile = (index: number) => (uid: string) => {
+        const resolutions = [...data.resolutions]
+
+        const oldFiles = resolutions[index].files as IProposalFile[]
+        const newFiles = oldFiles.filter((file) => file.uid !== uid)
+
+        resolutions[index] = {
+            ...resolutions[index],
+            files: newFiles,
+        }
+        setData({
+            ...data,
+            resolutions,
+        })
+    }
+
     const onDelete = (index: number) => () => {
         setData({
             ...data,
@@ -39,6 +70,7 @@ const Resolutions = () => {
                     type: ResolutionType.RESOLUTION,
                     title: '',
                     description: '',
+                    files: [],
                 },
             ],
         })
@@ -54,8 +86,18 @@ const Resolutions = () => {
                         index={index + 1}
                         title={data.resolutions[index].title}
                         content={data.resolutions[index].description}
+                        fileList={data?.resolutions[index].files?.map(
+                            (file, index) => ({
+                                uid: file.id?.toString() || index.toString(),
+                                name: getShortNameFromUrl(file.url) as string,
+                                url: file.url,
+                                status: 'done',
+                            }),
+                        )}
                         onChangeTitle={onChange('title', index)}
                         onChangeContent={onChange('description', index)}
+                        onAddFile={onAddFile(index)}
+                        onRemoveFile={onRemoveFile(index)}
                         onDelete={onDelete(index)}
                     />
                 ))}

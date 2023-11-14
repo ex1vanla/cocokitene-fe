@@ -2,6 +2,8 @@ import BoxArea from '@/components/box-area'
 import CreateResolutionItem from '@/components/create-resolution-item'
 import { ResolutionType } from '@/constants/resolution'
 import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
+import { IProposalFile } from '@/stores/meeting/types'
+import { getShortNameFromUrl } from '@/utils/meeting'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -25,6 +27,35 @@ const AmendmentResolutions = () => {
             })
         }
 
+    const onAddFile = (index: number) => (file: IProposalFile) => {
+        const amendmentResolutions = [...data.amendmentResolutions]
+        const oldFiles = amendmentResolutions[index].files as IProposalFile[]
+        amendmentResolutions[index] = {
+            ...amendmentResolutions[index],
+            files: [...oldFiles, file],
+        }
+        setData({
+            ...data,
+            amendmentResolutions,
+        })
+    }
+
+    const onRemoveFile = (index: number) => (uid: string) => {
+        const amendmentResolutions = [...data.amendmentResolutions]
+
+        const oldFiles = amendmentResolutions[index].files as IProposalFile[]
+        const newFiles = oldFiles.filter((file) => file.uid !== uid)
+
+        amendmentResolutions[index] = {
+            ...amendmentResolutions[index],
+            files: newFiles,
+        }
+        setData({
+            ...data,
+            amendmentResolutions,
+        })
+    }
+
     const onDelete = (index: number) => () => {
         setData({
             ...data,
@@ -44,6 +75,7 @@ const AmendmentResolutions = () => {
                     title: '',
                     description: '',
                     oldDescription: '',
+                    files: [],
                 },
             ],
         })
@@ -62,9 +94,19 @@ const AmendmentResolutions = () => {
                         oldContent={
                             data.amendmentResolutions[index].oldDescription
                         }
+                        fileList={data?.amendmentResolutions[index].files?.map(
+                            (file, index) => ({
+                                uid: file.id?.toString() || index.toString(),
+                                name: getShortNameFromUrl(file.url) as string,
+                                url: file.url,
+                                status: 'done',
+                            }),
+                        )}
                         onChangeTitle={onChange('title', index)}
                         onChangeContent={onChange('description', index)}
                         onChangeOldContent={onChange('oldDescription', index)}
+                        onAddFile={onAddFile(index)}
+                        onRemoveFile={onRemoveFile(index)}
                         onDelete={onDelete(index)}
                     />
                 ))}

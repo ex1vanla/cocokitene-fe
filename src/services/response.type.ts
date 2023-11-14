@@ -50,6 +50,7 @@ export interface IProposalCreatorResponse {
 }
 
 export interface IProposalFileResponse {
+    id: number
     url: string
 }
 
