@@ -38,104 +38,106 @@ const ItemFutureMeeting = ({
 
     const handleOk = (idMeeting: number) => {
         joinMeetingAction(idMeeting)
-        // dispatch(setMeetingIdJoin({ meetingId: idMeeting }))
         setIsModalOpen(false)
     }
 
     const handleCancel = () => {
         setIsModalOpen(false)
     }
+
     return (
         <>
-            <Tooltip
-                overlayStyle={{ color: 'red' }}
-                title={truncateString({
-                    text: meetings_note,
-                    start: 200,
-                    end: 0,
-                })}
+            <Row
+                className="border-true-gray-300 mb-2 rounded-lg border p-2"
+                gutter={[16, 16]}
             >
-                <Row
-                    className="border-true-gray-300 mb-2 rounded-lg border p-2"
-                    gutter={[16, 16]}
-                >
-                    <Col span={5} className="flex items-center space-x-2">
-                        <Image
-                            src="/images/logo-meeting-future.png"
-                            alt="service-image-alt"
-                            width={72}
-                            height={48}
-                        />
-                        <Text className="font-medium">
-                            {formatTimeMeeting(
-                                meetings_start_time.toString(),
-                                meetings_end_time.toString(),
-                            )}
-                        </Text>
-                    </Col>
-                    <Col span={2} className="flex items-center ">
-                        <Text>
-                            {formatDate(
-                                meetings_start_time.toString(),
-                                'YYYY-MM-DD',
-                            )}
-                        </Text>
-                    </Col>
-                    <Col span={8} className="flex items-center">
+                <Col span={5} className="flex items-center space-x-2">
+                    <Image
+                        src="/images/logo-meeting-future.png"
+                        alt="service-image-alt"
+                        width={72}
+                        height={48}
+                    />
+                    <Text className="font-medium">
+                        {formatTimeMeeting(
+                            meetings_start_time.toString(),
+                            meetings_end_time.toString(),
+                        )}
+                    </Text>
+                </Col>
+                <Col span={2} className="flex items-center ">
+                    <Text>
+                        {formatDate(
+                            meetings_start_time.toString(),
+                            'YYYY-MM-DD',
+                        )}
+                    </Text>
+                </Col>
+                <Col span={8} className="flex items-center">
+                    <Tooltip
+                        placement="topLeft"
+                        title={truncateString({
+                            text: meetings_note,
+                            start: 200,
+                            end: 0,
+                        })}
+                        overlayClassName="lg:max-2xl:max-w-[370px] 2xl:max-w-[500px]"
+                        color={'rgba(81, 81, 229, 1)'}
+                    >
                         <Text className="overflow-hidden overflow-ellipsis whitespace-nowrap ">
                             {meetings_title}
                         </Text>
-                    </Col>
-                    <Col span={3} className="flex items-center pl-4">
-                        <Link href={meetings_meeting_link.toString()}>
-                            <Text className="text-blue-500 hover:underline">
-                                {t('MEETING_LINK')}
-                            </Text>
-                        </Link>
-                    </Col>
-                    <Col span={2} className="flex items-center pl-3">
-                        {enumToArray(MeetingStatus).map((status, key) => {
-                            if (status === meetings_status_meeting_happen) {
-                                return (
-                                    <li
-                                        key={key}
-                                        className={MeetingStatusColor[status]}
-                                    >
-                                        {t(MeetingStatusName[status])}
-                                    </li>
-                                )
-                            }
-                        })}
-                    </Col>
+                    </Tooltip>
+                </Col>
+                <Col span={3} className="flex items-center pl-4">
+                    <Link href={meetings_meeting_link.toString()}>
+                        <Text className="text-blue-500 hover:underline">
+                            {t('MEETING_LINK')}
+                        </Text>
+                    </Link>
+                </Col>
+                <Col span={2} className="flex items-center pl-3">
+                    {enumToArray(MeetingStatus).map((status, key) => {
+                        if (status === meetings_status_meeting_happen) {
+                            return (
+                                <li
+                                    key={key}
+                                    className={MeetingStatusColor[status]}
+                                >
+                                    {t(MeetingStatusName[status])}
+                                </li>
+                            )
+                        }
+                    })}
+                </Col>
 
-                    <Col
-                        span={4}
-                        className="flex items-center justify-end space-x-2"
-                    >
-                        {isJoined === 0 ? (
-                            <Button
-                                type="primary"
-                                size="middle"
-                                onClick={() => showModal()}
-                            >
-                                {t('BTN_JOIN')}
-                            </Button>
-                        ) : (
-                            <Button disabled type="primary" size="middle">
-                                {t('JOINED')}
-                            </Button>
-                        )}
+                <Col
+                    span={4}
+                    className="flex items-center justify-end space-x-2"
+                >
+                    {isJoined === 0 ? (
                         <Button
+                            type="primary"
                             size="middle"
-                            onClick={() => {
-                                router.push('/meeting/detail/' + meetings_id)
-                            }}
+                            onClick={() => showModal()}
                         >
-                            {t('BTN_VIEW_DETAIL')}
+                            {t('BTN_JOIN')}
                         </Button>
-                    </Col>
-                </Row>
-            </Tooltip>
+                    ) : (
+                        <Button disabled type="primary" size="middle">
+                            {t('JOINED')}
+                        </Button>
+                    )}
+                    <Button
+                        size="middle"
+                        onClick={() => {
+                            router.push('/meeting/detail/' + meetings_id)
+                        }}
+                    >
+                        {t('BTN_VIEW_DETAIL')}
+                    </Button>
+                </Col>
+            </Row>
 
             <Modal
                 title={t('TITLE_CONFIRM_MEETING_POPUP')}
