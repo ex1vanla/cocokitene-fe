@@ -29,7 +29,7 @@ export const getAllCompany = createAsyncThunk<
 >('company/getCompanyAll', async (param, { rejectWithValue }) => {
     try {
         const data = await serviceCompany.getAllCompanys(param)
-        const mappedData = data.items.map((item, index) => {
+        const mappedData = data.items.map((item) => {
             return {
                 id: item.companys_id,
                 companyName: item.companys_company_name,

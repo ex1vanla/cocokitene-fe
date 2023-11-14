@@ -5,7 +5,9 @@ import { getAllCompany, setFilter } from './listSlice'
 
 type ListCompanyType = {
     companyState: ICompanyState
+    // eslint-disable-next-line
     getListCompanyAction: (data: IGetAllCompanyQuery) => void
+    // eslint-disable-next-line
     setFilterAction: (data: ListParamsFilter) => void
 }
 

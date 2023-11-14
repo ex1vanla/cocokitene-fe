@@ -17,4 +17,5 @@ export enum Permissions {
     SEND_MAIL_TO_SHAREHOLDER = 'send_mail_to_shareholder',
     LIST_USER_STATUS = 'list_user_status',
     LIST_ROLES = 'list_roles',
+    CREATE_COMPANY = 'create_company'
 }

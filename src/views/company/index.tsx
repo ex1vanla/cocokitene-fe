@@ -5,6 +5,7 @@ import CompanyList from '@/views/company/company-list'
 import { useListCompany } from '@/stores/company/hooks'
 import { useEffect } from 'react'
 import { Permissions } from '@/constants/permission'
+import withAuth from '@/components/component-auth'
 
 const CompanyView = () => {
     const t = useTranslations()
@@ -17,10 +18,10 @@ const CompanyView = () => {
             limit: companyState.limit,
             filter: { ...companyState.filter },
         })
+        // eslint-disable-next-line
     }, [companyState.filter])
 
     const handleInputChange = (value: string) => {
-        console.log("value", value);
         setFilterAction({ ...companyState.filter, searchQuery: value })
     }
 
@@ -33,6 +34,7 @@ const CompanyView = () => {
                 pageName={t('LIST_COMPANY')}
                 addIcon={<VideoCameraAddOutlined />}
                 createLink="/company/create"
+                permisionBtnAdd={Permissions.CREATE_COMPANY}
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
             />
@@ -43,4 +45,4 @@ const CompanyView = () => {
     )
 }
 
-export default CompanyView
+export default withAuth(CompanyView, Permissions.CREATE_COMPANY)
