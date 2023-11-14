@@ -1,9 +1,12 @@
 /* eslint-disable */
 
+import { UploadFile } from 'antd'
+
 export interface Resolution {
     title: string
     content: string
     oldContent?: string
+    fileList?: UploadFile[]
 }
 
 export enum ResolutionType {

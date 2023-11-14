@@ -28,26 +28,31 @@ const initialState: IUpdateMeetingState = {
             {
                 title: '',
                 description: '',
+                files: [],
                 type: ResolutionType.RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                files: [],
                 type: ResolutionType.RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                files: [],
                 type: ResolutionType.RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                files: [],
                 type: ResolutionType.RESOLUTION,
             },
             {
                 title: '',
                 description: '',
+                files: [],
                 type: ResolutionType.RESOLUTION,
             },
         ],
@@ -56,30 +61,35 @@ const initialState: IUpdateMeetingState = {
                 title: '',
                 description: '',
                 oldDescription: '',
+                files: [],
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
                 oldDescription: '',
+                files: [],
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
                 oldDescription: '',
+                files: [],
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
                 oldDescription: '',
+                files: [],
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
             {
                 title: '',
                 description: '',
                 oldDescription: '',
+                files: [],
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
         ],
@@ -121,6 +131,11 @@ export const initUpdateMeeting = createAsyncThunk<
                     description: resolution.description,
                     oldDescription: resolution.oldDescription,
                     type: resolution.type,
+                    files: resolution.proposalFiles.map((file) => ({
+                        id: file.id,
+                        url: file.url,
+                        uid: file.id.toString(),
+                    })),
                 }))
         }
 

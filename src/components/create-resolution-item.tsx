@@ -30,6 +30,7 @@ const CreateResolutionItem = ({
     title,
     content,
     oldContent,
+    fileList = [],
     onChangeTitle,
     onChangeContent,
     onChangeOldContent,
@@ -48,7 +49,7 @@ const CreateResolutionItem = ({
     const [fileData, setFileData] = useState<{
         fileList: UploadFile[]
         errorUniqueFile: boolean
-    }>({ fileList: [], errorUniqueFile: false })
+    }>({ fileList: fileList, errorUniqueFile: false })
 
     const onUpload = async (file: RcFile) => {
         try {
