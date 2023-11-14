@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl'
 import CompanyList from '@/views/company/company-list'
 import { useListCompany } from '@/stores/company/hooks'
 import { useEffect } from 'react'
+import { Permissions } from '@/constants/permission'
 
 const CompanyView = () => {
     const t = useTranslations()
@@ -23,7 +24,9 @@ const CompanyView = () => {
         setFilterAction({ ...companyState.filter, searchQuery: value })
     }
 
-    const handleSelectChange = () => {}
+    const handleSelectChange = (value: string) => {
+        setFilterAction({ ...companyState.filter, sortOrder: value })
+    }
     return (
         <div>
             <ListTitle
