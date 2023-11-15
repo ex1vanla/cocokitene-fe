@@ -15,7 +15,7 @@ const initialState: ICompanyState = {
     companyList: [],
     totalCompanyItem: 0,
     page: 1,
-    limit: 2,
+    limit: 10,
     errorCode: '',
     errorMessage: '',
 }

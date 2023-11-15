@@ -101,7 +101,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
             dataIndex: 'status',
             render: (_, record) => (
                 <>
-                    {record.status ? (
+                    {record.status && record.status == "0" ? (
                         <Badge status="success" text={t('ACTIVE')} />
                     ) : (
                         <Badge status="error" text={t('INACTIVE')} />
