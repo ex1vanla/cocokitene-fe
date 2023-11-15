@@ -1,11 +1,10 @@
-import {
-    MeetingStatus,
-    MeetingStatusColor,
-    MeetingStatusName,
-} from '@/constants/meeting'
+import { useNotification } from '@/hooks/use-notification'
 import { useAttendance } from '@/stores/attendance/hooks'
-import { enumToArray } from '@/utils'
-import { formatDate, formatTimeMeeting } from '@/utils/date'
+import {
+    calculateTimeDifference,
+    formatTimeMeeting,
+    statusDateMeeting
+} from '@/utils/date'
 import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Button, Col, Modal, Row, Tooltip, Typography } from 'antd'
@@ -31,8 +30,23 @@ const ItemFutureMeeting = ({
     const t = useTranslations()
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { joinMeetingAction } = useAttendance()
+    const { openNotification, contextHolder } = useNotification()
 
-    const showModal = () => {
+    const showModal = (startTime: string) => {
+        const result = calculateTimeDifference(startTime)
+        if (result) {
+            const messageNoti = t('MEETING_START_MESSAGE', {
+                days: result[0].toString(),
+                hours: result[1].toString(),
+                minutes: result[2].toString(),
+            })
+            openNotification({
+                message: messageNoti,
+                placement: 'bottomRight',
+                type: 'info',
+            })
+            return
+        }
         setIsModalOpen(true)
     }
 
@@ -47,29 +61,22 @@ const ItemFutureMeeting = ({
 
     return (
         <>
+            {contextHolder}
             <Row
                 className="border-true-gray-300 mb-2 rounded-lg border p-2"
                 gutter={[16, 16]}
             >
-                <Col span={5} className="flex items-center space-x-2">
+                <Col span={7} className="flex items-center space-x-2">
                     <Image
                         src="/images/logo-meeting-future.png"
                         alt="service-image-alt"
                         width={72}
                         height={48}
                     />
-                    <Text className="font-medium">
+                    <Text>
                         {formatTimeMeeting(
                             meetings_start_time.toString(),
                             meetings_end_time.toString(),
-                        )}
-                    </Text>
-                </Col>
-                <Col span={2} className="flex items-center ">
-                    <Text>
-                        {formatDate(
-                            meetings_start_time.toString(),
-                            'YYYY-MM-DD',
                         )}
                     </Text>
                 </Col>
@@ -97,18 +104,16 @@ const ItemFutureMeeting = ({
                     </Link>
                 </Col>
                 <Col span={2} className="flex items-center pl-3">
-                    {enumToArray(MeetingStatus).map((status, key) => {
-                        if (status === meetings_status_meeting_happen) {
-                            return (
-                                <li
-                                    key={key}
-                                    className={MeetingStatusColor[status]}
-                                >
-                                    {t(MeetingStatusName[status])}
-                                </li>
-                            )
-                        }
-                    })}
+                    {meetings_status_meeting_happen == '0' ? (
+                        <li className="text-red-500">{t('PENDING')}</li>
+                    ) : statusDateMeeting(
+                          meetings_start_time.toString(),
+                          meetings_end_time.toString(),
+                      ) ? (
+                        <li className="text-green-500">{t('IN_PROGRESS')}</li>
+                    ) : (
+                        <li className="text-primary">{t('FUTURE')}</li>
+                    )}
                 </Col>
 
                 <Col
@@ -119,7 +124,7 @@ const ItemFutureMeeting = ({
                         <Button
                             type="primary"
                             size="middle"
-                            onClick={() => showModal()}
+                            onClick={() => showModal(meetings_start_time)}
                         >
                             {t('BTN_JOIN')}
                         </Button>

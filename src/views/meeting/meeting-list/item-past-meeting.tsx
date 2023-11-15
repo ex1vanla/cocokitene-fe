@@ -1,4 +1,4 @@
-import { formatDate, formatTimeMeeting } from '@/utils/date'
+import { formatTimeMeeting } from '@/utils/date'
 import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Button, Col, Row, Tooltip, Typography } from 'antd'
@@ -26,23 +26,18 @@ const ItemPastMeeting = ({
             className="border-true-gray-300 mb-2 rounded-lg border p-2"
             gutter={[16, 16]}
         >
-            <Col span={5} className="flex items-center space-x-2">
+            <Col span={7} className="flex items-center space-x-2">
                 <Image
-                    src="/images/logo-meeting-past.png"
+                    src="/images/logo-meeting-future.png"
                     alt="service-image-alt"
                     width={72}
                     height={48}
                 />
-                <Text className="font-medium">
+                <Text>
                     {formatTimeMeeting(
                         meetings_start_time.toString(),
                         meetings_end_time.toString(),
                     )}
-                </Text>
-            </Col>
-            <Col span={2} className="flex items-center ">
-                <Text>
-                    {formatDate(meetings_start_time.toString(), 'YYYY-MM-DD')}
                 </Text>
             </Col>
             <Col span={8} className="flex items-center">
