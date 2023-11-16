@@ -45,4 +45,4 @@ const CompanyView = () => {
     )
 }
 
-export default withAuth(CompanyView, Permissions.CREATE_COMPANY)
+export default withAuth(CompanyView, Permissions.LIST_COMPANY)
