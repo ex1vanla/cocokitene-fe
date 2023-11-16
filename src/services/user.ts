@@ -1,6 +1,7 @@
+import { ILoginAdminRequest, ILoginAdminResponse } from '@/stores/auth-admin/type'
+import { IAccount, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
 import { Cookies } from 'react-cookie'
 import { get, post } from './fetcher'
-import { IAccount, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
 import { IAccountListResponse } from './response.type'
 const cookies = new Cookies()
 
@@ -70,6 +71,13 @@ const serviceUser = {
     login: async (payload: ILoginRequest): Promise<ILoginResponse> => {
         const response: { data: ILoginResponse } = await post(
             '/auths/login',
+            payload,
+        )
+        return response.data
+    },
+    loginAdmin: async (payload: ILoginAdminRequest): Promise<ILoginAdminResponse> => {
+        const response: { data: ILoginAdminResponse } = await post(
+            '/auths/system-admin/login-by-password',
             payload,
         )
         return response.data
