@@ -22,6 +22,7 @@ const initialState: IUpdateMeetingState = {
         status: MeetingStatus.NOT_HAPPEN,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
+        endVotingTime: new Date().toISOString(),
         meetingMinutes: [],
         meetingInvitations: [],
         resolutions: [
@@ -160,6 +161,7 @@ export const initUpdateMeeting = createAsyncThunk<
             status: meetingDetail.status,
             startTime: new Date(meetingDetail.startTime).toISOString(),
             endTime: new Date(meetingDetail.endTime).toISOString(),
+            endVotingTime: new Date(meetingDetail.endVotingTime).toISOString(),
             meetingInvitations: getMeetingFilesByType(
                 MeetingFileType.MEETING_INVITATION,
             ),

@@ -114,6 +114,16 @@ const DetailInformation = () => {
                                     )}
                                 </div>
                             </div>
+                            <div className="flex gap-3">
+                                <Text className="text-black-45">
+                                    {t('END_VOTING_TIME')}:
+                                </Text>
+                                <div className="flex flex-col gap-1">
+                                    {moment(meeting.endVotingTime).format(
+                                        'YYYY/MM/DD HH:mm:ss',
+                                    )}
+                                </div>
+                            </div>
                         </div>
                         <div className="mt-2 flex flex-col gap-1">
                             <Text className="text-black-45">{t('NOTE')}:</Text>
