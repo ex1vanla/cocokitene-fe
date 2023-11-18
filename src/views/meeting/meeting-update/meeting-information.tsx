@@ -174,12 +174,17 @@ const MeetingInformation = () => {
         dateString: [string, string] | string,
     ) => {
         const dt = { ...data }
-        if (dateString[0]) {
-            dt.startTime = new Date(dateString[0]).toISOString()
+        if (dateString.length === 2) {
+            if (dateString[0]) {
+                dt.startTime = new Date(dateString[0]).toISOString()
+            }
+            if (dateString[1]) {
+                dt.endTime = new Date(dateString[1]).toISOString()
+            }
+        } else {
+            dt.endVotingTime = new Date(dateString as string).toISOString()
         }
-        if (dateString[1]) {
-            dt.endTime = new Date(dateString[1]).toISOString()
-        }
+
         setData(dt)
     }
 
@@ -384,6 +389,28 @@ const MeetingInformation = () => {
                                     dayjs(data.startTime),
                                     dayjs(data.endTime),
                                 ]}
+                            />
+                        </Form.Item>
+                    </Form>
+                </Col>
+                <Col xs={24} lg={12}>
+                    <Form layout="vertical">
+                        <Form.Item
+                            label={t('END_VOTING_TIME')}
+                            rules={[{ required: true }]}
+                            className="mb-0"
+                        >
+                            <DatePicker
+                                name={'END_VOTING_TIME'}
+                                size="large"
+                                showTime={{ format: 'HH:mm' }}
+                                format="YYYY-MM-DD HH:mm"
+                                style={{ width: '100%' }}
+                                // value={data.startTime}
+                                onChange={onChangeDateTime}
+                                onOk={onOkDateTime}
+                                // defaultPickerValue={}
+                                value={dayjs(data.endVotingTime)}
                             />
                         </Form.Item>
                     </Form>

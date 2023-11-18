@@ -8,6 +8,7 @@ const initialState: ICreateMeeting = {
     note: '',
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
+    endVotingTime: new Date().toISOString(),
     meetingMinutes: [],
     meetingInvitations: [],
     resolutions: [

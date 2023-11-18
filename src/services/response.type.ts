@@ -87,6 +87,7 @@ export interface IMeetingDetailResponse {
     note: string
     startTime: string
     endTime: string
+    endVotingTime: string
     meetingLink: string
     status: MeetingStatus
     companyId: number
