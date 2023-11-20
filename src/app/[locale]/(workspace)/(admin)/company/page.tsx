@@ -1,5 +1,5 @@
-const CompanyListPage = () => {
-    return <h1>This is company list page</h1>
-}
+'use client'
 
-export default CompanyListPage
+import CompanyList from '@/views/company'
+
+export default CompanyList

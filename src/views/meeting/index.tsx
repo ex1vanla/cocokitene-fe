@@ -90,6 +90,7 @@ const MeetingList = () => {
                 pageName={t('LIST_MEETINGS')}
                 addIcon={<VideoCameraAddOutlined />}
                 createLink="/meeting/create"
+                permisionBtnAdd={Permissions.CREATE_MEETING}
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
             />

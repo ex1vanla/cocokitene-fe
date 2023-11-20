@@ -2,7 +2,6 @@ import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
 import { SORT } from '@/constants/meeting'
-import { Permissions } from '@/constants/permission'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { checkPermission } from '@/utils/auth'
 import { SearchOutlined } from '@ant-design/icons'
@@ -16,6 +15,7 @@ const { Title } = Typography
 interface IListTitle extends IBaseTitle {
     addIcon: ReactNode
     createLink: string
+    permisionBtnAdd: string
     // eslint-disable-next-line
     onChangeInput: (value: string) => void
     // eslint-disable-next-line
@@ -26,6 +26,7 @@ const ListTitle = ({
     pageName,
     addIcon,
     createLink,
+    permisionBtnAdd,
     onChangeInput,
     onChangeSelect,
 }: IListTitle) => {
@@ -36,7 +37,7 @@ const ListTitle = ({
     const { authState } = useAuthLogin()
     const permissionCreateMeeting = checkPermission(
         authState.userData?.permissionKeys,
-        Permissions.CREATE_MEETING,
+        permisionBtnAdd,
     )
 
     const handleChangeSelect = (value: string) => {
