@@ -1,7 +1,9 @@
 import { IParticipants } from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
+import { CompanyStatus } from '@/constants/company-status'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
+import { UserStatus } from '@/constants/user-status'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
 export interface IMeta {
@@ -119,4 +121,26 @@ export interface IMeetingParticipantsResponse {
     directors: IParticipantsView[]
     shareholders: IParticipantsView[]
     administrativeCouncils: IParticipantsView[]
+}
+
+export interface ICompanyStatusResponse {
+    id: number
+    status: CompanyStatus
+    description: string
+}
+
+export interface IPlanResponse {
+    id: number
+    planName: string
+    description: string
+    maxStorage: number
+    maxMeeting: number
+    price: number
+    maxShareholderAccount: number
+}
+
+export interface IUserStatusResponse {
+    id: number
+    status: UserStatus
+    description: string
 }
