@@ -1,7 +1,6 @@
 /* eslint-disable */
 import CreateTitle from '@/components/content-page-title/create-title'
 import { FETCH_STATUS } from '@/constants/common'
-import { instance } from '@/services/axios'
 import serviceCompany from '@/services/company'
 import CompanyInformation from '@/views/company/company-create/company-information'
 import SaveCreateCompanyButton from '@/views/company/company-create/save-button'
@@ -12,6 +11,7 @@ import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import dayjs from 'dayjs'
 
 export interface ICompanyCreateForm {
     companyName: string
@@ -47,7 +47,9 @@ const CompanyCreate = () => {
         try {
             const res = await serviceCompany.createCompany({
                 ...values,
-                dateOfCorporation: values.dateOfIncorporation,
+                dateOfCorporation: dayjs(values.dateOfIncorporation).format(
+                    'YYYY-MM-DD',
+                ),
                 email: values.companyEmail,
                 statusId: values.companyStatusId,
                 planId: values.planId,
