@@ -1,10 +1,12 @@
+import {
+    MeetingStatus,
+    MeetingStatusColor,
+    MeetingStatusName,
+} from '@/constants/meeting'
 import { useNotification } from '@/hooks/use-notification'
 import { useAttendance } from '@/stores/attendance/hooks'
-import {
-    calculateTimeDifference,
-    formatTimeMeeting,
-    statusDateMeeting
-} from '@/utils/date'
+import { enumToArray } from '@/utils'
+import { calculateTimeDifference, formatTimeMeeting } from '@/utils/date'
 import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
 import { Button, Col, Modal, Row, Tooltip, Typography } from 'antd'
@@ -23,7 +25,7 @@ const ItemFutureMeeting = ({
     meetings_end_time,
     meetings_meeting_link,
     isJoined,
-    meetings_status_meeting_happen,
+    meetings_status,
     meetings_note,
 }: IMeetingItem) => {
     const router = useRouter()
@@ -104,16 +106,20 @@ const ItemFutureMeeting = ({
                     </Link>
                 </Col>
                 <Col span={2} className="flex items-center pl-3">
-                    {meetings_status_meeting_happen == '0' ? (
-                        <li className="text-red-500">{t('PENDING')}</li>
-                    ) : statusDateMeeting(
-                          meetings_start_time.toString(),
-                          meetings_end_time.toString(),
-                      ) ? (
-                        <li className="text-green-500">{t('IN_PROGRESS')}</li>
-                    ) : (
-                        <li className="text-primary">{t('FUTURE')}</li>
-                    )}
+                    {enumToArray(MeetingStatus).map((status, key) => {
+                        if (status === meetings_status) {
+                            return (
+                                <li
+                                    key={key}
+                                    style={{
+                                        color: MeetingStatusColor[status],
+                                    }}
+                                >
+                                    {t(MeetingStatusName[status])}
+                                </li>
+                            )
+                        }
+                    })}
                 </Col>
 
                 <Col

@@ -1,3 +1,9 @@
+import {
+    MeetingStatus,
+    MeetingStatusColor,
+    MeetingStatusName,
+} from '@/constants/meeting'
+import { enumToArray } from '@/utils'
 import { formatTimeMeeting } from '@/utils/date'
 import { truncateString } from '@/utils/format-string'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
@@ -15,7 +21,7 @@ const ItemPastMeeting = ({
     meetings_start_time,
     meetings_end_time,
     meetings_meeting_link,
-    meetings_status_meeting_happen,
+    meetings_status,
     meetings_note,
 }: IMeetingItem) => {
     const t = useTranslations()
@@ -64,11 +70,20 @@ const ItemPastMeeting = ({
                 </Link>
             </Col>
             <Col span={2} className="flex items-center pl-3">
-                {meetings_status_meeting_happen == '0' ? (
-                    <li className="text-red-500">{t('PENDING')}</li>
-                ) : (
-                    <li className="text-green-500">{t('DONE')}</li>
-                )}
+                {enumToArray(MeetingStatus).map((status, key) => {
+                    if (status === meetings_status) {
+                        return (
+                            <li
+                                key={key}
+                                style={{
+                                    color: MeetingStatusColor[status],
+                                }}
+                            >
+                                {t(MeetingStatusName[status])}
+                            </li>
+                        )
+                    }
+                })}
             </Col>
             <Col span={4} className="flex items-center justify-end">
                 <Button

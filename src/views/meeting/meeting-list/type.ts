@@ -6,5 +6,5 @@ export interface IMeetingItem {
     meetings_meeting_link: string
     meetings_note: string
     isJoined: number
-    meetings_status_meeting_happen: string
+    meetings_status: string
 }

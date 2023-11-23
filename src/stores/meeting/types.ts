@@ -56,7 +56,7 @@ export interface IMeeting {
     meetings_end_time: string
     meetings_meeting_link: string
     isJoined: number
-    meetings_status_meeting_happen: string
+    meetings_status: string
 }
 
 export interface ListParamsFilter {
