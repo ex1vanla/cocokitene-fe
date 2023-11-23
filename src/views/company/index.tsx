@@ -1,14 +1,15 @@
 import ListTitle from '@/components/content-page-title/list-title'
-import { VideoCameraAddOutlined } from '@ant-design/icons'
-import { useTranslations } from 'next-intl'
-import CompanyList from '@/views/company/company-list'
 import { useListCompany } from '@/stores/company/hooks'
+import CompanyList from '@/views/company/company-list'
+import { PlusOutlined, VideoCameraAddOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
+import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { Permissions } from '@/constants/permission'
-import withAuth from '@/components/component-auth'
 
 const CompanyView = () => {
     const t = useTranslations()
+    const router = useRouter()
     const { companyState, getListCompanyAction, setFilterAction } =
         useListCompany()
 
@@ -32,9 +33,18 @@ const CompanyView = () => {
         <div>
             <ListTitle
                 pageName={t('LIST_COMPANY')}
-                addIcon={<VideoCameraAddOutlined />}
-                createLink="/company/create"
-                permisionBtnAdd={Permissions.CREATE_COMPANY}
+                addButton={
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        size="large"
+                        onClick={() => {
+                            router.push('/company/create')
+                        }}
+                    >
+                        {t('ADD_NEW')}
+                    </Button>
+                }
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
             />
@@ -45,4 +55,4 @@ const CompanyView = () => {
     )
 }
 
-export default withAuth(CompanyView, Permissions.LIST_COMPANY)
+export default CompanyView

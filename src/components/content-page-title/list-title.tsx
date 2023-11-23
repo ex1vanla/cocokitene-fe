@@ -13,9 +13,7 @@ import { ChangeEvent, ReactNode } from 'react'
 const { Title } = Typography
 
 interface IListTitle extends IBaseTitle {
-    addIcon: ReactNode
-    createLink: string
-    permisionBtnAdd: string
+    addButton?: ReactNode
     // eslint-disable-next-line
     onChangeInput: (value: string) => void
     // eslint-disable-next-line
@@ -24,22 +22,12 @@ interface IListTitle extends IBaseTitle {
 
 const ListTitle = ({
     pageName,
-    addIcon,
-    createLink,
-    permisionBtnAdd,
+    addButton,
     onChangeInput,
     onChangeSelect,
 }: IListTitle) => {
-    const router = useRouter()
-
     const t = useTranslations()
-
-    const { authState } = useAuthLogin()
-    const permissionCreateMeeting = checkPermission(
-        authState.userData?.permissionKeys,
-        permisionBtnAdd,
-    )
-
+    
     const handleChangeSelect = (value: string) => {
         onChangeSelect(value)
     }
@@ -72,18 +60,7 @@ const ListTitle = ({
                         { value: SORT.DESC, label: t('SORT_NEWEST_MEETING') },
                     ]}
                 />
-                {permissionCreateMeeting && (
-                    <Button
-                        type="primary"
-                        icon={addIcon}
-                        size="large"
-                        onClick={() => {
-                            router.push(createLink)
-                        }}
-                    >
-                        {t('ADD_NEW')}
-                    </Button>
-                )}
+                {addButton}
             </div>
         </LayoutTitle>
     )

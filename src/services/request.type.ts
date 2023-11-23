@@ -62,3 +62,13 @@ export interface ICreateCompanyPayload {
         statusId: number
     }
 }
+
+export interface IListCompanyResponse {
+    companys_id: number
+    companys_company_name: string
+    planName: string
+    companys_representative_user: string
+    totalCreatedAccount: string
+    totalCreatedMTGs: string
+    companyStatus: string
+}
