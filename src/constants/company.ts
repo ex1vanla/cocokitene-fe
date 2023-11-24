@@ -1,3 +1,4 @@
+/* eslint-disable */
 export interface MasterDataItem {
     key: number
     value: string
