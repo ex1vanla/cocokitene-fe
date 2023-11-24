@@ -48,6 +48,19 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
     },
 ]
 
+export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
+    {
+        icon: DashboardOutlined,
+        label: 'DASHBOARD',
+        key: '/dashboard',
+    },
+    {
+        icon: DashboardOutlined,
+        label: 'LIST_COMPANY',
+        key: '/company',
+    },
+]
+
 export const CONSTANT_EMPTY_STRING : string = ''
 
 export const SIDEBAR_OPEN_WIDTH: number = 208
