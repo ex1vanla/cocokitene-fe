@@ -17,3 +17,4 @@ export const SERVICE_PLAN_ITEMS: MasterDataItem[] = [
         value: 'pay_of_month',
     },
 ]
+

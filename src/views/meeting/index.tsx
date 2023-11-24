@@ -10,7 +10,7 @@ import { EActionStatus } from '@/stores/type'
 import { checkPermission } from '@/utils/auth'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
-import { PlusOutlined, VideoCameraAddOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
@@ -104,13 +104,14 @@ const MeetingList = () => {
                             icon={<PlusOutlined />}
                             size="large"
                             onClick={() => {
-                                router.push('/company/create')
+                                router.push('/meeting/create')
                             }}
                         >
                             {t('ADD_NEW')}
                         </Button>
                     )
                 }
+                defaultSort={meetingState.filter?.sortOrder}
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
             />

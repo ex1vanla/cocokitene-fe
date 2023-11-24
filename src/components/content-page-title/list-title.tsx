@@ -2,12 +2,9 @@ import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
 import { SORT } from '@/constants/meeting'
-import { useAuthLogin } from '@/stores/auth/hooks'
-import { checkPermission } from '@/utils/auth'
 import { SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Select, Typography } from 'antd'
+import { Input, Select, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { ChangeEvent, ReactNode } from 'react'
 
 const { Title } = Typography
@@ -18,6 +15,7 @@ interface IListTitle extends IBaseTitle {
     onChangeInput: (value: string) => void
     // eslint-disable-next-line
     onChangeSelect: (value: string) => void
+    defaultSort?: string
 }
 
 const ListTitle = ({
@@ -25,6 +23,7 @@ const ListTitle = ({
     addButton,
     onChangeInput,
     onChangeSelect,
+    defaultSort,
 }: IListTitle) => {
     const t = useTranslations()
     
@@ -51,7 +50,7 @@ const ListTitle = ({
 
                 <Select
                     className="w-[200px]"
-                    defaultValue={t('SORT_OLDEST_MEETING')}
+                    defaultValue={defaultSort == SORT.ASC ? t('SORT_OLDEST_MEETING') : t('SORT_NEWEST_MEETING')}
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChangeSelect}

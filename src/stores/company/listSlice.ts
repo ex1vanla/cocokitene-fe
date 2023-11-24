@@ -1,3 +1,5 @@
+import { CONSTANT_EMPTY_STRING } from '@/constants/common'
+import { SORT } from '@/constants/meeting'
 import serviceCompany from '@/services/company'
 import { IGetAllDataReponse } from '@/services/response.type'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
@@ -16,6 +18,10 @@ const initialState: ICompanyState = {
     totalCompanyItem: 0,
     page: 1,
     limit: 10,
+    filter: {
+        searchQuery: CONSTANT_EMPTY_STRING,
+        sortOrder: SORT.DESC,
+    },
     errorCode: '',
     errorMessage: '',
 }
