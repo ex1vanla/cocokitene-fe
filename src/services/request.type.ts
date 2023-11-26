@@ -63,12 +63,25 @@ export interface ICreateCompanyPayload {
     }
 }
 
-export interface IListCompanyResponse {
-    companys_id: number
-    companys_company_name: string
-    planName: string
-    companys_representative_user: string
-    totalCreatedAccount: string
-    totalCreatedMTGs: string
-    companyStatus: string
+export interface IUpdateCompanyPayload {
+    companyName: string
+    description?: string
+    address: string
+    companyShortName: string
+    email: string
+    dateOfCorporation: string
+    phone: string
+    fax?: string
+    taxNumber: string
+    businessType: string
+    representativeUser: string
+    statusId: number
+    planId: number
+}
+
+export interface IUpdateSuperAdminPayload {
+    username: string
+    walletAddress: string
+    email: string
+    statusId: number
 }

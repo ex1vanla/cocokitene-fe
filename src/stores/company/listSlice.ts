@@ -35,22 +35,23 @@ export const getAllCompany = createAsyncThunk<
 >('company/getCompanyAll', async (param, { rejectWithValue }) => {
     try {
         const data = await serviceCompany.getAllCompanys(param)
-        const mappedData = data.items.map((item) => {
+        const mappedData = data.items.map((item, index) => {
             return {
                 id: item.companys_id,
+                index: index + 1,
                 companyName: item.companys_company_name,
                 servicePlan: item.planName,
                 representative: item.companys_representative_user,
                 totalCreatedAccount: item.totalCreatedAccount,
                 totalCreatedMTGs: item.totalCreatedMTGs,
-                status: item.companyStatus
+                status: item.companyStatus,
             }
-        }) as ICompanyList[];
+        }) as ICompanyList[]
 
         return {
             ...data,
-            items: mappedData
-        } as IGetAllDataReponse<ICompanyList>;
+            items: mappedData,
+        } as IGetAllDataReponse<ICompanyList>
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data

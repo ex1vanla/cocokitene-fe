@@ -1,9 +1,15 @@
-import { ICreateCompanyPayload, IListCompanyResponse } from '@/services/request.type'
 import {
-    IGetAllCompanyQuery,
-} from '@/stores/company/type'
-import { get, post } from './fetcher'
-import { IGetAllDataReponse } from './response.type'
+    ICreateCompanyPayload,
+    IUpdateCompanyPayload,
+    IUpdateSuperAdminPayload,
+} from '@/services/request.type'
+import { IGetAllCompanyQuery } from '@/stores/company/type'
+import { get, patch, post } from './fetcher'
+import {
+    ICompanyDetailResponse,
+    IGetAllDataReponse,
+    IListCompanyResponse,
+} from './response.type'
 
 const serviceCompany = {
     getAllCompanys: async ({
@@ -22,6 +28,36 @@ const serviceCompany = {
 
     createCompany: async (payload: ICreateCompanyPayload) => {
         const response = await post<any>('/system-admin/companys', payload)
+        return response.data
+    },
+
+    getDetailCompany: async (companyId: number) => {
+        const response = await get<ICompanyDetailResponse>(
+            `/system-admin/company/${companyId}`,
+        )
+        return response.data
+    },
+
+    updateCompany: async (
+        companyId: number,
+        payload: IUpdateCompanyPayload,
+    ) => {
+        const response = await patch<any>(
+            `/system-admin/company/${companyId}`,
+            payload,
+        )
+        return response.data
+    },
+
+    updateSuperAdmin: async (
+        companyId: number,
+        superAdminId: number,
+        payload: IUpdateSuperAdminPayload,
+    ) => {
+        const response = await patch<any>(
+            `/system-admin/company/${companyId}/superadmin/${superAdminId}`,
+            payload,
+        )
         return response.data
     },
 }
