@@ -4,11 +4,14 @@ import { MeetingType } from '@/constants/meeting'
 import { Permissions } from '@/constants/permission'
 import { useNotification } from '@/hooks/use-notification'
 import { useAttendance } from '@/stores/attendance/hooks'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { useListMeeting } from '@/stores/meeting/hooks'
 import { EActionStatus } from '@/stores/type'
+import { checkPermission } from '@/utils/auth'
 import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
 import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
-import { VideoCameraAddOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -18,6 +21,12 @@ const MeetingList = () => {
     const t = useTranslations()
     const { attendanceState, resetStateAttendance } = useAttendance()
     const { openNotification, contextHolder } = useNotification()
+    const { authState } = useAuthLogin()
+
+    const permissionCreateMeeting = checkPermission(
+        authState.userData?.permissionKeys,
+        Permissions.CREATE_MEETING,
+    )
 
     const {
         meetingState,
@@ -88,9 +97,21 @@ const MeetingList = () => {
             {contextHolder}
             <ListTitle
                 pageName={t('LIST_MEETINGS')}
-                addIcon={<VideoCameraAddOutlined />}
-                createLink="/meeting/create"
-                permisionBtnAdd={Permissions.CREATE_MEETING}
+                addButton={
+                    permissionCreateMeeting && (
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            size="large"
+                            onClick={() => {
+                                router.push('/meeting/create')
+                            }}
+                        >
+                            {t('ADD_NEW')}
+                        </Button>
+                    )
+                }
+                defaultSort={meetingState.filter?.sortOrder}
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
             />

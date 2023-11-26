@@ -1,10 +1,9 @@
+import { ICreateCompanyPayload, IListCompanyResponse } from '@/services/request.type'
 import {
     IGetAllCompanyQuery,
-    IListCompanyResponse,
 } from '@/stores/company/type'
-import { IGetAllDataReponse } from './response.type'
 import { get, post } from './fetcher'
-import { ICreateCompanyPayload } from '@/services/request.type'
+import { IGetAllDataReponse } from './response.type'
 
 const serviceCompany = {
     getAllCompanys: async ({

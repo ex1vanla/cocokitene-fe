@@ -12,6 +12,11 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { UserStatus } from '@/constants/user-status'
 import serviceUserStatus from '@/services/user-status'
+import {
+    ServicePlan,
+    ServicePlanColor,
+    ServicePlanName,
+} from '@/constants/company'
 
 const { TextArea } = Input
 
@@ -202,7 +207,21 @@ const CompanyInformation = () => {
                             style={{ width: '100%' }}
                             options={planList.map((plan) => ({
                                 value: plan.id,
-                                label: plan.planName,
+                                label: (
+                                    <span
+                                        style={{
+                                            color: ServicePlanColor[
+                                                plan.id as ServicePlan
+                                            ],
+                                        }}
+                                    >
+                                        {t(
+                                            ServicePlanName[
+                                                plan.id as ServicePlan
+                                            ],
+                                        )}
+                                    </span>
+                                ),
                             }))}
                         />
                     </Form.Item>

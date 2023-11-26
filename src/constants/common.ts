@@ -2,6 +2,7 @@
 
 import {
     DashboardOutlined,
+    RadarChartOutlined,
     SettingOutlined,
     TeamOutlined,
     UserOutlined,
@@ -39,6 +40,24 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: SettingOutlined,
         label: 'SETTING_ROLES',
         key: '/setting-role',
+    },
+    {
+        icon: RadarChartOutlined,
+        label: 'LIST_COMPANY',
+        key: '/company',
+    },
+]
+
+export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
+    {
+        icon: DashboardOutlined,
+        label: 'DASHBOARD',
+        key: '/dashboard',
+    },
+    {
+        icon: DashboardOutlined,
+        label: 'LIST_COMPANY',
+        key: '/company',
     },
 ]
 

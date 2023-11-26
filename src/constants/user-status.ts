@@ -5,6 +5,11 @@ export enum UserStatus {
     ACTIVE = '1',
 }
 
+export enum UserStatusID {
+    ACTIVE = 1,
+    INACTIVE = 2,
+}
+
 export const UserStatusColor: {
     [key in UserStatus]: string
 } = {

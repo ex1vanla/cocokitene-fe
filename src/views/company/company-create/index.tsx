@@ -1,6 +1,9 @@
 /* eslint-disable */
 import CreateTitle from '@/components/content-page-title/create-title'
 import { FETCH_STATUS } from '@/constants/common'
+import { ServicePlan } from '@/constants/company'
+import { CompanyStatusID } from '@/constants/company-status'
+import { UserStatusID } from '@/constants/user-status'
 import serviceCompany from '@/services/company'
 import CompanyInformation from '@/views/company/company-create/company-information'
 import SaveCreateCompanyButton from '@/views/company/company-create/save-button'
@@ -8,10 +11,10 @@ import SuperAdminInformation from '@/views/company/company-create/super-admin-in
 import { Form, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { AxiosError } from 'axios'
+import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import dayjs from 'dayjs'
 
 export interface ICompanyCreateForm {
     companyName: string
@@ -37,6 +40,12 @@ const CompanyCreate = () => {
     const t = useTranslations()
 
     const [form] = useForm<ICompanyCreateForm>()
+
+    const initialDefaultValues = {
+        companyStatusId: CompanyStatusID.ACTIVE,
+        planId: ServicePlan.TRIAL,
+        superAdminStatusId: UserStatusID.ACTIVE,
+    }
 
     const router = useRouter()
 
@@ -83,7 +92,12 @@ const CompanyCreate = () => {
     }
 
     return (
-        <Form onFinish={onFinish} form={form} layout="vertical">
+        <Form
+            onFinish={onFinish}
+            form={form}
+            layout="vertical"
+            initialValues={initialDefaultValues}
+        >
             <CreateTitle
                 pageName={t('CREATE_NEW_COMPANY')}
                 saveButton={

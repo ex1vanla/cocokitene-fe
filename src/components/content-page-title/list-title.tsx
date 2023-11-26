@@ -2,44 +2,31 @@ import LayoutTitle, {
     IBaseTitle,
 } from '@/components/content-page-title/layout-title'
 import { SORT } from '@/constants/meeting'
-import { useAuthLogin } from '@/stores/auth/hooks'
-import { checkPermission } from '@/utils/auth'
 import { SearchOutlined } from '@ant-design/icons'
-import { Button, Input, Select, Typography } from 'antd'
+import { Input, Select, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { ChangeEvent, ReactNode } from 'react'
 
 const { Title } = Typography
 
 interface IListTitle extends IBaseTitle {
-    addIcon: ReactNode
-    createLink: string
-    permisionBtnAdd: string
+    addButton?: ReactNode
     // eslint-disable-next-line
     onChangeInput: (value: string) => void
     // eslint-disable-next-line
     onChangeSelect: (value: string) => void
+    defaultSort?: string
 }
 
 const ListTitle = ({
     pageName,
-    addIcon,
-    createLink,
-    permisionBtnAdd,
+    addButton,
     onChangeInput,
     onChangeSelect,
+    defaultSort,
 }: IListTitle) => {
-    const router = useRouter()
-
     const t = useTranslations()
-
-    const { authState } = useAuthLogin()
-    const permissionCreateMeeting = checkPermission(
-        authState.userData?.permissionKeys,
-        permisionBtnAdd,
-    )
-
+    
     const handleChangeSelect = (value: string) => {
         onChangeSelect(value)
     }
@@ -63,7 +50,7 @@ const ListTitle = ({
 
                 <Select
                     className="w-[200px]"
-                    defaultValue={t('SORT_OLDEST_MEETING')}
+                    defaultValue={defaultSort == SORT.ASC ? t('SORT_OLDEST_MEETING') : t('SORT_NEWEST_MEETING')}
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChangeSelect}
@@ -72,18 +59,7 @@ const ListTitle = ({
                         { value: SORT.DESC, label: t('SORT_NEWEST_MEETING') },
                     ]}
                 />
-                {permissionCreateMeeting && (
-                    <Button
-                        type="primary"
-                        icon={addIcon}
-                        size="large"
-                        onClick={() => {
-                            router.push(createLink)
-                        }}
-                    >
-                        {t('ADD_NEW')}
-                    </Button>
-                )}
+                {addButton}
             </div>
         </LayoutTitle>
     )
