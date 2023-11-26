@@ -28,9 +28,9 @@ export enum ServicePlan {
 export const ServicePlanName: {
     [key in ServicePlan]: string
 } = {
-    [ServicePlan.FREE]: 'Free',
-    [ServicePlan.TRIAL]: 'Trial',
-    [ServicePlan.PAY_OF_MONTH]: 'Pay of month',
+    [ServicePlan.FREE]: 'FREE',
+    [ServicePlan.TRIAL]: 'TRIAL',
+    [ServicePlan.PAY_OF_MONTH]: 'PAY_OF_MONTH',
 }
 
 export const ServicePlanColor: {
@@ -40,4 +40,3 @@ export const ServicePlanColor: {
     [ServicePlan.TRIAL]: 'orange',
     [ServicePlan.PAY_OF_MONTH]: 'green',
 }
-

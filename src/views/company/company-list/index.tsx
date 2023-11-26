@@ -25,9 +25,9 @@ const CompanyList = ({ data }: CompanyListProps) => {
     const columns: ColumnsType<ICompanyList> = [
         {
             title: t('NO'),
-            dataIndex: 'id',
+            dataIndex: 'index',
             width: '60px',
-            className: 'text-center'
+            className: 'text-center',
         },
         {
             title: t('COMPANY_NAME'),
@@ -101,7 +101,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
             dataIndex: 'status',
             render: (_, record) => (
                 <>
-                    {record.status && record.status == "0" ? (
+                    {record.status && record.status == '0' ? (
                         <Badge status="success" text={t('ACTIVE')} />
                     ) : (
                         <Badge status="error" text={t('INACTIVE')} />

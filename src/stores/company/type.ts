@@ -2,6 +2,7 @@ import { EActionStatus, FetchError } from '../type'
 
 export interface ICompanyList {
     id: number
+    index: number
     companyName: string
     servicePlan: string
     representative: string
