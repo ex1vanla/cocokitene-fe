@@ -1,22 +1,21 @@
 /* eslint-disable */
 import BoxArea from '@/components/box-area'
 import {
-    CompanyStatus,
-    CompanyStatusColor,
-    CompanyStatusName,
-} from '@/constants/company-status'
-import servicePlan from '@/services/plan'
-import serviceCompanyStatus from '@/services/company-status'
-import { Col, DatePicker, Form, Input, Row, Select } from 'antd'
-import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
-import { UserStatus } from '@/constants/user-status'
-import serviceUserStatus from '@/services/user-status'
-import {
     ServicePlan,
     ServicePlanColor,
     ServicePlanName,
 } from '@/constants/company'
+import {
+    CompanyStatus,
+    CompanyStatusColor,
+    CompanyStatusName,
+} from '@/constants/company-status'
+import serviceCompanyStatus from '@/services/company-status'
+import servicePlan from '@/services/plan'
+import { Col, DatePicker, Form, FormInstance, Input, Row, Select } from 'antd'
+import { useTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
+import { ICompanyCreateForm } from '.'
 
 const { TextArea } = Input
 
@@ -30,13 +29,25 @@ export interface IPlan {
     planName: string
 }
 
-const CompanyInformation = () => {
+interface IDefaultValues {
+    companyStatusId?: number
+    planId?: number
+}
+
+interface CompanyInfoProp {
+    form: FormInstance<ICompanyCreateForm>
+}
+
+const CompanyInformation = ({ form }: CompanyInfoProp) => {
     const t = useTranslations()
 
     const [companyStatusList, setCompanyStatusList] = useState<
         ICompanyStatus[]
     >([])
     const [planList, setPlanList] = useState<IPlan[]>([])
+
+    const [initialDefaultValues, setInitialDefaultValue] =
+        useState<IDefaultValues>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,6 +59,13 @@ const CompanyInformation = () => {
 
             if (companyStatusList) {
                 setCompanyStatusList(companyStatusList)
+                const companyId = companyStatusList.find(
+                    (e) => e.status === CompanyStatus.ACTIVE,
+                )?.id
+                setInitialDefaultValue((prevInitialDefaultValue) => ({
+                    ...prevInitialDefaultValue,
+                    companyStatusId: companyId,
+                }))
             }
 
             const planList = await servicePlan.getAllPlan({
@@ -57,11 +75,25 @@ const CompanyInformation = () => {
 
             if (planList) {
                 setPlanList(planList)
+                const planId = planList.find(
+                    (item) => item.planName === ServicePlan.TRIAL,
+                )?.id
+                setInitialDefaultValue((prevInitialDefaultValue) => ({
+                    ...prevInitialDefaultValue,
+                    planId: planId,
+                }))
             }
         }
 
         fetchData()
     }, [])
+
+    useEffect(() => {
+        form.setFieldsValue({
+            companyStatusId: initialDefaultValues?.companyStatusId,
+            planId: initialDefaultValues?.planId,
+        })
+    }, [initialDefaultValues])
 
     return (
         <BoxArea title={t('COMPANY_INFORMATION')}>
@@ -211,13 +243,13 @@ const CompanyInformation = () => {
                                     <span
                                         style={{
                                             color: ServicePlanColor[
-                                                plan.id as ServicePlan
+                                                plan.planName as ServicePlan
                                             ],
                                         }}
                                     >
                                         {t(
                                             ServicePlanName[
-                                                plan.id as ServicePlan
+                                                plan.planName as ServicePlan
                                             ],
                                         )}
                                     </span>

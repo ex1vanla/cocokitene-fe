@@ -6,19 +6,26 @@ import {
     UserStatusName,
 } from '@/constants/user-status'
 import serviceUserStatus from '@/services/user-status'
-import { Col, Form, Input, Row, Select } from 'antd'
+import { Col, Form, FormInstance, Input, Row, Select } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
+import { ICompanyCreateForm } from '.'
 
 export interface IUserStatus {
     id: number
     status: UserStatus
 }
 
-const SuperAdminInformation = () => {
+interface CompanyInfoProp {
+    form: FormInstance<ICompanyCreateForm>
+}
+
+const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
     const t = useTranslations()
 
     const [userStatusList, setUserStatusList] = useState<IUserStatus[]>([])
+
+    const [initialActiveUserStatus, setInitialActiveUserStatus] = useState<number>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,11 +36,21 @@ const SuperAdminInformation = () => {
 
             if (userStatusList) {
                 setUserStatusList(userStatusList)
+                const userStatusId = userStatusList.find(
+                    (item) => (item.status = UserStatus.ACTIVE),
+                )?.id
+                setInitialActiveUserStatus(userStatusId)
             }
         }
 
         fetchData()
     }, [])
+
+    useEffect(() => {
+        form.setFieldsValue({
+            superAdminStatusId: initialActiveUserStatus
+        })
+    }, [initialActiveUserStatus])
 
     return (
         <BoxArea title={t('SUPER_ADMIN_INFORMATION')}>
