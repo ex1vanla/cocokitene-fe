@@ -6,6 +6,7 @@ import meetingDetailReducer from '@/stores/meeting/detailSlice'
 import meetingUpdateReducer from '@/stores/meeting/updateSlice'
 import attendanceReducer from '@/stores/attendance/slice'
 import companyListReducer from '@/stores/company/listSlice'
+import companyDetailReducer from '@/stores/company/detailSlice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     meetingUpdate: meetingUpdateReducer,
     attendance: attendanceReducer,
     companyList: companyListReducer,
+    companyDetail: companyDetailReducer,
 })
 
 export default rootReducer
