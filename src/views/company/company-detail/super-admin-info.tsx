@@ -13,14 +13,14 @@ const SuperAdminInfo = () => {
 
     const DataSuperAdminInfo: IRowInfo[] = [
         {
-            label: 'User Name',
+            label: 'USERNAME',
             type: InfoType.AVATAR,
             data: {
                 content: company?.superAdminInfo?.username,
             },
         },
         {
-            label: 'Wallet Address',
+            label: 'WALLET_ADDRESS',
             type: InfoType.NORMAL,
             data: {
                 content: truncateString({
@@ -31,14 +31,14 @@ const SuperAdminInfo = () => {
             },
         },
         {
-            label: 'Status',
+            label: 'STATUS',
             type: InfoType.STATUS,
             data: {
                 status: company?.superAdminInfo?.userStatus?.status,
             },
         },
         {
-            label: 'Email',
+            label: 'EMAIL',
             type: InfoType.NORMAL,
             data: {
                 content: company?.superAdminInfo?.email,
@@ -54,7 +54,7 @@ const SuperAdminInfo = () => {
                         return (
                             <Col xs={24} lg={12} key={item.label}>
                                 <RowInfo
-                                    label={item.label}
+                                    label={t(item.label)}
                                     type={item.type}
                                     data={item.data}
                                 />

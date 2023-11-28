@@ -80,14 +80,14 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
                     return (
                         <div className="flex flex-col items-start">
                             <div className="h-[30px] text-sm">
-                                <span className="text-[#000000D9]">
+                                <span className="mr-1 text-[#000000D9]">
                                     {t('FREE')}
                                 </span>
                                 <span className="text-[#FA8C16]">
-                                    {t('TRIAL_HAS_EXPIRED')}
+                                    ({t('TRIAL_HAS_EXPIRED')})
                                 </span>
                             </div>
-                            <Button className="h-[32px] w-[118px] border-[1px] border-[#5151E5] bg-[#5151E5] px-4 py-1 text-[#FFFFFF] shadow-[0px_2px_0px_0px_#0000000B] hover:cursor-pointer">
+                            <Button className="h-[32px] border-[1px] border-[#5151E5] bg-[#5151E5] px-4 py-1 text-[#FFFFFF] shadow-[0px_2px_0px_0px_#0000000B] hover:cursor-pointer">
                                 {t('UPGRADE_PLAN')}
                             </Button>
                         </div>
@@ -106,10 +106,14 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
     }
     return (
         <Row gutter={[16, 8]} className="min-h-[38px] min-w-[556px]">
-            <Col span={6} className="h-[22px] max-w-[140px] whitespace-nowrap">
+            <Col
+                xs={8}
+                lg={8}
+                className="mr-2 h-[22px] max-w-[140px] whitespace-nowrap"
+            >
                 {label && <p className="text-sm text-[#00000073]">{label}:</p>}
             </Col>
-            <Col span={18} className="text-sm text-[#000000D9]">
+            <Col xs={16} lg={16} className="text-sm text-[#000000D9]">
                 {getContent()}
             </Col>
         </Row>

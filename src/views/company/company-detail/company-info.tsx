@@ -11,14 +11,14 @@ const CompanyInfo = () => {
     const [{ company }] = useCompanyDetail()
     const DataCompanyInfo1: IRowInfo[] = [
         {
-            label: 'Company Name',
+            label: 'COMPANY_NAME',
             type: InfoType.NORMAL,
             data: {
                 content: company?.companyName,
             },
         },
         {
-            label: 'Company Infor',
+            label: 'COMPANY_INFORMATION',
             type: InfoType.NORMAL,
             data: {
                 content: company?.description,
@@ -26,21 +26,21 @@ const CompanyInfo = () => {
         },
 
         {
-            label: 'Date of Incorporation',
+            label: 'DATE_OF_INCORPORATION',
             type: InfoType.NORMAL,
             data: {
                 content: company?.dateOfCorporation,
             },
         },
         {
-            label: 'Business Type',
+            label: 'BUSINESS_TYPE',
             type: InfoType.NORMAL,
             data: {
                 content: company?.businessType,
             },
         },
         {
-            label: 'Representative',
+            label: 'REPRESENTATIVE',
             type: InfoType.AVATAR,
             data: {
                 content: company?.representativeUser,
@@ -49,42 +49,42 @@ const CompanyInfo = () => {
     ]
     const DataCompanyInfo2: IRowInfo[] = [
         {
-            label: 'Address',
+            label: 'ADDRESS',
             type: InfoType.NORMAL,
             data: {
                 content: company?.address,
             },
         },
         {
-            label: 'Email',
+            label: 'EMAIL',
             type: InfoType.NORMAL,
             data: {
                 content: company?.email,
             },
         },
         {
-            label: 'Phone',
+            label: 'PHONE',
             type: InfoType.NORMAL,
             data: {
                 content: company?.phone,
             },
         },
         {
-            label: 'Fax',
+            label: 'FAX',
             type: InfoType.NORMAL,
             data: {
                 content: company?.fax,
             },
         },
         {
-            label: 'Status',
+            label: 'STATUS',
             type: InfoType.STATUS,
             data: {
                 status: company?.status.status,
             },
         },
         {
-            label: 'Service Plan',
+            label: 'SERVICE_PLAN',
             type: InfoType.PLAN,
             data: {
                 servicePlan: company?.servicePlan.id,

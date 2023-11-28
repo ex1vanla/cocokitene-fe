@@ -6,11 +6,13 @@ import { useParams } from 'next/navigation'
 import { useEffect } from 'react'
 import CompanyInfo from './company-info'
 import SuperAdminInfo from './super-admin-info'
+import { useTranslations } from 'next-intl'
 
 const CompanyDetail = () => {
     const params = useParams()
     const companyId = +params.id
     const [{ company, status }, fetchCompanyDetail] = useCompanyDetail()
+    const t = useTranslations()
 
     useEffect(() => {
         if (companyId) {
@@ -25,7 +27,7 @@ const CompanyDetail = () => {
     return (
         <div>
             <DetailTitle
-                pageName={'Detail Company'}
+                pageName={t('DETAIL_COMPANY')}
                 editUrl={`/meeting/update/${companyId}`}
             />
             <div className="flex flex-col gap-6 p-6">
