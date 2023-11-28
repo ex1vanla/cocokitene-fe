@@ -1,4 +1,4 @@
-import { ILoginAdminRequest, ILoginAdminResponse } from '@/stores/auth-admin/type'
+import { IAccountAdmin, ILoginAdminRequest, ILoginAdminResponse } from '@/stores/auth-admin/type'
 import { IAccount, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
 import { Cookies } from 'react-cookie'
 import { get, post } from './fetcher'
@@ -8,6 +8,10 @@ const cookies = new Cookies()
 const USER_INFO_STORAGE_KEY = 'usr_if'
 const USER_TOKEN_STORAGE_KEY = 'usr_tk'
 const USER_REFRESH_TOKEN_STORAGE_KEY = 'usr_refresh_token'
+
+const USER_SYS_INFO_STORAGE_KEY = 'usr__sys_if'
+const USER_SYS_TOKEN_STORAGE_KEY = 'usr_sys_tk'
+const USER_SYS_REFRESH_TOKEN_STORAGE_KEY = 'usr_sys_refresh_token'
 
 const serviceUser = {
     storeInfo: (user: IAccount | null) => {
@@ -19,6 +23,15 @@ const serviceUser = {
         }
         cookies.remove(USER_INFO_STORAGE_KEY, { path: '/' })
     },
+    storeInfoSys: (user: IAccountAdmin | null) => {
+        if (user) {
+            cookies.set(USER_SYS_INFO_STORAGE_KEY, JSON.stringify(user), {
+                path: '/',
+            })
+            return
+        }
+        cookies.remove(USER_SYS_INFO_STORAGE_KEY, { path: '/' })
+    },
     storeAccessToken: (token: string | null) => {
         if (token) {
             cookies.set(USER_TOKEN_STORAGE_KEY, JSON.stringify(token), {
@@ -28,6 +41,15 @@ const serviceUser = {
         }
         cookies.remove(USER_TOKEN_STORAGE_KEY, { path: '/' })
     },
+    storeAccessTokenSys: (token: string | null) => {
+        if (token) {
+            cookies.set(USER_SYS_TOKEN_STORAGE_KEY, JSON.stringify(token), {
+                path: '/',
+            })
+            return
+        }
+        cookies.remove(USER_SYS_TOKEN_STORAGE_KEY, { path: '/' })
+    },
     storeRefreshToken: (token: string | null) => {
         if (token) {
             cookies.set(USER_REFRESH_TOKEN_STORAGE_KEY, JSON.stringify(token), {
@@ -36,6 +58,15 @@ const serviceUser = {
             return
         }
         cookies.remove(USER_REFRESH_TOKEN_STORAGE_KEY, { path: '/' })
+    },
+    storeRefreshTokenSys: (token: string | null) => {
+        if (token) {
+            cookies.set(USER_SYS_REFRESH_TOKEN_STORAGE_KEY, JSON.stringify(token), {
+                path: '/',
+            })
+            return
+        }
+        cookies.remove(USER_SYS_REFRESH_TOKEN_STORAGE_KEY, { path: '/' })
     },
     getInfoStorage: (): IAccount | null => {
         const userInfo = cookies.get(USER_INFO_STORAGE_KEY)

@@ -3,6 +3,7 @@ import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
 import { EActionStatus } from '@/stores/type'
 import { Button, Form, Input, Typography } from 'antd'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 const { Text } = Typography
 
@@ -12,6 +13,7 @@ const Login = () => {
     const onFinish = (values: any) => {
         loginAdminAction({ email: values.email, password: values.password })
     }
+    const router = useRouter();
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo)
@@ -24,6 +26,7 @@ const Login = () => {
                 placement: 'topRight',
                 type: 'success',
             })
+            router.push("/company");
         }
 
         if (authAdminState.status === EActionStatus.Failed) {

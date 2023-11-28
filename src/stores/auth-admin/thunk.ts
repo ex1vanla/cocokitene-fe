@@ -15,6 +15,10 @@ export const loginAdmin = createAsyncThunk<
         const loginResponse: ILoginAdminResponse = await serviceUser.loginAdmin(
             loginData,
         )
+        const {accessToken, refreshToken, systemAdminData} = loginResponse;
+        serviceUser.storeInfoSys(systemAdminData);
+        serviceUser.storeAccessTokenSys(accessToken);
+        serviceUser.storeAccessTokenSys(refreshToken);
         return loginResponse
     } catch (error) {
         const err = error as AxiosError
