@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 import { EActionStatus, FetchError } from '../type'
-import { IDetailCompanyState, ICompanyDetail } from './types'
+import { IDetailCompanyState, ICompanyDetail } from './type'
 import serviceCompany from '@/services/company'
 
 const initialState: IDetailCompanyState = {
@@ -18,7 +18,7 @@ export const getCompanyDetail = createAsyncThunk<
     }
 >('company/getCompanyDetail', async (companyId, { rejectWithValue }) => {
     try {
-        const CompanyDetail = await serviceCompany.getCompanyDetail(companyId)
+        const CompanyDetail = await serviceCompany.getDetailCompany(companyId)
         return {
             id: CompanyDetail?.id,
             companyName: CompanyDetail?.companyName,
@@ -28,7 +28,7 @@ export const getCompanyDetail = createAsyncThunk<
             dateOfCorporation: CompanyDetail?.dateOfCorporation,
             phone: CompanyDetail?.phone,
             fax: CompanyDetail?.taxNumber,
-            bussinessType: CompanyDetail?.bussinessType,
+            businessType: CompanyDetail?.businessType,
             status: {
                 id: CompanyDetail?.companyStatus?.id,
                 status: CompanyDetail?.companyStatus?.status,

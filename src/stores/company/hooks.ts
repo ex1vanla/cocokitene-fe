@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
 import { ICompanyState, IGetAllCompanyQuery, ListParamsFilter } from './type'
 import { getAllCompany, setFilter } from './listSlice'
-import { ICompanyDetail } from './types'
+import { ICompanyDetail } from './type'
 import { EActionStatus } from '../type'
 import { getCompanyDetail } from './detailSlice'
 
@@ -35,7 +35,7 @@ export const useListCompany = (): ListCompanyType => {
     return {
         companyState,
         getListCompanyAction,
-        setFilterAction
+        setFilterAction,
     }
 }
 
@@ -67,4 +67,3 @@ export function useCompanyDetail(): [
         fetchCompanyDetail,
     ]
 }
-

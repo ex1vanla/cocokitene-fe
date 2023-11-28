@@ -9,7 +9,6 @@ import { IRowInfo, RowInfo } from './row-info'
 const CompanyInfo = () => {
     const t = useTranslations()
     const [{ company }] = useCompanyDetail()
-    // console.log(company)
     const DataCompanyInfo1: IRowInfo[] = [
         {
             label: 'Company Name',
@@ -37,7 +36,7 @@ const CompanyInfo = () => {
             label: 'Business Type',
             type: InfoType.NORMAL,
             data: {
-                content: company?.bussinessType,
+                content: company?.businessType,
             },
         },
         {
@@ -45,7 +44,6 @@ const CompanyInfo = () => {
             type: InfoType.AVATAR,
             data: {
                 content: company?.representativeUser,
-                // urlAvatar: '/images/default-avatar.png'
             },
         },
     ]
@@ -96,7 +94,7 @@ const CompanyInfo = () => {
 
     return (
         <div className="flex flex-col gap-4 font-[Roboto]">
-            <BoxArea title={t('COMPANY_INFO')}>
+            <BoxArea title={t('COMPANY_INFORMATION')}>
                 <Row gutter={[16, 0]} className="min-w-[1184px]">
                     <Col xs={24} lg={12}>
                         {DataCompanyInfo1.map((item) => {

@@ -17,7 +17,6 @@ const SuperAdminInfo = () => {
             type: InfoType.AVATAR,
             data: {
                 content: company?.superAdminInfo?.username,
-                // urlAvatar: company?.superAdminInfo?.avatar
             },
         },
         {
@@ -49,7 +48,7 @@ const SuperAdminInfo = () => {
 
     return (
         <div>
-            <BoxArea title={t('SUPER_ADMIN_INFO')}>
+            <BoxArea title={t('SUPER_ADMIN_INFORMATION')}>
                 <Row gutter={[16, 0]} className="min-w-[1184px]">
                     {DataSuperAdminInfo.map((item) => {
                         return (

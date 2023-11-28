@@ -1,6 +1,7 @@
 import { InfoType } from '@/constants/company'
 import { Button, Col, Row } from 'antd'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 
 export interface IRowInfo {
     label: string
@@ -14,6 +15,7 @@ export interface IRowInfo {
 }
 
 export const RowInfo = ({ label, type, data }: IRowInfo) => {
+    const t = useTranslations()
     const getContent = () => {
         switch (type) {
             case InfoType.NORMAL:
@@ -60,9 +62,9 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
                         ></div>
                         <p>
                             {data?.status == '0'
-                                ? 'Active'
+                                ? t('ACTIVE')
                                 : data?.status == '1'
-                                ? 'Inactive'
+                                ? t('INACTIVE')
                                 : null}
                         </p>
                     </div>
@@ -71,24 +73,30 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
                 break
             case InfoType.PLAN:
                 if (data?.servicePlan == 0) {
-                    return <p className="text-sm text-[#FA8C16]">Trial</p>
+                    return (
+                        <p className="text-sm text-[#FA8C16]">{t('TRIAL')}</p>
+                    )
                 } else if (data?.servicePlan == 1) {
                     return (
                         <div className="flex flex-col items-start">
                             <div className="h-[30px] text-sm">
-                                <span className="text-[#000000D9]">Free </span>
+                                <span className="text-[#000000D9]">
+                                    {t('FREE')}
+                                </span>
                                 <span className="text-[#FA8C16]">
-                                    (Trial has expired){' '}
+                                    {t('TRIAL_HAS_EXPIRED')}
                                 </span>
                             </div>
                             <Button className="h-[32px] w-[118px] border-[1px] border-[#5151E5] bg-[#5151E5] px-4 py-1 text-[#FFFFFF] shadow-[0px_2px_0px_0px_#0000000B] hover:cursor-pointer">
-                                Upgrade Plan
+                                {t('UPGRADE_PLAN')}
                             </Button>
                         </div>
                     )
                 } else if (data?.servicePlan == 2) {
                     return (
-                        <p className="text-sm text-[#52C41A]">Pay of month</p>
+                        <p className="text-sm text-[#52C41A]">
+                            {t('PAY_OF_MONTH')}
+                        </p>
                     )
                 }
                 break

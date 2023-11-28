@@ -60,13 +60,6 @@ const serviceCompany = {
         )
         return response.data
     },
-
-    getCompanyDetail: async (companyId: number) => {
-        const response = await get<ICompanyDetailResponse>(
-            `system-admin/company/${companyId}`,
-        )
-        return response.data
-    },
 }
 
 export default serviceCompany
