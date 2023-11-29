@@ -28,7 +28,7 @@ const CompanyDetail = () => {
         <div>
             <DetailTitle
                 pageName={t('DETAIL_COMPANY')}
-                editUrl={`/meeting/update/${companyId}`}
+                editUrl={`/company/update/${companyId}`}
             />
             <div className="flex flex-col gap-6 p-6">
                 <CompanyInfo />
