@@ -1,7 +1,12 @@
-import { InfoType } from '@/constants/company'
 import { Button, Col, Row } from 'antd'
 import Image from 'next/image'
+import { Avatar } from 'antd'
 import { useTranslations } from 'next-intl'
+import Color from 'color'
+
+import { InfoType } from '@/constants/company'
+import { AvatarBgHexColors } from '@/constants/common'
+import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 
 export interface IRowInfo {
     label: string
@@ -13,6 +18,10 @@ export interface IRowInfo {
         servicePlan?: number
     }
 }
+
+const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
+    .lighten(0.6)
+    .hex()
 
 export const RowInfo = ({ label, type, data }: IRowInfo) => {
     const t = useTranslations()
@@ -29,9 +38,7 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
             case InfoType.AVATAR:
                 return (
                     <div
-                        className={`flex flex-wrap content-start items-center gap-[4px] ${
-                            data?.urlAvatar ? 'mt-[-7px]' : null
-                        }`}
+                        className={`mt-[-3px] flex flex-wrap content-start items-center gap-[4px]`}
                     >
                         {data?.urlAvatar ? (
                             <Image
@@ -42,7 +49,19 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
                                 width={32}
                                 height={32}
                             />
-                        ) : null}
+                        ) : (
+                            <Avatar
+                                style={{
+                                    backgroundColor: backgroundAvatarColor,
+                                    verticalAlign: 'middle',
+                                    color: AvatarBgHexColors.GOLDEN_PURPLE,
+                                }}
+                                size="small"
+                            >
+                                {data?.content &&
+                                    getFirstCharacterUpperCase(data?.content)}
+                            </Avatar>
+                        )}
                         <p>{data?.content}</p>
                     </div>
                 )
@@ -105,13 +124,17 @@ export const RowInfo = ({ label, type, data }: IRowInfo) => {
         }
     }
     return (
-        <Row gutter={[16, 8]} className="min-h-[38px] min-w-[556px]">
+        <Row className="min-h-[38px] min-w-[556px]">
             <Col
                 xs={8}
                 lg={8}
-                className="mr-2 h-[22px] max-w-[140px] whitespace-nowrap"
+                className="h-[22px] max-w-[145px] whitespace-nowrap"
             >
-                {label && <p className="text-sm text-[#00000073]">{label}:</p>}
+                {label && (
+                    <p className="w-[100%] text-sm text-[#00000073]">
+                        {label}:
+                    </p>
+                )}
             </Col>
             <Col xs={16} lg={16} className="text-sm text-[#000000D9]">
                 {getContent()}

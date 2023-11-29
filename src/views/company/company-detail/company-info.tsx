@@ -93,9 +93,9 @@ const CompanyInfo = () => {
     ]
 
     return (
-        <div className="flex flex-col gap-4 font-[Roboto]">
+        <div>
             <BoxArea title={t('COMPANY_INFORMATION')}>
-                <Row gutter={[16, 0]} className="min-w-[1184px]">
+                <Row gutter={[0, 0]} className="min-w-[1184px]">
                     <Col xs={24} lg={12}>
                         {DataCompanyInfo1.map((item) => {
                             return (
