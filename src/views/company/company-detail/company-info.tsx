@@ -1,94 +1,158 @@
-import { Col, Row } from 'antd'
+import { Avatar, Button, Col, Row } from 'antd'
 import { useTranslations } from 'next-intl'
+import Color from 'color'
 
 import BoxArea from '@/components/box-area'
-import { InfoType } from '@/constants/company'
 import { useCompanyDetail } from '@/stores/company/hooks'
 import { IRowInfo, RowInfo } from './row-info'
+import { AvatarBgHexColors } from '@/constants/common'
+import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
+
+const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
+    .lighten(0.6)
+    .hex()
 
 const CompanyInfo = () => {
     const t = useTranslations()
     const [{ company }] = useCompanyDetail()
-    const DataCompanyInfo1: IRowInfo[] = [
+    const dataCompanyInfoLeft: IRowInfo[] = [
         {
             label: 'COMPANY_NAME',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.companyName,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.companyName}
+                </p>
+            ),
         },
         {
             label: 'COMPANY_INFORMATION',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.description,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.description}
+                </p>
+            ),
         },
 
         {
             label: 'DATE_OF_INCORPORATION',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.dateOfCorporation,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.dateOfCorporation}
+                </p>
+            ),
         },
         {
             label: 'BUSINESS_TYPE',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.businessType,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.businessType}
+                </p>
+            ),
         },
         {
             label: 'REPRESENTATIVE',
-            type: InfoType.AVATAR,
-            data: {
-                content: company?.representativeUser,
-            },
+            content: (
+                <div
+                    className={`mt-[-3px] flex flex-wrap content-start items-center gap-[4px]`}
+                >
+                    <Avatar
+                        style={{
+                            backgroundColor: backgroundAvatarColor,
+                            verticalAlign: 'middle',
+                            color: AvatarBgHexColors.GOLDEN_PURPLE,
+                        }}
+                        size="small"
+                    >
+                        {company?.representativeUser &&
+                            getFirstCharacterUpperCase(
+                                company?.representativeUser,
+                            )}
+                    </Avatar>
+                    <p>{company?.representativeUser}</p>
+                </div>
+            ),
         },
     ]
-    const DataCompanyInfo2: IRowInfo[] = [
+    const dataCompanyInfoRight: IRowInfo[] = [
         {
             label: 'ADDRESS',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.address,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.address}
+                </p>
+            ),
         },
         {
             label: 'EMAIL',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.email,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.email}
+                </p>
+            ),
         },
         {
             label: 'PHONE',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.phone,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.phone}
+                </p>
+            ),
         },
         {
             label: 'FAX',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.fax,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.fax}
+                </p>
+            ),
         },
         {
             label: 'STATUS',
-            type: InfoType.STATUS,
-            data: {
-                status: company?.status.status,
-            },
+            content: (
+                <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black-85">
+                    <div
+                        className={`h-[6px] w-[6px] rounded-full  ${
+                            company?.status.status == '0'
+                                ? 'bg-[#52C41A]'
+                                : company?.status.status == '1'
+                                ? 'bg-[#FF4D4F]'
+                                : null
+                        } `}
+                    ></div>
+                    <p>
+                        {company?.status.status == '0'
+                            ? t('ACTIVE')
+                            : company?.status.status == '1'
+                            ? t('INACTIVE')
+                            : null}
+                    </p>
+                </div>
+            ),
         },
         {
             label: 'SERVICE_PLAN',
-            type: InfoType.PLAN,
-            data: {
-                servicePlan: company?.servicePlan.id,
-            },
+            content:
+                company?.servicePlan.planName == 'free' ? (
+                    <p className="text-sm text-orange">{t('TRIAL')}</p>
+                ) : company?.servicePlan.planName == 'trial' ? (
+                    <div className="flex flex-col items-start">
+                        <div className="h-[30px] text-sm">
+                            <span className="mr-1 text-black-85">
+                                {t('FREE')}
+                            </span>
+                            <span className="text-orange">
+                                ({t('TRIAL_HAS_EXPIRED')})
+                            </span>
+                        </div>
+                        <Button className="h-[32px] border-[1px] border-[#5151E5] bg-[#5151E5] px-4 py-1 text-[#FFFFFF] shadow-[0px_2px_0px_0px_#0000000B] hover:cursor-pointer">
+                            {t('UPGRADE_PLAN')}
+                        </Button>
+                    </div>
+                ) : company?.servicePlan.planName == 'pay_of_month' ? (
+                    <p className="text-sm text-polar-green">
+                        {t('PAY_OF_MONTH')}
+                    </p>
+                ) : null,
         },
     ]
 
@@ -97,26 +161,24 @@ const CompanyInfo = () => {
             <BoxArea title={t('COMPANY_INFORMATION')}>
                 <Row gutter={[0, 0]} className="min-w-[1184px]">
                     <Col xs={24} lg={12}>
-                        {DataCompanyInfo1.map((item) => {
+                        {dataCompanyInfoLeft.map((item) => {
                             return (
                                 <Col xs={24} key={item.label}>
                                     <RowInfo
                                         label={t(item.label)}
-                                        type={item.type}
-                                        data={item.data}
+                                        content={item.content}
                                     />
                                 </Col>
                             )
                         })}
                     </Col>
                     <Col xs={24} lg={12}>
-                        {DataCompanyInfo2.map((item) => {
+                        {dataCompanyInfoRight.map((item) => {
                             return (
                                 <Col xs={24} key={item.label}>
                                     <RowInfo
                                         label={t(item.label)}
-                                        type={item.type}
-                                        data={item.data}
+                                        content={item.content}
                                     />
                                 </Col>
                             )

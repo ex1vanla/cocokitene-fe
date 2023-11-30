@@ -18,35 +18,35 @@ export const getCompanyDetail = createAsyncThunk<
     }
 >('company/getCompanyDetail', async (companyId, { rejectWithValue }) => {
     try {
-        const CompanyDetail = await serviceCompany.getDetailCompany(companyId)
+        const companyDetail = await serviceCompany.getDetailCompany(companyId)
         return {
-            id: CompanyDetail?.id,
-            companyName: CompanyDetail?.companyName,
-            address: CompanyDetail?.address,
-            description: CompanyDetail?.description,
-            email: CompanyDetail?.email,
-            dateOfCorporation: CompanyDetail?.dateOfCorporation,
-            phone: CompanyDetail?.phone,
-            fax: CompanyDetail?.taxNumber,
-            businessType: CompanyDetail?.businessType,
+            id: companyDetail?.id,
+            companyName: companyDetail?.companyName,
+            address: companyDetail?.address,
+            description: companyDetail?.description,
+            email: companyDetail?.email,
+            dateOfCorporation: companyDetail?.dateOfCorporation,
+            phone: companyDetail?.phone,
+            fax: companyDetail?.taxNumber,
+            businessType: companyDetail?.businessType,
             status: {
-                id: CompanyDetail?.companyStatus?.id,
-                status: CompanyDetail?.companyStatus?.status,
+                id: companyDetail?.companyStatus?.id,
+                status: companyDetail?.companyStatus?.status,
             },
-            representativeUser: CompanyDetail?.representativeUser,
+            representativeUser: companyDetail?.representativeUser,
             servicePlan: {
-                id: CompanyDetail?.servicePlan?.id,
-                planName: CompanyDetail?.servicePlan?.planName,
+                id: companyDetail?.servicePlan?.id,
+                planName: companyDetail?.servicePlan?.planName,
             },
             superAdminInfo: {
-                id: CompanyDetail?.superAdminInfo?.id,
-                username: CompanyDetail?.superAdminInfo?.username,
-                walletAddress: CompanyDetail?.superAdminInfo?.walletAddress,
-                avatar: CompanyDetail?.superAdminInfo?.avatar,
-                email: CompanyDetail?.superAdminInfo?.email,
+                id: companyDetail?.superAdminInfo?.id,
+                username: companyDetail?.superAdminInfo?.username,
+                walletAddress: companyDetail?.superAdminInfo?.walletAddress,
+                avatar: companyDetail?.superAdminInfo?.avatar,
+                email: companyDetail?.superAdminInfo?.email,
                 userStatus: {
-                    id: CompanyDetail?.superAdminInfo?.userStatus?.id,
-                    status: CompanyDetail?.superAdminInfo?.userStatus?.status,
+                    id: companyDetail?.superAdminInfo?.userStatus?.id,
+                    status: companyDetail?.superAdminInfo?.userStatus?.status,
                 },
             },
         } as ICompanyDetail

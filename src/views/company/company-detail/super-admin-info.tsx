@@ -1,11 +1,17 @@
-import { Col, Row } from 'antd'
+import { Avatar, Col, Row } from 'antd'
 import { useTranslations } from 'next-intl'
+import Color from 'color'
 
 import BoxArea from '@/components/box-area'
-import { InfoType } from '@/constants/company'
 import { useCompanyDetail } from '@/stores/company/hooks'
 import { truncateString } from '@/utils/format-string'
 import { IRowInfo, RowInfo } from './row-info'
+import { AvatarBgHexColors } from '@/constants/common'
+import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
+
+const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
+    .lighten(0.6)
+    .hex()
 
 const SuperAdminInfo = () => {
     const t = useTranslations()
@@ -14,35 +20,69 @@ const SuperAdminInfo = () => {
     const DataSuperAdminInfo: IRowInfo[] = [
         {
             label: 'USERNAME',
-            type: InfoType.AVATAR,
-            data: {
-                content: company?.superAdminInfo?.username,
-            },
+            content: company?.superAdminInfo?.username && (
+                <div
+                    className={`mt-[-3px] flex flex-wrap content-start items-center gap-[4px]`}
+                >
+                    <Avatar
+                        style={{
+                            backgroundColor: backgroundAvatarColor,
+                            verticalAlign: 'middle',
+                            color: AvatarBgHexColors.GOLDEN_PURPLE,
+                        }}
+                        size="small"
+                    >
+                        {getFirstCharacterUpperCase(
+                            company?.superAdminInfo?.username,
+                        )}
+                    </Avatar>
+                    <span>{company?.superAdminInfo?.username}</span>
+                </div>
+            ),
         },
         {
             label: 'WALLET_ADDRESS',
-            type: InfoType.NORMAL,
-            data: {
-                content: truncateString({
-                    text: String(company?.superAdminInfo?.walletAddress),
-                    start: 5,
-                    end: 3,
-                }),
-            },
+            content: company?.superAdminInfo?.walletAddress && (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {truncateString({
+                        text: String(company?.superAdminInfo?.walletAddress),
+                        start: 5,
+                        end: 3,
+                    })}
+                </p>
+            ),
         },
         {
             label: 'STATUS',
-            type: InfoType.STATUS,
-            data: {
-                status: company?.superAdminInfo?.userStatus?.status,
-            },
+            content: (
+                <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black-85">
+                    <div
+                        className={`h-[6px] w-[6px] rounded-full  ${
+                            company?.superAdminInfo?.userStatus?.status == '0'
+                                ? 'bg-[#52C41A]'
+                                : company?.superAdminInfo?.userStatus?.status ==
+                                  '1'
+                                ? 'bg-[#FF4D4F]'
+                                : null
+                        } `}
+                    ></div>
+                    <p>
+                        {company?.superAdminInfo?.userStatus?.status == '0'
+                            ? t('ACTIVE')
+                            : company?.superAdminInfo?.userStatus?.status == '1'
+                            ? t('INACTIVE')
+                            : null}
+                    </p>
+                </div>
+            ),
         },
         {
             label: 'EMAIL',
-            type: InfoType.NORMAL,
-            data: {
-                content: company?.superAdminInfo?.email,
-            },
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.superAdminInfo?.email}
+                </p>
+            ),
         },
     ]
 
@@ -55,8 +95,7 @@ const SuperAdminInfo = () => {
                             <Col xs={24} lg={12} key={item.label}>
                                 <RowInfo
                                     label={t(item.label)}
-                                    type={item.type}
-                                    data={item.data}
+                                    content={item.content}
                                 />
                             </Col>
                         )
