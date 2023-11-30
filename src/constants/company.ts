@@ -20,9 +20,9 @@ export const SERVICE_PLAN_ITEMS: MasterDataItem[] = [
 ]
 
 export enum ServicePlan {
-    FREE = 1,
-    TRIAL = 2,
-    PAY_OF_MONTH = 3,
+    FREE = 'free',
+    TRIAL = 'trial',
+    PAY_OF_MONTH = 'pay_of_month',
 }
 
 export const ServicePlanName: {

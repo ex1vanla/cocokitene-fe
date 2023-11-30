@@ -209,13 +209,13 @@ const CompanyInformation = () => {
                                     <span
                                         style={{
                                             color: ServicePlanColor[
-                                                plan.id as ServicePlan
+                                                plan.planName as ServicePlan
                                             ],
                                         }}
                                     >
                                         {t(
                                             ServicePlanName[
-                                                plan.id as ServicePlan
+                                                plan.planName as ServicePlan
                                             ],
                                         )}
                                     </span>

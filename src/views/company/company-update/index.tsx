@@ -3,8 +3,6 @@ import UpdateTitle from '@/components/content-page-title/update-title'
 import Loader from '@/components/loader'
 import { FETCH_STATUS } from '@/constants/common'
 import serviceCompany from '@/services/company'
-import CompanyInformation from '@/views/company/company-create/company-information'
-import SuperAdminInformation from '@/views/company/company-create/super-admin-information'
 import SaveUpdateCompanyButton from '@/views/company/company-update/save-button'
 import { Form, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form'
@@ -13,6 +11,8 @@ import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import CompanyInformation from './company-information'
+import SuperAdminInformation from './super-admin-information'
 
 export interface ICompanyUpdateForm {
     companyName: string

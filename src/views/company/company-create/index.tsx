@@ -40,13 +40,6 @@ const CompanyCreate = () => {
     const t = useTranslations()
 
     const [form] = useForm<ICompanyCreateForm>()
-
-    const initialDefaultValues = {
-        companyStatusId: CompanyStatusID.ACTIVE,
-        planId: ServicePlan.TRIAL,
-        superAdminStatusId: UserStatusID.ACTIVE,
-    }
-
     const router = useRouter()
 
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
@@ -96,7 +89,6 @@ const CompanyCreate = () => {
             onFinish={onFinish}
             form={form}
             layout="vertical"
-            initialValues={initialDefaultValues}
         >
             <CreateTitle
                 pageName={t('CREATE_NEW_COMPANY')}
@@ -108,8 +100,8 @@ const CompanyCreate = () => {
                 }
             />
             <div className="flex flex-col gap-6 p-6">
-                <CompanyInformation />
-                <SuperAdminInformation />
+                <CompanyInformation form={form}/>
+                <SuperAdminInformation form={form}/>
             </div>
         </Form>
     )
