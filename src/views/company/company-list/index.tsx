@@ -113,7 +113,11 @@ const CompanyList = ({ data }: CompanyListProps) => {
         {
             title: '',
             key: 'action',
-            render: () => <Link href={'#'}>{t('SEE_DETAIL')}</Link>,
+            render: (_, record) => (
+                <Link href={`/company/detail/${record.id}`}>
+                    {t('SEE_DETAIL')}
+                </Link>
+            ),
             width: '8%',
         },
     ]
