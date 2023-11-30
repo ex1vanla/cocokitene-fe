@@ -40,3 +40,11 @@ export const ServicePlanColor: {
     [ServicePlan.TRIAL]: 'orange',
     [ServicePlan.PAY_OF_MONTH]: 'green',
 }
+
+export enum InfoType {
+    NORMAL = 'normal',
+    AVATAR = 'avatar',
+    STATUS = 'status',
+    PLAN = 'plan',
+}
+
