@@ -17,7 +17,7 @@ const SuperAdminInfo = () => {
     const t = useTranslations()
     const [{ company }] = useCompanyDetail()
 
-    const DataSuperAdminInfo: IRowInfo[] = [
+    const dataSuperAdminInfo: IRowInfo[] = [
         {
             label: 'USERNAME',
             content: company?.superAdminInfo?.username && (
@@ -55,21 +55,21 @@ const SuperAdminInfo = () => {
         {
             label: 'STATUS',
             content: (
-                <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black-85">
+                <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black/[85%]">
                     <div
                         className={`h-[6px] w-[6px] rounded-full  ${
-                            company?.superAdminInfo?.userStatus?.status == '0'
+                            company?.superAdminInfo?.userStatus?.status == '1'
                                 ? 'bg-[#52C41A]'
                                 : company?.superAdminInfo?.userStatus?.status ==
-                                  '1'
+                                  '0'
                                 ? 'bg-[#FF4D4F]'
                                 : null
                         } `}
                     ></div>
                     <p>
-                        {company?.superAdminInfo?.userStatus?.status == '0'
+                        {company?.superAdminInfo?.userStatus?.status == '1'
                             ? t('ACTIVE')
-                            : company?.superAdminInfo?.userStatus?.status == '1'
+                            : company?.superAdminInfo?.userStatus?.status == '0'
                             ? t('INACTIVE')
                             : null}
                     </p>
@@ -90,7 +90,7 @@ const SuperAdminInfo = () => {
         <div>
             <BoxArea title={t('SUPER_ADMIN_INFORMATION')}>
                 <Row gutter={[16, 0]} className="min-w-[1184px]">
-                    {DataSuperAdminInfo.map((item) => {
+                    {dataSuperAdminInfo.map((item) => {
                         return (
                             <Col xs={24} lg={12} key={item.label}>
                                 <RowInfo

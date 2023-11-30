@@ -18,7 +18,7 @@ export const RowInfo = ({ label, content }: IRowInfo) => {
                     <p className="w-[100%] text-sm text-black-45">{label}:</p>
                 )}
             </Col>
-            <Col xs={16} lg={16} className="text-sm text-black-85">
+            <Col xs={16} lg={16} className="text-sm text-black/[85%]">
                 {content}
             </Col>
         </Row>
