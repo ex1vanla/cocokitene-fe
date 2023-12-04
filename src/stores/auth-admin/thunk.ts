@@ -1,8 +1,8 @@
+import serviceUserSystem from '@/services/system-admin/user-system'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { ILoginAdminRequest, ILoginAdminResponse } from './type'
-import { FetchError } from '../type'
 import { AxiosError } from 'axios'
-import serviceUser from '@/services/user'
+import { FetchError } from '../type'
+import { ILoginAdminRequest, ILoginAdminResponse } from './type'
 
 export const loginAdmin = createAsyncThunk<
     ILoginAdminResponse,
@@ -12,17 +12,18 @@ export const loginAdmin = createAsyncThunk<
     }
 >('auth/login-admin', async (loginData, { rejectWithValue }) => {
     try {
-        const loginResponse: ILoginAdminResponse = await serviceUser.loginAdmin(
+        const loginResponse: ILoginAdminResponse = await serviceUserSystem.loginAdmin(
             loginData,
         )
         const {accessToken, refreshToken, systemAdminData} = loginResponse;
-        serviceUser.storeInfoSys(systemAdminData);
-        serviceUser.storeAccessTokenSys(accessToken);
-        serviceUser.storeAccessTokenSys(refreshToken);
+        serviceUserSystem.storeInfoSys(systemAdminData);
+        serviceUserSystem.storeAccessTokenSys(accessToken);
+        serviceUserSystem.storeAccessTokenSys(refreshToken);
         return loginResponse
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data
+        console.error("Error:", responseData?.info?.message || "Unknown error");
         return rejectWithValue({
             errorMessage: responseData?.info.message,
             errorCode: responseData?.code,

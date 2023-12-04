@@ -1,14 +1,13 @@
-import { instance } from './axios'
-import serviceUser from './user'
-import { ApiResponse } from './response.type'
-import store from '@/stores'
-import { signOut } from '@/stores/auth/slice'
+
+import serviceUserSystem from '@/services/system-admin/user-system'
+import { ApiResponse } from '@/services/system-admin/response.type'
+import { instance } from '@/services/system-admin/axios'
 
 type Obj = { [key: string]: any }
 
 instance.interceptors.request.use(
     (config) => {
-        const accessToken = serviceUser.getAccessTokenStorage()
+        const accessToken = serviceUserSystem.getAccessTokenStorageSys()
         if (
             !!accessToken &&
             config.headers &&
@@ -26,27 +25,22 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     (response) => {
         const { status, data } = response
+        console.log("fetcher-system", response)
         if (status === 200 || status === 201) {
             return data
         }
-        console.log("fetcher", response);
+
         return Promise.reject(data)
     },
     async (error: any) => {
         const prevRequest = error?.config
-        if (error?.response?.status === 401) {
-            if (prevRequest.url.includes('refresh-token')) {
-                store?.dispatch(signOut())
-                return false
-            }
-            const newAccessToken = await serviceUser.getRefreshToken()
-            if (!newAccessToken) {
-                return false
-            }
+        if (error?.response?.status === 401 && !prevRequest?.sent) {
+            prevRequest.sent = true
+            const newAccessToken = await serviceUserSystem.getRefreshTokenSys()
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
             return instance(prevRequest)
         }
-        console.log("fetcher-error", error);
+        console.log("fetcher-system-error", error)
         return Promise.reject(error)
     },
 )

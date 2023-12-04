@@ -1,3 +1,4 @@
+import serviceUserSystem from '@/services/system-admin/user-system'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { EActionStatus } from '../type'
 import { loginAdmin } from './thunk'
@@ -14,7 +15,16 @@ const initialState: IAuthAdminState = {
 const authAdminSlice = createSlice({
     name: 'authAdmin',
     initialState,
-    reducers: {},
+    reducers: {
+        resetStatus: (state: IAuthAdminState) => {
+            state.status = EActionStatus.Idle;
+        },
+        signOutSys: (state: IAuthAdminState) => {
+            state.isAuthenticated = null
+            state.userAdminInfo = null
+            serviceUserSystem.storeInfoSys(null)
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(loginAdmin.pending, (state: IAuthAdminState) => {
@@ -38,5 +48,7 @@ const authAdminSlice = createSlice({
             })
     },
 })
+
+export const { resetStatus, signOutSys } = authAdminSlice.actions
 
 export default authAdminSlice.reducer

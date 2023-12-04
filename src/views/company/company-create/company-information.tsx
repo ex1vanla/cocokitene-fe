@@ -10,7 +10,7 @@ import {
     CompanyStatusColor,
     CompanyStatusName,
 } from '@/constants/company-status'
-import serviceCompanyStatus from '@/services/company-status'
+import serviceCompanyStatus from '@/services/system-admin/company-status'
 import servicePlan from '@/services/plan'
 import { Col, DatePicker, Form, FormInstance, Input, Row, Select } from 'antd'
 import { useTranslations } from 'next-intl'

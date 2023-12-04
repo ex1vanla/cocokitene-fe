@@ -2,7 +2,7 @@
 import UpdateTitle from '@/components/content-page-title/update-title'
 import Loader from '@/components/loader'
 import { FETCH_STATUS } from '@/constants/common'
-import serviceCompany from '@/services/company'
+import serviceCompany from '@/services/system-admin/company'
 import SaveUpdateCompanyButton from '@/views/company/company-update/save-button'
 import { Form, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form'

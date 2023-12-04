@@ -1,8 +1,8 @@
 import serviceUser from '@/services/user'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { ILoginRequest, ILoginResponse } from './type'
 import { AxiosError } from 'axios'
 import { FetchError } from '../type'
+import { ILoginRequest, ILoginResponse } from './type'
 
 export const getNonceThunk = createAsyncThunk(
     'auth/getNonce',
@@ -14,7 +14,7 @@ export const getNonceThunk = createAsyncThunk(
 
 export const login = createAsyncThunk<
     ILoginResponse,
-    ILoginRequest ,
+    ILoginRequest,
     {
         rejectValue: FetchError
     }

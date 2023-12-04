@@ -1,3 +1,4 @@
+import withAuthAdmin from '@/components/component-auth-admin'
 import ListTitle from '@/components/content-page-title/list-title'
 import { useListCompany } from '@/stores/company/hooks'
 import CompanyList from '@/views/company/company-list'
@@ -56,4 +57,4 @@ const CompanyView = () => {
     )
 }
 
-export default CompanyView
+export default withAuthAdmin(CompanyView)

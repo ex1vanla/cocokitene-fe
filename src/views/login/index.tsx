@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 const { Text } = Typography
 
 const Login = () => {
-    const { authAdminState, loginAdminAction } = useAuthAdminLogin()
+    const { authAdminState, loginAdminAction, resetStatusLogin } = useAuthAdminLogin()
     const { openNotification, contextHolder } = useNotification()
     const onFinish = (values: any) => {
         loginAdminAction({ email: values.email, password: values.password })
@@ -20,22 +20,28 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (authAdminState.status === EActionStatus.Succeeded) {
-            openNotification({
-                message: 'Login Successfully!',
-                placement: 'topRight',
-                type: 'success',
-            })
-            router.push("/company");
-        }
+        (async () => {
+            if (authAdminState.status === EActionStatus.Succeeded) {
+                await openNotification({
+                    message: 'Login Successfully!',
+                    placement: 'topRight',
+                    type: 'success',
+                })
+                resetStatusLogin();
+                // Chờ 1 giây trước khi chuyển hướng
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-        if (authAdminState.status === EActionStatus.Failed) {
-            openNotification({
-                message: authAdminState.errMessage,
-                placement: 'topRight',
-                type: 'error',
-            })
-        }
+                await router.push("/company");
+            }
+    
+            if (authAdminState.status === EActionStatus.Failed) {
+                openNotification({
+                    message: authAdminState.errMessage,
+                    placement: 'topRight',
+                    type: 'error',
+                })
+            }
+        })();
     }, [authAdminState.status])
 
     return (

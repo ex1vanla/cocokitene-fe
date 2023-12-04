@@ -2,14 +2,14 @@ import {
     ICreateCompanyPayload,
     IUpdateCompanyPayload,
     IUpdateSuperAdminPayload,
-} from '@/services/request.type'
+} from '@/services/system-admin/request.type'
 import { IGetAllCompanyQuery } from '@/stores/company/type'
-import { get, patch, post } from './fetcher'
 import {
     ICompanyDetailResponse,
     IGetAllDataReponse,
     IListCompanyResponse,
-} from './response.type'
+} from '@/services/system-admin/response.type'
+import { get, post, patch } from '@/services/system-admin/fetcher-system'
 
 const serviceCompany = {
     getAllCompanys: async ({
