@@ -1,7 +1,8 @@
 import BoxArea from '@/components/box-area'
 import DetailResolutionItem from '@/components/detail-resolution-item'
 import { ResolutionType } from '@/constants/resolution'
-import { useResolutions } from '@/stores/meeting/hooks'
+import { useMeetingDetail, useResolutions } from '@/stores/meeting/hooks'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { Empty } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
@@ -9,6 +10,14 @@ import { useMemo } from 'react'
 const Resolutions = () => {
     const resolutions = useResolutions(ResolutionType.RESOLUTION)
     const t = useTranslations()
+    const [{ meeting }] = useMeetingDetail()
+    const { authState } = useAuthLogin()
+
+    const userInShareholders = useMemo(() => {
+        return meeting?.shareholders.some(
+            (item) => item.user.username == authState.userData?.username,
+        )
+    }, [meeting, authState])
 
     const body = useMemo(() => {
         if (resolutions.length === 0) {
@@ -35,9 +44,10 @@ const Resolutions = () => {
                 percentUnVoted={resolution.percentUnVoted}
                 percentNotVoteYet={resolution.percentNotVoteYet}
                 proposalFiles={resolution.proposalFiles}
+                enableVote={userInShareholders}
             />
         ))
-    }, [resolutions])
+    }, [resolutions, userInShareholders])
 
     return (
         <BoxArea title={t('RESOLUTIONS')}>
