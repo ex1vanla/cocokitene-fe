@@ -232,7 +232,6 @@ const DetailResolutionItem = ({
                     <Radio.Group
                         onChange={onVoteConfirm}
                         value={value}
-                        // disabled={voteStatus === FETCH_STATUS.LOADING  }
                         disabled={
                             voteStatus === FETCH_STATUS.LOADING || !enableVote
                         }

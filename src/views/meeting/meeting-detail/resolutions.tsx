@@ -15,7 +15,7 @@ const Resolutions = () => {
 
     const userInShareholders = useMemo(() => {
         return meeting?.shareholders.some(
-            (item) => item.user.username == authState.userData?.username,
+            (item) => item.user.id == authState.userData?.id,
         )
     }, [meeting, authState])
 
