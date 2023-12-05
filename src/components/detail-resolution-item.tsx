@@ -11,6 +11,7 @@ import {
     Modal,
     Radio,
     RadioChangeEvent,
+    Tooltip,
     Typography,
     notification,
 } from 'antd'
@@ -30,6 +31,7 @@ interface IDetailResolutionItem extends Resolution {
     creator: IProposalCreator
     proposalFiles?: IProposalFile[]
     id: number
+    voteErrorMessage?: string
 }
 
 const DetailResolutionItem = ({
@@ -44,6 +46,7 @@ const DetailResolutionItem = ({
     creator,
     proposalFiles,
     id,
+    voteErrorMessage = '',
 }: IDetailResolutionItem) => {
     const [value, setValue] = useState(voteResult)
     const [modalOpen, setOpenModal] = useState<boolean>(false)
@@ -221,45 +224,53 @@ const DetailResolutionItem = ({
                     </Text>
                     <Text className="text-black-45">{t('VOTED')}</Text>
                 </div> */}
-                <Radio.Group
-                    onChange={onVoteConfirm}
-                    value={value}
-                    disabled={voteStatus === FETCH_STATUS.LOADING}
-                >
-                    <Radio value={VoteProposalOption.VOTE}>
-                        <div className="flex flex-col">
-                            <div>{t('VOTED')}</div>
-                            <Text className="text-polar-green">
-                                {formatNumber(votePercent.percentVoted, {
-                                    maximumFractionDigits: 1,
-                                })}
-                                %
-                            </Text>
-                        </div>
-                    </Radio>
-                    <Radio value={VoteProposalOption.UN_VOTE}>
-                        <div className="flex flex-col">
-                            <div>{t('UNVOTED')}</div>
-                            <Text className="text-polar-green">
-                                {formatNumber(votePercent.percentUnVoted, {
-                                    maximumFractionDigits: 1,
-                                })}
-                                %
-                            </Text>
-                        </div>
-                    </Radio>
-                    <Radio value={VoteProposalOption.NO_IDEA}>
-                        <div className="flex flex-col">
-                            <div>{t('NO_IDEA')}</div>
-                            <Text className="text-polar-green">
-                                {formatNumber(votePercent.percentNotVoteYet, {
-                                    maximumFractionDigits: 1,
-                                })}
-                                %
-                            </Text>
-                        </div>
-                    </Radio>
-                </Radio.Group>
+                <Tooltip placement="top" title={t(voteErrorMessage)}>
+                    <Radio.Group
+                        onChange={onVoteConfirm}
+                        value={value}
+                        disabled={
+                            voteStatus === FETCH_STATUS.LOADING ||
+                            !!voteErrorMessage
+                        }
+                    >
+                        <Radio value={VoteProposalOption.VOTE}>
+                            <div className="flex flex-col">
+                                <div>{t('VOTED')}</div>
+                                <Text className="text-polar-green">
+                                    {formatNumber(votePercent.percentVoted, {
+                                        maximumFractionDigits: 1,
+                                    })}
+                                    %
+                                </Text>
+                            </div>
+                        </Radio>
+                        <Radio value={VoteProposalOption.UN_VOTE}>
+                            <div className="flex flex-col">
+                                <div>{t('UNVOTED')}</div>
+                                <Text className="text-polar-green">
+                                    {formatNumber(votePercent.percentUnVoted, {
+                                        maximumFractionDigits: 1,
+                                    })}
+                                    %
+                                </Text>
+                            </div>
+                        </Radio>
+                        <Radio value={VoteProposalOption.NO_IDEA}>
+                            <div className="flex flex-col">
+                                <div>{t('NO_IDEA')}</div>
+                                <Text className="text-polar-green">
+                                    {formatNumber(
+                                        votePercent.percentNotVoteYet,
+                                        {
+                                            maximumFractionDigits: 1,
+                                        },
+                                    )}
+                                    %
+                                </Text>
+                            </div>
+                        </Radio>
+                    </Radio.Group>
+                </Tooltip>
             </div>
         </div>
     )

@@ -12,8 +12,8 @@ export interface IAttendanceMeeting {
 }
 
 export enum UserMeetingStatusEnum {
-    PARTICIPATE = 'participate',
-    ABSENCE = 'absence',
+    PARTICIPATE = '0',
+    ABSENCE = '1',
 }
 
 export enum MeetingRole {

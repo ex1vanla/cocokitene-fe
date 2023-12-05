@@ -79,3 +79,8 @@ export const MeetingFileTypeToFolderName: {
 }
 
 export const ACCEPT_FILE_TYPES = '.xlsx,.xls,.doc,.docx,.pdf'
+
+export const titleTooltip = {
+    shareHolder: 'YOU_MUST_BE_A_SHAREHOLDER(JOINED)_TO_VOTE',
+    votingTime: 'OUTSIDE_THE_VOTING_PERIOD',
+}
