@@ -68,7 +68,7 @@ const AmendmentResolutions = () => {
                 percentUnVoted={amendmentResolution.percentUnVoted}
                 percentNotVoteYet={amendmentResolution.percentNotVoteYet}
                 proposalFiles={amendmentResolution.proposalFiles}
-                enableVote={notifiEnableVote}
+                voteErrorMessage={notifiEnableVote}
             />
         ))
     }, [amendmentResolutions, notifiEnableVote])

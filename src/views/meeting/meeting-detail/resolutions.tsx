@@ -65,7 +65,7 @@ const Resolutions = () => {
                 percentUnVoted={resolution.percentUnVoted}
                 percentNotVoteYet={resolution.percentNotVoteYet}
                 proposalFiles={resolution.proposalFiles}
-                enableVote={notifiEnableVote}
+                voteErrorMessage={notifiEnableVote}
             />
         ))
     }, [resolutions, notifiEnableVote])

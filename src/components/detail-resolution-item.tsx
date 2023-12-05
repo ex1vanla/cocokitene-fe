@@ -31,7 +31,7 @@ interface IDetailResolutionItem extends Resolution {
     creator: IProposalCreator
     proposalFiles?: IProposalFile[]
     id: number
-    enableVote?: string
+    voteErrorMessage?: string
 }
 
 const DetailResolutionItem = ({
@@ -46,7 +46,7 @@ const DetailResolutionItem = ({
     creator,
     proposalFiles,
     id,
-    enableVote = '',
+    voteErrorMessage = '',
 }: IDetailResolutionItem) => {
     const [value, setValue] = useState(voteResult)
     const [modalOpen, setOpenModal] = useState<boolean>(false)
@@ -224,12 +224,13 @@ const DetailResolutionItem = ({
                     </Text>
                     <Text className="text-black-45">{t('VOTED')}</Text>
                 </div> */}
-                <Tooltip placement="top" title={t(enableVote)}>
+                <Tooltip placement="top" title={t(voteErrorMessage)}>
                     <Radio.Group
                         onChange={onVoteConfirm}
                         value={value}
                         disabled={
-                            voteStatus === FETCH_STATUS.LOADING || !!enableVote
+                            voteStatus === FETCH_STATUS.LOADING ||
+                            !!voteErrorMessage
                         }
                     >
                         <Radio value={VoteProposalOption.VOTE}>
