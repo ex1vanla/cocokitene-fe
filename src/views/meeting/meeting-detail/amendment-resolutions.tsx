@@ -1,6 +1,8 @@
 import BoxArea from '@/components/box-area'
 import DetailResolutionItem from '@/components/detail-resolution-item'
+import { titleTooltip } from '@/constants/meeting'
 import { ResolutionType } from '@/constants/resolution'
+import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { useResolutions, useMeetingDetail } from '@/stores/meeting/hooks'
 import { Empty } from 'antd'
@@ -16,10 +18,28 @@ const AmendmentResolutions = () => {
     const { authState } = useAuthLogin()
     const t = useTranslations()
 
-    const userInShareholders = useMemo(() => {
-        return meeting?.shareholders.some(
-            (item) => item.user.id == authState.userData?.id,
-        )
+    const notifiEnableVote = useMemo(() => {
+        let message: string = ''
+        if (meeting) {
+            const time = new Date().getTime()
+            const startTime = new Date(meeting.startTime).getTime()
+            const endVotingTime = new Date(meeting.endVotingTime).getTime()
+            if (time < startTime || time > endVotingTime) {
+                message += titleTooltip.votingTime
+            }
+            if (
+                !meeting?.shareholders.some(
+                    (item) =>
+                        item.user.id == authState.userData?.id &&
+                        item.status == UserMeetingStatusEnum.PARTICIPATE,
+                )
+            ) {
+                message += message
+                    ? `_,_${titleTooltip.shareHolder}`
+                    : titleTooltip.shareHolder
+            }
+        }
+        return message
     }, [meeting, authState])
 
     const body = useMemo(() => {
@@ -48,10 +68,10 @@ const AmendmentResolutions = () => {
                 percentUnVoted={amendmentResolution.percentUnVoted}
                 percentNotVoteYet={amendmentResolution.percentNotVoteYet}
                 proposalFiles={amendmentResolution.proposalFiles}
-                enableVote={userInShareholders}
+                enableVote={notifiEnableVote}
             />
         ))
-    }, [amendmentResolutions, userInShareholders])
+    }, [amendmentResolutions, notifiEnableVote])
 
     return (
         <BoxArea title={t('AMENDMENT_RESOLUTIONS')}>

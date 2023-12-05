@@ -21,7 +21,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 const { Text } = Typography
-const titleTooltip = 'YOU_MUST_BE_A_SHAREHOLDER_TO_VOTE'
 
 interface IDetailResolutionItem extends Resolution {
     index: number
@@ -32,7 +31,7 @@ interface IDetailResolutionItem extends Resolution {
     creator: IProposalCreator
     proposalFiles?: IProposalFile[]
     id: number
-    enableVote?: boolean
+    enableVote?: string
 }
 
 const DetailResolutionItem = ({
@@ -47,7 +46,7 @@ const DetailResolutionItem = ({
     creator,
     proposalFiles,
     id,
-    enableVote = true,
+    enableVote = '',
 }: IDetailResolutionItem) => {
     const [value, setValue] = useState(voteResult)
     const [modalOpen, setOpenModal] = useState<boolean>(false)
@@ -225,15 +224,12 @@ const DetailResolutionItem = ({
                     </Text>
                     <Text className="text-black-45">{t('VOTED')}</Text>
                 </div> */}
-                <Tooltip
-                    placement="top"
-                    title={enableVote ? '' : t(titleTooltip)}
-                >
+                <Tooltip placement="top" title={t(enableVote)}>
                     <Radio.Group
                         onChange={onVoteConfirm}
                         value={value}
                         disabled={
-                            voteStatus === FETCH_STATUS.LOADING || !enableVote
+                            voteStatus === FETCH_STATUS.LOADING || !!enableVote
                         }
                     >
                         <Radio value={VoteProposalOption.VOTE}>
