@@ -3,6 +3,8 @@ import { instance } from './axios'
 // import serviceUser from './user'
 import serviceUser from './user'
 import { ApiResponse } from './response.type'
+import store from '@/stores'
+import { signOut } from '@/stores/auth/slice'
 
 type Obj = { [key: string]: any }
 
@@ -35,9 +37,15 @@ instance.interceptors.response.use(
     },
     async (error: any) => {
         const prevRequest = error?.config
-        if (error?.response?.status === 401 && !prevRequest?.sent) {
-            prevRequest.sent = true
+        if (error?.response?.status === 401) {
+            if (prevRequest.url.includes('refresh-token')) {
+                store?.dispatch(signOut())
+                return false
+            }
             const newAccessToken = await serviceUser.getRefreshToken()
+            if (!newAccessToken) {
+                return false
+            }
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
             return instance(prevRequest)
         }
