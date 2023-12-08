@@ -112,18 +112,18 @@ const CompanyInfo = () => {
                 <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black/[85%]">
                     <div
                         className={`h-[6px] w-[6px] rounded-full  ${
-                            company?.status.status == '1'
+                            company?.status.status == '0'
                                 ? ' bg-green-300'
-                                : company?.status.status == '0'
+                                : company?.status.status == '1'
                                 ? ' bg-red-500'
                                 : null
                         } `}
                     ></div>
                     <p>
                         {company?.status.status == '0'
-                            ? t('INACTIVE')
-                            : company?.status.status == '1'
                             ? t('ACTIVE')
+                            : company?.status.status == '1'
+                            ? t('INACTIVE')
                             : null}
                     </p>
                 </div>
@@ -132,9 +132,11 @@ const CompanyInfo = () => {
         {
             label: 'SERVICE_PLAN',
             content:
-                company?.servicePlan.planName == 'free' ? (
-                    <p className="text-o text-sm">{t('TRIAL')}</p>
-                ) : company?.servicePlan.planName == 'trial' ? (
+                company?.servicePlan.planName == 'trial' ? (
+                    <p className="text-o text-sm text-orange-500">
+                        {t('TRIAL')}
+                    </p>
+                ) : company?.servicePlan.planName == 'free' ? (
                     <div className="flex flex-col items-start">
                         <div className="h-[30px] text-sm">
                             <span className="mr-1 text-black/[85%]">

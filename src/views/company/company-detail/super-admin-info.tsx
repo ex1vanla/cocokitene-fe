@@ -59,10 +59,10 @@ const SuperAdminInfo = () => {
                     <div
                         className={`h-[6px] w-[6px] rounded-full  ${
                             company?.superAdminInfo?.userStatus?.status == '1'
-                                ? 'bg-[#52C41A]'
+                                ? 'bg-green-300'
                                 : company?.superAdminInfo?.userStatus?.status ==
                                   '0'
-                                ? 'bg-[#FF4D4F]'
+                                ? 'bg-red-500'
                                 : null
                         } `}
                     ></div>
