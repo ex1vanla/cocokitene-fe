@@ -23,7 +23,6 @@ export const loginAdmin = createAsyncThunk<
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data
-        console.error("Error:", responseData?.info?.message || "Unknown error");
         return rejectWithValue({
             errorMessage: responseData?.info.message,
             errorCode: responseData?.code,

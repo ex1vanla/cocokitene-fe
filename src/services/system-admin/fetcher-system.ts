@@ -25,7 +25,6 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     (response) => {
         const { status, data } = response
-        console.log("fetcher-system", response)
         if (status === 200 || status === 201) {
             return data
         }
@@ -40,7 +39,6 @@ instance.interceptors.response.use(
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
             return instance(prevRequest)
         }
-        console.log("fetcher-system-error", error)
         return Promise.reject(error)
     },
 )

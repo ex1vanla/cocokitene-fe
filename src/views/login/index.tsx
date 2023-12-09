@@ -1,39 +1,45 @@
 import { useNotification } from '@/hooks/use-notification'
 import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
 import { EActionStatus } from '@/stores/type'
-import { Button, Form, Input, Typography } from 'antd'
+import { Button, Form, Input, Typography, notification } from 'antd'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 const { Text } = Typography
 
 const Login = () => {
-    const { authAdminState, loginAdminAction, resetStatusLogin } = useAuthAdminLogin()
+    const {
+        authAdminState,
+        loginAdminAction,
+        resetStatusLogin,
+        setUserAdminLogged,
+    } = useAuthAdminLogin()
     const { openNotification, contextHolder } = useNotification()
     const onFinish = (values: any) => {
         loginAdminAction({ email: values.email, password: values.password })
     }
-    const router = useRouter();
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo)
     }
+    const router = useRouter()
 
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             if (authAdminState.status === EActionStatus.Succeeded) {
                 await openNotification({
                     message: 'Login Successfully!',
                     placement: 'topRight',
                     type: 'success',
                 })
-                resetStatusLogin();
+                resetStatusLogin()
+                setUserAdminLogged(true)
                 // Chờ 1 giây trước khi chuyển hướng
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise((resolve) => setTimeout(resolve, 1000))
 
-                await router.push("/company");
+                await router.push('/company')
             }
-    
+
             if (authAdminState.status === EActionStatus.Failed) {
                 openNotification({
                     message: authAdminState.errMessage,
@@ -41,7 +47,7 @@ const Login = () => {
                     type: 'error',
                 })
             }
-        })();
+        })()
     }, [authAdminState.status])
 
     return (

@@ -1,4 +1,8 @@
-import { IAccountAdmin, ILoginAdminRequest, ILoginAdminResponse } from '@/stores/auth-admin/type'
+import {
+    IAccountAdmin,
+    ILoginAdminRequest,
+    ILoginAdminResponse,
+} from '@/stores/auth-admin/type'
 import { Cookies } from 'react-cookie'
 import { post } from '@/services/system-admin/fetcher-system'
 const cookies = new Cookies()
@@ -28,9 +32,13 @@ const serviceUserSystem = {
     },
     storeRefreshTokenSys: (token: string | null) => {
         if (token) {
-            cookies.set(USER_SYS_REFRESH_TOKEN_STORAGE_KEY, JSON.stringify(token), {
-                path: '/',
-            })
+            cookies.set(
+                USER_SYS_REFRESH_TOKEN_STORAGE_KEY,
+                JSON.stringify(token),
+                {
+                    path: '/',
+                },
+            )
             return
         }
         cookies.remove(USER_SYS_REFRESH_TOKEN_STORAGE_KEY, { path: '/' })
@@ -47,28 +55,27 @@ const serviceUserSystem = {
         const refreshToken = cookies.get(USER_SYS_REFRESH_TOKEN_STORAGE_KEY)
         const response = await post<{
             accessToken: string
-        }>('/auths/system-admin/refresh-token', 
-            {refreshToken: refreshToken},
-        )
+        }>('/auths/system-admin/refresh-token', { refreshToken: refreshToken })
         const accessToken = response.data
         if (accessToken) {
-            cookies.set(USER_SYS_TOKEN_STORAGE_KEY, JSON.stringify(accessToken), {
-                path: '/',
-            })
+            cookies.set(
+                USER_SYS_TOKEN_STORAGE_KEY,
+                JSON.stringify(accessToken),
+                {
+                    path: '/',
+                },
+            )
         }
         return accessToken
     },
-    loginAdmin: async (payload: ILoginAdminRequest): Promise<ILoginAdminResponse> => {
-        try {
-            const response: { data: ILoginAdminResponse } = await post(
-                '/auths/system-admin/login-by-password',
-                payload,
-            );
-            return response.data;
-        } catch (error) {
-            console.error("Error during loginAdmin:", error);
-            throw error; 
-        }
+    loginAdmin: async (
+        payload: ILoginAdminRequest,
+    ): Promise<ILoginAdminResponse> => {
+        const response: { data: ILoginAdminResponse } = await post(
+            '/auths/system-admin/login-by-password',
+            payload,
+        )
+        return response.data
     },
 }
 

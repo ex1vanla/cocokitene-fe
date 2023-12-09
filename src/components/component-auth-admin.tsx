@@ -1,31 +1,33 @@
 import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
-import Login from '@/views/login'
+import { notification } from 'antd'
 import { useRouter } from 'next/navigation'
-import { ComponentType, useEffect, useState } from 'react'
-
+import { ComponentType, useEffect } from 'react'
 
 const withAuthAdmin = <P extends object>(
     WrappedComponent: ComponentType<P>,
 ) => {
     return function WithAuth(props: P) {
-        const { authAdminState } = useAuthAdminLogin()
-        const [mounted, setMounted] = useState(false)
-        const router= useRouter();
+        const { authAdminState, setUserAdminLogged } = useAuthAdminLogin()
+        const router = useRouter()
         useEffect(() => {
-            setMounted(true)
-            if(!authAdminState.isAuthenticated){
-                router.push("/login")
+            if (!authAdminState.isAuthenticated) {
+                setUserAdminLogged(false)
+                router.push('/login')
             }
-        }, [authAdminState])
+        }, [authAdminState.isAuthenticated])
 
-        return (
-            mounted &&
-            (authAdminState.isAuthenticated ? (
-                <WrappedComponent {...props} />
-            ) : (
-                null
-            ))
-        )
+        useEffect(() => {
+            if (!authAdminState.userLogged) {
+                notification.error({
+                    message: 'Login',
+                    description: 'Please login to access system admin!',
+                })
+            }
+        }, [authAdminState.userLogged])
+
+        return authAdminState.isAuthenticated ? (
+            <WrappedComponent {...props} />
+        ) : null
     }
 }
 
