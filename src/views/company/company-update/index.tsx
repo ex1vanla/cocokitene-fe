@@ -13,6 +13,7 @@ import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import CompanyInformation from './company-information'
 import SuperAdminInformation from './super-admin-information'
+import withAuthAdmin from '@/components/component-auth-admin'
 
 export interface ICompanyUpdateForm {
     companyName: string
@@ -170,4 +171,4 @@ const CompanyUpdate = () => {
     )
 }
 
-export default CompanyUpdate
+export default withAuthAdmin(CompanyUpdate)

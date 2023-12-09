@@ -20,7 +20,7 @@ const SystemAdminLayout = (props: ISystemAdminLayout) => {
     }, [])
     return (
         <Layout className="min-h-screen">
-            {mounted && authAdminState.isAuthenticated && <Header />}
+            <Header />
             <Layout className="mt-12">
                 {mounted && authAdminState.isAuthenticated && (
                     <Sidebar

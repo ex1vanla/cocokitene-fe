@@ -24,6 +24,7 @@ const Login = () => {
     const router = useRouter()
 
     useEffect(() => {
+        // eslint-disable-next-line
         ;(async () => {
             if (authAdminState.status === EActionStatus.Succeeded) {
                 await openNotification({
@@ -44,6 +45,7 @@ const Login = () => {
                 })
             }
         })()
+        // eslint-disable-next-line
     }, [authAdminState.status])
 
     return (
