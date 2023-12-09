@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
 import { IAuthAdminState, ILoginAdminRequest } from './type'
 import { loginAdmin } from './thunk'
-import { resetStatus, setUserLogged, signOutSys } from './slice'
+import { resetStatus, signOutSys } from './slice'
 
 type AuthLoginType = {
     authAdminState: IAuthAdminState
@@ -10,7 +10,6 @@ type AuthLoginType = {
     loginAdminAction: (loginData: ILoginAdminRequest) => void
     logoutAdminAction: () => void
     resetStatusLogin: () => void
-    setUserAdminLogged: (isLogged: boolean) => void
 }
 
 export const useAuthAdminLogin = (): AuthLoginType => {
@@ -32,18 +31,10 @@ export const useAuthAdminLogin = (): AuthLoginType => {
         dispatch(resetStatus())
     }, [dispatch])
 
-    const setUserAdminLogged = useCallback(
-        (isLogged: boolean) => {
-            dispatch(setUserLogged({ logged: isLogged }))
-        },
-        [dispatch],
-    )
-
     return {
         authAdminState,
         loginAdminAction,
         logoutAdminAction,
         resetStatusLogin,
-        setUserAdminLogged,
     }
 }

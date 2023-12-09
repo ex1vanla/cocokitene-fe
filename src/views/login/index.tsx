@@ -1,19 +1,18 @@
 import { useNotification } from '@/hooks/use-notification'
 import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
 import { EActionStatus } from '@/stores/type'
-import { Button, Form, Input, Typography, notification } from 'antd'
+import { Button, Form, Input, Typography } from 'antd'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 const { Text } = Typography
 
 const Login = () => {
-    const {
-        authAdminState,
-        loginAdminAction,
-        resetStatusLogin,
-        setUserAdminLogged,
-    } = useAuthAdminLogin()
+    const t = useTranslations()
+
+    const { authAdminState, loginAdminAction, resetStatusLogin } =
+        useAuthAdminLogin()
     const { openNotification, contextHolder } = useNotification()
     const onFinish = (values: any) => {
         loginAdminAction({ email: values.email, password: values.password })
@@ -33,10 +32,7 @@ const Login = () => {
                     type: 'success',
                 })
                 resetStatusLogin()
-                setUserAdminLogged(true)
-                // Chờ 1 giây trước khi chuyển hướng
                 await new Promise((resolve) => setTimeout(resolve, 1000))
-
                 await router.push('/company')
             }
 
@@ -61,12 +57,10 @@ const Login = () => {
                         width={48}
                         height={48}
                     />
-                    <Text className="text-3xl font-bold">Cocokitene</Text>
+                    <Text className="text-3xl font-bold">{t('COCOKITENE')}</Text>
                 </div>
                 <div className="mb-10 mt-3 flex items-center justify-center">
-                    <Text className="text-sm">
-                        General meeting management support system
-                    </Text>
+                    <Text className="text-sm">{t('TITLE_SYSTEM_LOGIN')}</Text>
                 </div>
 
                 <div className="mb-6">
@@ -77,14 +71,14 @@ const Login = () => {
                     >
                         <Form.Item
                             name="email"
-                            label={'Email'}
+                            label={t('EMAIL')}
                             rules={[{ required: true, type: 'email' }]}
                         >
                             <Input size="large" />
                         </Form.Item>
                         <Form.Item
                             name="password"
-                            label={'Password'}
+                            label={t('PASSWORD')}
                             rules={[
                                 {
                                     required: true,
@@ -103,7 +97,7 @@ const Login = () => {
                                 htmlType="submit"
                                 className="bg-#5151E5 w-full rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
                             >
-                                Submit
+                                {t('SUBMIT')}
                             </Button>
                         </Form.Item>
                     </Form>

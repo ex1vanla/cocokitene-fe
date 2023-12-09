@@ -7,23 +7,19 @@ const withAuthAdmin = <P extends object>(
     WrappedComponent: ComponentType<P>,
 ) => {
     return function WithAuth(props: P) {
-        const { authAdminState, setUserAdminLogged } = useAuthAdminLogin()
+        const { authAdminState } = useAuthAdminLogin()
         const router = useRouter()
         useEffect(() => {
-            if (!authAdminState.isAuthenticated) {
-                setUserAdminLogged(false)
+            if (!authAdminState.isAuthenticated ) {
+                if (authAdminState.isAuthenticated == false) {
+                    notification.error({
+                        message: 'Login',
+                        description: 'Please login to access system admin!',
+                    })
+                }
                 router.push('/login')
             }
         }, [authAdminState.isAuthenticated])
-
-        useEffect(() => {
-            if (!authAdminState.userLogged) {
-                notification.error({
-                    message: 'Login',
-                    description: 'Please login to access system admin!',
-                })
-            }
-        }, [authAdminState.userLogged])
 
         return authAdminState.isAuthenticated ? (
             <WrappedComponent {...props} />

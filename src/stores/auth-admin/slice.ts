@@ -6,9 +6,8 @@ import { IAuthAdminState, ILoginAdminResponse } from './type'
 
 const initialState: IAuthAdminState = {
     status: EActionStatus.Idle,
-    isAuthenticated: !!serviceUserSystem.getInfoStorageSys(),
+    isAuthenticated: !!serviceUserSystem.getInfoStorageSys() ?? false,
     userAdminInfo: null,
-    userLogged: false,
     errCode: '',
     errMessage: '',
 }
@@ -24,9 +23,6 @@ const authAdminSlice = createSlice({
             state.isAuthenticated = null
             state.userAdminInfo = null
             serviceUserSystem.storeInfoSys(null)
-        },
-        setUserLogged: (state: IAuthAdminState, action: PayloadAction<{ logged: boolean }>) => {
-            state.userLogged = action.payload.logged;
         }
     },
     extraReducers: (builder) => {
@@ -53,6 +49,6 @@ const authAdminSlice = createSlice({
     },
 })
 
-export const { resetStatus, signOutSys, setUserLogged } = authAdminSlice.actions
+export const { resetStatus, signOutSys } = authAdminSlice.actions
 
 export default authAdminSlice.reducer
