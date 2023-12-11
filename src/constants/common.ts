@@ -56,10 +56,11 @@ export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
     },
 ]
 
-export const CONSTANT_EMPTY_STRING : string = ''
+export const CONSTANT_EMPTY_STRING: string = ''
 
 export const SIDEBAR_OPEN_WIDTH: number = 208
 export const SIDEBAR_CLOSE_WIDTH: number = 80
+export const MAX_DISPLAY_ROLES = 2
 
 export enum AvatarBgHexColors {
     GREEK_BLUE = '#2F54EB',
