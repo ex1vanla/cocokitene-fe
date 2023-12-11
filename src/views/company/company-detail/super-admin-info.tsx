@@ -8,6 +8,7 @@ import { truncateString } from '@/utils/format-string'
 import { IRowInfo, RowInfo } from './row-info'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
+import { UserStatus } from '@/constants/user-status'
 
 const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
     .lighten(0.6)
@@ -58,18 +59,21 @@ const SuperAdminInfo = () => {
                 <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black/[85%]">
                     <div
                         className={`h-[6px] w-[6px] rounded-full  ${
-                            company?.superAdminInfo?.userStatus?.status == '1'
-                                ? 'bg-[#52C41A]'
+                            company?.superAdminInfo?.userStatus?.status ==
+                            UserStatus.ACTIVE
+                                ? 'bg-green-300'
                                 : company?.superAdminInfo?.userStatus?.status ==
-                                  '0'
-                                ? 'bg-[#FF4D4F]'
+                                  UserStatus.INACTIVE
+                                ? 'bg-red-500'
                                 : null
                         } `}
                     ></div>
                     <p>
-                        {company?.superAdminInfo?.userStatus?.status == '1'
+                        {company?.superAdminInfo?.userStatus?.status ==
+                        UserStatus.ACTIVE
                             ? t('ACTIVE')
-                            : company?.superAdminInfo?.userStatus?.status == '0'
+                            : company?.superAdminInfo?.userStatus?.status ==
+                              UserStatus.INACTIVE
                             ? t('INACTIVE')
                             : null}
                     </p>
