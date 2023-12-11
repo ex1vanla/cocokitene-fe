@@ -1,4 +1,6 @@
 import { IGetAllAccountQuery } from '@/stores/account/type'
+import { IAccountDetailResponse } from './response.type'
+
 import {
     IGetAllDataReponse,
     IListAccountResponse,
@@ -18,5 +20,14 @@ const serviceAccount = {
             await get('/users', payload)
         return response.data
     },
+    getDetailAccount: async (accountId: number) => {
+        const response = await get<IAccountDetailResponse>(
+            `/users/${accountId}`,
+        )
+        return response.data
+    },
 }
+
+
+
 export default serviceAccount

@@ -201,3 +201,16 @@ export interface ICompanyDetailResponse {
     superAdminInfo: IUserResponse
     servicePlan: IPlanResponse
 }
+
+export interface IAccountDetailResponse {
+    username: string
+    email: string
+    walletAddress: string
+    avatar: string
+    company: {
+        companyName: string
+        companyid: number
+    }
+    userStatus: IUserStatusResponse
+    roleName: string[]
+}

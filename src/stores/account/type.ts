@@ -48,3 +48,21 @@ export interface IAccountState extends IGetAllAccountQuery, FetchError {
     accountList: IAccountList[]
     totalAccountItem: number
 }
+
+export interface IAccountDetail {
+    userName: string
+    email: string
+    walletAddress: string
+    avatar: string
+    companyId: number
+    companyName: string
+    userStatusId: number
+    userStatus: string
+    roleName: string[]
+}
+
+export interface IDetailAccountState {
+    status: EActionStatus
+    account?: IAccountDetail
+    error?: FetchError
+}
