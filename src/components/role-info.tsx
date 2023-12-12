@@ -6,6 +6,7 @@ interface IRoleInfo {
     roleName: string
     defaultRoleHashColor?: string
 }
+
 const RoleInfo = ({
     roleName,
     defaultRoleHashColor = RoleBgHexColors.DEFAULTCOLOR,
@@ -16,4 +17,5 @@ const RoleInfo = ({
         </Tag>
     )
 }
+
 export default RoleInfo

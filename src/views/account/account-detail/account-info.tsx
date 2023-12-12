@@ -3,21 +3,20 @@ import { useTranslations } from 'next-intl'
 import { IRowAccountInfo, RowAccountInfo } from './account-rowinfo'
 import { Avatar, Col, Row } from 'antd'
 import { UserStatus } from '@/constants/user-status'
-import { truncateString } from '@/utils/format-string'
-import { useParams } from 'next/navigation'
 import Color from 'color'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
-
-const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
-    .lighten(0.6)
-    .hex()
+import RoleInfo from '@/components/role-info'
+import { RoleBgColor } from '@/constants/role'
 
 const AccountInfo = () => {
     const t = useTranslations()
-    const params = useParams()
     const [{ account }] = useAccountDetail()
-    const locale = params.locale
+    const backgroundAvatarColor = Color(
+        account?.defaultAvatarHashColor || AvatarBgHexColors.GOLDEN_PURPLE,
+    )
+        .lighten(0.6)
+        .hex()
 
     const dataAccountDetailLeft: IRowAccountInfo[] = [
         {
@@ -27,13 +26,13 @@ const AccountInfo = () => {
                     {account?.companyName || ''}
                 </p>
             ),
-            lg: locale == 'en' ? 3 : 3,
+            lg: 3,
         },
         {
             label: 'USERNAME',
             content: account?.userName && (
                 <div
-                    className={`mt-[-3px] flex flex-wrap content-start items-center gap-[4px]`}
+                    className={`mt-[-1px] flex flex-wrap content-start items-center gap-[4px]`}
                 >
                     {account?.avatar ? (
                         <Avatar
@@ -50,7 +49,9 @@ const AccountInfo = () => {
                             style={{
                                 backgroundColor: backgroundAvatarColor,
                                 verticalAlign: 'middle',
-                                color: AvatarBgHexColors.GOLDEN_PURPLE,
+                                color:
+                                    account?.defaultAvatarHashColor ||
+                                    AvatarBgHexColors.GOLDEN_PURPLE,
                             }}
                             size="small"
                         >
@@ -60,16 +61,22 @@ const AccountInfo = () => {
                     <span>{account.userName}</span>
                 </div>
             ),
-            lg: locale == 'en' ? 3 : 3,
+            lg: 3,
         },
         {
             label: 'ROLE',
             content: (
-                <div className="truncate hover:text-clip">
-                    {account?.roleName.map((item) => t(item)).join(', ')}
+                <div className="mt-[-2px] truncate hover:text-clip">
+                    {account?.roleName.map((item) => (
+                        <RoleInfo
+                            key={item}
+                            roleName={t(item)}
+                            defaultRoleHashColor={RoleBgColor[item]}
+                        />
+                    ))}
                 </div>
             ),
-            lg: locale == 'en' ? 3 : 3,
+            lg: 3,
         },
     ]
 
@@ -78,14 +85,10 @@ const AccountInfo = () => {
             label: 'WALLET_ADDRESS',
             content: (
                 <p className="max-w-[415px] truncate hover:text-clip">
-                    {truncateString({
-                        text: String(account?.walletAddress),
-                        start: 5,
-                        end: 3,
-                    }) || ''}
+                    {account?.walletAddress || ''}
                 </p>
             ),
-            lg: locale == 'en' ? 4 : 6,
+            lg: 6,
         },
         {
             label: 'EMAIL',
@@ -94,7 +97,7 @@ const AccountInfo = () => {
                     {account?.email || ''}
                 </p>
             ),
-            lg: locale == 'en' ? 4 : 6,
+            lg: 6,
         },
         {
             label: 'STATUS',
@@ -118,7 +121,7 @@ const AccountInfo = () => {
                     </p>
                 </div>
             ),
-            lg: locale == 'en' ? 4 : 6,
+            lg: 6,
         },
     ]
 

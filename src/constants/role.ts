@@ -1,3 +1,4 @@
+/* eslint-disable */
 export enum RoleName {
     SUPER_ADMIN = 'SUPER_ADMIN',
     ADMIN = 'ADMIN',
@@ -6,10 +7,10 @@ export enum RoleName {
 }
 
 export enum RoleBgHexColors {
-    SUPER_ADMIN = '#08df5e',
-    ADMIN = '#92d851',
-    SHAREHOLDER = '#f46806',
-    USER = '#b79350',
+    SUPER_ADMIN = '#2F54EB',
+    ADMIN = '#fa541c',
+    SHAREHOLDER = '#13C2C2',
+    USER = '#722ED1',
     DEFAULTCOLOR = '#ed51b4',
 }
 

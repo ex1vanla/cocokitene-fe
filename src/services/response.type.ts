@@ -207,9 +207,10 @@ export interface IAccountDetailResponse {
     email: string
     walletAddress: string
     avatar: string
+    defaultAvatarHashColor: string | null
     company: {
         companyName: string
-        companyid: number
+        id: number
     }
     userStatus: IUserStatusResponse
     roleName: string[]
