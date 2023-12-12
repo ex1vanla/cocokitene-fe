@@ -39,7 +39,7 @@ const Login = () => {
 
             if (authAdminState.status === EActionStatus.Failed) {
                 openNotification({
-                    message: authAdminState.errMessage,
+                    message: t('MSG_ERR_SYSTEM_ADMIN_00000'),
                     placement: 'topRight',
                     type: 'error',
                 })
@@ -59,7 +59,9 @@ const Login = () => {
                         width={48}
                         height={48}
                     />
-                    <Text className="text-3xl font-bold">{t('COCOKITENE')}</Text>
+                    <Text className="text-3xl font-bold">
+                        {t('COCOKITENE')}
+                    </Text>
                 </div>
                 <div className="mb-10 mt-3 flex items-center justify-center">
                     <Text className="text-sm">{t('TITLE_SYSTEM_LOGIN')}</Text>

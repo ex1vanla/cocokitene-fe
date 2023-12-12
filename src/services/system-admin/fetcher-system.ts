@@ -2,6 +2,8 @@
 import serviceUserSystem from '@/services/system-admin/user-system'
 import { ApiResponse } from '@/services/system-admin/response.type'
 import { instance } from '@/services/system-admin/axios'
+import store from '@/stores'
+import { signOutSys } from '@/stores/auth-admin/slice'
 
 type Obj = { [key: string]: any }
 
@@ -33,9 +35,15 @@ instance.interceptors.response.use(
     },
     async (error: any) => {
         const prevRequest = error?.config
-        if (error?.response?.status === 401 && !prevRequest?.sent) {
-            prevRequest.sent = true
+        if (error?.response?.status === 401) {
+            if (prevRequest.url.includes('refresh-token')) {
+                store?.dispatch(signOutSys())
+                return false
+            }
             const newAccessToken = await serviceUserSystem.getRefreshTokenSys()
+            if (!newAccessToken) {
+                return false
+            }
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
             return instance(prevRequest)
         }

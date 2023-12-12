@@ -31,7 +31,7 @@ const MeetingDetail = () => {
 
     const { authState } = useAuthLogin()
 
-    const permissionCreateMeeting = checkPermission(
+    const permissionEditMeeting = checkPermission(
         authState.userData?.permissionKeys,
         Permissions.EDIT_MEETING,
     )
@@ -51,7 +51,7 @@ const MeetingDetail = () => {
             <DetailTitle
                 pageName={meeting.title}
                 editButton={
-                    permissionCreateMeeting && (
+                    permissionEditMeeting && (
                         <Button
                             icon={<EditOutlined />}
                             type="default"
