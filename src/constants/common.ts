@@ -41,11 +41,6 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         label: 'SETTING_ROLES',
         key: '/setting-role',
     },
-    {
-        icon: RadarChartOutlined,
-        label: 'LIST_COMPANY',
-        key: '/company',
-    },
 ]
 
 export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
