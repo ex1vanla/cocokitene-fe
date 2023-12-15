@@ -9,11 +9,12 @@ import { ReactNode } from 'react'
 const { Title } = Typography
 
 interface IDetailTitle extends IBaseTitle {
+    urlBack: string
     editButton?: ReactNode
     extraButton?: ReactNode
 }
 
-const DetailTitle = ({ pageName, editButton, extraButton }: IDetailTitle) => {
+const DetailTitle = ({ urlBack, pageName, editButton, extraButton }: IDetailTitle) => {
     const router = useRouter()
 
     return (
@@ -21,7 +22,7 @@ const DetailTitle = ({ pageName, editButton, extraButton }: IDetailTitle) => {
             <div className="flex items-center gap-2">
                 <ArrowLeftOutlined
                     onClick={() => {
-                        router.back()
+                        router.push(urlBack);
                     }}
                 />
                 <Title level={4} className="mb-0 font-medium">

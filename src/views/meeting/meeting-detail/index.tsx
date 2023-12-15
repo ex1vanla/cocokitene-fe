@@ -19,13 +19,13 @@ import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 const MeetingDetail = () => {
-    const t = useTranslations();
+    const t = useTranslations()
 
     const [{ meeting, status }, fetchMeetingDetail] = useMeetingDetail()
 
     const params = useParams()
 
-    const router = useRouter();
+    const router = useRouter()
 
     const meetingId = Number(params.id)
 
@@ -49,6 +49,7 @@ const MeetingDetail = () => {
     return (
         <div>
             <DetailTitle
+                urlBack="/meeting"
                 pageName={meeting.title}
                 editButton={
                     permissionEditMeeting && (
@@ -56,7 +57,9 @@ const MeetingDetail = () => {
                             icon={<EditOutlined />}
                             type="default"
                             size="large"
-                            onClick={() => router.push(`/meeting/update/${meetingId}`)}
+                            onClick={() =>
+                                router.push(`/meeting/update/${meetingId}`)
+                            }
                         >
                             {t('EDIT')}
                         </Button>

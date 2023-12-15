@@ -76,7 +76,13 @@ const Login = () => {
                         <Form.Item
                             name="email"
                             label={t('EMAIL')}
-                            rules={[{ required: true, type: 'email' }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    type: 'email',
+                                    message: 'Please input your Email!',
+                                },
+                            ]}
                         >
                             <Input size="large" />
                         </Form.Item>

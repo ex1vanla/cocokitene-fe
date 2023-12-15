@@ -31,6 +31,7 @@ const CompanyDetail = () => {
     return (
         <div>
             <DetailTitle
+                urlBack="/company"
                 pageName={t('DETAIL_COMPANY')}
                 editButton={
                     <Button

@@ -9,7 +9,7 @@ import { useForm } from 'antd/es/form/Form'
 import { AxiosError } from 'axios'
 import dayjs from 'dayjs'
 import { useTranslations } from 'next-intl'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import CompanyInformation from './company-information'
 import SuperAdminInformation from './super-admin-information'
@@ -37,6 +37,7 @@ export interface ICompanyUpdateForm {
 }
 
 const CompanyUpdate = () => {
+    const router = useRouter();
     const t = useTranslations()
 
     const [initCompany, setInitCompany] = useState<ICompanyUpdateForm>()
@@ -127,6 +128,7 @@ const CompanyUpdate = () => {
                 })
 
                 setStatus(FETCH_STATUS.SUCCESS)
+                router.push(`/company/detail/${companyId}`)
             }
         } catch (error) {
             if (error instanceof AxiosError) {
