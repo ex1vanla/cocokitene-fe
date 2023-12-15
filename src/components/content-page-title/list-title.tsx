@@ -11,6 +11,7 @@ const { Title } = Typography
 
 interface IListTitle extends IBaseTitle {
     addButton?: ReactNode
+    editButton?: ReactNode
     // eslint-disable-next-line
     onChangeInput: (value: string) => void
     // eslint-disable-next-line
@@ -21,6 +22,7 @@ interface IListTitle extends IBaseTitle {
 const ListTitle = ({
     pageName,
     addButton,
+    editButton,
     onChangeInput,
     onChangeSelect,
     defaultSort,
@@ -64,6 +66,7 @@ const ListTitle = ({
                     ]}
                 />
                 {addButton}
+                {editButton}
             </div>
         </LayoutTitle>
     )
