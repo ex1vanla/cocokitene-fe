@@ -1,6 +1,5 @@
 import { IParticipants } from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
-import { CompanyStatus } from '@/constants/company-status'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserStatus } from '@/constants/user-status'
@@ -123,12 +122,6 @@ export interface IMeetingParticipantsResponse {
     administrativeCouncils: IParticipantsView[]
 }
 
-export interface ICompanyStatusResponse {
-    id: number
-    status: CompanyStatus
-    description: string
-}
-
 export interface IPlanResponse {
     id: number
     planName: string
@@ -143,50 +136,4 @@ export interface IUserStatusResponse {
     id: number
     status: UserStatus
     description: string
-}
-
-export interface IListCompanyResponse {
-    companys_id: number
-    companys_company_name: string
-    planName: string
-    companys_representative_user: string
-    totalCreatedAccount: string
-    totalCreatedMTGs: string
-    companyStatus: string
-}
-
-export interface IUserResponse {
-    id: number
-    username: string
-    email: string
-    walletAddress: string
-    avatar: string
-    statusId: number
-    companyId: number
-    shareQuantity: number
-    nonce: string
-    defaultAvatarHashColor: string | null
-    phone: string | null
-    activeTime: string | null
-    userStatus: IUserStatusResponse
-}
-
-export interface ICompanyDetailResponse {
-    id: number
-    companyName: string
-    companyShortName: string
-    description?: string
-    address: string
-    planId: number
-    statusId: number
-    representativeUser: string
-    phone: string
-    taxNumber: string
-    email: string
-    fax?: string
-    dateOfCorporation: string
-    businessType: string
-    companyStatus: ICompanyStatusResponse
-    superAdminInfo: IUserResponse
-    servicePlan: IPlanResponse
 }

@@ -1,14 +1,18 @@
+import withAuthAdmin from '@/components/component-auth-admin'
 import DetailTitle from '@/components/content-page-title/detail-title'
 import Loader from '@/components/loader'
 import { useCompanyDetail } from '@/stores/company/hooks'
 import { EActionStatus } from '@/stores/type'
-import { useParams } from 'next/navigation'
+import { EditOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
+import { useTranslations } from 'next-intl'
+import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import CompanyInfo from './company-info'
 import SuperAdminInfo from './super-admin-info'
-import { useTranslations } from 'next-intl'
 
 const CompanyDetail = () => {
+    const router = useRouter()
     const params = useParams()
     const companyId = +params.id
     const [{ company, status }, fetchCompanyDetail] = useCompanyDetail()
@@ -27,8 +31,21 @@ const CompanyDetail = () => {
     return (
         <div>
             <DetailTitle
+                urlBack="/company"
                 pageName={t('DETAIL_COMPANY')}
-                editUrl={`/company/update/${companyId}`}
+                editButton={
+                    <Button
+                        icon={<EditOutlined />}
+                        type="default"
+                        size="large"
+                        onClick={() =>
+                            router.push(`/company/update/${companyId}`)
+                        }
+                    >
+                        {t('EDIT')}
+                    </Button>
+                }
+                // editUrl={}
             />
             <div className="flex flex-col gap-6 p-6">
                 <CompanyInfo />
@@ -38,4 +55,4 @@ const CompanyDetail = () => {
     )
 }
 
-export default CompanyDetail
+export default withAuthAdmin(CompanyDetail)

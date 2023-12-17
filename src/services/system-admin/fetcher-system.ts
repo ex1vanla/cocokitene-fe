@@ -1,14 +1,15 @@
-import { instance } from './axios'
-import serviceUser from './user'
-import { ApiResponse } from './response.type'
+
+import serviceUserSystem from '@/services/system-admin/user-system'
+import { ApiResponse } from '@/services/system-admin/response.type'
+import { instance } from '@/services/system-admin/axios'
 import store from '@/stores'
-import { signOut } from '@/stores/auth/slice'
+import { signOutSys } from '@/stores/auth-admin/slice'
 
 type Obj = { [key: string]: any }
 
 instance.interceptors.request.use(
     (config) => {
-        const accessToken = serviceUser.getAccessTokenStorage()
+        const accessToken = serviceUserSystem.getAccessTokenStorageSys()
         if (
             !!accessToken &&
             config.headers &&
@@ -29,16 +30,17 @@ instance.interceptors.response.use(
         if (status === 200 || status === 201) {
             return data
         }
+
         return Promise.reject(data)
     },
     async (error: any) => {
         const prevRequest = error?.config
         if (error?.response?.status === 401) {
             if (prevRequest.url.includes('refresh-token')) {
-                store?.dispatch(signOut())
+                store?.dispatch(signOutSys())
                 return false
             }
-            const newAccessToken = await serviceUser.getRefreshToken()
+            const newAccessToken = await serviceUserSystem.getRefreshTokenSys()
             if (!newAccessToken) {
                 return false
             }

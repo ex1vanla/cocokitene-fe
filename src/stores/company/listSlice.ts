@@ -1,6 +1,6 @@
 import { CONSTANT_EMPTY_STRING } from '@/constants/common'
 import { SORT } from '@/constants/meeting'
-import serviceCompany from '@/services/company'
+import serviceCompany from '@/services/system-admin/company'
 import { IGetAllDataReponse } from '@/services/response.type'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'

@@ -41,21 +41,16 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         label: 'SETTING_ROLES',
         key: '/setting-role',
     },
-    {
-        icon: RadarChartOutlined,
-        label: 'LIST_COMPANY',
-        key: '/company',
-    },
 ]
 
 export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
     {
         icon: DashboardOutlined,
         label: 'DASHBOARD',
-        key: '/dashboard',
+        key: '/dashboard-system',
     },
     {
-        icon: DashboardOutlined,
+        icon: RadarChartOutlined,
         label: 'LIST_COMPANY',
         key: '/company',
     },

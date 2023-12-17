@@ -2,9 +2,10 @@
 
 import Content from '@/components/system-admin-layout/content'
 import { Layout } from 'antd'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import Header from './header'
 import Sidebar from './sidebar'
+import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
 
 export interface ISystemAdminLayout {
     children: ReactNode
@@ -12,14 +13,21 @@ export interface ISystemAdminLayout {
 
 const SystemAdminLayout = (props: ISystemAdminLayout) => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
+    const { authAdminState } = useAuthAdminLogin()
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        setMounted(true)
+    }, [])
     return (
         <Layout className="min-h-screen">
             <Header />
             <Layout className="mt-12">
+                {mounted && authAdminState.isAuthenticated && (
                     <Sidebar
                         isCollapsed={isCollapsed}
                         setIsCollapsed={setIsCollapsed}
                     />
+                )}
 
                 <Content isCollapsed={isCollapsed} {...props} />
             </Layout>

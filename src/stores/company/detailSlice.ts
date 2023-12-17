@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
 import { EActionStatus, FetchError } from '../type'
 import { IDetailCompanyState, ICompanyDetail } from './type'
-import serviceCompany from '@/services/company'
+import serviceCompany from '@/services/system-admin/company'
 
 const initialState: IDetailCompanyState = {
     status: EActionStatus.Idle,

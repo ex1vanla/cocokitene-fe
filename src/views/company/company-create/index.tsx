@@ -1,10 +1,8 @@
 /* eslint-disable */
+import withAuthAdmin from '@/components/component-auth-admin'
 import CreateTitle from '@/components/content-page-title/create-title'
 import { FETCH_STATUS } from '@/constants/common'
-import { ServicePlan } from '@/constants/company'
-import { CompanyStatusID } from '@/constants/company-status'
-import { UserStatusID } from '@/constants/user-status'
-import serviceCompany from '@/services/company'
+import serviceCompany from '@/services/system-admin/company'
 import CompanyInformation from '@/views/company/company-create/company-information'
 import SaveCreateCompanyButton from '@/views/company/company-create/save-button'
 import SuperAdminInformation from '@/views/company/company-create/super-admin-information'
@@ -107,4 +105,4 @@ const CompanyCreate = () => {
     )
 }
 
-export default CompanyCreate
+export default withAuthAdmin(CompanyCreate)

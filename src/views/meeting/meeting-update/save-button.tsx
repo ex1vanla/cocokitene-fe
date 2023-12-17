@@ -6,12 +6,14 @@ import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
 import { IUpdateMeeting } from '@/stores/meeting/types'
 import { Button, Spin, notification } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 const SaveUpdateMeetingButton = () => {
     const t = useTranslations()
     const [data] = useUpdateMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
+    const router = useRouter();
 
     const onValidate = (data: IUpdateMeeting) => {
         const payload = {
@@ -84,6 +86,7 @@ const SaveUpdateMeetingButton = () => {
                     description: t('UPDATED_MEETING_SUCCESSFULLY'),
                 })
                 setStatus(FETCH_STATUS.SUCCESS)
+                router.push(`/meeting/detail/${data.id}`);
             })()
         } catch (error) {
             notification.error({

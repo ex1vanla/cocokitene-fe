@@ -1,5 +1,5 @@
-const LoginPage = () => {
-    return <h1>This is login page</h1>
-}
+'use client'
 
-export default LoginPage
+import Login from '@/views/login'
+
+export default Login

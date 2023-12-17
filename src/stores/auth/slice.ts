@@ -1,8 +1,8 @@
+import serviceUser from '@/services/user'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { EActionStatus } from '../type'
-import { IAuthState, ILoginResponse } from './type'
 import { getNonceThunk, login } from './thunk'
-import serviceUser from '@/services/user'
+import { IAuthState, ILoginResponse } from './type'
 
 const initialState: IAuthState = {
     status: EActionStatus.Idle,
