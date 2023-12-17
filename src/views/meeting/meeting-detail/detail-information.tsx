@@ -1,5 +1,6 @@
 import BoxArea from '@/components/box-area'
 import { LikeIcon, ShareholdersIcon } from '@/components/svgs'
+import { MeetingStatusColor, MeetingStatusName } from '@/constants/meeting'
 import { useMeetingDetail } from '@/stores/meeting/hooks'
 import { Col, Row, Typography } from 'antd'
 import moment from 'moment'
@@ -122,6 +123,22 @@ const DetailInformation = () => {
                                     {moment(meeting.endVotingTime).format(
                                         'YYYY/MM/DD HH:mm:ss',
                                     )}
+                                </div>
+                            </div>
+                            <div className="flex gap-3">
+                                <Text className="text-black-45">
+                                    {t('STATUS')}:
+                                </Text>
+                                <div className="flex flex-col gap-1">
+                                    <span
+                                        style={{
+                                            color: MeetingStatusColor[
+                                                meeting.status
+                                            ],
+                                        }}
+                                    >
+                                        {t(MeetingStatusName[meeting.status])}
+                                    </span>
                                 </div>
                             </div>
                         </div>
