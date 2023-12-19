@@ -29,7 +29,7 @@ export const getAccountDetail = createAsyncThunk<
             companyName: accountDetail.company.companyName,
             userStatusId: accountDetail.userStatus.status,
             userStatus: accountDetail.userStatus.status,
-            roleName: accountDetail.roleName,
+            roles: accountDetail.roles,
         } as unknown as IAccountDetail
     } catch (error) {
         const err = error as AxiosError

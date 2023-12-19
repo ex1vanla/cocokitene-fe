@@ -202,6 +202,12 @@ export interface ICompanyDetailResponse {
     servicePlan: IPlanResponse
 }
 
+export interface IUserRole {
+    id: number
+    roleName: string
+    description: string
+}
+
 export interface IAccountDetailResponse {
     username: string
     email: string
@@ -213,5 +219,5 @@ export interface IAccountDetailResponse {
         id: number
     }
     userStatus: IUserStatusResponse
-    roleName: string[]
+    roles: IUserRole[]
 }

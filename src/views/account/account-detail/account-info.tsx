@@ -2,16 +2,21 @@ import { useAccountDetail } from '@/stores/account/hook'
 import { useTranslations } from 'next-intl'
 import { IRowAccountInfo, RowAccountInfo } from './account-rowinfo'
 import { Avatar, Col, Row } from 'antd'
-import { UserStatus } from '@/constants/user-status'
+import {
+    UserStatus,
+    UserStatusColor,
+    UserStatusName,
+} from '@/constants/user-status'
 import Color from 'color'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import RoleInfo from '@/components/role-info'
-import { RoleBgColor } from '@/constants/role'
+import { RoleBgColor, UserRoleName } from '@/constants/role'
 
 const AccountInfo = () => {
     const t = useTranslations()
     const [{ account }] = useAccountDetail()
+
     const backgroundAvatarColor = Color(
         account?.defaultAvatarHashColor || AvatarBgHexColors.GOLDEN_PURPLE,
     )
@@ -67,11 +72,11 @@ const AccountInfo = () => {
             label: 'ROLE',
             content: (
                 <div className="mt-[-2px] truncate hover:text-clip">
-                    {account?.roleName.map((item) => (
+                    {account?.roles.map((item) => (
                         <RoleInfo
-                            key={item}
-                            roleName={t(item)}
-                            defaultRoleHashColor={RoleBgColor[item]}
+                            key={item.roleName}
+                            roleName={t(UserRoleName[item.id])}
+                            defaultRoleHashColor={RoleBgColor[item.id]}
                         />
                     ))}
                 </div>
@@ -103,22 +108,27 @@ const AccountInfo = () => {
             label: 'STATUS',
             content: (
                 <div className="ml-[2px] flex flex-wrap content-start items-center gap-1 text-sm text-black/[85%]">
-                    <div
-                        className={`h-[6px] w-[6px] rounded-full  ${
-                            account?.userStatus == UserStatus.ACTIVE
-                                ? 'bg-green-300'
-                                : account?.userStatus == UserStatus.INACTIVE
-                                ? 'bg-red-500'
-                                : null
-                        } `}
-                    ></div>
-                    <p>
-                        {account?.userStatus == UserStatus.ACTIVE
-                            ? t('ACTIVE')
-                            : account?.userStatus == UserStatus.INACTIVE
-                            ? t('INACTIVE')
-                            : null}
-                    </p>
+                    {account?.userStatus && (
+                        <>
+                            <div
+                                className={`h-[6px] w-[6px] rounded-full  ${
+                                    account?.userStatus == UserStatus.ACTIVE
+                                        ? 'bg-green-500'
+                                        : account?.userStatus ==
+                                          UserStatus.INACTIVE
+                                        ? 'bg-red-500'
+                                        : null
+                                } `}
+                            ></div>
+                            <span
+                                style={{
+                                    color: UserStatusColor[account?.userStatus],
+                                }}
+                            >
+                                {t(UserStatusName[account?.userStatus])}
+                            </span>
+                        </>
+                    )}
                 </div>
             ),
             lg: 6,

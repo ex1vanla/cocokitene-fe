@@ -1,9 +1,10 @@
 /* eslint-disable */
-export enum RoleName {
-    SUPER_ADMIN = 'SUPER_ADMIN',
-    ADMIN = 'ADMIN',
-    SHAREHOLDER = 'SHAREHOLDER',
-    USER = 'USER',
+
+export enum RoleId {
+    USER = 1,
+    ADMIN = 2,
+    SHAREHOLDER = 3,
+    SUPER_ADMIN = 4,
 }
 
 export enum RoleBgHexColors {
@@ -15,10 +16,19 @@ export enum RoleBgHexColors {
 }
 
 export const RoleBgColor: {
-    [key in string]: string
+    [key in number]: string
 } = {
-    [RoleName.SUPER_ADMIN]: RoleBgHexColors.SUPER_ADMIN,
-    [RoleName.ADMIN]: RoleBgHexColors.ADMIN,
-    [RoleName.SHAREHOLDER]: RoleBgHexColors.SHAREHOLDER,
-    [RoleName.USER]: RoleBgHexColors.USER,
+    [RoleId.SUPER_ADMIN]: RoleBgHexColors.SUPER_ADMIN,
+    [RoleId.ADMIN]: RoleBgHexColors.ADMIN,
+    [RoleId.SHAREHOLDER]: RoleBgHexColors.SHAREHOLDER,
+    [RoleId.USER]: RoleBgHexColors.USER,
+}
+
+export const UserRoleName: {
+    [key in number]: string
+} = {
+    [RoleId.SUPER_ADMIN]: 'SUPER_ADMIN',
+    [RoleId.ADMIN]: 'ADMIN',
+    [RoleId.SHAREHOLDER]: 'SHAREHOLDER',
+    [RoleId.USER]: 'USER',
 }
