@@ -40,6 +40,7 @@ export const getAllAccount = createAsyncThunk<
                 index: index + 1,
                 username: item.username,
                 avatar: item.avatar,
+                email: item.email,
                 defaultAvatarHashColor: item.defaultAvatarHashColor,
                 walletAddress: item.walletAddress,
                 status: item.userStatus.status,

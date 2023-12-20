@@ -1,7 +1,7 @@
 import { IAccountList } from '@/stores/account/type'
 import { useTranslations } from 'next-intl'
 import Table, { ColumnsType } from 'antd/es/table'
-import { Avatar, Badge, Tooltip, Typography } from 'antd'
+import { Avatar, Badge, Tag, Tooltip, Typography } from 'antd'
 import Link from 'next/link'
 import { useListAccount } from '@/stores/account/hook'
 import { UserStatus } from '@/constants/user-status'
@@ -9,6 +9,9 @@ import { truncateString } from '@/utils/format-string'
 import Color from 'color'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { AvatarBgHexColors, MAX_DISPLAY_ROLES } from '@/constants/common'
+import RoleInfo from '@/components/role-info'
+import { RoleBgColor } from '@/constants/role'
+import React from 'react'
 
 const { Text } = Typography
 const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
@@ -62,7 +65,7 @@ const AccountList = () => {
                     </div>
                 )
             },
-            width: '33%',
+            width: '17%',
         },
         {
             title: t('WALLET_ADDRESS'),
@@ -78,76 +81,77 @@ const AccountList = () => {
                     </>
                 )
             },
-            width: '33%',
+            width: '17%',
+        },
+        {
+            title: t('EMAIL'),
+            dataIndex: 'email',
+            width: '21',
         },
         {
             title: t('ROLES'),
             dataIndex: 'roles',
             render: (_, record) => {
-                const roleNames = record.role.map((item) =>
-                    t(item.role.roleName),
-                )
-                const displayRoleNames = roleNames.slice(0, MAX_DISPLAY_ROLES)
-                const additionalRoleNames = roleNames.slice(MAX_DISPLAY_ROLES)
-                if (additionalRoleNames.length > 0) {
-                    displayRoleNames.push(`+${additionalRoleNames.length}`)
-                }
+                const roles = record.role.map((item) => item.role)
+                const displayRoleNames = roles.slice(0, MAX_DISPLAY_ROLES)
+                const additionalRoleNames = roles.slice(MAX_DISPLAY_ROLES)
                 return (
-                    <Tooltip
-                        placement="topLeft"
-                        title={
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                }}
-                            >
-                                {roleNames.map((role, index) => (
-                                    <span key={index}>{role}</span>
-                                ))}
-                            </div>
-                        }
-                        color={'rgba(81, 81, 229, 1)'}
-                    >
-                        <div className="flex">
-                            {displayRoleNames.map((item, index) => {
-                                return (
-                                    <p
-                                        key={index}
+                    <div className="flex space-x-1">
+                        {displayRoleNames.map((item) => {
+                            return (
+                                <RoleInfo
+                                    key={item.roleName}
+                                    roleName={t(item.roleName)}
+                                    defaultRoleHashColor={
+                                        RoleBgColor[item.roleName]
+                                    }
+                                />
+                            )
+                        })}
+                        {additionalRoleNames.length > 0 && (
+                            <Tooltip
+                                color="white"
+                                placement="topRight"
+                                title={
+                                    <div
                                         style={{
-                                            position: 'relative',
-                                            zIndex:
-                                                displayRoleNames.length - index,
-                                            marginLeft:
-                                                index > 0 ? '-6px' : '0',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            backgroundColor: 'white',
                                         }}
+                                        className="space-y-1"
                                     >
-                                        <Avatar
-                                            style={{
-                                                backgroundColor:
-                                                    backgroundAvatarColor,
-                                                verticalAlign: 'middle',
-                                                color: 'white',
-                                                border: '2px solid white',
-                                            }}
-                                            className="flex h-8 w-8 cursor-pointer items-center pt-[-3px]"
-                                            size="small"
-                                        >
-                                            {item.length > 2
-                                                ? getFirstCharacterUpperCase(
-                                                      item,
-                                                  )
-                                                : item}
-                                        </Avatar>
-                                    </p>
-                                )
-                            })}
-                        </div>
-                    </Tooltip>
+                                        {additionalRoleNames.map((item) => (
+                                            <RoleInfo
+                                                key={item.roleName}
+                                                roleName={t(item.roleName)}
+                                                defaultRoleHashColor={
+                                                    RoleBgColor[item.roleName]
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                }
+                            >
+                                <Tag
+                                    className="rounded"
+                                    style={{
+                                        marginLeft: '1px',
+                                        backgroundColor: 'black',
+                                        color: 'white',
+                                        fontWeight: 500,
+                                    }}
+                                >
+                                    +{additionalRoleNames.length}
+                                </Tag>
+                            </Tooltip>
+                        )}
+                    </div>
                 )
             },
-            width: '11%',
+            width: '22%',
         },
+
         {
             title: t('STATUS'),
             dataIndex: 'status',

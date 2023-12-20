@@ -4,6 +4,7 @@ import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserStatus } from '@/constants/user-status'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
+import { ICompanyStatusResponse } from './system-admin/response.type'
 
 export interface IMeta {
     totalItems: number
@@ -173,6 +174,7 @@ export interface IListAccountResponse {
     id: number
     username: string
     walletAddress: string
+    email: string
     avatar: string
     companyId: number
     defaultAvatarHashColor: string | null
