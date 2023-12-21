@@ -1,6 +1,6 @@
 import { EActionStatus, FetchError } from '@/stores/type'
 import { UserStatus } from '@/constants/user-status'
-
+import { IUserRole as IUserRoleT } from '@/services/response.type'
 
 export interface IUserStatus {
     id: number
@@ -61,7 +61,7 @@ export interface IAccountDetail {
     companyName: string
     userStatusId: number
     userStatus: UserStatus
-    roles: IUserRole[]
+    roles: IUserRoleT[]
 }
 
 export interface IDetailAccountState {

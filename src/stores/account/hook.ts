@@ -1,4 +1,4 @@
-import { IAccountDetail } from './type';
+import { IAccountDetail } from './type'
 import {
     IAccountState,
     IGetAllAccountQuery,
@@ -8,7 +8,7 @@ import { RootState, useAppDispatch, useAppSelector } from '@/stores'
 import { useCallback } from 'react'
 import { getAllAccount, setFilter } from '@/stores/account/listSlice'
 import { getAccountDetail } from './detailSlice'
-import { EActionStatus } from '../type';
+import { EActionStatus } from '../type'
 
 type ListAccountType = {
     accountState: IAccountState
@@ -25,8 +25,8 @@ export const useListAccount = (): ListAccountType => {
     const getListAccountAction = useCallback(
         (data: IGetAllAccountQuery) => {
             dispatch(getAllAccount(data))
-        },[dispatch]
-    
+        },
+        [dispatch],
     )
 
     const setFilterAction = useCallback(
@@ -62,14 +62,6 @@ export function useAccountDetail(): [
         },
         [dispatch],
     )
-
-    const setFilterAction = useCallback(
-        (data: ListParamsFilter) => {
-            dispatch(setFilter(data))
-        },
-        [dispatch],
-    )
-   
     return [
         {
             account,
