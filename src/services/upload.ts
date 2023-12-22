@@ -6,6 +6,7 @@ import {
 } from '@/constants/meeting'
 import { IUploadResponse } from './response.type'
 import axios from 'axios'
+import { AccountFileType, AvatarFileTypeToFolderName } from '@/constants/account'
 // const cookies = new Cookies()
 
 const serviceUpload = {
@@ -35,6 +36,19 @@ const serviceUpload = {
             headers,
         })
 
+        return response.data
+    },
+
+    getPresignedUrlAvatar: async (
+        files: File[],
+        fileType: AccountFileType,
+    ): Promise<IUploadResponse> => {
+        const response: { data: IUploadResponse } = await get('/s3', {
+            meetingFiles: files.map((file) => ({
+                fileName: file.name,
+                fileType: AvatarFileTypeToFolderName[fileType],
+            })),
+        })
         return response.data
     },
 }
