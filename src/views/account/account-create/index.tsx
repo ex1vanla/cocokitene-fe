@@ -57,6 +57,7 @@ const CreateAccount = () => {
         const userRolesArr = userRoleList
             .filter((item) => values.roleIds.includes(item.roleName))
             .map((item) => item.id)
+
         try {
             const res = await serviceAccount.createAccount({
                 email: values.email,
