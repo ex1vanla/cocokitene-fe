@@ -1,12 +1,11 @@
 import { IGetAllAccountQuery } from '@/stores/account/type'
 import { IAccountDetailResponse } from './response.type'
-
 import {
     ICreateAccountPayload,
     IGetAllDataReponse,
     IListAccountResponse,
 } from '@/services/response.type'
-import { get, post } from '@/services/fetcher'
+import { get, patch, post } from '@/services/fetcher'
 
 const serviceAccount = {
     getAllUsers: async ({
@@ -29,6 +28,13 @@ const serviceAccount = {
     },
     createAccount: async (payload: ICreateAccountPayload) => {
         const response = await post<any>('/users', payload)
+        return response.data
+    },
+    updateAccount: async (
+        accountId: number,
+        payload: ICreateAccountPayload,
+    ) => {
+        const response = await patch<any>(`/users/${accountId}`, payload)
         return response.data
     },
 }
