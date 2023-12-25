@@ -24,3 +24,14 @@ export function truncateString({
     const endText = text.substr(textLength - end)
     return `${startText}${separator}${endText}`
 }
+
+export function convertSnakeCaseToTitleCase(value: string): string {
+    if (!value) {
+        return value
+    }
+
+    return value
+        .split('_')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ')
+}

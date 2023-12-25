@@ -284,3 +284,8 @@ export interface IUpdateProfile {
     phone: string
     avatar?: string
 }
+export interface IPermissionResponse {
+    id: number,
+    key: string,
+    description?: string,
+}

@@ -1,12 +1,13 @@
 import ListTitle from '@/components/content-page-title/list-title'
 import { useSettingRole } from '@/stores/setting-role/hooks'
 import { EditOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
-import Checkbox from 'antd/es/checkbox/Checkbox'
+import { Button, notification } from 'antd'
+import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
 import Table, { ColumnsType } from 'antd/es/table'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import ModalRegisterRole from './modal-register-role'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 interface DataType {
     namePermission: string
     [key: string]: any
@@ -14,18 +15,52 @@ interface DataType {
 
 const datatest = {
     create_account: {
-        admin: 1,
-        member: 0,
+        super_admin: 1,
+        admin: 0,
         shareholder: 1,
-        sponsor: 1,
-        export: 0,
+        user: 1,
     },
     edit_account: {
+        super_admin: 1,
         admin: 1,
-        member: 0,
+        shareholder: 0,
+        user: 0,
+    },
+    detail_account: {
+        super_admin: 1,
+        admin: 0,
+        shareholder: 0,
+        user: 0,
+    },
+    list_account: {
+        super_admin: 1,
+        admin: 1,
         shareholder: 1,
-        sponsor: 0,
-        export: 0,
+        user: 1,
+    },
+    create_company: {
+        super_admin: 1,
+        admin: 0,
+        shareholder: 0,
+        user: 0,
+    },
+    edit_company: {
+        super_admin: 1,
+        admin: 1,
+        shareholder: 1,
+        user: 1,
+    },
+    detail_company: {
+        super_admin: 1,
+        admin: 0,
+        shareholder: 0,
+        user: 0,
+    },
+    list_company: {
+        super_admin: 1,
+        admin: 1,
+        shareholder: 1,
+        user: 1,
     },
 }
 
@@ -45,6 +80,7 @@ const SettingRoleView = () => {
                 const permissionKey = item as keyof typeof datatest
                 const valueKey =
                     key as keyof (typeof datatest)[typeof permissionKey]
+                console.log('check valueKey', valueKey)
                 initialCheckboxState[permissionKey][valueKey] =
                     permissionData[valueKey] === 1
             })
@@ -57,12 +93,11 @@ const SettingRoleView = () => {
 
     const handleSelectChange = () => {}
 
-    const result = Object.entries(datatest).map(([namePermission, values]) => ({
-        namePermission,
-        ...values,
-    }))
-
-    const onChange = (namePermission: string, key: string) => {
+    const onChange = (
+        namePermission: string,
+        key: string,
+        e: CheckboxChangeEvent,
+    ) => {
         const updatedCheckboxState = { ...checkboxState }
 
         updatedCheckboxState[namePermission] = {
@@ -73,23 +108,36 @@ const SettingRoleView = () => {
         setCheckboxState(updatedCheckboxState)
     }
 
+    const handleEditRolePerrmisson = () => {
+        notification.success({
+            message: 'Success',
+        })
+        setClickButtonEdit(!clickButtonEdit)
+    }
+
+    const result = Object.entries(datatest).map(([namePermission, values]) => ({
+        namePermission,
+        ...values,
+    }))
+
     const columnData = Object.keys(Object.values(datatest)[0]).map((item) => ({
-        title: item,
+        title: convertSnakeCaseToTitleCase(item),
         dataIndex: item,
         render: (values: any, record: any): JSX.Element => (
             <Checkbox
                 style={{ pointerEvents: !clickButtonEdit ? 'none' : 'auto' }}
                 checked={checkboxState[record.namePermission]?.[item]}
-                onChange={() => onChange(record.namePermission, item)}
+                onChange={(e) => onChange(record.namePermission, item, e)}
             />
         ),
+        width: '20%',
     }))
 
     const columns: ColumnsType<DataType> = [
         {
             title: '',
             dataIndex: 'namePermission',
-            render: (text: string) => <a>{text}</a>,
+            render: (text: string) => <>{convertSnakeCaseToTitleCase(text)} </>,
         },
         ...columnData,
     ]
@@ -99,7 +147,7 @@ const SettingRoleView = () => {
     return (
         <div>
             <ListTitle
-                pageName={t('SETTING_ROLE')}
+                pageName={'Setting Role'}
                 addButton={
                     <Button
                         type="primary"
@@ -111,26 +159,35 @@ const SettingRoleView = () => {
                     </Button>
                 }
                 editButton={
-                    <Button
-                        type={!clickButtonEdit ? 'primary' : 'default'}
-                        icon={
-                            !clickButtonEdit ? (
-                                <EditOutlined />
-                            ) : (
-                                <SaveOutlined />
-                            )
-                        }
-                        size="large"
-                        onClick={() => setClickButtonEdit(!clickButtonEdit)}
-                    >
-                        {!clickButtonEdit ? 'Edit' : 'Save'}
-                    </Button>
+                    <>
+                        {!clickButtonEdit ? (
+                            <Button
+                                type={'primary'}
+                                icon={<EditOutlined />}
+                                size="large"
+                                onClick={() =>
+                                    setClickButtonEdit(!clickButtonEdit)
+                                }
+                            >
+                                Edit
+                            </Button>
+                        ) : (
+                            <Button
+                                type={'default'}
+                                icon={<SaveOutlined />}
+                                size="large"
+                                onClick={() => handleEditRolePerrmisson()}
+                            >
+                                Save
+                            </Button>
+                        )}
+                    </>
                 }
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
             />
             <div className="p-6">
-                <Table columns={columns} dataSource={data} />
+                <Table columns={columns} dataSource={data} rowKey="id" />
             </div>
             <ModalRegisterRole />
         </div>

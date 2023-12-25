@@ -139,7 +139,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     pageSize: companyState.limit,
                     defaultCurrent: companyState.page,
                     total: companyState.totalCompanyItem,
-                    onChange: handlePageChange,
+                    onChange: handlePageChange
                 }}
             />
         </div>
