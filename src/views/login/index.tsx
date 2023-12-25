@@ -1,7 +1,7 @@
 import { useNotification } from '@/hooks/use-notification'
 import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
 import { EActionStatus } from '@/stores/type'
-import { Button, Form, Input, Typography } from 'antd'
+import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -74,6 +74,7 @@ const Login = () => {
                         onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
+                            className="font-bold"
                             name="email"
                             label={t('EMAIL')}
                             rules={[
@@ -84,9 +85,10 @@ const Login = () => {
                                 },
                             ]}
                         >
-                            <Input size="large" />
+                            <Input size="large" className="font-normal" />
                         </Form.Item>
                         <Form.Item
+                            className="font-bold"
                             name="password"
                             label={t('PASSWORD')}
                             rules={[
@@ -96,8 +98,18 @@ const Login = () => {
                                     message: 'Please input your Password!',
                                 },
                             ]}
+                            style={{ marginBottom: '10px' }}
                         >
-                            <Input.Password size="large" />
+                            <Input.Password
+                                size="large"
+                                className="font-normal"
+                            />
+                        </Form.Item>
+
+                        <Form.Item style={{ marginBottom: '10px' }}>
+                            <a className="login-form-forgot" href="">
+                                Forgot password?
+                            </a>
                         </Form.Item>
 
                         <Form.Item wrapperCol={{ span: 24 }}>
@@ -110,6 +122,16 @@ const Login = () => {
                                 {t('SUBMIT')}
                             </Button>
                         </Form.Item>
+
+                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            Don’t have an account yet?{' '}
+                            <a
+                                href="#"
+                                className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
+                            >
+                                Sign up
+                            </a>
+                        </p>
                     </Form>
                 </div>
             </div>
