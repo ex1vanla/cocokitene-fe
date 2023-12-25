@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import {
+    ClusterOutlined,
     DashboardOutlined,
     RadarChartOutlined,
     SettingOutlined,
@@ -23,7 +24,7 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
     },
     {
         icon: VideoCameraOutlined,
-        label: 'MEETINGS',
+        label: 'SHAREHOLDERS_MEETINGS',
         key: '/meeting',
     },
     {
@@ -40,6 +41,11 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: SettingOutlined,
         label: 'SETTING_ROLES',
         key: '/setting-role',
+    },
+    {
+        icon: ClusterOutlined,
+        label: 'BOARD_MEETINGS',
+        key: '/board-meetings',
     },
 ]
 
