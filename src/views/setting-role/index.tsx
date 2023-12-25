@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import ModalRegisterRole from './modal-register-role'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
+import { FETCH_STATUS } from '@/constants/common'
 interface DataType {
     namePermission: string
     [key: string]: any
@@ -17,8 +18,8 @@ const datatest = {
     create_account: {
         super_admin: 1,
         admin: 0,
-        shareholder: 1,
-        user: 1,
+        shareholder: 0,
+        user: 0,
     },
     edit_account: {
         super_admin: 1,
@@ -52,13 +53,13 @@ const datatest = {
     },
     detail_company: {
         super_admin: 1,
-        admin: 0,
+        admin: 1,
         shareholder: 0,
         user: 0,
     },
     list_company: {
         super_admin: 1,
-        admin: 1,
+        admin: 0,
         shareholder: 1,
         user: 1,
     },
@@ -68,25 +69,25 @@ const SettingRoleView = () => {
     const { setOpenModal } = useSettingRole()
     const [clickButtonEdit, setClickButtonEdit] = useState<boolean>(false)
     const [checkboxState, setCheckboxState] = useState<any>({})
+    const [widthRoleColumn, setWidthRoleColumn] = useState<string>("20%");
+    const [isLoading, setIsLoading] = useState<FETCH_STATUS>(FETCH_STATUS.IDLE);
     const t = useTranslations()
 
     useEffect(() => {
         const initialCheckboxState: any = {}
-        Object.keys(datatest).forEach((item) => {
+        Object.entries(datatest).forEach(([item, permissionData]) => {
             initialCheckboxState[item] = {}
-            const permissionData = datatest[item as keyof typeof datatest]
 
-            Object.keys(permissionData).forEach((key) => {
-                const permissionKey = item as keyof typeof datatest
-                const valueKey =
-                    key as keyof (typeof datatest)[typeof permissionKey]
-                console.log('check valueKey', valueKey)
-                initialCheckboxState[permissionKey][valueKey] =
-                    permissionData[valueKey] === 1
+            Object.entries(permissionData).forEach(([key, value]) => {
+                initialCheckboxState[item][key] = value === 1
             })
         })
+        setCheckboxState(initialCheckboxState);
 
-        setCheckboxState(initialCheckboxState)
+        const totalRoleColumn = Object.keys(Object.values(datatest)[0]).length;
+        const widthRolesColumn = 80; //default 80%
+        setWidthRoleColumn(`${(widthRolesColumn / totalRoleColumn).toFixed(2)}%`);
+        setIsLoading(FETCH_STATUS.SUCCESS);
     }, [])
 
     const handleInputChange = () => {}
@@ -130,7 +131,7 @@ const SettingRoleView = () => {
                 onChange={(e) => onChange(record.namePermission, item, e)}
             />
         ),
-        width: '20%',
+        width: widthRoleColumn,
     }))
 
     const columns: ColumnsType<DataType> = [
@@ -187,7 +188,12 @@ const SettingRoleView = () => {
                 onChangeSelect={handleSelectChange}
             />
             <div className="p-6">
-                <Table columns={columns} dataSource={data} rowKey="id" />
+                <Table
+                    columns={columns}
+                    dataSource={data}
+                    rowKey={(record) => record.namePermission}
+                    loading={isLoading != FETCH_STATUS.SUCCESS}
+                />
             </div>
             <ModalRegisterRole />
         </div>
