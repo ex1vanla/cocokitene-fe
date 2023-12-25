@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import {
+    BookOutlined,
     ClusterOutlined,
     DashboardOutlined,
     RadarChartOutlined,
@@ -23,6 +24,16 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         key: '/dashboard',
     },
     {
+        icon: SettingOutlined,
+        label: 'SETTING_ROLES',
+        key: '/setting-role',
+    },
+    {
+        icon: ClusterOutlined,
+        label: 'BOARD_MEETINGS',
+        key: '/board-meetings',
+    },
+    {
         icon: VideoCameraOutlined,
         label: 'SHAREHOLDERS_MEETINGS',
         key: '/meeting',
@@ -37,16 +48,6 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         label: 'SHAREHOLDERS',
         key: '/shareholder',
     },
-    {
-        icon: SettingOutlined,
-        label: 'SETTING_ROLES',
-        key: '/setting-role',
-    },
-    {
-        icon: ClusterOutlined,
-        label: 'BOARD_MEETINGS',
-        key: '/board-meetings',
-    },
 ]
 
 export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
@@ -59,6 +60,11 @@ export const SIDEBAR_ITEMS_SYSTEM: ISidebarItem[] = [
         icon: RadarChartOutlined,
         label: 'LIST_COMPANY',
         key: '/company',
+    },
+    {
+        icon: BookOutlined,
+        label: 'SERVICE_PLAN',
+        key: '/plan',
     },
 ]
 
