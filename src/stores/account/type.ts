@@ -1,4 +1,6 @@
 import { EActionStatus, FetchError } from '@/stores/type'
+import { UserStatus } from '@/constants/user-status'
+import { IUserRole as IUserRoleT } from '@/services/response.type'
 
 export interface IUserStatus {
     id: number
@@ -47,4 +49,23 @@ export interface IAccountState extends IGetAllAccountQuery, FetchError {
     status: EActionStatus
     accountList: IAccountList[]
     totalAccountItem: number
+}
+
+export interface IAccountDetail {
+    userName: string
+    email: string
+    walletAddress: string
+    avatar: string
+    defaultAvatarHashColor: string | null
+    companyId: number
+    companyName: string
+    userStatusId: number
+    userStatus: UserStatus
+    roles: IUserRoleT[]
+}
+
+export interface IDetailAccountState {
+    status: EActionStatus
+    account?: IAccountDetail
+    error?: FetchError
 }

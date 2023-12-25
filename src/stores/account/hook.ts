@@ -1,3 +1,4 @@
+import { IAccountDetail } from './type'
 import {
     IAccountState,
     IGetAllAccountQuery,
@@ -6,6 +7,8 @@ import {
 import { RootState, useAppDispatch, useAppSelector } from '@/stores'
 import { useCallback } from 'react'
 import { getAllAccount, setFilter } from '@/stores/account/listSlice'
+import { getAccountDetail } from './detailSlice'
+import { EActionStatus } from '../type'
 
 type ListAccountType = {
     accountState: IAccountState
@@ -32,9 +35,38 @@ export const useListAccount = (): ListAccountType => {
         },
         [dispatch],
     )
+
     return {
         accountState,
         getListAccountAction,
         setFilterAction,
     }
+}
+
+export function useAccountDetail(): [
+    {
+        account: IAccountDetail | undefined
+        status: EActionStatus
+    },
+    // eslint-disable-next-line
+    (accountId: number) => void,
+] {
+    const dispatch = useAppDispatch()
+    const { account, status } = useAppSelector(
+        (state: RootState) => state.accountDetail,
+    )
+
+    const fetchAccountDetail = useCallback(
+        (accountId: number) => {
+            dispatch(getAccountDetail(accountId))
+        },
+        [dispatch],
+    )
+    return [
+        {
+            account,
+            status,
+        },
+        fetchAccountDetail,
+    ]
 }
