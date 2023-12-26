@@ -250,6 +250,7 @@ const UpdateAccount = () => {
 
     const onFinish = async (values: IAccountUpdateForm) => {
         setStatus(FETCH_STATUS.LOADING)
+        console.log('Account Information :', values)
         let urlAvatar: string = initAccount?.avatar || ''
         const userRolesArr = roleList
             .filter((role) => values.roleIds.includes(role.roleName))
