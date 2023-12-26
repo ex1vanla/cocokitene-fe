@@ -9,6 +9,7 @@ import { Button, Input, Typography, Upload, UploadFile } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
 import { ChangeEvent, useState } from 'react'
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
 
 const { Text } = Typography
 const { TextArea } = Input
@@ -51,16 +52,20 @@ const CreateResolutionItem = ({
         errorUniqueFile: boolean
     }>({ fileList: fileList, errorUniqueFile: false })
 
-    const onUpload = async (file: RcFile) => {
+    const onUpload = async ({ file }: RcCustomRequestOptions) => {
         try {
-            const res = await serviceUpload.upload(
-                [file],
+            const res = await serviceUpload.getPresignedUrl(
+                [file as File],
                 MeetingFileType.PROPOSAL_FILES,
             )
-            return res.uploadUrls[0]
-        } catch (error) {
-            return ''
-        }
+            await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+
+            onAddFile &&
+                onAddFile({
+                    url: res.uploadUrls[0].split('?')[0],
+                    uid: (file as RcFile).uid,
+                })
+        } catch (error) {}
     }
     const onFileChange = (info: UploadChangeParam<UploadFile>) => {
         if (info.file.status === 'done') {
@@ -167,9 +172,9 @@ const CreateResolutionItem = ({
                         onChange={onFileChange}
                         fileList={fileData.fileList}
                         beforeUpload={validateFile}
-                        multiple={true}
-                        method="PUT"
-                        action={onUpload}
+                        // multiple={true}
+                        // method="PUT"
+                        customRequest={onUpload}
                         accept={ACCEPT_FILE_TYPES}
                         name="proposal-files"
                     >

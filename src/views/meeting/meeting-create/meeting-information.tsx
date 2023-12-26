@@ -4,6 +4,7 @@ import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
 import serviceUpload from '@/services/upload'
 import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import { UploadOutlined } from '@ant-design/icons'
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
 import {
     Button,
     Col,
@@ -60,14 +61,32 @@ const MeetingInformation = () => {
         })
     }
     const onUpload =
-        (name: string, fileType: MeetingFileType) => async (file: RcFile) => {
+        (
+            name: 'meetingInvitations' | 'meetingMinutes',
+            fileType: MeetingFileType,
+        ) =>
+        async ({ file }: RcCustomRequestOptions) => {
             try {
-                const res = await serviceUpload.upload([file], fileType)
-                return res.uploadUrls[0]
-            } catch (error) {
-                return ''
-            }
+                const res = await serviceUpload.getPresignedUrl(
+                    [file as File],
+                    fileType,
+                )
+                await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+                const values = data[name]
+                setData({
+                    ...data,
+                    [name]: [
+                        ...values,
+                        {
+                            url: res.uploadUrls[0].split('?')[0],
+                            fileType,
+                            uid: (file as RcFile).uid,
+                        },
+                    ],
+                })
+            } catch (error) {}
         }
+
     const onFileChange =
         (
             name: 'meetingInvitations' | 'meetingMinutes',
@@ -75,6 +94,7 @@ const MeetingInformation = () => {
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
             console.log(info)
+
             if (info.file.status === 'done') {
                 const url = info.file?.xhr?.responseURL
                 if (url) {
@@ -243,9 +263,13 @@ const MeetingInformation = () => {
                                 beforeUpload={validateFile(
                                     'meetingInvitations',
                                 )}
-                                multiple={true}
-                                method="PUT"
-                                action={onUpload(
+                                // multiple={true}
+                                // method="PUT"
+                                // action={onUpload(
+                                //     'meetingInvitations',
+                                //     MeetingFileType.MEETING_INVITATION,
+                                // )}
+                                customRequest={onUpload(
                                     'meetingInvitations',
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
@@ -284,10 +308,10 @@ const MeetingInformation = () => {
                                 )}
                                 fileList={fileData.meetingMinutes.fileList}
                                 beforeUpload={validateFile('meetingMinutes')}
-                                multiple={true}
-                                method="PUT"
+                                // multiple={true}
+                                // method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
-                                action={onUpload(
+                                customRequest={onUpload(
                                     'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
