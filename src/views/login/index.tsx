@@ -1,9 +1,10 @@
 import { useNotification } from '@/hooks/use-notification'
 import { useAuthAdminLogin } from '@/stores/auth-admin/hooks'
 import { EActionStatus } from '@/stores/type'
-import { Button, Checkbox, Form, Input, Typography } from 'antd'
+import { Button, Form, Input, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 const { Text } = Typography
@@ -74,7 +75,7 @@ const Login = () => {
                         onFinishFailed={onFinishFailed}
                     >
                         <Form.Item
-                            className="font-bold"
+                            className="font-semibold"
                             name="email"
                             label={t('EMAIL')}
                             rules={[
@@ -88,7 +89,7 @@ const Login = () => {
                             <Input size="large" className="font-normal" />
                         </Form.Item>
                         <Form.Item
-                            className="font-bold"
+                            className="font-semibold"
                             name="password"
                             label={t('PASSWORD')}
                             rules={[
@@ -107,12 +108,15 @@ const Login = () => {
                         </Form.Item>
 
                         <Form.Item style={{ marginBottom: '10px' }}>
-                            <a className="login-form-forgot" href="">
-                                Forgot password?
-                            </a>
+                            <Link className="login-form-forgot" href="/meeting">
+                                {t('FORGOT_PASSWORD')}
+                            </Link>
                         </Form.Item>
 
-                        <Form.Item wrapperCol={{ span: 24 }}>
+                        <Form.Item
+                            wrapperCol={{ span: 24 }}
+                            style={{ marginBottom: '10px' }}
+                        >
                             <Button
                                 size="large"
                                 type="primary"
@@ -124,13 +128,13 @@ const Login = () => {
                         </Form.Item>
 
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Don’t have an account yet?{' '}
-                            <a
+                            {t('DONT_HAVE_AN_ACCOUNT_YET')}{' '}
+                            <Link
                                 href="#"
                                 className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
                             >
-                                Sign up
-                            </a>
+                                {t('SIGN_UP')}
+                            </Link>
                         </p>
                     </Form>
                 </div>
