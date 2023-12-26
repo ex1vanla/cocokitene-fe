@@ -220,8 +220,8 @@ const AccountInformation = ({ form, getUrlAvatar }: AccountInfoProp) => {
                 </Col>
                 <Col xs={24} lg={12}>
                     <Form.Item
-                        name="walletAddress"
-                        label={t('WALLET_ADDRESS')}
+                        name="username"
+                        label={t('USERNAME')}
                         rules={[{ required: true }]}
                         className="mb-0"
                     >
@@ -299,6 +299,16 @@ const AccountInformation = ({ form, getUrlAvatar }: AccountInfoProp) => {
                     </Form.Item>
                 </Col>
                 <Col xs={24} lg={12}>
+                    <Form.Item
+                        name="walletAddress"
+                        label={t('WALLET_ADDRESS')}
+                        rules={[{ required: true }]}
+                        className="mb-0"
+                    >
+                        <Input size="large" />
+                    </Form.Item>
+                </Col>
+                <Col xs={24} lg={24}>
                     <Form.Item
                         name="avatar"
                         label={t('AVATAR')}
