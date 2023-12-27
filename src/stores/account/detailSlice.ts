@@ -23,6 +23,7 @@ export const getAccountDetail = createAsyncThunk<
             userName: accountDetail.username,
             email: accountDetail.email,
             walletAddress: accountDetail.walletAddress,
+            phone: accountDetail.phone,
             avatar: accountDetail.avatar,
             defaultAvatarHashColor: accountDetail.defaultAvatarHashColor,
             companyId: accountDetail.company.id,
