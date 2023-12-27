@@ -252,6 +252,7 @@ const UpdateAccount = () => {
         setStatus(FETCH_STATUS.LOADING)
         console.log('Account Information :', values)
         let urlAvatar: string = initAccount?.avatar || ''
+
         const userRolesArr = roleList
             .filter((role) => values.roleIds.includes(role.roleName))
             .map((item) => item.id)

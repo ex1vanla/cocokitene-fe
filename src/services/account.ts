@@ -30,6 +30,7 @@ const serviceAccount = {
         const response = await post<any>('/users', payload)
         return response.data
     },
+
     updateAccount: async (
         accountId: number,
         payload: ICreateAccountPayload,
@@ -38,7 +39,5 @@ const serviceAccount = {
         return response.data
     },
 }
-
-
 
 export default serviceAccount

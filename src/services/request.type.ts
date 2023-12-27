@@ -40,3 +40,14 @@ export interface IGetAllDataRequest {
     page: number
     limit: number
 }
+
+export interface ICreateAccountPayload {
+    email: string
+    username: string
+    walletAddress: string
+    shareQuantity?: number
+    phone: string
+    roleIds: number[]
+    statusId: number
+    avatar?: string
+}
