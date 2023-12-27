@@ -78,10 +78,10 @@ export interface IUserRole {
 
 interface AccountInfoProp {
     form: FormInstance<IAccountCreateForm>
-    getUrlAvatar: (a: string) => void
+    getFileAvatar: (a: { file: string | Blob | RcFile; flag: boolean }) => void
 }
 
-const AccountInformation = ({ form, getUrlAvatar }: AccountInfoProp) => {
+const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     const [userStatusList, setUserStatusList] = useState<IUserStatus[]>([])
     const [userRoleList, setUserRoleList] = useState<IUserRole[]>([])
     const [selectedItems, setSelectedItems] = useState<string[]>([])
@@ -149,19 +149,13 @@ const AccountInformation = ({ form, getUrlAvatar }: AccountInfoProp) => {
     const onUpload =
         (name: 'avatarAccount', fileType: AccountFileType) =>
         async ({ file }: RcCustomRequestOptions) => {
-            try {
-                const res = await serviceUpload.getPresignedUrlAvatar(
-                    [file as File],
-                    fileType,
-                )
-                await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
-                getUrlAvatar(res.uploadUrls[0].split('?')[0])
-            } catch (error) {}
+            // console.log('file :', file)
+            getFileAvatar({ file: file, flag: true })
         }
 
     useEffect(() => {
         if (fileList.length == 0) {
-            getUrlAvatar('')
+            getFileAvatar({ file: '', flag: false })
         }
     }, [JSON.stringify(fileList)])
 
@@ -278,7 +272,6 @@ const AccountInformation = ({ form, getUrlAvatar }: AccountInfoProp) => {
                         className="mb-0"
                     >
                         <Select
-                            // placeholder={t('SELECT_USER_STATUS')}
                             size="large"
                             style={{ width: '100%' }}
                             options={userStatusList.map((status) => ({

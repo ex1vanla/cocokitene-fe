@@ -13,6 +13,9 @@ import { useRouter } from 'next/navigation'
 import serviceAccount from '@/services/account'
 import { Permissions } from '@/constants/permission'
 import withAuth from '@/components/component-auth'
+import { RcFile } from 'antd/es/upload'
+import serviceUpload from '@/services/upload'
+import { AccountFileType } from '@/constants/account'
 
 export interface IAccountCreateForm {
     companyName: string
@@ -28,15 +31,21 @@ export interface IAccountCreateForm {
 
 const CreateAccount = () => {
     const t = useTranslations()
-    const [urlAvatar, setUrlAvatar] = useState<string>('')
     const [form] = useForm<IAccountCreateForm>()
     const router = useRouter()
 
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
     const [userRoleList, setUserRoleList] = useState<IUserRole[]>([])
+    const [avatarInfo, setAvatarInfo] = useState<{
+        file: string | Blob | RcFile
+        flag: boolean
+    }>()
 
-    const getUrlAvatar = (value: string) => {
-        setUrlAvatar(value)
+    const getFileAvatar = (value: {
+        file: string | Blob | RcFile
+        flag: boolean
+    }) => {
+        setAvatarInfo(value)
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -52,14 +61,27 @@ const CreateAccount = () => {
     }, [])
 
     const onFinish = async (values: IAccountCreateForm) => {
+        let urlAvatar: string = ''
         setStatus(FETCH_STATUS.LOADING)
-
         const userRolesArr = userRoleList
             .filter((item) => values.roleIds.includes(item.roleName))
             .map((item) => item.id)
 
         try {
-            const res = await serviceAccount.createAccount({
+            if (avatarInfo?.flag) {
+                const res = await serviceUpload.getPresignedUrlAvatar(
+                    [avatarInfo?.file as File],
+                    AccountFileType.AVATAR,
+                    values.companyName + '_' + values.username + '-',
+                )
+                await serviceUpload.uploadFile(
+                    avatarInfo?.file as File,
+                    res.uploadUrls[0],
+                )
+                urlAvatar = res.uploadUrls[0].split('?')[0]
+            }
+
+            const response = await serviceAccount.createAccount({
                 email: values.email,
                 username: values.username,
                 walletAddress: values.walletAddress,
@@ -69,7 +91,7 @@ const CreateAccount = () => {
                 avatar: urlAvatar,
             })
 
-            if (res) {
+            if (response) {
                 notification.success({
                     message: t('CREATED'),
                     description: t('CREATED_COMPANY_SUCCESSFULLY'),
@@ -101,7 +123,7 @@ const CreateAccount = () => {
                 }
             />
             <div className="gap-6 p-6">
-                <AccountInformation form={form} getUrlAvatar={getUrlAvatar} />
+                <AccountInformation form={form} getFileAvatar={getFileAvatar} />
             </div>
         </Form>
     )
