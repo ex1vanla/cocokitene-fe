@@ -81,7 +81,6 @@ const AccountInfo = () => {
                             alt="avatar-alt"
                             size="small"
                             style={{
-                                backgroundColor: backgroundAvatarColor,
                                 verticalAlign: 'middle',
                             }}
                         />
