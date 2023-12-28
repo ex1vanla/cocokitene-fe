@@ -14,9 +14,7 @@ import { RoleBgColor } from '@/constants/role'
 import React from 'react'
 
 const { Text } = Typography
-const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
-    .lighten(0.6)
-    .hex()
+
 const AccountList = () => {
     const t = useTranslations()
     const { accountState, getListAccountAction } = useListAccount()
@@ -40,14 +38,17 @@ const AccountList = () => {
                                 alt="avatar-alt"
                                 size="small"
                                 style={{
-                                    backgroundColor: backgroundAvatarColor,
                                     verticalAlign: 'middle',
                                 }}
                             />
                         ) : (
                             <Avatar
                                 style={{
-                                    backgroundColor: backgroundAvatarColor,
+                                    backgroundColor: Color(
+                                        record?.defaultAvatarHashColor || AvatarBgHexColors.GOLDEN_PURPLE,
+                                    )
+                                        .lighten(0.6)
+                                        .hex(),
                                     verticalAlign: 'middle',
                                     color: AvatarBgHexColors.GOLDEN_PURPLE,
                                 }}
