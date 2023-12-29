@@ -171,15 +171,17 @@ export interface IRoleResponse {
     description: string
 }
 export interface IListAccountResponse {
-    id: number
-    username: string
-    walletAddress: string
-    email: string
-    avatar: string
-    companyId: number
-    defaultAvatarHashColor: string | null
-    userStatus: IUserStatusResponse
-    userRole: IRoleResponse[]
+    users_id: number
+    users_username: string
+    users_wallet_address: string
+    users_email: string
+    users_avartar: string
+    users_company_id: number
+    users_defaultAvatarHashColor: string | null
+    userStatus_id: number
+    userStatus_status: string
+    userStatus_description: string
+    listRoleResponse: string
 }
 
 export interface ICompanyDetailResponse {

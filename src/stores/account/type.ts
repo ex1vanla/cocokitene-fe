@@ -30,7 +30,7 @@ export interface IAccountList {
     walletAddress: string
     defaultAvatarHashColor: string | null
     status: string
-    role: IUserRole[]
+    role: string
 }
 
 export interface ListParamsFilter {
