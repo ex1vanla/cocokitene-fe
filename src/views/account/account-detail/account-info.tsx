@@ -31,8 +31,44 @@ const AccountInfo = () => {
                     {account?.companyName || ''}
                 </p>
             ),
-            lg: 3,
+            lg: 6,
         },
+        {
+            label: 'PHONE',
+            content: (
+                <p className="truncate hover:text-clip">
+                    {account?.phone || ''}
+                </p>
+            ),
+            lg: 6,
+        },
+        {
+            label: 'ROLE',
+            content: (
+                <div className="mt-[-2px] flex gap-1 truncate hover:text-clip">
+                    {account?.roles.map((item) => (
+                        <RoleInfo
+                            key={item.id}
+                            roleName={t(item.roleName)}
+                            defaultRoleHashColor={RoleBgColor[item.roleName]}
+                        />
+                    ))}
+                </div>
+            ),
+            lg: 6,
+        },
+        {
+            label: 'WALLET_ADDRESS',
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {account?.walletAddress || ''}
+                </p>
+            ),
+            lg: 6,
+        },
+    ]
+
+    const dataAccountDetailRight: IRowAccountInfo[] = [
         {
             label: 'USERNAME',
             content: account?.userName && (
@@ -45,7 +81,6 @@ const AccountInfo = () => {
                             alt="avatar-alt"
                             size="small"
                             style={{
-                                backgroundColor: backgroundAvatarColor,
                                 verticalAlign: 'middle',
                             }}
                         />
@@ -68,33 +103,7 @@ const AccountInfo = () => {
             ),
             lg: 3,
         },
-        {
-            label: 'ROLE',
-            content: (
-                <div className="mt-[-2px] flex gap-1 truncate hover:text-clip">
-                    {account?.roles.map((item) => (
-                        <RoleInfo
-                            key={item.id}
-                            roleName={t(item.roleName)}
-                            defaultRoleHashColor={RoleBgColor[item.roleName]}
-                        />
-                    ))}
-                </div>
-            ),
-            lg: 3,
-        },
-    ]
 
-    const dataAccountDetailRight: IRowAccountInfo[] = [
-        {
-            label: 'WALLET_ADDRESS',
-            content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {account?.walletAddress || ''}
-                </p>
-            ),
-            lg: 6,
-        },
         {
             label: 'EMAIL',
             content: (
@@ -102,7 +111,7 @@ const AccountInfo = () => {
                     {account?.email || ''}
                 </p>
             ),
-            lg: 6,
+            lg: 3,
         },
         {
             label: 'STATUS',
@@ -131,7 +140,7 @@ const AccountInfo = () => {
                     )}
                 </div>
             ),
-            lg: 6,
+            lg: 3,
         },
     ]
 

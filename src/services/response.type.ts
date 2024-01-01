@@ -219,6 +219,7 @@ export interface IAccountDetailResponse {
     username: string
     email: string
     walletAddress: string
+    phone: string
     avatar: string
     defaultAvatarHashColor: string | null
     company: {
