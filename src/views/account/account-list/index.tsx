@@ -93,7 +93,8 @@ const AccountList = () => {
             title: t('ROLES'),
             dataIndex: 'roles',
             render: (_, record) => {
-                const roles = record.role.map((item) => item.role)
+
+                const roles = record.role.split(",")
                 const displayRoleNames = roles.slice(0, MAX_DISPLAY_ROLES)
                 const additionalRoleNames = roles.slice(MAX_DISPLAY_ROLES)
                 return (
@@ -101,10 +102,10 @@ const AccountList = () => {
                         {displayRoleNames.map((item) => {
                             return (
                                 <RoleInfo
-                                    key={item.roleName}
-                                    roleName={t(item.roleName)}
+                                    key={item}
+                                    roleName={t(item)}
                                     defaultRoleHashColor={
-                                        RoleBgColor[item.roleName]
+                                        RoleBgColor[item]
                                     }
                                 />
                             )
@@ -124,10 +125,10 @@ const AccountList = () => {
                                     >
                                         {additionalRoleNames.map((item) => (
                                             <RoleInfo
-                                                key={item.roleName}
-                                                roleName={t(item.roleName)}
+                                                key={item}
+                                                roleName={t(item)}
                                                 defaultRoleHashColor={
-                                                    RoleBgColor[item.roleName]
+                                                    RoleBgColor[item]
                                                 }
                                             />
                                         ))}

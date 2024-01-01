@@ -2,6 +2,7 @@
 import SelectParticipantGroup from '@/components/participant-selector/select-participant-group'
 import SelectedParticipantList from '@/components/participant-selector/selected-participant-list'
 import { Typography } from 'antd'
+import {UserStatus} from "@/constants/user-status";
 
 const { Text } = Typography
 
@@ -10,6 +11,7 @@ export interface IParticipants {
     avatar?: string
     username: string
     id: number
+    status?: UserStatus.ACTIVE
 }
 
 interface IParticipantSelector {

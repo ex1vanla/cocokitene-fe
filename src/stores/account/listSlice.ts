@@ -36,16 +36,16 @@ export const getAllAccount = createAsyncThunk<
         const data = await serviceAccount.getAllUsers(param)
         const mappedData = data.items.map((item, index) => {
             return {
-                id: item.id,
+                id: item.users_id,
                 index: index + 1,
-                username: item.username,
-                avatar: item.avatar,
-                email: item.email,
-                defaultAvatarHashColor: item.defaultAvatarHashColor,
-                walletAddress: item.walletAddress,
-                status: item.userStatus.status,
-                companyId: item.companyId,
-                role: item.userRole,
+                username: item.users_username,
+                avatar: item.users_avartar,
+                email: item.users_email,
+                defaultAvatarHashColor: item.users_defaultAvatarHashColor,
+                walletAddress: item.users_wallet_address,
+                status: item.userStatus_status,
+                companyId: item.users_company_id,
+                role: item.listRoleResponse,
             }
         }) as unknown as IAccountList[]
         return {
