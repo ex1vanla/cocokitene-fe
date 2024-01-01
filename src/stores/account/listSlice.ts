@@ -17,7 +17,7 @@ const initialState: IAccountState = {
     accountList: [],
     totalAccountItem: 0,
     page: 1,
-    limit: 10,
+    limit: 1000,
     filter: {
         searchQuery: CONSTANT_EMPTY_STRING,
         sortOrder: SORT.DESC,

@@ -36,18 +36,6 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
             key: '1',
             label: (
                 <Link
-                    className="py-[5px] text-sm leading-[22px]"
-                    rel="noopener noreferrer"
-                    href="/role"
-                >
-                    {t('ROLE')}
-                </Link>
-            ),
-        },
-        {
-            key: '2',
-            label: (
-                <Link
                     className="py-[5px] text-sm  leading-[22px]"
                     rel="noopener noreferrer"
                     href="/profile"
@@ -57,19 +45,7 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
             ),
         },
         {
-            key: '3',
-            label: (
-                <Link
-                    className="py-[5px] text-sm  leading-[22px]"
-                    rel="noopener noreferrer"
-                    href="/reset-password"
-                >
-                    {t('RESET_PASSWORD')}
-                </Link>
-            ),
-        },
-        {
-            key: '4',
+            key: '2',
             label: (
                 <div
                     className="py-[5px] text-sm leading-[22px]"

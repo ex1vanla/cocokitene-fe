@@ -35,9 +35,9 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
                 <Link
                     className="py-[5px] text-sm leading-[22px]"
                     rel="noopener noreferrer"
-                    href="/role"
+                    href="/change-password"
                 >
-                    {t('ROLE')}
+                    {t('CHANGE_PASSWORD')}
                 </Link>
             ),
         },
