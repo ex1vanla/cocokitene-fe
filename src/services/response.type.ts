@@ -209,6 +209,11 @@ export interface IUserRole {
     roleName: string
     description: string
 }
+export interface IUserRoleResponse {
+    id: number
+    roleName: string
+    description: string
+}
 
 export interface IAccountDetailResponse {
     username: string
@@ -222,4 +227,14 @@ export interface IAccountDetailResponse {
     }
     userStatus: IUserStatusResponse
     roles: IUserRole[]
+}
+export interface ICreateAccountPayload {
+    email: string
+    username: string
+    walletAddress: string
+    shareQuantity?: number
+    phone: string
+    roleIds: number[]
+    statusId: number
+    avatar?: string | null
 }
