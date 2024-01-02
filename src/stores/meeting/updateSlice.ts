@@ -144,11 +144,11 @@ export const initUpdateMeeting = createAsyncThunk<
             return meetingDetail[role].map(
                 (userMeeting) =>
                     ({
-                        defaultAvatarHashColor: userMeeting.user
+                        users_defaultAvatarHashColor: userMeeting.user
                             .defaultAvatarHashColor as string,
-                        avatar: userMeeting.user.avatar as string,
-                        username: userMeeting.user.username as string,
-                        id: userMeeting.user.id,
+                        users_avartar: userMeeting.user.avatar as string,
+                        users_username: userMeeting.user.username as string,
+                        users_id: userMeeting.user.id,
                     }) as IParticipants,
             )
         }

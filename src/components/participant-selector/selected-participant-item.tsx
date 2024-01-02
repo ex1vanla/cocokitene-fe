@@ -12,21 +12,21 @@ interface ISelectedParticipantItem extends IParticipants {
 }
 
 const SelectedParticipantItem = ({
-    defaultAvatarHashColor,
-    username,
-    avatar,
+    users_defaultAvatarHashColor,
+    users_username,
+    users_avartar,
     onDeleteParticipant,
 }: ISelectedParticipantItem) => {
-    const backgroundAvatarColor = Color(defaultAvatarHashColor)
+    const backgroundAvatarColor = Color(users_defaultAvatarHashColor)
         .lighten(0.6)
         .hex()
 
     return (
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-                {avatar ? (
+                {users_avartar ? (
                     <Avatar
-                        src={avatar}
+                        src={users_avartar}
                         alt="avatar-alt"
                         size="small"
                         style={{
@@ -39,16 +39,16 @@ const SelectedParticipantItem = ({
                         style={{
                             backgroundColor: backgroundAvatarColor,
                             verticalAlign: 'middle',
-                            color: defaultAvatarHashColor,
+                            color: users_defaultAvatarHashColor,
                         }}
                         size="small"
                     >
-                        {getFirstCharacterUpperCase(username)}
+                        {getFirstCharacterUpperCase(users_username)}
                     </Avatar>
                 )}
 
-                <Text title={username} className="cursor-pointer">
-                    {truncateString({ text: username, start: 15, end: 0 })}
+                <Text title={users_username} className="cursor-pointer">
+                    {truncateString({ text: users_username, start: 15, end: 0 })}
                 </Text>
             </div>
             <CloseCircleFilled

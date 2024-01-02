@@ -55,9 +55,11 @@ const Participants = () => {
 
     const [data, setData] = useCreateMeetingInformation()
 
+    console.log("data:" , data);
+
     const onSelect = (key: ParticipantKey) => (participant: IParticipants) => {
         const isNotExited =
-            data[key].findIndex((p) => p.id === participant.id) < 0
+            data[key].findIndex((p) => p.users_id === participant.users_id) < 0
         if (isNotExited) {
             setData({
                 ...data,
@@ -77,7 +79,7 @@ const Participants = () => {
     const onDelete = (key: ParticipantKey) => (participant: IParticipants) => {
         setData({
             ...data,
-            [key]: data[key].filter((p) => p.id !== participant.id),
+            [key]: data[key].filter((p) => p.users_id !== participant.users_id),
         })
     }
     return (

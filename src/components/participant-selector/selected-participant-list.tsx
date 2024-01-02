@@ -16,10 +16,10 @@ const SelectedParticipantList = ({
             {selectedParticipants.map((participant, index) => (
                 <SelectedParticipantItem
                     key={index}
-                    id={participant.id}
-                    username={participant.username}
-                    defaultAvatarHashColor={participant.defaultAvatarHashColor}
-                    avatar={participant.avatar}
+                    users_id={participant.users_id}
+                    users_username={participant.users_username}
+                    users_defaultAvatarHashColor={participant.users_defaultAvatarHashColor}
+                    users_avartar={participant.users_avartar}
                     onDeleteParticipant={() => onDeleteParticipant(participant)}
                 />
             ))}

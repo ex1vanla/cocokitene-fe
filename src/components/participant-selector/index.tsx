@@ -7,11 +7,12 @@ import {UserStatus} from "@/constants/user-status";
 const { Text } = Typography
 
 export interface IParticipants {
-    defaultAvatarHashColor: string
-    avatar?: string
-    username: string
-    id: number
-    status?: UserStatus.ACTIVE
+    users_defaultAvatarHashColor: string
+    users_avartar?: string
+    users_username: string
+    users_id: number
+    userStatus_status?: string
+
 }
 
 interface IParticipantSelector {

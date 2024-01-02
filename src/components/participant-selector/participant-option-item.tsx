@@ -12,13 +12,13 @@ interface IParticipantOptionItem extends IParticipants {
 }
 
 const ParticipantOptionItem = ({
-    defaultAvatarHashColor = '#E57B41',
-    username,
-    avatar,
+    users_defaultAvatarHashColor = '#E57B41',
+    users_username,
+    users_avartar,
     onSelectParticipant,
     selected,
 }: IParticipantOptionItem) => {
-    const backgroundAvatarColor = Color(defaultAvatarHashColor)
+    const backgroundAvatarColor = Color(users_defaultAvatarHashColor)
         .lighten(0.6)
         .hex()
 
@@ -30,9 +30,9 @@ const ParticipantOptionItem = ({
             onClick={onSelectParticipant}
         >
             <div className="flex items-center gap-2">
-                {avatar ? (
+                {users_avartar ? (
                     <Avatar
-                        src={avatar}
+                        src={users_avartar}
                         alt="avatar-alt"
                         size="small"
                         style={{
@@ -45,16 +45,16 @@ const ParticipantOptionItem = ({
                         style={{
                             backgroundColor: backgroundAvatarColor,
                             verticalAlign: 'middle',
-                            color: defaultAvatarHashColor,
+                            color: users_defaultAvatarHashColor,
                         }}
                         size="small"
                     >
-                        {getFirstCharacterUpperCase(username)}
+                        {getFirstCharacterUpperCase(users_username)}
                     </Avatar>
                 )}
 
-                <Text title={username} className="cursor-pointer">
-                    {truncateString({ text: username, start: 15, end: 0 })}
+                <Text title={users_username} className="cursor-pointer">
+                    {truncateString({ text: users_username, start: 15, end: 0 })}
                 </Text>
             </div>
         </div>
