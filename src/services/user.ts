@@ -2,6 +2,7 @@ import { Cookies } from 'react-cookie'
 import { get, post } from './fetcher'
 import { IAccount, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
 import { IAccountListResponse } from './response.type'
+import {UserStatus} from "@/constants/user-status";
 const cookies = new Cookies()
 
 const USER_INFO_STORAGE_KEY = 'usr_if'
@@ -88,7 +89,14 @@ const serviceUser = {
             '/users',
             params,
         )
-        return response.data
+        const filteredItems = response.data.items.filter(
+            // eslint-disable-next-line no-undef
+            (user) => user.userStatus_status === UserStatus.ACTIVE,
+        );
+        return {
+            items: filteredItems,
+            meta: response.data.meta,
+        };
     },
 }
 

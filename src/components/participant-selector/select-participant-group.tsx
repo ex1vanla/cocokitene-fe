@@ -58,9 +58,9 @@ const SelectParticipantGroup = ({
                     setOptionsData({
                         options: [
                             {
-                                defaultAvatarHashColor: '#E57B41',
-                                username: t('ALL'),
-                                id: 0,
+                                users_defaultAvatarHashColor: '#E57B41',
+                                users_username: t('ALL'),
+                                users_id: 0,
                             },
                             ...optionsRes.items,
                         ],
@@ -73,7 +73,7 @@ const SelectParticipantGroup = ({
 
     const onSelect = (p: IParticipants) => {
         // select all
-        if (p.id === 0) {
+        if (p.users_id === 0) {
             optionsData.options.shift()
             onSelectAllParticipants(optionsData.options)
             setFocus(false)
@@ -101,16 +101,16 @@ const SelectParticipantGroup = ({
                         {optionsData?.options?.map((option, index) => (
                             <ParticipantOptionItem
                                 key={index}
-                                id={option.id}
-                                username={option.username}
-                                defaultAvatarHashColor={
-                                    option.defaultAvatarHashColor
+                                users_id={option.users_id}
+                                users_username={option.users_username}
+                                users_defaultAvatarHashColor={
+                                    option.users_defaultAvatarHashColor
                                 }
-                                avatar={option.avatar}
+                                users_avartar={option.users_avartar}
                                 onSelectParticipant={() => onSelect(option)}
                                 selected={
                                     selectedParticipants.findIndex(
-                                        (p) => p.id === option.id,
+                                        (p) => p.users_id === option.users_id,
                                     ) >= 0
                                 }
                             />
