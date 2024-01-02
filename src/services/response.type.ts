@@ -214,7 +214,6 @@ export interface IUserRoleResponse {
     roleName: string
     description: string
 }
-
 export interface IAccountDetailResponse {
     username: string
     email: string
