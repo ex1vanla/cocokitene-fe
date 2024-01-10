@@ -16,19 +16,18 @@ const ButtonConnectWallet = ({
 }: IButtonProp) => {
     return (
         <ConnectButton.Custom>
-            {({
-                chain,
-                openChainModal,
-                openConnectModal,
-                mounted,
-            }) => {
+            {({ chain, openChainModal, openConnectModal, mounted }) => {
                 const ready = mounted
                 const connected = ready
 
                 return (
                     <div>
                         {(() => {
-                            if ((isAuthenticated == null || isAuthenticated === false) && connected) {
+                            if (
+                                (isAuthenticated == null ||
+                                    isAuthenticated === false) &&
+                                connected
+                            ) {
                                 return (
                                     <Button
                                         onClick={openConnectModal}
@@ -59,27 +58,24 @@ const ButtonConnectWallet = ({
                             }
 
                             return (
-                                    <div>
-                                        <button
-                                            onClick={openChainModal}
-                                            className="flex items-center gap-2 py-1 text-sm text-white"
-                                            type="button"
-                                        >
-                                            {chain && chain.iconUrl && (
-                                                <Image
-                                                    src={chain.iconUrl}
-                                                    alt={
-                                                        chain.name ??
-                                                        'Chain icon'
-                                                    }
-                                                    width={24}
-                                                    height={24}
-                                                />
-                                            )}
-                                            {chain && chain.name}
-                                            <DownOutlined className="h-[10px] w-[10px] text-white" />
-                                        </button>
-                                    </div>
+                                <div>
+                                    <button
+                                        onClick={openChainModal}
+                                        className="flex items-center gap-2 py-1 text-sm text-white"
+                                        type="button"
+                                    >
+                                        {chain && chain.iconUrl && (
+                                            <Image
+                                                src={chain.iconUrl}
+                                                alt={chain.name ?? 'Chain icon'}
+                                                width={24}
+                                                height={24}
+                                            />
+                                        )}
+                                        {chain && chain.name}
+                                        <DownOutlined className="h-[10px] w-[10px] text-white" />
+                                    </button>
+                                </div>
                             )
                         })()}
                     </div>

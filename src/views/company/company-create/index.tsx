@@ -83,11 +83,7 @@ const CompanyCreate = () => {
     }
 
     return (
-        <Form
-            onFinish={onFinish}
-            form={form}
-            layout="vertical"
-        >
+        <Form onFinish={onFinish} form={form} layout="vertical">
             <CreateTitle
                 pageName={t('CREATE_NEW_COMPANY')}
                 saveButton={
@@ -98,8 +94,8 @@ const CompanyCreate = () => {
                 }
             />
             <div className="flex flex-col gap-6 p-6">
-                <CompanyInformation form={form}/>
-                <SuperAdminInformation form={form}/>
+                <CompanyInformation form={form} />
+                <SuperAdminInformation form={form} />
             </div>
         </Form>
     )

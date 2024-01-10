@@ -45,7 +45,8 @@ const AccountList = () => {
                             <Avatar
                                 style={{
                                     backgroundColor: Color(
-                                        record?.defaultAvatarHashColor || AvatarBgHexColors.GOLDEN_PURPLE,
+                                        record?.defaultAvatarHashColor ||
+                                            AvatarBgHexColors.GOLDEN_PURPLE,
                                     )
                                         .lighten(0.6)
                                         .hex(),
@@ -93,8 +94,7 @@ const AccountList = () => {
             title: t('ROLES'),
             dataIndex: 'roles',
             render: (_, record) => {
-
-                const roles = record.role.split(",")
+                const roles = record.role.split(',')
                 const displayRoleNames = roles.slice(0, MAX_DISPLAY_ROLES)
                 const additionalRoleNames = roles.slice(MAX_DISPLAY_ROLES)
                 return (
@@ -104,9 +104,7 @@ const AccountList = () => {
                                 <RoleInfo
                                     key={item}
                                     roleName={t(item)}
-                                    defaultRoleHashColor={
-                                        RoleBgColor[item]
-                                    }
+                                    defaultRoleHashColor={RoleBgColor[item]}
                                 />
                             )
                         })}

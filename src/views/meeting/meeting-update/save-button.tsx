@@ -13,7 +13,7 @@ const SaveUpdateMeetingButton = () => {
     const t = useTranslations()
     const [data] = useUpdateMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
-    const router = useRouter();
+    const router = useRouter()
 
     const onValidate = (data: IUpdateMeeting) => {
         const payload = {
@@ -86,7 +86,7 @@ const SaveUpdateMeetingButton = () => {
                     description: t('UPDATED_MEETING_SUCCESSFULLY'),
                 })
                 setStatus(FETCH_STATUS.SUCCESS)
-                router.push(`/meeting/detail/${data.id}`);
+                router.push(`/meeting/detail/${data.id}`)
             })()
         } catch (error) {
             notification.error({

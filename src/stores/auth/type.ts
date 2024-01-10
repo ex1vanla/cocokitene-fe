@@ -1,28 +1,28 @@
-import { EActionStatus } from "../type";
+import { EActionStatus } from '../type'
 
 export interface IAuthState {
-    status: EActionStatus;
-    nonce: any;
-    isAuthenticated: boolean | null;
-    userData: IAccount | null;
+    status: EActionStatus
+    nonce: any
+    isAuthenticated: boolean | null
+    userData: IAccount | null
 }
 
 export interface ILoginRequest {
-    walletAddress: string;
-    signature: string;
+    walletAddress: string
+    signature: string
 }
 
 export interface ILoginResponse {
-    accessToken: string;
-    refreshToken: string;
-    userData: IAccount;
+    accessToken: string
+    refreshToken: string
+    userData: IAccount
 }
 
-export interface IAccount{
-    id: number;
-    walletAddress: string;
-    username: string;
-    email: string;
-    companyId: number;
-    permissionKeys: string[];
+export interface IAccount {
+    id: number
+    walletAddress: string
+    username: string
+    email: string
+    companyId: number
+    permissionKeys: string[]
 }

@@ -47,4 +47,3 @@ export enum InfoType {
     STATUS = 'status',
     PLAN = 'plan',
 }
-

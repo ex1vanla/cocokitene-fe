@@ -10,7 +10,7 @@ import Menu from './menu'
 
 const LandingHeader = () => {
     const [metaClass, setMetaClass] = useState('')
-    const {authState} = useAuthLogin();
+    const { authState } = useAuthLogin()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,7 +43,7 @@ const LandingHeader = () => {
                     <ConnectWallet />
                     {authState.isAuthenticated && (
                         <AccountInfo
-                            name={authState.userData?.username ?? "Unknow"}
+                            name={authState.userData?.username ?? 'Unknow'}
                             avatar="/images/default-avatar.png"
                         />
                     )}

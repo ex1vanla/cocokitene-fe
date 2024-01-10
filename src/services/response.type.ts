@@ -238,3 +238,15 @@ export interface ICreateAccountPayload {
     statusId: number
     avatar?: string | null
 }
+
+export interface IListShareholderResponse {
+    id: number
+    email: string
+    username: string
+    walletAddress: string
+    avatar: string | null
+    companyId: number
+    shareQuantity: number
+    defaultAvatarHashColor: string | null
+    userStatus: IUserStatusResponse
+}

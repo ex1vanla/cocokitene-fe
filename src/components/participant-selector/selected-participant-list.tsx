@@ -18,7 +18,9 @@ const SelectedParticipantList = ({
                     key={index}
                     users_id={participant.users_id}
                     users_username={participant.users_username}
-                    users_defaultAvatarHashColor={participant.users_defaultAvatarHashColor}
+                    users_defaultAvatarHashColor={
+                        participant.users_defaultAvatarHashColor
+                    }
                     users_avartar={participant.users_avartar}
                     onDeleteParticipant={() => onDeleteParticipant(participant)}
                 />

@@ -20,9 +20,7 @@ const attendanceSlice = createSlice({
         ) => {
             state.meetingIdJoin = action.payload.meetingId
         },
-        resetStatusMeeting: (
-            state: IAttendanceState,
-        ) => {
+        resetStatusMeeting: (state: IAttendanceState) => {
             state.status = EActionStatus.Idle
         },
     },
@@ -34,7 +32,10 @@ const attendanceSlice = createSlice({
             })
             .addCase(
                 joinMeeting.fulfilled,
-                (state: IAttendanceState, action: PayloadAction<{meetingId: number}>) => {
+                (
+                    state: IAttendanceState,
+                    action: PayloadAction<{ meetingId: number }>,
+                ) => {
                     state.status = EActionStatus.Succeeded
                     state.meetingIdJoin = action.payload.meetingId
                 },

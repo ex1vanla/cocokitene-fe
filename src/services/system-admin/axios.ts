@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 
 export const instance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
@@ -6,4 +6,4 @@ export const instance = axios.create({
         'Content-Type': 'application/json',
         Accept: 'application/json',
     },
-});
+})

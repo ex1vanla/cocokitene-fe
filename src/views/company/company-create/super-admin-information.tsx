@@ -25,7 +25,8 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
 
     const [userStatusList, setUserStatusList] = useState<IUserStatus[]>([])
 
-    const [initialActiveUserStatus, setInitialActiveUserStatus] = useState<number>()
+    const [initialActiveUserStatus, setInitialActiveUserStatus] =
+        useState<number>()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +49,7 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
 
     useEffect(() => {
         form.setFieldsValue({
-            superAdminStatusId: initialActiveUserStatus
+            superAdminStatusId: initialActiveUserStatus,
         })
     }, [initialActiveUserStatus])
 

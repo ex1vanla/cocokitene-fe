@@ -48,7 +48,11 @@ const SelectedParticipantItem = ({
                 )}
 
                 <Text title={users_username} className="cursor-pointer">
-                    {truncateString({ text: users_username, start: 15, end: 0 })}
+                    {truncateString({
+                        text: users_username,
+                        start: 15,
+                        end: 0,
+                    })}
                 </Text>
             </div>
             <CloseCircleFilled
