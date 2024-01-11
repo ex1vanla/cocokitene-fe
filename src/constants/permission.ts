@@ -20,4 +20,6 @@ export enum Permissions {
     LIST_COMPANY = 'list_company',
     CREATE_COMPANY = 'create_company',
     LIST_SHAREHOLDERS = 'list_shareholders',
+    DETAIL_SHAREHOLDERS = 'detail_shareholders',
+    EDIT_SHAREHOLDERS = 'edit_shareholders',
 }

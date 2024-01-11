@@ -250,3 +250,19 @@ export interface IListShareholderResponse {
     defaultAvatarHashColor: string | null
     userStatus: IUserStatusResponse
 }
+
+export interface IShareholderDetailResponse {
+    username: string
+    email: string
+    walletAddress: string
+    phone: string
+    avatar: string
+    shareQuantity: number
+    defaultAvatarHashColor: string | null
+    company: {
+        companyName: string
+        id: number
+    }
+    userStatus: IUserStatusResponse
+    roles: IUserRole[]
+}
