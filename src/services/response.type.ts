@@ -266,3 +266,10 @@ export interface IShareholderDetailResponse {
     userStatus: IUserStatusResponse
     roles: IUserRole[]
 }
+export interface IUpdateProfile {
+    email : string
+    username : string
+    walletAddress ?: string
+    phone : string
+    avatar ?: string  
+}

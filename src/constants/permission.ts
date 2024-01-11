@@ -22,4 +22,6 @@ export enum Permissions {
     LIST_SHAREHOLDERS = 'list_shareholders',
     DETAIL_SHAREHOLDERS = 'detail_shareholders',
     EDIT_SHAREHOLDERS = 'edit_shareholders',
+    DETAIL_PROFILE = 'detail_profile',
+    EDIT_PROFILE = 'edit_profile'
 }
