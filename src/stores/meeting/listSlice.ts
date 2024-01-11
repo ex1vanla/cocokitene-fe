@@ -27,7 +27,7 @@ const initialState: IMeetingState = {
     },
     type: MeetingType.MEETING_FUTURE,
     errorCode: '',
-    errorMessage: ''
+    errorMessage: '',
 }
 
 export const getAllMeetings = createAsyncThunk<
@@ -91,8 +91,8 @@ const meetingListSlice = createSlice({
             })
             .addCase(getAllMeetings.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
-                state.errorCode = action.payload?.errorCode ?? ""
-                state.errorMessage = action.payload?.errorMessage ?? ""
+                state.errorCode = action.payload?.errorCode ?? ''
+                state.errorMessage = action.payload?.errorMessage ?? ''
             })
             .addCase(getAllPassMeetings.pending, (state) => {
                 state.status = EActionStatus.Pending
@@ -105,8 +105,8 @@ const meetingListSlice = createSlice({
             })
             .addCase(getAllPassMeetings.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
-                state.errorCode = action.payload?.errorCode ?? ""
-                state.errorMessage = action.payload?.errorMessage ?? ""
+                state.errorCode = action.payload?.errorCode ?? ''
+                state.errorMessage = action.payload?.errorMessage ?? ''
             })
     },
 })

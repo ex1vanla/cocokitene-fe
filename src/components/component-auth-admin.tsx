@@ -8,11 +8,11 @@ const withAuthAdmin = <P extends object>(
     WrappedComponent: ComponentType<P>,
 ) => {
     return function WithAuth(props: P) {
-        const t = useTranslations();
+        const t = useTranslations()
         const { authAdminState } = useAuthAdminLogin()
         const router = useRouter()
         useEffect(() => {
-            if (!authAdminState.isAuthenticated ) {
+            if (!authAdminState.isAuthenticated) {
                 if (authAdminState.isAuthenticated == false) {
                     notification.error({
                         message: t('ERROR_LOGIN_ADMIN'),
@@ -21,7 +21,7 @@ const withAuthAdmin = <P extends object>(
                 }
                 router.push('/login')
             }
-        // eslint-disable-next-line
+            // eslint-disable-next-line
         }, [authAdminState.isAuthenticated])
 
         return authAdminState.isAuthenticated ? (

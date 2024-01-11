@@ -37,7 +37,7 @@ export interface ICompanyUpdateForm {
 }
 
 const CompanyUpdate = () => {
-    const router = useRouter();
+    const router = useRouter()
     const t = useTranslations()
 
     const [initCompany, setInitCompany] = useState<ICompanyUpdateForm>()

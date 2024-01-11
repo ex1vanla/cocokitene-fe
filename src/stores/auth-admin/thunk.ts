@@ -12,13 +12,12 @@ export const loginAdmin = createAsyncThunk<
     }
 >('auth/login-admin', async (loginData, { rejectWithValue }) => {
     try {
-        const loginResponse: ILoginAdminResponse = await serviceUserSystem.loginAdmin(
-            loginData,
-        )
-        const {accessToken, refreshToken, systemAdminData} = loginResponse;
-        serviceUserSystem.storeInfoSys(systemAdminData);
-        serviceUserSystem.storeAccessTokenSys(accessToken);
-        serviceUserSystem.storeRefreshTokenSys(refreshToken);
+        const loginResponse: ILoginAdminResponse =
+            await serviceUserSystem.loginAdmin(loginData)
+        const { accessToken, refreshToken, systemAdminData } = loginResponse
+        serviceUserSystem.storeInfoSys(systemAdminData)
+        serviceUserSystem.storeAccessTokenSys(accessToken)
+        serviceUserSystem.storeRefreshTokenSys(refreshToken)
         return loginResponse
     } catch (error) {
         const err = error as AxiosError

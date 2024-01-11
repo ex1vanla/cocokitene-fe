@@ -2,7 +2,7 @@ import { Cookies } from 'react-cookie'
 import { get, post } from './fetcher'
 import { IAccount, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
 import { IAccountListResponse } from './response.type'
-import {UserStatus} from "@/constants/user-status";
+import { UserStatus } from '@/constants/user-status'
 const cookies = new Cookies()
 
 const USER_INFO_STORAGE_KEY = 'usr_if'
@@ -49,9 +49,7 @@ const serviceUser = {
         const refreshToken = cookies.get(USER_REFRESH_TOKEN_STORAGE_KEY)
         const response = await post<{
             accessToken: string
-        }>('/auths/user/refresh-token', 
-            {refreshToken: refreshToken},
-        )
+        }>('/auths/user/refresh-token', { refreshToken: refreshToken })
         const accessToken = response.data
         if (accessToken) {
             cookies.set(USER_TOKEN_STORAGE_KEY, JSON.stringify(accessToken), {
@@ -92,11 +90,11 @@ const serviceUser = {
         const filteredItems = response.data.items.filter(
             // eslint-disable-next-line no-undef
             (user) => user.userStatus_status === UserStatus.ACTIVE,
-        );
+        )
         return {
             items: filteredItems,
             meta: response.data.meta,
-        };
+        }
     },
 }
 

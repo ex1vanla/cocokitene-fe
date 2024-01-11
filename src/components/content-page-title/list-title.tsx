@@ -26,7 +26,7 @@ const ListTitle = ({
     defaultSort,
 }: IListTitle) => {
     const t = useTranslations()
-    
+
     const handleChangeSelect = (value: string) => {
         onChangeSelect(value)
     }
@@ -50,7 +50,11 @@ const ListTitle = ({
 
                 <Select
                     className="w-[200px]"
-                    defaultValue={defaultSort == SORT.ASC ? t('SORT_OLDEST_MEETING') : t('SORT_NEWEST_MEETING')}
+                    defaultValue={
+                        defaultSort == SORT.ASC
+                            ? t('SORT_OLDEST_MEETING')
+                            : t('SORT_NEWEST_MEETING')
+                    }
                     size="large"
                     style={{ width: 120 }}
                     onChange={handleChangeSelect}

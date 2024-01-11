@@ -18,5 +18,6 @@ export enum Permissions {
     LIST_USER_STATUS = 'list_user_status',
     LIST_ROLES = 'list_roles',
     LIST_COMPANY = 'list_company',
-    CREATE_COMPANY = 'create_company'
+    CREATE_COMPANY = 'create_company',
+    LIST_SHAREHOLDERS = 'list_shareholders',
 }

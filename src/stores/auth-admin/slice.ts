@@ -17,13 +17,13 @@ const authAdminSlice = createSlice({
     initialState,
     reducers: {
         resetStatus: (state: IAuthAdminState) => {
-            state.status = EActionStatus.Idle;
+            state.status = EActionStatus.Idle
         },
         signOutSys: (state: IAuthAdminState) => {
             state.isAuthenticated = null
             state.userAdminInfo = null
             serviceUserSystem.storeInfoSys(null)
-        }
+        },
     },
     extraReducers: (builder) => {
         builder

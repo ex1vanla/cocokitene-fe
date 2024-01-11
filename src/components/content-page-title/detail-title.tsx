@@ -14,7 +14,12 @@ interface IDetailTitle extends IBaseTitle {
     extraButton?: ReactNode
 }
 
-const DetailTitle = ({ urlBack, pageName, editButton, extraButton }: IDetailTitle) => {
+const DetailTitle = ({
+    urlBack,
+    pageName,
+    editButton,
+    extraButton,
+}: IDetailTitle) => {
     const router = useRouter()
 
     return (
@@ -22,7 +27,7 @@ const DetailTitle = ({ urlBack, pageName, editButton, extraButton }: IDetailTitl
             <div className="flex items-center gap-2">
                 <ArrowLeftOutlined
                     onClick={() => {
-                        router.push(urlBack);
+                        router.push(urlBack)
                     }}
                 />
                 <Title level={4} className="mb-0 font-medium">

@@ -1,6 +1,9 @@
 import { IGetAllDataRequest } from '@/services/system-admin/request.type'
 import { get } from '../fetcher'
-import { ICompanyStatusResponse, IGetAllDataReponse } from '@/services/system-admin/response.type'
+import {
+    ICompanyStatusResponse,
+    IGetAllDataReponse,
+} from '@/services/system-admin/response.type'
 
 const serviceCompanyStatus = {
     getAllCompanyStatus: async ({

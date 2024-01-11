@@ -11,9 +11,9 @@ import Link from 'next/link'
 const { Text } = Typography
 const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
-    const {authAdminState, logoutAdminAction} = useAuthAdminLogin();
+    const { authAdminState, logoutAdminAction } = useAuthAdminLogin()
     const handleLogout = async () => {
-        logoutAdminAction();
+        logoutAdminAction()
     }
 
     const items: MenuProps['items'] = [
@@ -90,7 +90,7 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
                 <div className="flex items-center gap-2">
                     <Image src={avatar} alt={'avatar'} width={24} height={24} />
                     <Text className="text-sm leading-[22px] text-white">
-                        {authAdminState.userAdminInfo?.username ?? "Unknow"}
+                        {authAdminState.userAdminInfo?.username ?? 'Unknow'}
                     </Text>
                 </div>
                 <DownOutlined className="h-[10px] w-[10px] text-white" />

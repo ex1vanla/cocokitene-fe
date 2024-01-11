@@ -1,5 +1,5 @@
-import { CompanyStatus } from "@/constants/company-status"
-import { UserStatus } from "@/constants/user-status"
+import { CompanyStatus } from '@/constants/company-status'
+import { UserStatus } from '@/constants/user-status'
 
 export interface ApiResponse<T = {}> {
     code: string | number

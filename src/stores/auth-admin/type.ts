@@ -4,7 +4,7 @@ export interface IAuthAdminState {
     status: EActionStatus
     isAuthenticated: boolean | null
     userAdminInfo: IAccountAdmin | null
-    errCode: string 
+    errCode: string
     errMessage: string
 }
 

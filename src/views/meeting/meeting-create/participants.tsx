@@ -55,8 +55,6 @@ const Participants = () => {
 
     const [data, setData] = useCreateMeetingInformation()
 
-    console.log("data:" , data);
-
     const onSelect = (key: ParticipantKey) => (participant: IParticipants) => {
         const isNotExited =
             data[key].findIndex((p) => p.users_id === participant.users_id) < 0
