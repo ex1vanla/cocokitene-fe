@@ -15,7 +15,6 @@ import {
     UserStatusColor,
     UserStatusName,
 } from '@/constants/user-status'
-import { RowAccountInfo } from '@/views/account/account-detail/account-rowinfo'
 
 const ShareholderInfo = () => {
     const t = useTranslations()
@@ -157,21 +156,7 @@ const ShareholderInfo = () => {
     return (
         <div className="bg-white p-6 px-6 py-4 shadow-01">
             <Row gutter={[0, 0]} className="min-w-[1184px]">
-                {/*<Col xs={24} lg={12}>*/}
-                {/*    {dataShareholderDetailLeft.map((item, index) => {*/}
-                {/*        return (*/}
-                {/*            <Col xs={24} key={index}>*/}
-                {/*                <RowShareholderInfo*/}
-                {/*                    label={t(item.label)}*/}
-                {/*                    content={item.content}*/}
-                {/*                    xs={item?.xs}*/}
-                {/*                    lg={item?.lg}*/}
-                {/*                />*/}
-                {/*            </Col>*/}
-                {/*        )*/}
-                {/*    })}*/}
-                {/*</Col>*/}
-                {/**/}
+
                 <Col xs={24} lg={12}>
                     {dataShareholderDetailLeft.map((item, index) => {
                         return (
