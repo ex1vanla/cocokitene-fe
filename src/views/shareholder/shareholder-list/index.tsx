@@ -13,7 +13,6 @@ import Link from 'next/link'
 const { Text } = Typography
 
 const ShareholderList = () => {
-    // return <div>kien nguyen </div>
     const t = useTranslations()
     const { shareholderState, getListShareholderAction } = useListShareholder()
     const columns: ColumnsType<IShareholderList> = [
@@ -112,7 +111,7 @@ const ShareholderList = () => {
             title: '',
             key: 'action',
             render: (_, record) => (
-                <Link href={`/account/detail/${record.id}`}>
+                <Link href={`/shareholder/detail/${record.id}`}>
                     {t('SEE_DETAIL')}
                 </Link>
             ),

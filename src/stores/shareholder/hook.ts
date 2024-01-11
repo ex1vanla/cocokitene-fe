@@ -1,11 +1,14 @@
 import {
     IGetAllShareholderQuery,
+    IShareholderDetail,
     IShareholderState,
     ListParamsFilter,
 } from '@/stores/shareholder/type'
 import { RootState, useAppDispatch, useAppSelector } from '@/stores'
 import { useCallback } from 'react'
 import { getAllShareholder, setFilter } from '@/stores/shareholder/listSlice'
+import { EActionStatus } from '@/stores/type'
+import { getShareholderDetail } from '@/stores/shareholder/detailSlice'
 
 type ListShareholderType = {
     shareholderState: IShareholderState
@@ -40,4 +43,30 @@ export const useListShareholder = (): ListShareholderType => {
         getListShareholderAction,
         setFilterAction,
     }
+}
+export const useShareholderDetail = (): [
+    {
+        shareholder: IShareholderDetail | undefined
+        status: EActionStatus
+    },
+    // eslint-disable-next-line
+    (shareholderId: number) => void,
+] => {
+    const dispatch = useAppDispatch()
+    const { shareholder, status } = useAppSelector(
+        (state: RootState) => state.shareholderDetail,
+    )
+    const fetchShareholderDetail = useCallback(
+        (shareholderId: number) => {
+            dispatch(getShareholderDetail(shareholderId))
+        },
+        [dispatch],
+    )
+    return [
+        {
+            shareholder,
+            status,
+        },
+        fetchShareholderDetail,
+    ]
 }
