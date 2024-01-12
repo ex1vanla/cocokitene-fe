@@ -2,7 +2,7 @@ import serviceUser from '@/services/user'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { EActionStatus } from '../type'
 import { getNonceThunk, login } from './thunk'
-import { IAuthState, ILoginResponse } from './type'
+import { IAccount, IAuthState, ILoginResponse } from './type'
 
 const initialState: IAuthState = {
     status: EActionStatus.Idle,
@@ -21,6 +21,9 @@ const authSlice = createSlice({
             state.nonce = ''
             serviceUser.storeInfo(null)
         },
+        update:(state: IAuthState ,action: PayloadAction<IAccount | null> ) =>{
+            state.userData = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -51,6 +54,6 @@ const authSlice = createSlice({
     },
 })
 
-export const { signOut } = authSlice.actions
+export const { signOut ,update} = authSlice.actions
 
 export default authSlice.reducer

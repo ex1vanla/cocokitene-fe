@@ -9,6 +9,8 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import MyProfileInfo from './profile-info'
+import withAuth from '@/components/component-auth'
+import { Permissions } from '@/constants/permission'
 
 const MyProfileDetail = () => {
     const router = useRouter()
@@ -38,7 +40,11 @@ const MyProfileDetail = () => {
                         icon={<EditOutlined />}
                         type="default"
                         size="large"
-                        onClick={() => router.push(`/profile/update`)}
+                        onClick={() =>
+                            router.push(
+                                `/profile/update/${authState.userData?.id}`,
+                            )
+                        }
                     >
                         {t('EDIT')}
                     </Button>
@@ -53,4 +59,4 @@ const MyProfileDetail = () => {
     )
 }
 
-export default MyProfileDetail
+export default withAuth(MyProfileDetail, Permissions.DETAIL_PROFILE)
