@@ -33,6 +33,11 @@ import {
 } from '@/constants/account'
 import serviceUpload from '@/services/upload'
 import serviceProfile from '@/services/profile'
+import serviceUser from '@/services/user'
+import { IAccount } from '@/stores/auth/type'
+
+import store from '@/stores'
+import { update } from '@/stores/auth/slice'
 
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -217,6 +222,16 @@ const UpdateMyProfile = () => {
                 })
 
                 setStatus(FETCH_STATUS.SUCCESS)
+                const newAuth: IAccount = {
+                    companyId: serviceUser.getInfoStorage()?.companyId || 1,
+                    email: values.email,
+                    id: myId,
+                    permissionKeys:
+                        serviceUser.getInfoStorage()?.permissionKeys || [],
+                    username: values.username,
+                    walletAddress: values.walletAddress || '',
+                }
+                store?.dispatch(update(newAuth))
                 router.push(`/profile`)
             }
         } catch (error) {
