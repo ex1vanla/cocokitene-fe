@@ -22,7 +22,6 @@ const authSlice = createSlice({
             serviceUser.storeInfo(null)
         },
         update:(state: IAuthState ,action: PayloadAction<IAccount | null> ) =>{
-            console.log('Update Payload' , action)
             state.userData = action.payload
         }
     },
