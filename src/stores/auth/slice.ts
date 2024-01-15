@@ -21,9 +21,9 @@ const authSlice = createSlice({
             state.nonce = ''
             serviceUser.storeInfo(null)
         },
-        update:(state: IAuthState ,action: PayloadAction<IAccount | null> ) =>{
+        update: (state: IAuthState, action: PayloadAction<IAccount | null>) => {
             state.userData = action.payload
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -54,6 +54,6 @@ const authSlice = createSlice({
     },
 })
 
-export const { signOut ,update} = authSlice.actions
+export const { signOut, update } = authSlice.actions
 
 export default authSlice.reducer

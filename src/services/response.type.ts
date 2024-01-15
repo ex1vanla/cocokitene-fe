@@ -266,10 +266,21 @@ export interface IShareholderDetailResponse {
     userStatus: IUserStatusResponse
     roles: IUserRole[]
 }
+
+export interface IUpdateShareholderPayload {
+    email: string
+    username: string
+    walletAddress: string
+    shareQuantity?: number
+    phone: string
+    roleIds: number[]
+    statusId: number
+    avatar?: string | null
+}
 export interface IUpdateProfile {
-    email : string
-    username : string
-    walletAddress ?: string
-    phone : string
-    avatar ?: string  
+    email: string
+    username: string
+    walletAddress?: string
+    phone: string
+    avatar?: string
 }

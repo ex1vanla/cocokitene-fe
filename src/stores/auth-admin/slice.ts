@@ -8,6 +8,7 @@ const initialState: IAuthAdminState = {
     status: EActionStatus.Idle,
     isAuthenticated: !!serviceUserSystem.getInfoStorageSys() ?? false,
     userAdminInfo: serviceUserSystem.getInfoStorageSys(),
+
     errCode: '',
     errMessage: '',
 }

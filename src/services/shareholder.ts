@@ -3,8 +3,9 @@ import {
     IGetAllDataReponse,
     IListShareholderResponse,
     IShareholderDetailResponse,
+    IUpdateShareholderPayload,
 } from '@/services/response.type'
-import { get } from '@/services/fetcher'
+import { get, patch } from '@/services/fetcher'
 const serviceShareholder = {
     getAllShareholders: async ({
         page,
@@ -21,6 +22,16 @@ const serviceShareholder = {
     getDetailShareholder: async (shareholderId: number) => {
         const response = await get<IShareholderDetailResponse>(
             `/shareholders/${shareholderId}`,
+        )
+        return response.data
+    },
+    updateShareholder: async (
+        shareholderId: number,
+        payload: IUpdateShareholderPayload,
+    ) => {
+        const response = await patch<any>(
+            `/shareholders/${shareholderId}`,
+            payload,
         )
         return response.data
     },

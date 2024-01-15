@@ -1,7 +1,7 @@
-import { IAccountList  } from '@/stores/account/type'
+import { IAccountList } from '@/stores/account/type'
 import { EActionStatus, FetchError } from '@/stores/type'
 import { UserStatus } from '@/constants/user-status'
-import {IUserRole as IUserRoleT} from "@/services/response.type";
+import { IUserRole as IUserRoleT } from '@/services/response.type'
 
 export interface IShareholderList extends Omit<IAccountList, 'role'> {
     shareQuantity: number
