@@ -1,16 +1,22 @@
 import { get } from './fetcher'
-import { IGetAllDataReponse, IPermissionResponse } from './response.type'
+import {
+    IPermissionResponse
+} from './response.type'
 
 const serviceSettingRole = {
     getAllPermissions: async (
         page: number,
         limit: number,
-    ): Promise<IGetAllDataReponse<IPermissionResponse>> => {
+    ): Promise<IPermissionResponse[]> => {
         const payload = { page, limit }
-        const response: { data: IGetAllDataReponse<IPermissionResponse> } =
-            await get('/permissions', payload)
+        const response = await get('/permissions', payload)
 
-        return response.data
+        if (response) return response?.data as IPermissionResponse[]
+        return []
+    },
+    getCombineRoleWithPermission: async (): Promise<any> => {
+        const response = await get('/role-permissions')
+        return response
     },
 }
 

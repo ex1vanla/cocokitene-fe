@@ -1,3 +1,4 @@
+import { IPermissionResponse } from '@/services/response.type'
 import serviceSettingRole from '@/services/setting-role'
 import { useSettingRole } from '@/stores/setting-role/hooks'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
@@ -33,13 +34,17 @@ const ModalRegisterRole = () => {
     useEffect(() => {
         ;(async () => {
             try {
-                const res = await serviceSettingRole.getAllPermissions(1, 100)
-                const data = res?.items.map((item) => ({
+                const result = await serviceSettingRole.getAllPermissions(
+                    1,
+                    100,
+                )
+                const data = result.map((item) => ({
                     value: item.id,
                     label: convertSnakeCaseToTitleCase(item.key),
                 }))
                 setPermissions(data)
             } catch (error) {
+                console.log('error', error)
                 notification.error({
                     message: 'error',
                 })

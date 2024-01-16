@@ -1,12 +1,13 @@
 import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
 import { ISettingRoleState } from './type'
-import { setOpenModalRegisterRole } from './slice'
+import { getCombineRoleWithPermission, setOpenModalRegisterRole } from './slice'
 
 type SettingRoleType = {
     settingRoleState: ISettingRoleState
     // eslint-disable-next-line
     setOpenModal: (isOpenModal: boolean) => void
+    getAllCombineRoleWithPermission: () => void
 }
 
 export const useSettingRole = (): SettingRoleType => {
@@ -22,8 +23,13 @@ export const useSettingRole = (): SettingRoleType => {
         [dispatch],
     )
 
+    const getAllCombineRoleWithPermission = useCallback(() => {
+        dispatch(getCombineRoleWithPermission(null))
+    }, [dispatch])
+
     return {
         settingRoleState,
         setOpenModal,
+        getAllCombineRoleWithPermission,
     }
 }
