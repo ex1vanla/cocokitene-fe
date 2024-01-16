@@ -3,13 +3,13 @@ import { IGetAllDataRequest } from './request.type'
 import { get } from './fetcher'
 
 const serviceUserRole = {
-    getAllUserRole: async ({
+    getAllNormalUserRole: async ({
         page,
         limit,
     }: IGetAllDataRequest): Promise<IUserRoleResponse[]> => {
         const payload = { page, limit }
         const response: { data: IGetAllDataReponse<IUserRoleResponse> } =
-            await get('/roles', payload)
+            await get('/roles/normal-role', payload)
 
         return response.data.items
     },

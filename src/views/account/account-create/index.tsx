@@ -49,7 +49,7 @@ const CreateAccount = () => {
     }
     useEffect(() => {
         const fetchData = async () => {
-            const userRoleList = await serviceUserRole.getAllUserRole({
+            const userRoleList = await serviceUserRole.getAllNormalUserRole({
                 page: 1,
                 limit: 10,
             })

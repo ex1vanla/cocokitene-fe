@@ -103,7 +103,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
             if (userStatusList) {
                 setUserStatusList(userStatusList)
             }
-            const userRoleList = await serviceUserRole.getAllUserRole({
+            const userRoleList = await serviceUserRole.getAllNormalUserRole({
                 page: 1,
                 limit: 10,
             })
