@@ -285,7 +285,13 @@ export interface IUpdateProfile {
     avatar?: string
 }
 export interface IPermissionResponse {
-    id: number,
-    key: string,
-    description?: string,
+    id: number
+    key: string
+    description?: string
+}
+
+export interface IRoleResponse {
+    id: number
+    key: string
+    description?: string
 }

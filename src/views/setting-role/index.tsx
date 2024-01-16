@@ -9,63 +9,19 @@ import { useEffect, useState } from 'react'
 import ModalRegisterRole from './modal-register-role'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { FETCH_STATUS } from '@/constants/common'
+import serviceSettingRole from '@/services/setting-role'
 interface DataType {
     namePermission: string
     [key: string]: any
 }
 
-// const datatest = {
-//     create_account: {
-//         super_admin: 1,
-//         admin: 0,
-//         shareholder: 0,
-//         user: 0,
-//     },
-//     edit_account: {
-//         super_admin: 1,
-//         admin: 1,
-//         shareholder: 0,
-//         user: 0,
-//     },
-//     detail_account: {
-//         super_admin: 1,
-//         admin: 0,
-//         shareholder: 0,
-//         user: 0,
-//     },
-//     list_account: {
-//         super_admin: 1,
-//         admin: 1,
-//         shareholder: 1,
-//         user: 1,
-//     },
-//     create_company: {
-//         super_admin: 1,
-//         admin: 0,
-//         shareholder: 0,
-//         user: 0,
-//     },
-//     edit_company: {
-//         super_admin: 1,
-//         admin: 1,
-//         shareholder: 1,
-//         user: 1,
-//     },
-//     detail_company: {
-//         super_admin: 1,
-//         admin: 1,
-//         shareholder: 0,
-//         user: 0,
-//     },
-//     list_company: {
-//         super_admin: 1,
-//         admin: 0,
-//         shareholder: 1,
-//         user: 1,
-//     },
-// }
+type RolePermissionApi = {
+    "permissionId": number;
+    "roleIds": number[]
+}
 
 const SettingRoleView = () => {
+    const t = useTranslations()
     const { settingRoleState, getAllCombineRoleWithPermission, setOpenModal } =
         useSettingRole()
     const [clickButtonEdit, setClickButtonEdit] = useState<boolean>(false)
@@ -74,9 +30,8 @@ const SettingRoleView = () => {
     const [isLoading, setIsLoading] = useState<FETCH_STATUS>(FETCH_STATUS.IDLE)
     const [data, setData] = useState<any>(null)
     const [columns, setColumns] = useState<any>(null)
-    const t = useTranslations()
-
-    console.log('check settingrole state', settingRoleState.permissionRoleList)
+    const [permissions, setPermissions] = useState<any>(null)
+    const [roles, setRoles] = useState<any>(null)
 
     useEffect(() => {
         if (settingRoleState.permissionRoleList) {
@@ -100,7 +55,11 @@ const SettingRoleView = () => {
                 `${(widthRolesColumn / totalRoleColumn).toFixed(2)}%`,
             )
             setIsLoading(FETCH_STATUS.SUCCESS)
+        }
+    }, [settingRoleState.permissionRoleList])
 
+    useEffect(() => {
+        if (settingRoleState.permissionRoleList) {
             const result = Object.entries(
                 settingRoleState.permissionRoleList,
             ).map(([namePermission, values]) => ({
@@ -142,10 +101,40 @@ const SettingRoleView = () => {
 
             const data: DataType[] = [...result]
             setData(data)
-        } else {
-            getAllCombineRoleWithPermission()
         }
-    }, [settingRoleState.permissionRoleList])
+    }, [checkboxState, clickButtonEdit])
+
+    useEffect(() => {
+        ;(async () => {
+            try {
+                // const permissionResponse = await serviceSettingRole.getAllPermissions(
+                //     1,
+                //     100,
+                // )
+                // const permissionList = permissionResponse.map((item) => ({
+                //     value: item.id,
+                //     label: convertSnakeCaseToTitleCase(item.key),
+                // }))
+                // setPermissions(permissionList)
+
+                const roleResponse = await serviceSettingRole.getAllRoles(
+                    1,
+                    100,
+                )
+                const roleList = roleResponse.map((item) => ({
+                    value: item.id,
+                    label: convertSnakeCaseToTitleCase(item.key),
+                }))
+                setRoles(roleList)
+            } catch (error) {
+                console.log('error', error)
+                notification.error({
+                    message: 'error',
+                })
+            }
+        })()
+        getAllCombineRoleWithPermission()
+    }, [])
 
     const handleInputChange = () => {}
 
@@ -156,6 +145,10 @@ const SettingRoleView = () => {
         key: string,
         e: CheckboxChangeEvent,
     ) => {
+        if(e.target.checked){
+
+        }
+
         const updatedCheckboxState = { ...checkboxState }
 
         updatedCheckboxState[namePermission] = {
@@ -221,6 +214,7 @@ const SettingRoleView = () => {
                     dataSource={data}
                     rowKey={(record) => record.namePermission}
                     loading={isLoading != FETCH_STATUS.SUCCESS}
+                    pagination={false}
                 />
             </div>
             <ModalRegisterRole />
