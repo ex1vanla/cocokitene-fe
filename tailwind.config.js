@@ -35,6 +35,11 @@ module.exports = {
                 '01': '0px -1px 0px 0px #F0F0F0 inset',
                 '02':'0px 2px 0px 0px #0000000B'
             },
+            animation:{
+                'slide-right': 'slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+                'slide-left': 'slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+                'slide-left1': 'slide-left1 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+            }
         },
     },
     plugins: [
