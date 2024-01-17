@@ -15,9 +15,13 @@ interface DataType {
     [key: string]: any
 }
 
-type RolePermissionApi = {
-    "permissionId": number;
-    "roleIds": number[]
+type PermissionChecked = {
+    permissionId: number
+    roleId: RoleChecked[]
+}
+
+type RoleChecked = {
+    [key: number]: number
 }
 
 const SettingRoleView = () => {
@@ -26,12 +30,19 @@ const SettingRoleView = () => {
         useSettingRole()
     const [clickButtonEdit, setClickButtonEdit] = useState<boolean>(false)
     const [checkboxState, setCheckboxState] = useState<any>({})
+    const [dataInitial, setDataInitial] = useState<any>({})
     const [widthRoleColumn, setWidthRoleColumn] = useState<string>('20%')
     const [isLoading, setIsLoading] = useState<FETCH_STATUS>(FETCH_STATUS.IDLE)
     const [data, setData] = useState<any>(null)
     const [columns, setColumns] = useState<any>(null)
-    const [permissions, setPermissions] = useState<any>(null)
-    const [roles, setRoles] = useState<any>(null)
+    const [permissions, setPermissions] = useState<
+        { id: number; key: string }[] | null
+    >(null)
+    const [roles, setRoles] = useState<{ id: number; key: string }[] | null>(
+        null,
+    )
+    const [dataChecked, setDataCheked] = useState<PermissionChecked[]>([])
+    console.log('dataChecked', dataChecked)
 
     useEffect(() => {
         if (settingRoleState.permissionRoleList) {
@@ -46,6 +57,7 @@ const SettingRoleView = () => {
                 },
             )
             setCheckboxState(initialCheckboxState)
+            setDataInitial(initialCheckboxState)
 
             const totalRoleColumn = Object.keys(
                 Object.values(settingRoleState.permissionRoleList)[0],
@@ -77,6 +89,9 @@ const SettingRoleView = () => {
                         style={{
                             pointerEvents: !clickButtonEdit ? 'none' : 'auto',
                         }}
+                        defaultChecked={
+                            checkboxState[record.namePermission]?.[item]
+                        }
                         checked={checkboxState[record.namePermission]?.[item]}
                         onChange={(e) =>
                             onChange(record.namePermission, item, e)
@@ -107,27 +122,24 @@ const SettingRoleView = () => {
     useEffect(() => {
         ;(async () => {
             try {
-                // const permissionResponse = await serviceSettingRole.getAllPermissions(
-                //     1,
-                //     100,
-                // )
-                // const permissionList = permissionResponse.map((item) => ({
-                //     value: item.id,
-                //     label: convertSnakeCaseToTitleCase(item.key),
-                // }))
-                // setPermissions(permissionList)
+                const permissionResponse =
+                    await serviceSettingRole.getAllPermissions(1, 100)
+                const permissionList = permissionResponse.map((item) => ({
+                    id: item.id,
+                    key: item.key,
+                }))
+                setPermissions(permissionList)
 
                 const roleResponse = await serviceSettingRole.getAllRoles(
                     1,
                     100,
                 )
-                const roleList = roleResponse.map((item) => ({
-                    value: item.id,
-                    label: convertSnakeCaseToTitleCase(item.key),
+                const roleList = roleResponse.items.map((item) => ({
+                    id: item.id,
+                    key: item.roleName,
                 }))
                 setRoles(roleList)
             } catch (error) {
-                console.log('error', error)
                 notification.error({
                     message: 'error',
                 })
@@ -145,8 +157,76 @@ const SettingRoleView = () => {
         key: string,
         e: CheckboxChangeEvent,
     ) => {
-        if(e.target.checked){
+        const checkValueChange =
+            dataInitial[namePermission]?.[key] !== e.target.checked
+        const idPermission = permissions?.find(
+            (item) => item.key === namePermission,
+        )?.id
+        //find id role
+        const idRole = roles?.find((item) => item.key === key)?.id
+        //check trường hợp nếu data không giống với initial
+        if (idPermission && idRole) {
+            if (checkValueChange) {
+                // Kiểm tra xem đã có đối tượng với permissionId tương ứng chưa
+                const existingDataIndex = dataChecked.findIndex(
+                    (item) => item.permissionId === idPermission,
+                )
+                if (existingDataIndex !== -1) {
+                    // Nếu đã tồn tại, kiểm tra xem idRole đã được thêm vào roleId chưa
+                    const existingRoleIndex = dataChecked[
+                        existingDataIndex
+                    ].roleId.findIndex((role) => role[idRole] !== undefined)
 
+                    if (existingRoleIndex !== -1) {
+                        // Nếu đã tồn tại, cập nhật giá trị của roleId
+                        const newDataChecked = [...dataChecked]
+                        newDataChecked[existingDataIndex].roleId[
+                            existingRoleIndex
+                        ] = { [idRole]: e.target.checked ? 1 : 0 }
+                        setDataCheked(newDataChecked)
+                    } else {
+                        // Nếu chưa có, thêm mới vào roleId
+                        const newDataChecked = [...dataChecked]
+                        newDataChecked[existingDataIndex].roleId.push({
+                            [idRole]: e.target.checked ? 1 : 0,
+                        })
+                        setDataCheked(newDataChecked)
+                    }
+                } else {
+                    // Nếu chưa có dữ liệu với permissionId tương ứng, tạo mới và thêm vào state
+                    const newDataChecked = [
+                        ...dataChecked,
+                        {
+                            permissionId: idPermission,
+                            roleId: [{ [idRole]: e.target.checked ? 1 : 0 }],
+                        },
+                    ]
+                    setDataCheked(newDataChecked)
+                }
+                // Kiểm tra trong mảng có chưa. Nếu chưa có thì thêm vào còn có rồi thì update lại value
+            } else {
+                // Trường hợp data đang được chọn lại 2 lần. Loại bỏ nó đi
+                const newDataChecked = [...dataChecked]
+                const existingDataIndex = newDataChecked.findIndex(
+                    (item) => item.permissionId === idPermission,
+                )
+
+                if (existingDataIndex !== -1) {
+                    // Nếu tồn tại đối tượng với permissionId tương ứng
+                    newDataChecked[existingDataIndex].roleId = newDataChecked[
+                        existingDataIndex
+                    ].roleId.filter(
+                        (role) => Object.keys(role)[0] !== idRole.toString(),
+                    )
+
+                    // Kiểm tra xem sau khi loại bỏ roleId, nếu mảng roleId trở thành rỗng, loại bỏ cả đối tượng
+                    if (newDataChecked[existingDataIndex].roleId.length === 0) {
+                        newDataChecked.splice(existingDataIndex, 1)
+                    }
+
+                    setDataCheked(newDataChecked)
+                }
+            }
         }
 
         const updatedCheckboxState = { ...checkboxState }

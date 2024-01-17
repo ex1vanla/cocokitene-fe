@@ -1,5 +1,5 @@
 import { get } from './fetcher'
-import { IPermissionResponse, IRoleResponse } from './response.type'
+import { IGetAllDataReponse, IPermissionResponse, IRoleResponse } from './response.type'
 
 const serviceSettingRole = {
     getAllPermissions: async (
@@ -15,13 +15,11 @@ const serviceSettingRole = {
     getAllRoles: async (
         page: number,
         limit: number,
-    ): Promise<IRoleResponse[]> => {
+    ): Promise<IGetAllDataReponse<IRoleResponse>> => {
         const payload = { page, limit }
-        const response = await get('/roles', payload)
-        console.log("check response", response)
+        const response: { data: IGetAllDataReponse<IRoleResponse> } = await get('/roles', payload)
 
-        if (response) return response?.data as IRoleResponse[]
-        return []
+        return response.data
     },
     getCombineRoleWithPermission: async (): Promise<any> => {
         const response = await get('/role-permissions')

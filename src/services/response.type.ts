@@ -289,9 +289,3 @@ export interface IPermissionResponse {
     key: string
     description?: string
 }
-
-export interface IRoleResponse {
-    id: number
-    key: string
-    description?: string
-}
