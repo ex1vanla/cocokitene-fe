@@ -90,3 +90,14 @@ export interface ICompanyDetailResponse {
     superAdminInfo: IUserResponse
     servicePlan: IPlanResponse
 }
+
+
+export interface IListPlanResponse {
+    id: number,
+    planName: string,
+    description: string,
+    maxStorage: number,
+    maxMeeting: number,
+    price: number,
+    maxShareholderAccount: number
+}

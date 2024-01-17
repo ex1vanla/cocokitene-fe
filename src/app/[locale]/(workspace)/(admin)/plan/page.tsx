@@ -1,5 +1,5 @@
-const PlanPage = () => {
-    return <h1>This is plan page</h1>
-}
+'use client'
 
-export default PlanPage
+import ServicePlanList from '@/views/service-plan'
+
+export default ServicePlanList
