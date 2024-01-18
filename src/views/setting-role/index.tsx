@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import ModalRegisterRole from './modal-register-role'
 import { AxiosError } from 'axios'
+import { RoleName } from '@/constants/role'
 interface DataType {
     namePermission: string
     [key: string]: any
@@ -113,9 +114,7 @@ const SettingRoleView = () => {
                         style={{
                             pointerEvents: !clickButtonEdit ? 'none' : 'auto',
                         }}
-                        defaultChecked={
-                            checkboxState[record.namePermission]?.[item]
-                        }
+                        disabled={item === RoleName.SUPER_ADMIN}
                         checked={checkboxState[record.namePermission]?.[item]}
                         onChange={(e) =>
                             onChange(record.namePermission, item, e)
