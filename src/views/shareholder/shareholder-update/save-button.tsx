@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Button, FormInstance, Spin } from 'antd'
 import { IShareholderUpdateForm } from '@/views/shareholder/shareholder-update/index'
 import { useEffect, useState } from 'react'

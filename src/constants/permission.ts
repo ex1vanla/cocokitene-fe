@@ -24,4 +24,5 @@ export enum Permissions {
     EDIT_SHAREHOLDERS = 'edit_shareholders',
     DETAIL_PROFILE = 'detail_profile',
     EDIT_PROFILE = 'edit_profile',
+    SETTING_PERMISSIONS_FOR_ROLES = 'setting_permission_for_roles'
 }

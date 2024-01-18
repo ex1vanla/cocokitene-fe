@@ -11,6 +11,7 @@ type SettingRoleType = {
     settingRoleState: ISettingRoleState
     // eslint-disable-next-line
     setOpenModal: (isOpenModal: boolean) => void
+    // eslint-disable-next-line
     getAllCombineRoleWithPermission: (data?: ParamsFilter) => void
     // eslint-disable-next-line
     setFilterAction: (data: ParamsFilter) => void

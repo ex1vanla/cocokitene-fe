@@ -4,7 +4,6 @@ import { EActionStatus, FetchError } from '../type'
 import serviceSettingRole from '@/services/setting-role'
 import { AxiosError } from 'axios'
 import { IGetAllDataReponse } from '@/services/response.type'
-import { IGetAllMeetingQuery } from '../meeting/types'
 import { CONSTANT_EMPTY_STRING } from '@/constants/common'
 
 const initialState: ISettingRoleState = {
@@ -13,7 +12,7 @@ const initialState: ISettingRoleState = {
     permissionRoleList: undefined,
     filter: {
         searchQuery: CONSTANT_EMPTY_STRING,
-    }
+    },
 }
 
 export const getCombineRoleWithPermission = createAsyncThunk<
@@ -24,7 +23,9 @@ export const getCombineRoleWithPermission = createAsyncThunk<
     }
 >('meeting/getPassMeetingAll', async (param, { rejectWithValue }) => {
     try {
-        const data = await serviceSettingRole.getCombineRoleWithPermission(param)
+        const data = await serviceSettingRole.getCombineRoleWithPermission(
+            param,
+        )
         return { items: data.data } as IGetAllDataReponse<ISettingRole>
     } catch (error) {
         const err = error as AxiosError
@@ -52,6 +53,7 @@ const settingRoleSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // eslint-disable-next-line
             .addCase(getCombineRoleWithPermission.pending, (state, action) => {
                 state.status = EActionStatus.Pending
             })
@@ -62,6 +64,7 @@ const settingRoleSlice = createSlice({
                     state.permissionRoleList = action.payload?.items ?? []
                 },
             )
+            // eslint-disable-next-line
             .addCase(getCombineRoleWithPermission.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
             })

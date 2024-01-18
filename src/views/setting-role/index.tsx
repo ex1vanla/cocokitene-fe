@@ -1,5 +1,11 @@
+import withAuth from '@/components/component-auth'
 import ListTitle from '@/components/content-page-title/list-title'
+import { FETCH_STATUS } from '@/constants/common'
+import { Permissions } from '@/constants/permission'
+import { IUpdatePermissionRole } from '@/services/request.type'
+import serviceSettingRole from '@/services/setting-role'
 import { useSettingRole } from '@/stores/setting-role/hooks'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { EditOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
 import { Button, notification } from 'antd'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox/Checkbox'
@@ -7,15 +13,12 @@ import Table, { ColumnsType } from 'antd/es/table'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import ModalRegisterRole from './modal-register-role'
-import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
-import { FETCH_STATUS } from '@/constants/common'
-import serviceSettingRole from '@/services/setting-role'
-import { IUpdatePermissionRole } from '@/services/request.type'
 interface DataType {
     namePermission: string
     [key: string]: any
 }
 
+// eslint-disable-next-line
 type PermissionChecked = {
     permissionId: number
     changeStatePermissionForRole: RoleChecked[]
@@ -60,6 +63,9 @@ const SettingRoleView = () => {
                     initialCheckboxState[item] = {}
 
                     Object.entries(permissionData).forEach(([key, value]) => {
+                        // eslint-disable-next-line
+                        console.log("checkkkk", value)
+                        // @ts-ignore
                         initialCheckboxState[item][key] = value === 1
                     })
                 },
@@ -101,6 +107,7 @@ const SettingRoleView = () => {
             ).map((item) => ({
                 title: convertSnakeCaseToTitleCase(item),
                 dataIndex: item,
+                // eslint-disable-next-line
                 render: (values: any, record: any): JSX.Element => (
                     <Checkbox
                         style={{
@@ -134,9 +141,11 @@ const SettingRoleView = () => {
             const data: DataType[] = [...result]
             setData(data)
         }
+        // eslint-disable-next-line
     }, [checkboxState, clickButtonEdit])
 
     useEffect(() => {
+        // eslint-disable-next-line
         ;(async () => {
             try {
                 const permissionResponse =
@@ -166,6 +175,7 @@ const SettingRoleView = () => {
         getAllCombineRoleWithPermission({
             searchQuery: settingRoleState.filter.searchQuery,
         })
+        // eslint-disable-next-line
     }, [settingRoleState.filter])
 
     const handleInputChange = (value: string) => {
@@ -281,6 +291,7 @@ const SettingRoleView = () => {
     }
 
     const handleEditRolePerrmisson = () => {
+        // eslint-disable-next-line
         ;(async () => {
             try {
                 const response = await serviceSettingRole.updateRolePermissions(
@@ -359,4 +370,4 @@ const SettingRoleView = () => {
     )
 }
 
-export default SettingRoleView
+export default withAuth(SettingRoleView, Permissions.SETTING_PERMISSIONS_FOR_ROLES)

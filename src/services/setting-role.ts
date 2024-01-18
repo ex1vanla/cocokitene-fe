@@ -2,7 +2,6 @@ import { ParamsFilter } from '@/stores/setting-role/type'
 import { get, patch, post } from './fetcher'
 import { ICreateRolePayload, IUpdatePermissionRole } from './request.type'
 import {
-    IGetAllDataReponse,
     IPermissionResponse,
     IRoleResponse,
 } from './response.type'

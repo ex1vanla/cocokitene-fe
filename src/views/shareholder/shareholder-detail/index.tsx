@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useParams, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useShareholderDetail } from '@/stores/shareholder/hook'

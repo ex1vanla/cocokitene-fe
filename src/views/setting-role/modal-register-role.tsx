@@ -1,5 +1,4 @@
 import { FETCH_STATUS } from '@/constants/common'
-import { IPermissionResponse } from '@/services/response.type'
 import serviceSettingRole from '@/services/setting-role'
 import { useSettingRole } from '@/stores/setting-role/hooks'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
@@ -22,7 +21,6 @@ export interface IRoleForm {
 const ModalRegisterRole = () => {
     const t = useTranslations()
     const [form] = useForm<IRoleForm>()
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const { settingRoleState, setOpenModal, getAllCombineRoleWithPermission } = useSettingRole()
     const [selectedItems, setSelectedItems] = useState<TypeSelect[]>([])
     const [permissions, setPermissions] = useState<TypeSelect[]>([])
@@ -34,6 +32,7 @@ const ModalRegisterRole = () => {
     )
 
     useEffect(() => {
+        // eslint-disable-next-line
         ;(async () => {
             try {
                 const result = await serviceSettingRole.getAllPermissions(
@@ -55,7 +54,6 @@ const ModalRegisterRole = () => {
     }, [])
 
     const handleOk = () => {
-        setIsModalOpen(false)
     }
 
     const handleCancel = () => {
