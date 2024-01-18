@@ -1,3 +1,4 @@
+/* eslint-disable */
 import withAuth from '@/components/component-auth'
 import ListTitle from '@/components/content-page-title/list-title'
 import { FETCH_STATUS } from '@/constants/common'
@@ -13,6 +14,7 @@ import Table, { ColumnsType } from 'antd/es/table'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import ModalRegisterRole from './modal-register-role'
+import { AxiosError } from 'axios'
 interface DataType {
     namePermission: string
     [key: string]: any
@@ -63,8 +65,6 @@ const SettingRoleView = () => {
                     initialCheckboxState[item] = {}
 
                     Object.entries(permissionData).forEach(([key, value]) => {
-                        // eslint-disable-next-line
-                        console.log("checkkkk", value)
                         // @ts-ignore
                         initialCheckboxState[item][key] = value === 1
                     })
@@ -166,10 +166,12 @@ const SettingRoleView = () => {
                 }))
                 setRoles(roleList)
             } catch (error) {
-                console.log('error', error)
-                notification.error({
-                    message: 'error',
-                })
+                if (error instanceof AxiosError) {
+                    notification.error({
+                        message: t('ERROR'),
+                        description: error.response?.data.info.message,
+                    })
+                }
             }
         })()
         getAllCombineRoleWithPermission({
@@ -189,23 +191,28 @@ const SettingRoleView = () => {
         key: string,
         e: CheckboxChangeEvent,
     ) => {
+        // Check if the value has changed
         const checkValueChange =
             dataInitial[namePermission]?.[key] !== e.target.checked
+
+        // Find the permission ID based on the namePermission
         const idPermission = permissions?.find(
             (item) => item.key === namePermission,
         )?.id
-        //find id role
+
+        // Find the role ID based on the key
         const idRole = roles?.find((item) => item.key === key)?.id
-        //check trường hợp nếu data không giống với initial
+
+        // Check the case where the data is different from the initial
         if (idPermission && idRole) {
             if (checkValueChange) {
-                // Kiểm tra xem đã có đối tượng với permissionId tương ứng chưa
+                // Check if there is an object with the corresponding permissionId
                 const existingDataIndex = dataChecked.findIndex(
                     (item) => item.permissionId === idPermission,
                 )
 
                 if (existingDataIndex !== -1) {
-                    // Nếu đã tồn tại, kiểm tra xem idRole đã được thêm vào roleId chưa
+                    // If it exists, check if idRole has been added to roleId
                     const existingRoleIndex = dataChecked[
                         existingDataIndex
                     ].changeStatePermissionForRole.findIndex(
@@ -213,7 +220,7 @@ const SettingRoleView = () => {
                     )
 
                     if (existingRoleIndex !== -1) {
-                        // Nếu đã tồn tại, cập nhật giá trị của roleId
+                        // If it exists, update the value of roleId
                         const newDataChecked = [...dataChecked]
                         newDataChecked[
                             existingDataIndex
@@ -223,7 +230,7 @@ const SettingRoleView = () => {
                         }
                         setDataCheked(newDataChecked)
                     } else {
-                        // Nếu chưa có, thêm mới vào roleId
+                        // If it doesn't exist, add a new one to roleId
                         const newDataChecked = [...dataChecked]
                         newDataChecked[
                             existingDataIndex
@@ -234,7 +241,7 @@ const SettingRoleView = () => {
                         setDataCheked(newDataChecked)
                     }
                 } else {
-                    // Nếu chưa có dữ liệu với permissionId tương ứng, tạo mới và thêm vào state
+                    // If there is no data with the corresponding permissionId, create a new one and add it to the state
                     const newDataChecked = [
                         ...dataChecked,
                         {
@@ -249,16 +256,15 @@ const SettingRoleView = () => {
                     ]
                     setDataCheked(newDataChecked)
                 }
-                // Kiểm tra trong mảng có chưa. Nếu chưa có thì thêm vào còn có rồi thì update lại value
             } else {
-                // Trường hợp data đang được chọn lại 2 lần. Loại bỏ nó đi
+                // If the data is being selected again twice, remove it
                 const newDataChecked = [...dataChecked]
                 const existingDataIndex = newDataChecked.findIndex(
                     (item) => item.permissionId === idPermission,
                 )
 
                 if (existingDataIndex !== -1) {
-                    // Nếu tồn tại đối tượng với permissionId tương ứng
+                    // If there is an object with the corresponding permissionId
                     newDataChecked[
                         existingDataIndex
                     ].changeStatePermissionForRole = newDataChecked[
@@ -267,7 +273,7 @@ const SettingRoleView = () => {
                         (role) => role.roleId !== idRole,
                     )
 
-                    // Kiểm tra xem sau khi loại bỏ roleId, nếu mảng roleId trở thành rỗng, loại bỏ cả đối tượng
+                    // Check if, after removing roleId, if the roleId array becomes empty, remove the entire object
                     if (
                         newDataChecked[existingDataIndex]
                             .changeStatePermissionForRole.length === 0
@@ -280,6 +286,7 @@ const SettingRoleView = () => {
             }
         }
 
+        // Update the checkbox state
         const updatedCheckboxState = { ...checkboxState }
 
         updatedCheckboxState[namePermission] = {
@@ -299,17 +306,20 @@ const SettingRoleView = () => {
                 )
                 if (response) {
                     notification.success({
-                        message: 'Success',
+                        message: t('UPDATED_PERMISSION'),
+                        description: t('CHANGE_RESULT_PERMISSION_SUCCESSFULLY'),
                     })
                     setClickButtonEdit(!clickButtonEdit)
                     setDataCheked([])
                     getAllCombineRoleWithPermission()
                 }
             } catch (error) {
-                console.log('error', error)
-                notification.error({
-                    message: 'error',
-                })
+                if (error instanceof AxiosError) {
+                    notification.error({
+                        message: t('ERROR'),
+                        description: error.response?.data.info.message,
+                    })
+                }
             }
         })()
     }
@@ -339,7 +349,7 @@ const SettingRoleView = () => {
                                     setClickButtonEdit(!clickButtonEdit)
                                 }
                             >
-                                Edit
+                                {t('EDIT')}
                             </Button>
                         ) : (
                             <Button
@@ -348,7 +358,7 @@ const SettingRoleView = () => {
                                 size="large"
                                 onClick={() => handleEditRolePerrmisson()}
                             >
-                                Save
+                                {t('SAVE')}
                             </Button>
                         )}
                     </>
@@ -362,7 +372,7 @@ const SettingRoleView = () => {
                     dataSource={data}
                     rowKey={(record) => record.namePermission}
                     loading={isLoading != FETCH_STATUS.SUCCESS}
-                    pagination={false}
+                    // pagination={false}
                 />
             </div>
             <ModalRegisterRole />
@@ -370,4 +380,7 @@ const SettingRoleView = () => {
     )
 }
 
-export default withAuth(SettingRoleView, Permissions.SETTING_PERMISSIONS_FOR_ROLES)
+export default withAuth(
+    SettingRoleView,
+    Permissions.SETTING_PERMISSIONS_FOR_ROLES,
+)

@@ -1,9 +1,9 @@
-import { FETCH_STATUS } from '@/constants/common'
 import serviceSettingRole from '@/services/setting-role'
 import { useSettingRole } from '@/stores/setting-role/hooks'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
-import { Button, Form, Input, Modal, Select, Spin, notification } from 'antd'
+import { Button, Form, Input, Modal, Select, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form'
+import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -21,10 +21,10 @@ export interface IRoleForm {
 const ModalRegisterRole = () => {
     const t = useTranslations()
     const [form] = useForm<IRoleForm>()
-    const { settingRoleState, setOpenModal, getAllCombineRoleWithPermission } = useSettingRole()
+    const { settingRoleState, setOpenModal, getAllCombineRoleWithPermission } =
+        useSettingRole()
     const [selectedItems, setSelectedItems] = useState<TypeSelect[]>([])
     const [permissions, setPermissions] = useState<TypeSelect[]>([])
-    const [status, setStatus] = useState(FETCH_STATUS.IDLE)
 
     const filteredOptions = useMemo(
         () => permissions.filter((o) => !selectedItems.includes(o)),
@@ -45,16 +45,18 @@ const ModalRegisterRole = () => {
                 }))
                 setPermissions(data)
             } catch (error) {
-                console.log('error', error)
-                notification.error({
-                    message: 'error',
-                })
+                if (error instanceof AxiosError) {
+                    notification.error({
+                        message: t('ERROR'),
+                        description: error.response?.data.info.message,
+                    })
+                }
             }
         })()
+        // eslint-disable-next-line
     }, [])
 
-    const handleOk = () => {
-    }
+    const handleOk = () => {}
 
     const handleCancel = () => {
         form.resetFields()
@@ -62,7 +64,6 @@ const ModalRegisterRole = () => {
     }
 
     const onFinish = async (values: IRoleForm) => {
-        setStatus(FETCH_STATUS.LOADING)
         try {
             const res = await serviceSettingRole.createRole({
                 roleName: values.roleName,
@@ -72,20 +73,24 @@ const ModalRegisterRole = () => {
             if (res) {
                 notification.success({
                     message: t('CREATED'),
-                    description: 'Created Role',
+                    description: t('CREATE_NEW_ROLE'),
                 })
                 form.resetFields()
-                setStatus(FETCH_STATUS.SUCCESS)
                 setOpenModal(false)
                 getAllCombineRoleWithPermission()
             }
         } catch (error) {
-            setStatus(FETCH_STATUS.ERROR)
+            if (error instanceof AxiosError) {
+                notification.error({
+                    message: t('ERROR'),
+                    description: error.response?.data.info.message,
+                })
+            }
         }
     }
     return (
         <Modal
-            title="Create role permission"
+            title={t('TITLE_CREATE_ROLE')}
             open={settingRoleState.openModalRegisterRole}
             onOk={handleOk}
             onCancel={handleCancel}
@@ -97,33 +102,33 @@ const ModalRegisterRole = () => {
                 <Form layout="vertical" form={form} onFinish={onFinish}>
                     <Form.Item
                         name="roleName"
-                        label="Role Name"
+                        label={t('ROLE_NAME')}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your Role Name!',
+                                message: t('PLEASE_INPUT_YOUR_ROLE_NAME'),
                             },
                         ]}
                     >
-                        <Input size="large" placeholder="Role Name" />
+                        <Input size="large" placeholder={t('ROLE_NAME')} />
                     </Form.Item>
-                    <Form.Item name="description" label="Description">
-                        <Input size="large" placeholder="Description" />
+                    <Form.Item name="description" label={t('DESCRIPTION')}>
+                        <Input size="large" placeholder={t('DESCRIPTION')} />
                     </Form.Item>
 
                     <Form.Item
                         name="permissions"
-                        label="Select Permissions"
+                        label={t('SELECT_PERMISSION')}
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your Permissions!',
+                                message: t('PLEASE_INPUT_YOUR_PERMISSIONS'),
                             },
                         ]}
                     >
                         <Select
                             mode="multiple"
-                            placeholder="Permissions"
+                            placeholder={t('PERMISSIONS')}
                             value={selectedItems}
                             onChange={setSelectedItems}
                             style={{ width: '100%' }}
@@ -147,21 +152,16 @@ const ModalRegisterRole = () => {
                             style={{ marginRight: '30px' }}
                             onClick={handleCancel}
                         >
-                            Cancel
+                            {t('CANCEL')}
                         </Button>
-                        <Spin
-                            spinning={status === FETCH_STATUS.LOADING}
-                            delay={0}
+                        <Button
+                            size="large"
+                            type="primary"
+                            htmlType="submit"
+                            className="bg-#5151E5 rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
                         >
-                            <Button
-                                size="large"
-                                type="primary"
-                                htmlType="submit"
-                                className="bg-#5151E5 rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
-                            >
-                                {t('SUBMIT')}
-                            </Button>
-                        </Spin>
+                            {t('SUBMIT')}
+                        </Button>
                     </Form.Item>
                 </Form>
             </div>
