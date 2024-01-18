@@ -11,6 +11,7 @@ import { useEffect } from 'react'
 import MyProfileInfo from './profile-info'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
+import { checkPermission } from '@/utils/auth'
 
 const MyProfileDetail = () => {
     const router = useRouter()
@@ -19,6 +20,11 @@ const MyProfileDetail = () => {
     const { authState } = useAuthLogin()
 
     const [{ account, status }, fetchAccountDetail] = useAccountDetail()
+
+    const permissionEditProfile = checkPermission(
+        authState.userData?.permissionKeys,
+        Permissions.EDIT_PROFILE,
+    )
 
     useEffect(() => {
         if (authState.userData?.id) {
@@ -36,18 +42,20 @@ const MyProfileDetail = () => {
                 urlBack="/dashboard"
                 pageName={t('MY_PROFILE')}
                 editButton={
-                    <Button
-                        icon={<EditOutlined />}
-                        type="default"
-                        size="large"
-                        onClick={() =>
-                            router.push(
-                                `/profile/update/${authState.userData?.id}`,
-                            )
-                        }
-                    >
-                        {t('EDIT')}
-                    </Button>
+                    permissionEditProfile && (
+                        <Button
+                            icon={<EditOutlined />}
+                            type="default"
+                            size="large"
+                            onClick={() =>
+                                router.push(
+                                    `/profile/update/${authState.userData?.id}`,
+                                )
+                            }
+                        >
+                            {t('EDIT')}
+                        </Button>
+                    )
                 }
             />
             <div className="p-6">
