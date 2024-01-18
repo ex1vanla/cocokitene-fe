@@ -10,11 +10,13 @@ import {
     UserOutlined,
     VideoCameraOutlined,
 } from '@ant-design/icons'
+import { Permissions } from './permission'
 
 export interface ISidebarItem {
     icon: any
     label: string
     key: string
+    permission?: string
 }
 
 export const SIDEBAR_ITEMS: ISidebarItem[] = [
@@ -22,31 +24,37 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: DashboardOutlined,
         label: 'DASHBOARD',
         key: '/dashboard',
+        permission: "DASHBOARD"
     },
     {
         icon: SettingOutlined,
         label: 'SETTING_ROLES',
         key: '/setting-role',
+        permission: Permissions.SETTING_PERMISSIONS_FOR_ROLES,
     },
-    {
-        icon: ClusterOutlined,
-        label: 'BOARD_MEETINGS',
-        key: '/board-meetings',
-    },
+    // {
+    //     icon: ClusterOutlined,
+    //     label: 'BOARD_MEETINGS',
+    //     key: '/board-meetings',
+    //     permission: Permissions.LIST_MEETING
+    // },
     {
         icon: VideoCameraOutlined,
         label: 'SHAREHOLDERS_MEETINGS',
         key: '/meeting',
+        permission: Permissions.LIST_MEETING,
     },
     {
         icon: UserOutlined,
         label: 'ACCOUNTS',
         key: '/account',
+        permission: Permissions.LIST_ACCOUNT,
     },
     {
         icon: TeamOutlined,
         label: 'SHAREHOLDERS',
         key: '/shareholder',
+        permission: Permissions.LIST_SHAREHOLDERS,
     },
 ]
 

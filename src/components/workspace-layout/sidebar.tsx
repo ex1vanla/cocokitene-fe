@@ -3,6 +3,8 @@ import {
     SIDEBAR_ITEMS,
     SIDEBAR_OPEN_WIDTH,
 } from '@/constants/common'
+import { useAuthLogin } from '@/stores/auth/hooks'
+import { checkPermission } from '@/utils/auth'
 import { capitalizeFirstLetter } from '@/utils/format-string'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Button, Layout, Menu, MenuProps } from 'antd'
@@ -19,6 +21,7 @@ interface ISidebar {
 }
 
 const Sidebar = ({ isCollapsed, setIsCollapsed }: ISidebar) => {
+    const { authState } = useAuthLogin()
     const pathname = usePathname()
 
     const router = useRouter()
@@ -33,12 +36,24 @@ const Sidebar = ({ isCollapsed, setIsCollapsed }: ISidebar) => {
     }
 
     const menuItems: MenuItem[] = SIDEBAR_ITEMS.map((sidebarItem) => {
-        const { label, key, icon } = sidebarItem
-        return {
-            key,
-            icon: createElement(icon),
-            label: capitalizeFirstLetter(t(label)),
+        const { label, key, icon, permission } = sidebarItem
+
+        if (
+            (permission &&
+                checkPermission(
+                    authState.userData?.permissionKeys,
+                    permission,
+                )) ||
+            permission === 'DASHBOARD'
+        ) {
+            return {
+                key,
+                icon: createElement(icon),
+                label: capitalizeFirstLetter(t(label)),
+            }
         }
+
+        return null
     })
 
     const getSelectedKey = useCallback(() => {
