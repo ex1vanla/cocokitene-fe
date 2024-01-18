@@ -50,7 +50,10 @@ const SettingRoleView = () => {
     const [dataChecked, setDataCheked] = useState<IUpdatePermissionRole[]>([])
 
     useEffect(() => {
-        if (settingRoleState.permissionRoleList && settingRoleState.permissionRoleList.length > 0) {
+        if (
+            settingRoleState.permissionRoleList &&
+            Object.keys(settingRoleState.permissionRoleList).length > 0
+        ) {
             const initialCheckboxState: any = {}
             Object.entries(settingRoleState.permissionRoleList).forEach(
                 ([item, permissionData]) => {
@@ -67,16 +70,25 @@ const SettingRoleView = () => {
             const totalRoleColumn = Object.keys(
                 Object.values(settingRoleState.permissionRoleList)[0],
             ).length
-            const widthRolesColumn = 80 //default 80%
+            const widthRolesColumn = 80 // default 80%
             setWidthRoleColumn(
                 `${(widthRolesColumn / totalRoleColumn).toFixed(2)}%`,
             )
+            setIsLoading(FETCH_STATUS.SUCCESS)
+        } else {
+            setCheckboxState({})
+            setDataInitial({})
+            setColumns(null)
+            setData([])
             setIsLoading(FETCH_STATUS.SUCCESS)
         }
     }, [settingRoleState.permissionRoleList])
 
     useEffect(() => {
-        if (settingRoleState.permissionRoleList) {
+        if (
+            settingRoleState.permissionRoleList &&
+            Object.keys(settingRoleState.permissionRoleList).length > 0
+        ) {
             const result = Object.entries(
                 settingRoleState.permissionRoleList,
             ).map(([namePermission, values]) => ({
