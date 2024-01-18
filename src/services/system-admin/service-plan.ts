@@ -1,6 +1,6 @@
 import { IGetAllPlanQuery } from "@/stores/service-plan/type";
 import { IGetAllDataReponse, IListPlanResponse } from "./response.type";
-import { get, post, patch } from '@/services/system-admin/fetcher-system'
+import { get } from '@/services/system-admin/fetcher-system'
 
 
 

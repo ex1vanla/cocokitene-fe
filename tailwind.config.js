@@ -35,10 +35,31 @@ module.exports = {
                 '01': '0px -1px 0px 0px #F0F0F0 inset',
                 '02':'0px 2px 0px 0px #0000000B'
             },
+            keyframes:{
+                'scale-up-card' : {
+                    '0%': {
+                      '-webkit-transform': "scale(1)",
+                              transform:' scale(1)',
+                    },
+                    '100%' : {
+                      '-webkit-transform': 'scale(1.05)',
+                              transform: 'scale(1.05)',
+                    }
+                  },
+                  'scale-down-card' : {
+                    '0%': {
+                      '-webkit-transform': "scale(1.05)",
+                              transform:' scale(1.05)',
+                    },
+                    '100%' : {
+                      '-webkit-transform': 'scale(1)',
+                              transform: 'scale(1)',
+                    }
+                  },
+            },
             animation:{
-                'slide-right': 'slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
-                'slide-left': 'slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
-                'slide-left1': 'slide-left1 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+                'scale-up-card' :'scale-up-card 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
+                'scale-down-card' :'scale-down-card 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both',
             }
         },
     },

@@ -2,7 +2,7 @@ import { getNumberLimitedPlan } from '@/utils/plan'
 import { Button, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { memo, useState } from 'react'
+import { memo, useRef, useState } from 'react'
 
 const { Title, Text } = Typography
 
@@ -32,24 +32,34 @@ const PlanCard = ({
     const t = useTranslations()
     const router = useRouter()
     const [isBold, setIsBold] = useState(false)
-    const hadleEnter = () => {
+    const cardRef = useRef<HTMLInputElement>(null)
+
+    const handleEnter = () => {
         setIsBold(true)
+        cardRef.current &&
+            cardRef.current.classList.remove('animate-scale-down-card')
+        cardRef.current &&
+            cardRef.current.classList?.add('animate-scale-up-card')
     }
     const handleLeave = () => {
         setIsBold(false)
+        cardRef.current &&
+            cardRef.current.classList?.remove('animate-scale-up-card')
+        cardRef.current &&
+            cardRef.current.classList?.add('animate-scale-down-card')
     }
 
     const quantityTextClass = `text-base font-normal ${
         isBold ? 'text-white' : ''
     }`
-    // console.log('planName', planName.toUpperCase())
 
     return (
         <div
             id="plan-item-wrapper"
             className={` relative flex flex-col border-[1px] border-blue-700 bg-white ${className}`}
-            onMouseEnter={hadleEnter}
+            onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}
+            ref={cardRef}
         >
             {isRecommended && (
                 <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-primary bg-yellow-sunrise px-4">
@@ -67,7 +77,7 @@ const PlanCard = ({
                 </Title>
             </div>
             <div
-                className={`plan-item__info flex flex-col gap-8 p-8 ${
+                className={`plan-item__info relative flex grow flex-col gap-8 p-8  ${
                     isBold ? 'bg-primary' : ''
                 }`}
             >
@@ -104,11 +114,15 @@ const PlanCard = ({
                         {getNumberLimitedPlan(maxStorage, t)} {t('GB_STORAGE')}
                     </Text>
 
-                    <Text className={quantityTextClass}>{description}</Text>
+                    <Text
+                        className={`${quantityTextClass} line-clamp-3 text-center `}
+                    >
+                        {description}
+                    </Text>
                 </div>
                 <Button
                     size="large"
-                    className={`mx-auto w-[80%] text-base font-normal ${
+                    className={`absolute bottom-14 mx-auto w-[80%] text-base font-normal      ${
                         isBold ? 'text-primary' : ''
                     }`}
                     //

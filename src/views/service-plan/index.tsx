@@ -1,8 +1,6 @@
 import withAuthAdmin from '@/components/component-auth-admin'
 import ListTitle from '@/components/content-page-title/list-title'
-import { useListCompany } from '@/stores/company/hooks'
 import { useListPlan } from '@/stores/service-plan/hooks'
-import CompanyList from '@/views/company/company-list'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'

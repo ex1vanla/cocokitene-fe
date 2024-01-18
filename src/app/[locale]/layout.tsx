@@ -5,6 +5,9 @@ import { ReactNode } from 'react'
 import { notFound } from 'next/navigation'
 import GlobalProvider from '@/global-provider'
 
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] })
 
 export const metadata: Metadata = {
