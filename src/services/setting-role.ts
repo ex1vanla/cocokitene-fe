@@ -7,12 +7,12 @@ import {
 } from './response.type'
 
 const serviceSettingRole = {
-    getAllPermissions: async (
+    getAllNormalPermissions: async (
         page: number,
         limit: number,
     ): Promise<IPermissionResponse[]> => {
         const payload = { page, limit }
-        const response = await get('/permissions', payload)
+        const response = await get('/permissions/normal-permission', payload)
 
         if (response) return response?.data as IPermissionResponse[]
         return []

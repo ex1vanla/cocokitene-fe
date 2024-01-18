@@ -149,7 +149,7 @@ const SettingRoleView = () => {
         ;(async () => {
             try {
                 const permissionResponse =
-                    await serviceSettingRole.getAllPermissions(1, 100)
+                    await serviceSettingRole.getAllNormalPermissions(1, 100)
                 const permissionList = permissionResponse.map((item) => ({
                     id: item.id,
                     key: item.key,

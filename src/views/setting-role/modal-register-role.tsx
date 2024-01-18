@@ -35,7 +35,7 @@ const ModalRegisterRole = () => {
         // eslint-disable-next-line
         ;(async () => {
             try {
-                const result = await serviceSettingRole.getAllPermissions(
+                const result = await serviceSettingRole.getAllNormalPermissions(
                     1,
                     100,
                 )
