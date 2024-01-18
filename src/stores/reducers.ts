@@ -13,6 +13,7 @@ import accountDetailReducer from '@/stores/account/detailSlice'
 import shareholderListReducer from '@/stores/shareholder/listSlice'
 import shareholderDetailReducer from '@/stores/shareholder/detailSlice'
 import settingRoleReducer from '@/stores/setting-role/slice'
+import planListSlice from '@/stores/service-plan/listSlice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
     shareholderList: shareholderListReducer,
     shareholderDetail: shareholderDetailReducer,
     settingRole: settingRoleReducer,
+    planListSlice : planListSlice,
 })
 
 export default rootReducer
