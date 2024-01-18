@@ -7,16 +7,14 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import PlanList from './service-plan-list'
+import { EActionStatus } from '@/stores/type'
+import Loader from '@/components/loader'
 
 const ServicePlanList = () => {
     const t = useTranslations()
     const router = useRouter()
-    // const { companyState, getListCompanyAction, setFilterAction } =
-    //     useListCompany()
 
     const { planState, getListPlanAction, setFilterAction } = useListPlan()
-
-    // console.log('planState', planState)
 
     useEffect(() => {
         getListPlanAction({
@@ -33,6 +31,10 @@ const ServicePlanList = () => {
 
     const handleSelectChange = (value: string) => {
         setFilterAction({ ...planState.filter, sortOrder: value })
+    }
+
+    if (!planState || planState?.status === EActionStatus.Pending) {
+        return <Loader />
     }
     return (
         <div>
@@ -58,7 +60,6 @@ const ServicePlanList = () => {
                 <div className="w-full bg-white p-6 px-6 py-4 shadow-01">
                     <PlanList />
                 </div>
-                {/* <CompanyList data={companyState.companyList} /> */}
             </div>
         </div>
     )
