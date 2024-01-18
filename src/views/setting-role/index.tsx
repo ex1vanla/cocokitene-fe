@@ -10,6 +10,7 @@ import ModalRegisterRole from './modal-register-role'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { FETCH_STATUS } from '@/constants/common'
 import serviceSettingRole from '@/services/setting-role'
+import { IUpdatePermissionRole } from '@/services/request.type'
 interface DataType {
     namePermission: string
     [key: string]: any
@@ -17,17 +18,22 @@ interface DataType {
 
 type PermissionChecked = {
     permissionId: number
-    roleId: RoleChecked[]
+    changeStatePermissionForRole: RoleChecked[]
 }
 
 type RoleChecked = {
-    [key: number]: number
+    roleId: number
+    state: number
 }
 
 const SettingRoleView = () => {
     const t = useTranslations()
-    const { settingRoleState, getAllCombineRoleWithPermission, setOpenModal } =
-        useSettingRole()
+    const {
+        settingRoleState,
+        getAllCombineRoleWithPermission,
+        setOpenModal,
+        setFilterAction,
+    } = useSettingRole()
     const [clickButtonEdit, setClickButtonEdit] = useState<boolean>(false)
     const [checkboxState, setCheckboxState] = useState<any>({})
     const [dataInitial, setDataInitial] = useState<any>({})
@@ -41,11 +47,10 @@ const SettingRoleView = () => {
     const [roles, setRoles] = useState<{ id: number; key: string }[] | null>(
         null,
     )
-    const [dataChecked, setDataCheked] = useState<PermissionChecked[]>([])
-    console.log('dataChecked', dataChecked)
+    const [dataChecked, setDataCheked] = useState<IUpdatePermissionRole[]>([])
 
     useEffect(() => {
-        if (settingRoleState.permissionRoleList) {
+        if (settingRoleState.permissionRoleList && settingRoleState.permissionRoleList.length > 0) {
             const initialCheckboxState: any = {}
             Object.entries(settingRoleState.permissionRoleList).forEach(
                 ([item, permissionData]) => {
@@ -134,21 +139,26 @@ const SettingRoleView = () => {
                     1,
                     100,
                 )
-                const roleList = roleResponse.items.map((item) => ({
+                const roleList = roleResponse.map((item) => ({
                     id: item.id,
                     key: item.roleName,
                 }))
                 setRoles(roleList)
             } catch (error) {
+                console.log('error', error)
                 notification.error({
                     message: 'error',
                 })
             }
         })()
-        getAllCombineRoleWithPermission()
-    }, [])
+        getAllCombineRoleWithPermission({
+            searchQuery: settingRoleState.filter.searchQuery,
+        })
+    }, [settingRoleState.filter])
 
-    const handleInputChange = () => {}
+    const handleInputChange = (value: string) => {
+        setFilterAction({ searchQuery: value })
+    }
 
     const handleSelectChange = () => {}
 
@@ -171,24 +181,33 @@ const SettingRoleView = () => {
                 const existingDataIndex = dataChecked.findIndex(
                     (item) => item.permissionId === idPermission,
                 )
+
                 if (existingDataIndex !== -1) {
                     // Nếu đã tồn tại, kiểm tra xem idRole đã được thêm vào roleId chưa
                     const existingRoleIndex = dataChecked[
                         existingDataIndex
-                    ].roleId.findIndex((role) => role[idRole] !== undefined)
+                    ].changeStatePermissionForRole.findIndex(
+                        (role) => role.roleId === idRole,
+                    )
 
                     if (existingRoleIndex !== -1) {
                         // Nếu đã tồn tại, cập nhật giá trị của roleId
                         const newDataChecked = [...dataChecked]
-                        newDataChecked[existingDataIndex].roleId[
-                            existingRoleIndex
-                        ] = { [idRole]: e.target.checked ? 1 : 0 }
+                        newDataChecked[
+                            existingDataIndex
+                        ].changeStatePermissionForRole[existingRoleIndex] = {
+                            roleId: idRole,
+                            state: e.target.checked ? 1 : 0,
+                        }
                         setDataCheked(newDataChecked)
                     } else {
                         // Nếu chưa có, thêm mới vào roleId
                         const newDataChecked = [...dataChecked]
-                        newDataChecked[existingDataIndex].roleId.push({
-                            [idRole]: e.target.checked ? 1 : 0,
+                        newDataChecked[
+                            existingDataIndex
+                        ].changeStatePermissionForRole.push({
+                            roleId: idRole,
+                            state: e.target.checked ? 1 : 0,
                         })
                         setDataCheked(newDataChecked)
                     }
@@ -198,7 +217,12 @@ const SettingRoleView = () => {
                         ...dataChecked,
                         {
                             permissionId: idPermission,
-                            roleId: [{ [idRole]: e.target.checked ? 1 : 0 }],
+                            changeStatePermissionForRole: [
+                                {
+                                    roleId: idRole,
+                                    state: e.target.checked ? 1 : 0,
+                                },
+                            ],
                         },
                     ]
                     setDataCheked(newDataChecked)
@@ -213,14 +237,19 @@ const SettingRoleView = () => {
 
                 if (existingDataIndex !== -1) {
                     // Nếu tồn tại đối tượng với permissionId tương ứng
-                    newDataChecked[existingDataIndex].roleId = newDataChecked[
+                    newDataChecked[
                         existingDataIndex
-                    ].roleId.filter(
-                        (role) => Object.keys(role)[0] !== idRole.toString(),
+                    ].changeStatePermissionForRole = newDataChecked[
+                        existingDataIndex
+                    ].changeStatePermissionForRole.filter(
+                        (role) => role.roleId !== idRole,
                     )
 
                     // Kiểm tra xem sau khi loại bỏ roleId, nếu mảng roleId trở thành rỗng, loại bỏ cả đối tượng
-                    if (newDataChecked[existingDataIndex].roleId.length === 0) {
+                    if (
+                        newDataChecked[existingDataIndex]
+                            .changeStatePermissionForRole.length === 0
+                    ) {
                         newDataChecked.splice(existingDataIndex, 1)
                     }
 
@@ -240,10 +269,26 @@ const SettingRoleView = () => {
     }
 
     const handleEditRolePerrmisson = () => {
-        notification.success({
-            message: 'Success',
-        })
-        setClickButtonEdit(!clickButtonEdit)
+        ;(async () => {
+            try {
+                const response = await serviceSettingRole.updateRolePermissions(
+                    dataChecked,
+                )
+                if (response) {
+                    notification.success({
+                        message: 'Success',
+                    })
+                    setClickButtonEdit(!clickButtonEdit)
+                    setDataCheked([])
+                    getAllCombineRoleWithPermission()
+                }
+            } catch (error) {
+                console.log('error', error)
+                notification.error({
+                    message: 'error',
+                })
+            }
+        })()
     }
 
     return (

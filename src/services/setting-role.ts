@@ -1,5 +1,11 @@
-import { get } from './fetcher'
-import { IGetAllDataReponse, IPermissionResponse, IRoleResponse } from './response.type'
+import { ParamsFilter } from '@/stores/setting-role/type'
+import { get, patch, post } from './fetcher'
+import { ICreateRolePayload, IUpdatePermissionRole } from './request.type'
+import {
+    IGetAllDataReponse,
+    IPermissionResponse,
+    IRoleResponse,
+} from './response.type'
 
 const serviceSettingRole = {
     getAllPermissions: async (
@@ -15,15 +21,30 @@ const serviceSettingRole = {
     getAllRoles: async (
         page: number,
         limit: number,
-    ): Promise<IGetAllDataReponse<IRoleResponse>> => {
+    ): Promise<IRoleResponse[]> => {
         const payload = { page, limit }
-        const response: { data: IGetAllDataReponse<IRoleResponse> } = await get('/roles', payload)
+        const response = await get('/roles/internal-role', payload)
 
+        if (response) return response?.data as IRoleResponse[]
+        return []
+    },
+    getCombineRoleWithPermission: async (
+        payload?: ParamsFilter,
+    ): Promise<any> => {
+        const response = await get('/role-permissions', {
+            searchQuery: payload?.searchQuery,
+        })
+        return response
+    },
+    updateRolePermissions: async (payload: IUpdatePermissionRole[]) => {
+        const response = await patch<any>('role-permissions', {
+            assignmentRoleOfPermission: payload,
+        })
         return response.data
     },
-    getCombineRoleWithPermission: async (): Promise<any> => {
-        const response = await get('/role-permissions')
-        return response
+    createRole: async (payload: ICreateRolePayload) => {
+        const response = await post<any>('/roles', payload)
+        return response.data
     },
 }
 

@@ -1,13 +1,19 @@
 import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
-import { ISettingRoleState } from './type'
-import { getCombineRoleWithPermission, setOpenModalRegisterRole } from './slice'
+import { ISettingRoleState, ParamsFilter } from './type'
+import {
+    getCombineRoleWithPermission,
+    setFilter,
+    setOpenModalRegisterRole,
+} from './slice'
 
 type SettingRoleType = {
     settingRoleState: ISettingRoleState
     // eslint-disable-next-line
     setOpenModal: (isOpenModal: boolean) => void
-    getAllCombineRoleWithPermission: () => void
+    getAllCombineRoleWithPermission: (data?: ParamsFilter) => void
+    // eslint-disable-next-line
+    setFilterAction: (data: ParamsFilter) => void
 }
 
 export const useSettingRole = (): SettingRoleType => {
@@ -23,13 +29,26 @@ export const useSettingRole = (): SettingRoleType => {
         [dispatch],
     )
 
-    const getAllCombineRoleWithPermission = useCallback(() => {
-        dispatch(getCombineRoleWithPermission(null))
-    }, [dispatch])
+    const getAllCombineRoleWithPermission = useCallback(
+        (data?: ParamsFilter) => {
+            dispatch(
+                getCombineRoleWithPermission({ searchQuery: data?.searchQuery }),
+            )
+        },
+        [dispatch],
+    )
+
+    const setFilterAction = useCallback(
+        (data: ParamsFilter) => {
+            dispatch(setFilter(data))
+        },
+        [dispatch],
+    )
 
     return {
         settingRoleState,
         setOpenModal,
         getAllCombineRoleWithPermission,
+        setFilterAction,
     }
 }

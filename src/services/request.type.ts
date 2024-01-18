@@ -51,3 +51,19 @@ export interface ICreateAccountPayload {
     statusId: number
     avatar?: string
 }
+
+export interface IUpdatePermissionRole {
+    permissionId: number
+    changeStatePermissionForRole: RoleChecked[]
+}
+
+type RoleChecked = {
+    roleId: number
+    state: number
+}
+
+export interface ICreateRolePayload {
+    roleName: string;
+    description?: string;
+    idPermissions: number[]
+}

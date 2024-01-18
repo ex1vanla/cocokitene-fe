@@ -1,8 +1,9 @@
+import { FETCH_STATUS } from '@/constants/common'
 import { IPermissionResponse } from '@/services/response.type'
 import serviceSettingRole from '@/services/setting-role'
 import { useSettingRole } from '@/stores/setting-role/hooks'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
-import { Button, Form, Input, Modal, Select, notification } from 'antd'
+import { Button, Form, Input, Modal, Select, Spin, notification } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
@@ -15,16 +16,17 @@ interface TypeSelect {
 export interface IRoleForm {
     roleName: string
     description: string
-    permissions: string[]
+    permissions: number[]
 }
 
 const ModalRegisterRole = () => {
     const t = useTranslations()
     const [form] = useForm<IRoleForm>()
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const { settingRoleState, setOpenModal } = useSettingRole()
+    const { settingRoleState, setOpenModal, getAllCombineRoleWithPermission } = useSettingRole()
     const [selectedItems, setSelectedItems] = useState<TypeSelect[]>([])
     const [permissions, setPermissions] = useState<TypeSelect[]>([])
+    const [status, setStatus] = useState(FETCH_STATUS.IDLE)
 
     const filteredOptions = useMemo(
         () => permissions.filter((o) => !selectedItems.includes(o)),
@@ -62,7 +64,26 @@ const ModalRegisterRole = () => {
     }
 
     const onFinish = async (values: IRoleForm) => {
-        console.log('values', values)
+        setStatus(FETCH_STATUS.LOADING)
+        try {
+            const res = await serviceSettingRole.createRole({
+                roleName: values.roleName,
+                description: values.description,
+                idPermissions: values.permissions,
+            })
+            if (res) {
+                notification.success({
+                    message: t('CREATED'),
+                    description: 'Created Role',
+                })
+                form.resetFields()
+                setStatus(FETCH_STATUS.SUCCESS)
+                setOpenModal(false)
+                getAllCombineRoleWithPermission()
+            }
+        } catch (error) {
+            setStatus(FETCH_STATUS.ERROR)
+        }
     }
     return (
         <Modal
@@ -130,14 +151,19 @@ const ModalRegisterRole = () => {
                         >
                             Cancel
                         </Button>
-                        <Button
-                            size="large"
-                            type="primary"
-                            htmlType="submit"
-                            className="bg-#5151E5 rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
+                        <Spin
+                            spinning={status === FETCH_STATUS.LOADING}
+                            delay={0}
                         >
-                            {t('SUBMIT')}
-                        </Button>
+                            <Button
+                                size="large"
+                                type="primary"
+                                htmlType="submit"
+                                className="bg-#5151E5 rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
+                            >
+                                {t('SUBMIT')}
+                            </Button>
+                        </Spin>
                     </Form.Item>
                 </Form>
             </div>

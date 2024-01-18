@@ -4,6 +4,7 @@ export interface ISettingRoleState {
     status: EActionStatus
     openModalRegisterRole: boolean
     permissionRoleList?: ISettingRole[]
+    filter: ParamsFilter
 }
 
 export interface ISettingRole {
@@ -12,4 +13,8 @@ export interface ISettingRole {
 
 export interface IRolePermission {
     [key: string]: number
+}
+
+export interface ParamsFilter {
+    searchQuery?: string
 }
