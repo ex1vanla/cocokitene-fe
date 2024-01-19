@@ -101,3 +101,12 @@ export interface IListPlanResponse {
     price: number,
     maxShareholderAccount: number
 }
+
+export interface ICreatePlan {
+    planName: string
+    description?: string
+    maxStorage: number
+    maxMeeting: number
+    price: number
+    maxShareholderAccount: number
+}

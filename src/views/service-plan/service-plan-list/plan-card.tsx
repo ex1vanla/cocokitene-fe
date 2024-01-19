@@ -73,7 +73,7 @@ const PlanCard = ({
                         isBold ? 'text-primary' : ''
                     }`}
                 >
-                    {t(planName.toUpperCase())}
+                    {planName}
                 </Title>
             </div>
             <div

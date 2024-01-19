@@ -10,9 +10,6 @@ import { useParams, useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import CompanyInfo from './company-info'
 import SuperAdminInfo from './super-admin-info'
-import { useAuthLogin } from '@/stores/auth/hooks'
-import { checkPermission } from '@/utils/auth'
-import { Permissions } from '@/constants/permission'
 
 const CompanyDetail = () => {
     const router = useRouter()
@@ -20,13 +17,6 @@ const CompanyDetail = () => {
     const companyId = +params.id
     const [{ company, status }, fetchCompanyDetail] = useCompanyDetail()
     const t = useTranslations()
-
-    const { authState } = useAuthLogin()
-
-    const permissionEditCompany = checkPermission(
-        authState.userData?.permissionKeys,
-        Permissions.EDIT_COMPANY,
-    )
 
     useEffect(() => {
         if (companyId) {
@@ -44,18 +34,16 @@ const CompanyDetail = () => {
                 urlBack="/company"
                 pageName={t('DETAIL_COMPANY')}
                 editButton={
-                    permissionEditCompany && (
-                        <Button
-                            icon={<EditOutlined />}
-                            type="default"
-                            size="large"
-                            onClick={() =>
-                                router.push(`/company/update/${companyId}`)
-                            }
-                        >
-                            {t('EDIT')}
-                        </Button>
-                    )
+                    <Button
+                        icon={<EditOutlined />}
+                        type="default"
+                        size="large"
+                        onClick={() =>
+                            router.push(`/company/update/${companyId}`)
+                        }
+                    >
+                        {t('EDIT')}
+                    </Button>
                 }
                 // editUrl={}
             />
