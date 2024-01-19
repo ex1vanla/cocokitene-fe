@@ -1,6 +1,6 @@
 import { IGetAllPlanQuery } from "@/stores/service-plan/type";
-import { ICreatePlan, IGetAllDataReponse, IListPlanResponse } from "./response.type";
-import { get ,post} from '@/services/system-admin/fetcher-system'
+import { ICreatePlan, IGetAllDataReponse, IListPlanResponse, IPlanDetailResponse, IUpdatePlan } from "./response.type";
+import { get ,patch,post} from '@/services/system-admin/fetcher-system'
 
 
 
@@ -18,6 +18,18 @@ const servicePlan = {
     
     createPlan :async (payload:ICreatePlan) => {
         const response = await post<any>('/system-admin/plan',payload)
+        return response.data
+    },
+
+    getDetailPlan :async(planId : number) =>{
+        const response = await get<IPlanDetailResponse>(
+            `/system-admin/plans/${planId}`
+        )
+        return response.data
+    },
+
+    updatePlan :async(id:number , payload: IUpdatePlan) =>{
+        const response = await patch<any>(`/system-admin/plan/${id}`,payload)
         return response.data
     }
 }
