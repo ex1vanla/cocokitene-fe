@@ -110,3 +110,14 @@ export interface ICreatePlan {
     price: number
     maxShareholderAccount: number
 }
+
+export interface IPlanDetailResponse {
+    planName: string
+    description?: string
+    maxStorage: number
+    maxMeeting: number
+    price: number
+    maxShareholderAccount: number
+}
+
+export interface IUpdatePlan extends ICreatePlan{}
