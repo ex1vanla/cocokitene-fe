@@ -23,6 +23,7 @@ export interface IAccount {
     walletAddress: string
     username: string
     email: string
-    companyId: number
+    companyId: number,
+    avatar: string,
     permissionKeys: string[]
 }

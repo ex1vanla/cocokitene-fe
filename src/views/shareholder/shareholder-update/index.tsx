@@ -167,10 +167,12 @@ const UpdateShareholder = () => {
                 if (userStatusList) {
                     setUserStatusList(userStatusList)
                 }
-                const userRoleList = await serviceUserRole.getAllNormalUserRole({
-                    page: 1,
-                    limit: 10,
-                })
+                const userRoleList = await serviceUserRole.getAllNormalUserRole(
+                    {
+                        page: 1,
+                        limit: 10,
+                    },
+                )
                 if (userRoleList) {
                     setRoleList(userRoleList)
                 }
@@ -350,7 +352,15 @@ const UpdateShareholder = () => {
                                 <Form.Item
                                     name="phone"
                                     label={t('PHONE')}
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        { required: true },
+                                        {
+                                            pattern: new RegExp(/^[0-9]+$/),
+                                            message: t(
+                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                            ),
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

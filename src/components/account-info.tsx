@@ -67,7 +67,14 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
         >
             <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2">
-                    <Image src={avatar} alt={'avatar'} width={24} height={24} />
+                    <Image
+                        loader={() => authState.userData?.avatar || avatar}
+                        src={authState.userData?.avatar || avatar}
+                        alt={'avatar'}
+                        width={24}
+                        height={24}
+                        className="h-8 w-8 rounded-full"
+                    />
                     <Text className="text-sm leading-[22px] text-white">
                         {authState.userData?.username ?? 'Unknow'}
                     </Text>

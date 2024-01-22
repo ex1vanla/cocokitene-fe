@@ -230,6 +230,7 @@ const UpdateMyProfile = () => {
                         serviceUser.getInfoStorage()?.permissionKeys || [],
                     username: values.username,
                     walletAddress: values.walletAddress || '',
+                    avatar: urlAvatar || '',
                 }
                 store?.dispatch(update(newAuth))
                 router.push(`/profile`)
@@ -301,7 +302,15 @@ const UpdateMyProfile = () => {
                                 <Form.Item
                                     name="phone"
                                     label={t('PHONE')}
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        { required: true },
+                                        {
+                                            pattern: new RegExp(/^[0-9]+$/),
+                                            message: t(
+                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                            ),
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />
