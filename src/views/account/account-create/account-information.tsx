@@ -226,7 +226,13 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="phone"
                         label={t('PHONE')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true },
+                            {
+                                pattern: new RegExp(/^[0-9]+$/),
+                                message: t('PLEASE_ENTER_ ONLY_NUMBER'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
