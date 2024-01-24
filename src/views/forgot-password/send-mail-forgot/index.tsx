@@ -1,6 +1,9 @@
 import { ScreenForgotPassword } from '@/constants/forgot-password'
+import servicePassword from '@/services/system-admin/forgot-password'
 import { useForgotPassword } from '@/stores/forgot-password/hooks'
-import { Button, Form, Input, Typography } from 'antd'
+import { Button, Form, Input, Typography, notification } from 'antd'
+import { AxiosError } from 'axios'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 const { Text } = Typography
@@ -11,9 +14,27 @@ const SendMailForgot = () => {
         setEmailForgotPassword,
     } = useForgotPassword()
 
-    const onFinish = (values: any) => {
-        setEmailForgotPassword(values?.email)
-        setScreenForgotPassword(ScreenForgotPassword.CONFIRM_CODE)
+    const t = useTranslations()
+
+    const onFinish = async (values: any) => {
+        try {
+            const response = await servicePassword.sendEmailForgotPassword({
+                email: values.email,
+            })
+            notification.success({
+                message: t('SUCCESS'),
+                description: response,
+            })
+            setEmailForgotPassword(values?.email)
+            setScreenForgotPassword(ScreenForgotPassword.CONFIRM)
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                notification.error({
+                    message: t('ERROR'),
+                    description: error.response?.data.info.message,
+                })
+            }
+        }
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -23,12 +44,13 @@ const SendMailForgot = () => {
     return (
         <>
             <div>
-                <Text className="text-3xl font-bold">Forgot your password</Text>
+                <Text className="text-3xl font-bold">
+                    {t('FORGOT_YOUR_PASSWORD')}
+                </Text>
             </div>
             <div className="mb-8 mt-3 flex items-center justify-center">
                 <Text className="text-sm">
-                    Please enter the email address you'd like your password
-                    reset information sent to.
+                    {t('CONTENT_FORGOT_YOUR_PASSWORD')}
                 </Text>
             </div>
             <div className="mb-6">

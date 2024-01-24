@@ -6,7 +6,9 @@ import { setCurrentScreen, setEmail } from './slice'
 
 type ForgotPasswordType = {
     forgotPasswordState: IForgotPasswordState
+    // eslint-disable-next-line
     setScreenForgotPassword: (screen: ScreenForgotPassword) => void
+    // eslint-disable-next-line
     setEmailForgotPassword: (email: string) => void
 }
 

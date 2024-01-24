@@ -7,12 +7,11 @@ import SendMailForgot from './send-mail-forgot'
 import { useForgotPassword } from '@/stores/forgot-password/hooks'
 import { ScreenForgotPassword } from '@/constants/forgot-password'
 import ConfirmCodeForgot from './confirm-code-forgot'
-import ResetPassword from './reset-password'
 const { Text } = Typography
 
 const ForgotPassword = () => {
     const t = useTranslations()
-    const { openNotification, contextHolder } = useNotification()
+    const { contextHolder } = useNotification()
     const { forgotPasswordState } = useForgotPassword()
 
     return (
@@ -30,9 +29,7 @@ const ForgotPassword = () => {
             {forgotPasswordState.currentScreen ===
                 ScreenForgotPassword.SEND_MAIL && <SendMailForgot />}
             {forgotPasswordState.currentScreen ===
-                ScreenForgotPassword.CONFIRM_CODE && <ConfirmCodeForgot />}
-            {forgotPasswordState.currentScreen ===
-                ScreenForgotPassword.RESET_PASSWORD && <ResetPassword />}
+                ScreenForgotPassword.CONFIRM && <ConfirmCodeForgot />}
         </AuthLayout>
     )
 }

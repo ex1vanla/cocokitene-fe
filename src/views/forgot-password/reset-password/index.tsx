@@ -9,15 +9,12 @@ const ResetPassword = () => {
         string | null
     >(null)
 
-    const {
-        forgotPasswordState,
-        setScreenForgotPassword,
-        setEmailForgotPassword,
-    } = useForgotPassword()
+    const { setScreenForgotPassword, setEmailForgotPassword } =
+        useForgotPassword()
 
     const onFinish = (values: any) => {
         setEmailForgotPassword(values?.email)
-        setScreenForgotPassword(ScreenForgotPassword.CONFIRM_CODE)
+        setScreenForgotPassword(ScreenForgotPassword.CONFIRM)
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -65,8 +62,8 @@ const ResetPassword = () => {
             </div>
             <div className="mb-8 mt-3 flex items-center justify-center">
                 <Text className="text-sm">
-                    Please enter the email address you'd like your password
-                    reset information sent to.
+                    Please enter the email address you would like your password
+                    reset information sent to
                 </Text>
             </div>
             <div className="mb-6">
