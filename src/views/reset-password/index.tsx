@@ -88,15 +88,14 @@ const ResetPassword = () => {
                     </Text>
                 </div>
                 <div>
-                    <div>
-                        <Text className="text-3xl font-bold">
-                            Reset password
+                    <div className="flex items-center">
+                        <Text className="mx-auto text-3xl font-bold ">
+                            {t('RESET_PASSWORD')}
                         </Text>
                     </div>
                     <div className="mb-8 mt-3 flex items-center justify-center">
                         <Text className="text-sm">
-                            Please enter the email address you would like your
-                            password reset information sent to.
+                            {t('PLEASE_ENTER_NEW_PASSWORD')}
                         </Text>
                     </div>
                     <div className="mb-6">
@@ -113,6 +112,7 @@ const ResetPassword = () => {
                                 label={'New Password'}
                                 rules={[
                                     {
+                                        required: true,
                                         validator: validatePassword,
                                     },
                                 ]}
@@ -169,7 +169,7 @@ const ResetPassword = () => {
                                     htmlType="submit"
                                     className="bg-#5151E5 w-full rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
                                 >
-                                    Confirm
+                                    {t('BTN_CONFIRM')}
                                 </Button>
                             </Form.Item>
                         </Form>

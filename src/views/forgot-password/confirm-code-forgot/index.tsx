@@ -64,18 +64,19 @@ const ConfirmCodeForgot = () => {
         <>
             <div>
                 <Text className="text-3xl font-bold">
-                    Please check your Email
+                    {t('PLEASE_CHECK_YOUR_EMAIL')}
                 </Text>
             </div>
             <div className="mb-8 mt-3 ">
                 <div className="flex items-center justify-center">
                     <Text className="text-sm">
-                        We have sent a email to{' '}
+                        {t('We have sent a email to')}{' '}
                         <span className="font-semibold">
-                            {forgotPasswordState.email}
+                            {forgotPasswordState.email}{' '}
                         </span>
-                        . Please check your email. It will be valid for 90
-                        seconds.
+                        {t('CHECK_MAIL_{max}_SECONDS', {
+                            max: accessTime,
+                        })}
                     </Text>
                 </div>
 
@@ -103,7 +104,7 @@ const ConfirmCodeForgot = () => {
                                 htmlType="submit"
                                 className="bg-#5151E5 w-full rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
                             >
-                                Go to Gmail
+                                {t('GO_TO_GMAIL')}
                                 {countdown >= 0 && '(' + countdown + ')'}
                             </Button>
                         </Form.Item>
@@ -128,7 +129,7 @@ const ConfirmCodeForgot = () => {
                             )
                         }
                     >
-                        Back to Previous Page
+                        {t('BACK_TO_PREVIOUS_PAGE')}
                     </Text>
                 </Form>
             </div>

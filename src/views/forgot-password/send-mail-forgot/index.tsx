@@ -65,7 +65,7 @@ const SendMailForgot = () => {
                         style={{ marginBottom: '24px' }}
                         className="font-semibold"
                         name="email"
-                        label={'Enter email address'}
+                        label={t('Enter email address')}
                         rules={[
                             {
                                 required: true,
@@ -88,7 +88,7 @@ const SendMailForgot = () => {
                             htmlType="submit"
                             className="bg-#5151E5 w-full rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
                         >
-                            Request password reset
+                            {t('REQUEST_PASSWORD_RESET')}
                         </Button>
                     </Form.Item>
 
@@ -96,7 +96,7 @@ const SendMailForgot = () => {
                         href="/login"
                         className="text-primary-600 flex items-center justify-center font-medium hover:underline"
                     >
-                        Back To Login
+                        {t('BACK_TO_LOGIN')}
                     </Link>
                 </Form>
             </div>
