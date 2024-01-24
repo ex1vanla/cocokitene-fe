@@ -7,3 +7,4 @@ export enum ScreenForgotPassword {
 export const accessTime:number = 240
 
 export const linkSignInEmail = "https://mail.google.com/mail/u/0/#inbox"
+
