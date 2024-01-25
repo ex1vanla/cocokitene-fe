@@ -109,7 +109,7 @@ const ResetPassword = () => {
                                 style={{ marginBottom: '24px' }}
                                 className="font-semibold"
                                 name="password"
-                                label={'New Password'}
+                                label={t('NEW_PASSWORD')}
                                 rules={[
                                     {
                                         required: true,
@@ -127,7 +127,7 @@ const ResetPassword = () => {
                                 style={{ marginBottom: '24px' }}
                                 className="font-semibold"
                                 name="confirmPassword"
-                                label={'Confirm Password'}
+                                label={t('CONFIRM_PASSWORD')}
                                 rules={[
                                     {
                                         required: true,

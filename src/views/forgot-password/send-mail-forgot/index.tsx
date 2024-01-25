@@ -65,7 +65,7 @@ const SendMailForgot = () => {
                         style={{ marginBottom: '24px' }}
                         className="font-semibold"
                         name="email"
-                        label={t('Enter email address')}
+                        label={t('ENTER_EMAIL_ADDRESS')}
                         rules={[
                             {
                                 required: true,

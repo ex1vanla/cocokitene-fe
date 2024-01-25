@@ -10,6 +10,14 @@ const servicePassword = {
     createNewPassWord : async(token: string , payload :{password:string,conformPassword:string}) =>{
         const response = await post<any>(`/auths/system-admin/email/verify/${token}`,payload)
         return response.data
+    },
+
+    changePassword : async(payload:{
+        currentPassword:string,
+        newPassword:string
+      }) =>{
+        const response = await post<any>('/auths/system-admin/reset-password',payload)
+        return response.data
     }
 
 }
