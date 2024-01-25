@@ -39,7 +39,7 @@ const ConfirmCodeForgot = () => {
 
     const handleRetryCode = async () => {
         setIsLoading(true)
-        console.log('forgotPasswordState:', forgotPasswordState.email)
+        // console.log('forgotPasswordState:', forgotPasswordState.email)
         try {
             const response = await servicePassword.sendEmailForgotPassword({
                 email: forgotPasswordState?.email || '',
@@ -70,7 +70,7 @@ const ConfirmCodeForgot = () => {
             <div className="mb-8 mt-3 ">
                 <div className="flex items-center justify-center">
                     <Text className="text-sm">
-                        {t('We have sent a email to')}{' '}
+                        {t('WE_HAVE_SENT_A_EMAIL_TO')}{' '}
                         <span className="font-semibold">
                             {forgotPasswordState.email}{' '}
                         </span>
@@ -81,7 +81,7 @@ const ConfirmCodeForgot = () => {
                 </div>
 
                 <div className="text-red-500">
-                    {countdown == 0 && 'Link has expired.'}
+                    {countdown == 0 && t('LINK_HAS_EXPIRED.')}
                 </div>
             </div>
 
