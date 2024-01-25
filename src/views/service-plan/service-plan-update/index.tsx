@@ -11,6 +11,7 @@ import { AxiosError } from 'axios'
 import servicePlan from '@/services/system-admin/service-plan'
 import { Col, Form, Input, Row, notification } from 'antd'
 import SaveUpdatePlanButton from './save-button'
+import withAuthAdmin from '@/components/component-auth-admin'
 
 export interface IPlanUpdateForm {
     planName: string
@@ -226,4 +227,4 @@ const UpdatePlan = () => {
     )
 }
 
-export default UpdatePlan
+export default withAuthAdmin(UpdatePlan)
