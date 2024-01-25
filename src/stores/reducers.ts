@@ -14,6 +14,7 @@ import shareholderListReducer from '@/stores/shareholder/listSlice'
 import shareholderDetailReducer from '@/stores/shareholder/detailSlice'
 import settingRoleReducer from '@/stores/setting-role/slice'
 import planListSlice from '@/stores/service-plan/listSlice'
+import forgotPasswordReducer from '@/stores/forgot-password/slice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     shareholderDetail: shareholderDetailReducer,
     settingRole: settingRoleReducer,
     planListSlice : planListSlice,
+    forgotPassword: forgotPasswordReducer,
 })
 
 export default rootReducer
