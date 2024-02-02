@@ -27,3 +27,9 @@ export interface IAccount {
     avatar: string,
     permissionKeys: string[]
 }
+
+export interface ILoginEmailRequest {
+    companyName : string
+    email : string
+    password :  string
+}

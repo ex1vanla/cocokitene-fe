@@ -40,6 +40,7 @@ const ConnectWallet = () => {
         <>
             <ButtonConnectWallet
                 connectWalletText={t('CONNECT_WALLET')}
+                // connectWalletText="TestButton"
                 wrongNetworkText={t('WRONG_NETWORK')}
                 isAuthenticated={authState.isAuthenticated}
             />

@@ -1,6 +1,6 @@
 import { Cookies } from 'react-cookie'
 import { get, post } from './fetcher'
-import { IAccount, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
+import { IAccount, ILoginEmailRequest, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
 import { IAccountListResponse } from './response.type'
 import { UserStatus } from '@/constants/user-status'
 const cookies = new Cookies()
@@ -70,6 +70,13 @@ const serviceUser = {
         const response: { data: ILoginResponse } = await post(
             '/auths/login',
             payload,
+        )
+        return response.data
+    },
+    loginByEmail:async (payload : ILoginEmailRequest) : Promise<ILoginResponse> => {
+        const response : {data :ILoginResponse } = await post(
+            '/auths/login-user',
+            payload
         )
         return response.data
     },
