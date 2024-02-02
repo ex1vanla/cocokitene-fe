@@ -22,7 +22,7 @@ const initialState: IMeetingState = {
     totalPassMeetingItem: 0,
     filter: {
         searchQuery: CONSTANT_EMPTY_STRING,
-        sortOrder: SORT.ASC,
+        sortOrder: SORT.DESC,
         sortField: SortField.START_TIME,
     },
     type: MeetingType.MEETING_FUTURE,

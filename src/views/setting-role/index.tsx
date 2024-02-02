@@ -326,7 +326,7 @@ const SettingRoleView = () => {
     return (
         <div>
             <ListTitle
-                pageName={'Setting Role'}
+                pageName={t('SETTING_ROLES')}
                 addButton={
                     <Button
                         type="primary"
