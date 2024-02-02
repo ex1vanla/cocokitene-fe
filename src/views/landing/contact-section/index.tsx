@@ -3,6 +3,7 @@
 import {
     EnvironmentTwoTone,
     MailTwoTone,
+    MobileTwoTone,
     PhoneTwoTone,
 } from '@ant-design/icons'
 import { Button, Col, Form, Input, Row, Typography } from 'antd'
@@ -144,11 +145,15 @@ const ContactSection = () => {
                         </div>
                         <div className={groupContactClass}>
                             <MailTwoTone />
-                            <Text>phuonga1k51@gmail.com</Text>
+                            <Text>info@exceedone.co.jp</Text>
+                        </div>
+                        <div className={groupContactClass}>
+                            <MobileTwoTone />
+                            <Text>03-5625-0900</Text>
                         </div>
                         <div className={groupContactClass}>
                             <PhoneTwoTone />
-                            <Text>+84 337479955</Text>
+                            <Text>03-5625-0901</Text>
                         </div>
                     </div>
                 </div>
