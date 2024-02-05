@@ -16,6 +16,7 @@ export interface IPlanItem {
     maxShareholderAccount: number
     className: string
     isRecommended: boolean
+    add?: boolean
 }
 
 const PlanCard = ({
@@ -28,6 +29,7 @@ const PlanCard = ({
     maxShareholderAccount,
     className,
     isRecommended,
+    add,
 }: IPlanItem) => {
     const t = useTranslations()
     const router = useRouter()
@@ -120,18 +122,33 @@ const PlanCard = ({
                         {description}
                     </Text>
                 </div>
-                <Button
-                    size="large"
-                    className={`absolute bottom-14 mx-auto w-[80%] text-base font-normal      ${
-                        isBold ? 'text-primary' : ''
-                    }`}
-                    //
-                    onClick={() => {
-                        router.push(`/plan/update/${id}`)
-                    }}
-                >
-                    {t('EDIT')}
-                </Button>
+                {add ? (
+                    <Button
+                        size="large"
+                        className={`absolute bottom-14 mx-auto w-[80%] text-base font-normal      ${
+                            isBold ? 'text-primary' : ''
+                        }`}
+                        //
+                        onClick={() => {
+                            // router.push(`/plan/update/${id}`)
+                        }}
+                    >
+                        {t('GET_THIS')}
+                    </Button>
+                ) : (
+                    <Button
+                        size="large"
+                        className={`absolute bottom-14 mx-auto w-[80%] text-base font-normal      ${
+                            isBold ? 'text-primary' : ''
+                        }`}
+                        //
+                        onClick={() => {
+                            router.push(`/plan/update/${id}`)
+                        }}
+                    >
+                        {t('EDIT')}
+                    </Button>
+                )}
             </div>
         </div>
     )

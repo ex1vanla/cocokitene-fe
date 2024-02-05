@@ -3,7 +3,7 @@ import PlanItem from './plan-card'
 
 import Sliders from 'react-slick'
 
-const PlanList = () => {
+const PlanList = ({ add }: { add?: boolean }) => {
     const { planState } = useListPlan()
 
     // console.log('planState :', planState)
@@ -36,6 +36,7 @@ const PlanList = () => {
                             price={item.price}
                             isRecommended={false}
                             className="mx-auto h-[420px] w-[320px]"
+                            add={add}
                         />
                     </div>
                 ))}

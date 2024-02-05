@@ -42,18 +42,17 @@ module.exports = {
                               transform:' scale(1)',
                     },
                     '100%' : {
-                      '-webkit-transform': 'scale(1.05)',
-                              transform: 'scale(1.05)',
+                      '-webkit-transform': 'scale(1.02)',
+                              transform: 'scale(1.02)',
                     }
                   },
                   'scale-down-card' : {
                     '0%': {
-                      '-webkit-transform': "scale(1.05)",
-                              transform:' scale(1.05)',
+                      '-webkit-transform': "scale(1.02)",
+                              transform:' scale(1.02)',
                     },
                     '100%' : {
                       '-webkit-transform': 'scale(1)',
-                              transform: 'scale(1)',
                     }
                   },
             },
