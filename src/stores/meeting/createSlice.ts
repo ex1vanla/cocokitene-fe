@@ -17,19 +17,7 @@ const initialState: ICreateMeeting = {
             description: '',
             files: [],
             type: ResolutionType.RESOLUTION,
-        },
-        {
-            title: '',
-            description: '',
-            files: [],
-            type: ResolutionType.RESOLUTION,
-        },
-        {
-            title: '',
-            description: '',
-            files: [],
-            type: ResolutionType.RESOLUTION,
-        },
+        }
     ],
     amendmentResolutions: [
         {
@@ -38,21 +26,7 @@ const initialState: ICreateMeeting = {
             files: [],
             oldDescription: '',
             type: ResolutionType.AMENDMENT_RESOLUTION,
-        },
-        {
-            title: '',
-            description: '',
-            files: [],
-            oldDescription: '',
-            type: ResolutionType.AMENDMENT_RESOLUTION,
-        },
-        {
-            title: '',
-            description: '',
-            files: [],
-            oldDescription: '',
-            type: ResolutionType.AMENDMENT_RESOLUTION,
-        },
+        }
     ],
     hosts: [],
     controlBoards: [],
