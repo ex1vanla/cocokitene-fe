@@ -36,13 +36,13 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
     //     icon: ClusterOutlined,
     //     label: 'BOARD_MEETINGS',
     //     key: '/board-meetings',
-    //     permission: Permissions.LIST_MEETING
+    //     permission: Permissions.SHAREHOLDERS_MTG
     // },
     {
         icon: VideoCameraOutlined,
         label: 'SHAREHOLDERS_MEETINGS',
         key: '/meeting',
-        permission: Permissions.LIST_MEETING,
+        permission: Permissions.SHAREHOLDERS_MTG,
     },
     {
         icon: UserOutlined,

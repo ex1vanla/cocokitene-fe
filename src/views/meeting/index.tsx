@@ -96,7 +96,7 @@ const MeetingList = () => {
         <div>
             {contextHolder}
             <ListTitle
-                pageName={t('LIST_MEETINGS')}
+                pageName={t('SHAREHOLDERS_MTGS')}
                 addButton={
                     permissionCreateMeeting && (
                         <Button
@@ -123,4 +123,4 @@ const MeetingList = () => {
     )
 }
 
-export default withAuth(MeetingList, Permissions.LIST_MEETING)
+export default withAuth(MeetingList, Permissions.SHAREHOLDERS_MTG)
