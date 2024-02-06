@@ -7,10 +7,12 @@ import { Dropdown, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 const { Text } = Typography
 const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
+    const router = useRouter()
     const { authAdminState, logoutAdminAction } = useAuthAdminLogin()
     const handleLogout = async () => {
         logoutAdminAction()
@@ -70,7 +72,11 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
             label: (
                 <div
                     className="py-[5px] text-sm leading-[22px]"
-                    onClick={() => handleLogout()}
+                    onClick={async () => {
+                        handleLogout()
+                        await router.push('/')
+                        // await new Promise((resolve) => setTimeout(resolve, 500))
+                    }}
                 >
                     {t('LOGOUT')}
                 </div>

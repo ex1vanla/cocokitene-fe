@@ -36,15 +36,15 @@ export const login = createAsyncThunk<
     }
 })
 
-export const loginEmail = createAsyncThunk<
+export const loginByEmail = createAsyncThunk<
     ILoginResponse,
     ILoginEmailRequest,
     {
         rejectValue: FetchError
     }
->('auth/login', async (loginData, { rejectWithValue }) => {
+>('auth/login-by-password', async (loginData, { rejectWithValue }) => {
     try {
-        const loginResponse: ILoginResponse = await serviceUser.loginByEmail(loginData)
+        const loginResponse: ILoginResponse = await serviceUser.loginUser(loginData)
         const { userData, accessToken, refreshToken } = loginResponse
         serviceUser.storeInfo(userData)
         serviceUser.storeAccessToken(accessToken)

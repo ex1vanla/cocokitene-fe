@@ -1,7 +1,7 @@
 import serviceUser from '@/services/user'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { EActionStatus } from '../type'
-import { getNonceThunk, login } from './thunk'
+import { getNonceThunk, login, loginByEmail } from './thunk'
 import { IAccount, IAuthState, ILoginResponse } from './type'
 
 const initialState: IAuthState = {
@@ -16,6 +16,7 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         signOut: (state: IAuthState) => {
+            state.status = EActionStatus.Idle
             state.isAuthenticated = null
             state.userData = null
             state.nonce = ''
@@ -49,6 +50,20 @@ const authSlice = createSlice({
                 state.nonce = action.payload
             })
             .addCase(getNonceThunk.rejected, (state: IAuthState) => {
+                state.status = EActionStatus.Failed
+            })
+            .addCase(loginByEmail.pending, (state: IAuthState) => {
+                state.status = EActionStatus.Pending
+            })
+            .addCase(
+                loginByEmail.fulfilled,
+                (state: IAuthState, action: PayloadAction<ILoginResponse>) => {
+                    state.status = EActionStatus.Succeeded
+                    state.userData = action.payload.userData
+                    state.isAuthenticated = true
+                },
+            )
+            .addCase(loginByEmail.rejected, (state: IAuthState) => {
                 state.status = EActionStatus.Failed
             })
     },

@@ -73,13 +73,17 @@ const serviceUser = {
         )
         return response.data
     },
-    loginByEmail:async (payload : ILoginEmailRequest) : Promise<ILoginResponse> => {
-        const response : {data :ILoginResponse } = await post(
-            '/auths/login-user',
-            payload
+
+    loginUser: async (
+        payload: ILoginEmailRequest,
+    ): Promise<ILoginResponse> => {
+        const response: { data: ILoginResponse } = await post(
+            '/auths/login-by-password',
+            payload,
         )
         return response.data
     },
+
     getAccountList: async (
         query?: string,
         page: number = 1,

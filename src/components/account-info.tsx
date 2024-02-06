@@ -7,11 +7,13 @@ import { Dropdown, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useDisconnect } from 'wagmi'
 
 const { Text } = Typography
 const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
+    const router = useRouter()
     const { authState, logoutAction } = useAuthLogin()
     const { disconnect } = useDisconnect()
     const handleLogout = async () => {
@@ -49,7 +51,11 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
             label: (
                 <div
                     className="py-[5px] text-sm leading-[22px]"
-                    onClick={() => handleLogout()}
+                    onClick={async () => {
+                        handleLogout()
+                        await new Promise((resolve) => setTimeout(resolve, 500))
+                        await router.push('/')
+                    }}
                 >
                     {t('LOGOUT')}
                 </div>
