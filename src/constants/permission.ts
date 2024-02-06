@@ -9,7 +9,7 @@ export enum Permissions {
     DETAIL_MEETING = 'detail_meeting',
     LIST_MEETING = 'list_meeting',
     DELETE_MEETING = 'delete_meeting',
-    PATICIPATE_MEETING = 'paticipate_meeting',
+    SHAREHOLDERS_MGT = 'shareholders_mgt',
     VOTING_PROPOSAL = 'voting_proposal',
     EDIT_PROPOSAL = 'edit_proposal',
     LIST_PROPOSAL = 'list_proposal',
