@@ -96,7 +96,7 @@ const MeetingList = () => {
         <div>
             {contextHolder}
             <ListTitle
-                pageName={t('SHAREHOLDERS_MTGS')}
+                pageName={t('SHAREHOLDERS_MEETINGS')}
                 addButton={
                     permissionCreateMeeting && (
                         <Button
