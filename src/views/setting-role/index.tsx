@@ -183,7 +183,6 @@ const SettingRoleView = () => {
         setFilterAction({ searchQuery: value })
     }
 
-    const handleSelectChange = () => {}
 
     const onChange = (
         namePermission: string,
@@ -363,7 +362,6 @@ const SettingRoleView = () => {
                     </>
                 }
                 onChangeInput={handleInputChange}
-                onChangeSelect={handleSelectChange}
             />
             <div className="p-6">
                 <Table
