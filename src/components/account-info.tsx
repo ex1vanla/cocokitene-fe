@@ -49,6 +49,18 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
         {
             key: '2',
             label: (
+                <Link
+                    className="py-[5px] text-sm  leading-[22px]"
+                    rel="noopener noreferrer"
+                    href="/change-user-password"
+                >
+                    {t('CHANGE_PASSWORD')}
+                </Link>
+            ),
+        },
+        {
+            key: '3',
+            label: (
                 <div
                     className="py-[5px] text-sm leading-[22px]"
                     onClick={async () => {
