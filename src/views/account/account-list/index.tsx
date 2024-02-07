@@ -60,7 +60,7 @@ const AccountList = () => {
                         )}
                         <Text
                             title={record.username}
-                            className="cursor-pointer"
+                            // className="cursor-pointer"
                         >
                             {record.username}
                         </Text>

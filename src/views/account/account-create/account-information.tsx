@@ -227,7 +227,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                         name="phone"
                         label={t('PHONE')}
                         rules={[
-                            { required: true },
+                            // { required: true },
                             {
                                 pattern: new RegExp(/^[0-9]+$/),
                                 message: t('PLEASE_ENTER_ ONLY_NUMBER'),
@@ -301,7 +301,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="walletAddress"
                         label={t('WALLET_ADDRESS')}
-                        rules={[{ required: true }]}
+                        rules={[{ required: false }]}
                         className="mb-0"
                     >
                         <Input size="large" />

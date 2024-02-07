@@ -280,8 +280,8 @@ const UpdateAccount = () => {
                 {
                     email: values.email,
                     username: values.username,
-                    walletAddress: values.walletAddress,
-                    phone: values.phone,
+                    walletAddress: values.walletAddress || '',
+                    phone: values.phone || '',
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
                     avatar: urlAvatar,
@@ -365,7 +365,7 @@ const UpdateAccount = () => {
                                     name="phone"
                                     label={t('PHONE')}
                                     rules={[
-                                        { required: true },
+                                        { required: false },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -455,7 +455,7 @@ const UpdateAccount = () => {
                                 <Form.Item
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: false }]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />
