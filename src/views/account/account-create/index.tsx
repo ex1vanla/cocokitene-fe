@@ -84,8 +84,8 @@ const CreateAccount = () => {
             const response = await serviceAccount.createAccount({
                 email: values.email,
                 username: values.username,
-                walletAddress: values.walletAddress,
-                phone: values.phone,
+                walletAddress: values.walletAddress || '',
+                phone: values.phone || '',
                 roleIds: [...userRolesArr],
                 statusId: values.statusId,
                 avatar: urlAvatar,
