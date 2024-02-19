@@ -231,9 +231,9 @@ export interface IAccountDetailResponse {
 export interface ICreateAccountPayload {
     email: string
     username: string
-    walletAddress: string
+    walletAddress?: string | null
     shareQuantity?: number
-    phone: string
+    phone?: string | null
     roleIds: number[]
     statusId: number
     avatar?: string | null
@@ -270,9 +270,9 @@ export interface IShareholderDetailResponse {
 export interface IUpdateShareholderPayload {
     email: string
     username: string
-    walletAddress: string
+    walletAddress?: string | null
     shareQuantity?: number
-    phone: string
+    phone?: string | null
     roleIds: number[]
     statusId: number
     avatar?: string | null
@@ -280,8 +280,8 @@ export interface IUpdateShareholderPayload {
 export interface IUpdateProfile {
     email: string
     username: string
-    walletAddress?: string
-    phone: string
+    walletAddress?: string | null
+    phone: string | null
     avatar?: string
 }
 export interface IPermissionResponse {
