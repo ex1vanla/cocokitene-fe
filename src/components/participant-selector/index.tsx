@@ -36,8 +36,6 @@ const ParticipantSelector = ({
 }: IParticipantSelector) => {
     const t = useTranslations()
 
-    // console.log('selectedParticipants', selectedParticipants)
-
     return (
         <div className="max-w-sm">
             <Text className="text-sm">{t(title)}</Text>

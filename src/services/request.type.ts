@@ -16,7 +16,7 @@ export interface ICreateMeetingPayload {
     // administrativeCouncils: number[]
     // shareholders: number[]
     participants: {
-        [key: string ] : number[]
+        [key: string]: number[]
     }
 }
 
@@ -30,11 +30,9 @@ export interface IUpdateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: number[]
-    controlBoards: number[]
-    directors: number[]
-    administrativeCouncils: number[]
-    shareholders: number[]
+    participants: {
+        [key: string]: number[]
+    }
 }
 
 export interface IListMeetingPayload {}
@@ -66,7 +64,7 @@ type RoleChecked = {
 }
 
 export interface ICreateRolePayload {
-    roleName: string;
-    description?: string;
+    roleName: string
+    description?: string
     idPermissions: number[]
 }

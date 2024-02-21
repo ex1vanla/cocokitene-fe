@@ -2,11 +2,7 @@ import { IParticipants } from '@/components/participant-selector'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType } from '@/constants/resolution'
 import serviceMeeting from '@/services/meeting'
-import {
-    IUpdateMeeting,
-    IUpdateMeetingState,
-    KeyRoles,
-} from '@/stores/meeting/types'
+import { IUpdateMeeting, IUpdateMeetingState } from '@/stores/meeting/types'
 import { EActionStatus, FetchError } from '@/stores/type'
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { AxiosError } from 'axios'
@@ -94,11 +90,7 @@ const initialState: IUpdateMeetingState = {
                 type: ResolutionType.AMENDMENT_RESOLUTION,
             },
         ],
-        hosts: [],
-        controlBoards: [],
-        directors: [],
-        administrativeCouncils: [],
-        shareholders: [],
+        participants: {},
     },
 }
 
@@ -140,8 +132,8 @@ export const initUpdateMeeting = createAsyncThunk<
                 }))
         }
 
-        const getParticipantsByRole = (role: KeyRoles) => {
-            return meetingDetail[role].map(
+        const getParticipantsByRole = (role: string) => {
+            return meetingDetail.participants?.[role].map(
                 (userMeeting) =>
                     ({
                         users_defaultAvatarHashColor: userMeeting.user
@@ -151,6 +143,15 @@ export const initUpdateMeeting = createAsyncThunk<
                         users_id: userMeeting.user.id,
                     }) as IParticipants,
             )
+        }
+        const getAllParticipantsByRole = () => {
+            console.log('Test')
+            let participants: { [key: string]: IParticipants[] } = {}
+            Object.keys(meetingDetail?.participants).forEach((item) => {
+                participants[item] = getParticipantsByRole(item)
+            })
+            console.log('participants :', participants)
+            return participants
         }
 
         return {
@@ -172,13 +173,7 @@ export const initUpdateMeeting = createAsyncThunk<
             amendmentResolutions: getProposalsByType(
                 ResolutionType.AMENDMENT_RESOLUTION,
             ),
-            hosts: getParticipantsByRole('hosts'),
-            controlBoards: getParticipantsByRole('controlBoards'),
-            directors: getParticipantsByRole('directors'),
-            administrativeCouncils: getParticipantsByRole(
-                'administrativeCouncils',
-            ),
-            shareholders: getParticipantsByRole('shareholders'),
+            participants: getAllParticipantsByRole(),
         }
     } catch (error) {
         const err = error as AxiosError

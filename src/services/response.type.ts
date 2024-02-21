@@ -1,6 +1,5 @@
 import {
     IParticipantCustom,
-    IParticipants,
 } from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'

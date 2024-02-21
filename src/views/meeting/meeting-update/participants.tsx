@@ -5,83 +5,60 @@ import ParticipantSelector, {
 import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
 import { useTranslations } from 'next-intl'
 
-type ParticipantKey =
-    | 'hosts'
-    | 'controlBoards'
-    | 'directors'
-    | 'administrativeCouncils'
-    | 'shareholders'
-
 const Participants = () => {
     const t = useTranslations()
 
     const [data, setData] = useUpdateMeetingInformation()
 
-    const onSelect = (key: ParticipantKey) => (participant: IParticipants) => {
+    const onSelect = (key: string) => (participant: IParticipants) => {
         const isNotExited =
-            data[key].findIndex((p) => p.users_id === participant.users_id) < 0
+            data.participants[key].findIndex(
+                (p) => p.users_id === participant.users_id,
+            ) < 0
         if (isNotExited) {
             setData({
                 ...data,
-                [key]: [...data[key], participant],
+                participants: {
+                    ...data.participants,
+                    [key]: [...data.participants[key], participant],
+                },
             })
         }
     }
 
-    const onSelectAll =
-        (key: ParticipantKey) => (participants: IParticipants[]) => {
-            setData({
-                ...data,
-                [key]: [...participants],
-            })
-        }
-
-    const onDelete = (key: ParticipantKey) => (participant: IParticipants) => {
+    const onSelectAll = (key: string) => (participants: IParticipants[]) => {
         setData({
             ...data,
-            [key]: data[key].filter((p) => p.users_id !== participant.users_id),
+            participants: { ...data.participants, [key]: [...participants] },
+        })
+    }
+
+    const onDelete = (key: string) => (participant: IParticipants) => {
+        setData({
+            ...data,
+            participants: {
+                ...data.participants,
+                [key]: data.participants[key].filter(
+                    (p) => p.users_id !== participant.users_id,
+                ),
+            },
         })
     }
     return (
         <BoxArea title={t('PARTICIPANTS')}>
             <div className="grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                <ParticipantSelector
-                    title={t('HOST')}
-                    selectedParticipants={data.hosts}
-                    onSelectParticipant={onSelect('hosts')}
-                    onSelectAllParticipants={onSelectAll('hosts')}
-                    onDeleteParticipant={onDelete('hosts')}
-                />
-                <ParticipantSelector
-                    title={t('CONTROL_BOARD')}
-                    selectedParticipants={data.controlBoards}
-                    onSelectParticipant={onSelect('controlBoards')}
-                    onSelectAllParticipants={onSelectAll('controlBoards')}
-                    onDeleteParticipant={onDelete('controlBoards')}
-                />
-                <ParticipantSelector
-                    title={t('DIRECTOR_GENERAL')}
-                    selectedParticipants={data.directors}
-                    onSelectParticipant={onSelect('directors')}
-                    onSelectAllParticipants={onSelectAll('directors')}
-                    onDeleteParticipant={onDelete('directors')}
-                />
-                <ParticipantSelector
-                    title={t('ADMINISTRATIVE_COUNCIL')}
-                    selectedParticipants={data.administrativeCouncils}
-                    onSelectParticipant={onSelect('administrativeCouncils')}
-                    onSelectAllParticipants={onSelectAll(
-                        'administrativeCouncils',
-                    )}
-                    onDeleteParticipant={onDelete('administrativeCouncils')}
-                />
-                <ParticipantSelector
-                    title={t('SHAREHOLDERS')}
-                    selectedParticipants={data.shareholders}
-                    onSelectParticipant={onSelect('shareholders')}
-                    onSelectAllParticipants={onSelectAll('shareholders')}
-                    onDeleteParticipant={onDelete('shareholders')}
-                />
+                {Object.keys(data.participants).map((item) => {
+                    return (
+                        <ParticipantSelector
+                            key={item}
+                            title={item}
+                            selectedParticipants={data.participants[item] || []}
+                            onSelectParticipant={onSelect(item)}
+                            onSelectAllParticipants={onSelectAll(item)}
+                            onDeleteParticipant={onDelete(item)}
+                        />
+                    )
+                })}
             </div>
         </BoxArea>
     )

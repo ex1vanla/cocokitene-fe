@@ -48,12 +48,6 @@ import { useEffect, useState } from 'react'
 //         name: 'vuong na',
 //     },
 // ]
-type ParticipantKey =
-    | 'hosts'
-    | 'controlBoards'
-    | 'directors'
-    | 'administrativeCouncils'
-    | 'shareholders'
 
 const Participants = () => {
     const t = useTranslations()
@@ -84,7 +78,7 @@ const Participants = () => {
                 }
             }
         })()
-    }, [])
+    }, [t])
 
     // console.log('ListNormalRole :', normalRole)
 
@@ -123,8 +117,7 @@ const Participants = () => {
             },
         })
     }
-    const title: string = 'ADMIN'
-    const title1: string = 'USER'
+
     return (
         <BoxArea title={t('PARTICIPANTS')}>
             <div className="grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -142,43 +135,6 @@ const Participants = () => {
                         />
                     )
                 })}
-                {/* <ParticipantSelector
-                    title={title}
-                    selectedParticipants={data.participant[title] || []}
-                    onSelectParticipant={onSelect(title)}
-                    onSelectAllParticipants={onSelectAll(title)}
-                    onDeleteParticipant={onDelete(title)}
-                />
-                <ParticipantSelector
-                    title={title1}
-                    selectedParticipants={data.participant[title1] || []}
-                    onSelectParticipant={onSelect(title1)}
-                    onSelectAllParticipants={onSelectAll(title1)}
-                    onDeleteParticipant={onDelete(title1)}
-                /> */}
-                {/* <ParticipantSelector
-                    title={t('DIRECTOR_GENERAL')}
-                    selectedParticipants={data.directors}
-                    onSelectParticipant={onSelect('directors')}
-                    onSelectAllParticipants={onSelectAll('directors')}
-                    onDeleteParticipant={onDelete('directors')}
-                />
-                <ParticipantSelector
-                    title={t('ADMINISTRATIVE_COUNCIL')}
-                    selectedParticipants={data.administrativeCouncils}
-                    onSelectParticipant={onSelect('administrativeCouncils')}
-                    onSelectAllParticipants={onSelectAll(
-                        'administrativeCouncils',
-                    )}
-                    onDeleteParticipant={onDelete('administrativeCouncils')}
-                />
-                <ParticipantSelector
-                    title={t('SHAREHOLDERS')}
-                    selectedParticipants={data.shareholders}
-                    onSelectParticipant={onSelect('shareholders')}
-                    onSelectAllParticipants={onSelectAll('shareholders')}
-                    onDeleteParticipant={onDelete('shareholders')}
-                /> */}
             </div>
         </BoxArea>
     )
