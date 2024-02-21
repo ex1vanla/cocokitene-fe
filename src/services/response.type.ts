@@ -1,4 +1,4 @@
-import { IParticipants } from '@/components/participant-selector'
+import { IParticipantCustom, IParticipants } from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
@@ -33,7 +33,7 @@ export interface IUploadResponse {
 }
 
 export interface IAccountListResponse {
-    items: IParticipants[]
+    items: IParticipantCustom[]
     meta: IMeta
 }
 
@@ -170,6 +170,11 @@ export interface IRoleResponse {
     roleName: string
     description: string
 }
+
+export interface INormalRoleResponse {
+    items : IRoleResponse[]
+}
+
 export interface IListAccountResponse {
     users_id: number
     users_username: string

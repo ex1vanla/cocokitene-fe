@@ -10,11 +10,14 @@ export interface ICreateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: number[]
-    controlBoards: number[]
-    directors: number[]
-    administrativeCouncils: number[]
-    shareholders: number[]
+    // hosts: number[]
+    // controlBoards: number[]
+    // directors: number[]
+    // administrativeCouncils: number[]
+    // shareholders: number[]
+    participants: {
+        [key: string ] : number[]
+    }
 }
 
 export interface IUpdateMeetingPayload {

@@ -28,11 +28,12 @@ const initialState: ICreateMeeting = {
             type: ResolutionType.AMENDMENT_RESOLUTION,
         }
     ],
-    hosts: [],
-    controlBoards: [],
-    directors: [],
-    administrativeCouncils: [],
-    shareholders: [],
+    // hosts: [],
+    // controlBoards: [],
+    // directors: [],
+    // administrativeCouncils: [],
+    // shareholders: [],
+    participants : {}
 }
 
 // export const getLastPriceList = createAsyncThunk<

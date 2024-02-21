@@ -8,6 +8,10 @@ import { IParticipants } from '@/components/participant-selector'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
+export interface IParticipantsMeeting {
+    [key: string] : IParticipants[]
+}
+
 export interface ICreateMeeting {
     title: string
     meetingLink: string
@@ -19,11 +23,12 @@ export interface ICreateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: IParticipants[]
-    controlBoards: IParticipants[]
-    directors: IParticipants[]
-    administrativeCouncils: IParticipants[]
-    shareholders: IParticipants[]
+    // hosts: IParticipants[]
+    // controlBoards: IParticipants[]
+    // directors: IParticipants[]
+    // administrativeCouncils: IParticipants[]
+    // shareholders: IParticipants[]
+    participants : IParticipantsMeeting
 }
 
 export interface IMeetingDocument {
