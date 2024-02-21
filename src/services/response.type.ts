@@ -116,11 +116,12 @@ export interface IVoteProposalResult {
 }
 
 export interface IMeetingParticipantsResponse {
-    hosts: IParticipantsView[]
-    controlBoards: IParticipantsView[]
-    directors: IParticipantsView[]
-    shareholders: IParticipantsView[]
-    administrativeCouncils: IParticipantsView[]
+    // hosts: IParticipantsView[]
+    // controlBoards: IParticipantsView[]
+    // directors: IParticipantsView[]
+    // shareholders: IParticipantsView[]
+    // administrativeCouncils: IParticipantsView[]
+    [key :string] : IParticipantsView[]
 }
 
 export interface IPlanResponse {

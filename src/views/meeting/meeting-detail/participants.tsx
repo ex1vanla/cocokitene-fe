@@ -11,6 +11,33 @@ import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 
+const obj = {
+    USER: [
+        {
+            defaultAvatarHashColor: '#1e71e6',
+            avatar: 'https://cocokitene.s3.ap-southeast-1.amazonaws.com/avatars/1705916842789/cty%20TTM1_HuyNT-avarta.jpg',
+            name: 'Dev-CS',
+            joined: false,
+        },
+    ],
+    ADMIN: [
+        {
+            defaultAvatarHashColor: '#1e71e6',
+            avatar: 'https://cocokitene.s3.ap-southeast-1.amazonaws.com/avatars/1705916842789/cty%20TTM1_HuyNT-avarta.jpg',
+            name: 'Dev-CS',
+            joined: false,
+        },
+    ],
+    SHAREHOLDER: [
+        {
+            defaultAvatarHashColor: '#1e71e6',
+            avatar: 'https://cocokitene.s3.ap-southeast-1.amazonaws.com/avatars/1705916842789/cty%20TTM1_HuyNT-avarta.jpg',
+            name: 'Dev-CS',
+            joined: false,
+        },
+    ],
+}
+
 const Participants = () => {
     const t = useTranslations()
     const [query, setQuery] = useState('')
@@ -20,15 +47,11 @@ const Participants = () => {
         data: IMeetingParticipantsResponse
     }>({
         status: FETCH_STATUS.IDLE,
-        data: {
-            hosts: [],
-            controlBoards: [],
-            directors: [],
-            shareholders: [],
-            administrativeCouncils: [],
-        },
+        data: {},
     })
     const searchQuery = useDebounce(query, 200)
+
+    console.log('participants :', participants.data)
 
     useEffect(() => {
         if (id) {
@@ -74,31 +97,17 @@ const Participants = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('HOST')}
-                    participantList={participants.data.hosts}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('CONTROL_BOARD')}
-                    participantList={participants.data.controlBoards}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('DIRECTOR_GENERAL')}
-                    participantList={participants.data.directors}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('ADMINISTRATIVE_COUNCIL')}
-                    participantList={participants.data.administrativeCouncils}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('SHAREHOLDERS')}
-                    participantList={participants.data.shareholders}
-                />
+                {Object.keys(participants.data).map((item) => {
+                    return (
+                        <ParticipantDetail
+                            isLoading={
+                                participants.status === FETCH_STATUS.LOADING
+                            }
+                            title={t(item)}
+                            participantList={participants.data[item]}
+                        />
+                    )
+                })}
             </div>
         </BoxArea>
     )
