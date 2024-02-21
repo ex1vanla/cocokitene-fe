@@ -71,6 +71,7 @@ const Participants = () => {
                 {Object.keys(participants.data).map((item) => {
                     return (
                         <ParticipantDetail
+                            key={item}
                             isLoading={
                                 participants.status === FETCH_STATUS.LOADING
                             }

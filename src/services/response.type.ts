@@ -1,4 +1,7 @@
-import { IParticipantCustom, IParticipants } from '@/components/participant-selector'
+import {
+    IParticipantCustom,
+    IParticipants,
+} from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
@@ -96,11 +99,12 @@ export interface IMeetingDetailResponse {
     creatorId: number
     meetingFiles: IMeetingFileResponse[]
     proposals: IProposalResponse[]
-    hosts: IUserMeetingResponse[]
-    controlBoards: IUserMeetingResponse[]
-    directors: IUserMeetingResponse[]
-    administrativeCouncils: IUserMeetingResponse[]
-    shareholders: IUserMeetingResponse[]
+    // hosts: IUserMeetingResponse[]
+    // controlBoards: IUserMeetingResponse[]
+    // directors: IUserMeetingResponse[]
+    // administrativeCouncils: IUserMeetingResponse[]
+    // shareholders: IUserMeetingResponse[]
+    participants: { [key: string]: IUserMeetingResponse[] }
     shareholdersTotal: number
     shareholdersJoined: number
     joinedMeetingShares: number
@@ -121,7 +125,7 @@ export interface IMeetingParticipantsResponse {
     // directors: IParticipantsView[]
     // shareholders: IParticipantsView[]
     // administrativeCouncils: IParticipantsView[]
-    [key :string] : IParticipantsView[]
+    [key: string]: IParticipantsView[]
 }
 
 export interface IPlanResponse {
@@ -173,7 +177,7 @@ export interface IRoleResponse {
 }
 
 export interface INormalRoleResponse {
-    items : IRoleResponse[]
+    items: IRoleResponse[]
 }
 
 export interface IListAccountResponse {

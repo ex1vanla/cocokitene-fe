@@ -26,7 +26,7 @@ const Resolutions = () => {
                 message += titleTooltip.votingTime
             }
             if (
-                !meeting?.shareholders.some(
+                !meeting?.participants?.['SHAREHOLDER'].some(
                     (item) =>
                         item.user.id == authState.userData?.id &&
                         item.status == UserMeetingStatusEnum.PARTICIPATE,
