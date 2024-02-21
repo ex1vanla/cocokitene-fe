@@ -56,7 +56,6 @@ const Participants = () => {
     >([])
 
     const [data, setData] = useCreateMeetingInformation()
-    // console.log('data :', data)
 
     useEffect(() => {
         // eslint-disable-next-line
@@ -79,8 +78,6 @@ const Participants = () => {
             }
         })()
     }, [t])
-
-    // console.log('ListNormalRole :', normalRole)
 
     const onSelect = (key: string) => (participant: IParticipants) => {
         const dataParticipant = data.participants[key] || []

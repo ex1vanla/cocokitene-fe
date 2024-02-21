@@ -145,12 +145,10 @@ export const initUpdateMeeting = createAsyncThunk<
             )
         }
         const getAllParticipantsByRole = () => {
-            console.log('Test')
             let participants: { [key: string]: IParticipants[] } = {}
             Object.keys(meetingDetail?.participants).forEach((item) => {
                 participants[item] = getParticipantsByRole(item)
             })
-            console.log('participants :', participants)
             return participants
         }
 
