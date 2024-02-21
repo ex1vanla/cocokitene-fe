@@ -11,33 +11,6 @@ import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-const obj = {
-    USER: [
-        {
-            defaultAvatarHashColor: '#1e71e6',
-            avatar: 'https://cocokitene.s3.ap-southeast-1.amazonaws.com/avatars/1705916842789/cty%20TTM1_HuyNT-avarta.jpg',
-            name: 'Dev-CS',
-            joined: false,
-        },
-    ],
-    ADMIN: [
-        {
-            defaultAvatarHashColor: '#1e71e6',
-            avatar: 'https://cocokitene.s3.ap-southeast-1.amazonaws.com/avatars/1705916842789/cty%20TTM1_HuyNT-avarta.jpg',
-            name: 'Dev-CS',
-            joined: false,
-        },
-    ],
-    SHAREHOLDER: [
-        {
-            defaultAvatarHashColor: '#1e71e6',
-            avatar: 'https://cocokitene.s3.ap-southeast-1.amazonaws.com/avatars/1705916842789/cty%20TTM1_HuyNT-avarta.jpg',
-            name: 'Dev-CS',
-            joined: false,
-        },
-    ],
-}
-
 const Participants = () => {
     const t = useTranslations()
     const [query, setQuery] = useState('')
@@ -50,8 +23,6 @@ const Participants = () => {
         data: {},
     })
     const searchQuery = useDebounce(query, 200)
-
-    console.log('participants :', participants.data)
 
     useEffect(() => {
         if (id) {
