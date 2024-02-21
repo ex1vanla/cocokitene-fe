@@ -51,8 +51,8 @@ export interface IProfileUpdateForm {
     companyName: string
     email: string
     username: string
-    walletAddress?: string
-    phone: string
+    walletAddress?: string | null
+    phone: string | null
     avatar?: string
 }
 
@@ -209,8 +209,8 @@ const UpdateMyProfile = () => {
                 {
                     username: values.username,
                     email: values.email,
-                    walletAddress: walletAddress,
-                    phone: values.phone,
+                    walletAddress: values.walletAddress || null,
+                    phone: values.phone || null,
                     avatar: urlAvatar,
                 },
             )
@@ -303,7 +303,7 @@ const UpdateMyProfile = () => {
                                     name="phone"
                                     label={t('PHONE')}
                                     rules={[
-                                        { required: true },
+                                        { required: false },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -323,7 +323,7 @@ const UpdateMyProfile = () => {
                                     rules={[{ required: true, type: 'email' }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" disabled={true} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>

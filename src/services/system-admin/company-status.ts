@@ -1,5 +1,5 @@
 import { IGetAllDataRequest } from '@/services/system-admin/request.type'
-import { get } from '../fetcher'
+import { get } from './fetcher-system'
 import {
     ICompanyStatusResponse,
     IGetAllDataReponse,

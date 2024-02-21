@@ -269,8 +269,8 @@ const UpdateShareholder = () => {
                 await serviceShareholder.updateShareholder(shareholderId, {
                     email: values.email,
                     username: values.username,
-                    walletAddress: values.walletAddress,
-                    phone: values.phone,
+                    walletAddress: values.walletAddress || null,
+                    phone: values.phone || null,
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
                     avatar: urlAvatar,
@@ -353,7 +353,7 @@ const UpdateShareholder = () => {
                                     name="phone"
                                     label={t('PHONE')}
                                     rules={[
-                                        { required: true },
+                                        { required: false },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -373,7 +373,7 @@ const UpdateShareholder = () => {
                                     rules={[{ required: true, type: 'email' }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" disabled={true} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>
@@ -440,7 +440,7 @@ const UpdateShareholder = () => {
                                 <Form.Item
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: false }]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

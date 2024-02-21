@@ -20,13 +20,7 @@ const Participants = () => {
         data: IMeetingParticipantsResponse
     }>({
         status: FETCH_STATUS.IDLE,
-        data: {
-            hosts: [],
-            controlBoards: [],
-            directors: [],
-            shareholders: [],
-            administrativeCouncils: [],
-        },
+        data: {},
     })
     const searchQuery = useDebounce(query, 200)
 
@@ -74,31 +68,18 @@ const Participants = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('HOST')}
-                    participantList={participants.data.hosts}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('CONTROL_BOARD')}
-                    participantList={participants.data.controlBoards}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('DIRECTOR_GENERAL')}
-                    participantList={participants.data.directors}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('ADMINISTRATIVE_COUNCIL')}
-                    participantList={participants.data.administrativeCouncils}
-                />
-                <ParticipantDetail
-                    isLoading={participants.status === FETCH_STATUS.LOADING}
-                    title={t('SHAREHOLDERS')}
-                    participantList={participants.data.shareholders}
-                />
+                {Object.keys(participants.data).map((item) => {
+                    return (
+                        <ParticipantDetail
+                            key={item}
+                            isLoading={
+                                participants.status === FETCH_STATUS.LOADING
+                            }
+                            title={t(item)}
+                            participantList={participants.data[item]}
+                        />
+                    )
+                })}
             </div>
         </BoxArea>
     )

@@ -8,6 +8,10 @@ import { IParticipants } from '@/components/participant-selector'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 
+export interface IParticipantsMeeting {
+    [key: string]: IParticipants[]
+}
+
 export interface ICreateMeeting {
     title: string
     meetingLink: string
@@ -19,11 +23,12 @@ export interface ICreateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: IParticipants[]
-    controlBoards: IParticipants[]
-    directors: IParticipants[]
-    administrativeCouncils: IParticipants[]
-    shareholders: IParticipants[]
+    // hosts: IParticipants[]
+    // controlBoards: IParticipants[]
+    // directors: IParticipants[]
+    // administrativeCouncils: IParticipants[]
+    // shareholders: IParticipants[]
+    participants: IParticipantsMeeting
 }
 
 export interface IMeetingDocument {
@@ -134,11 +139,12 @@ export interface IMeetingDetail {
     creatorId: number
     meetingFiles: IMeetingFile[]
     proposals: IProposal[]
-    hosts: IUserMeeting[]
-    controlBoards: IUserMeeting[]
-    directors: IUserMeeting[]
-    administrativeCouncils: IUserMeeting[]
-    shareholders: IUserMeeting[]
+    // hosts: IUserMeeting[]
+    // controlBoards: IUserMeeting[]
+    // directors: IUserMeeting[]
+    // administrativeCouncils: IUserMeeting[]
+    // shareholders: IUserMeeting[]
+    participants: { [key: string]: IUserMeeting[] }
     shareholdersTotal: number
     shareholdersJoined: number
     joinedMeetingShares: number
@@ -171,11 +177,12 @@ export interface IUpdateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: IParticipants[]
-    controlBoards: IParticipants[]
-    directors: IParticipants[]
-    administrativeCouncils: IParticipants[]
-    shareholders: IParticipants[]
+    // hosts: IParticipants[]
+    // controlBoards: IParticipants[]
+    // directors: IParticipants[]
+    // administrativeCouncils: IParticipants[]
+    // shareholders: IParticipants[]
+    participants: IParticipantsMeeting
 }
 
 export interface IUpdateMeetingState {
