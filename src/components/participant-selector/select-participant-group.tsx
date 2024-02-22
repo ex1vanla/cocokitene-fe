@@ -11,14 +11,12 @@ import serviceUser from '@/services/user'
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 
 export interface ISelectParticipantGroup {
-    title?: string
     onSelectParticipant: (p: IParticipants) => void
     onSelectAllParticipants: (p: IParticipants[]) => void
     selectedParticipants: IParticipants[]
 }
 
 const SelectParticipantGroup = ({
-    title,
     onSelectParticipant,
     onSelectAllParticipants,
     selectedParticipants,
@@ -57,30 +55,17 @@ const SelectParticipantGroup = ({
                         '🚀 ~ file: select-participant-group.tsx:53 ~ ; ~ optionsRes:',
                         optionsRes,
                     )
-                    const optionsParticipant = title
-                        ? optionsRes.items.filter((item) =>
-                              item.listRoleResponse.includes(title),
-                          )
-                        : optionsRes.items
-
-                    if (optionsParticipant.length > 0) {
-                        setOptionsData({
-                            options: [
-                                {
-                                    users_defaultAvatarHashColor: '#E57B41',
-                                    users_username: t('ALL'),
-                                    users_id: 0,
-                                },
-                                ...optionsParticipant,
-                            ],
-                            status: FETCH_STATUS.SUCCESS,
-                        })
-                    } else {
-                        setOptionsData({
-                            ...optionsData,
-                            status: FETCH_STATUS.SUCCESS,
-                        })
-                    }
+                    setOptionsData({
+                        options: [
+                            {
+                                users_defaultAvatarHashColor: '#E57B41',
+                                users_username: t('ALL'),
+                                users_id: 0,
+                            },
+                            ...optionsRes.items,
+                        ],
+                        status: FETCH_STATUS.SUCCESS,
+                    })
                 } catch (error) {}
             })()
         }

@@ -28,7 +28,7 @@ const AmendmentResolutions = () => {
                 message += titleTooltip.votingTime
             }
             if (
-                !meeting?.participants?.['SHAREHOLDER'].some(
+                !meeting?.shareholders.some(
                     (item) =>
                         item.user.id == authState.userData?.id &&
                         item.status == UserMeetingStatusEnum.PARTICIPATE,

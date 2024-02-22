@@ -87,9 +87,9 @@ export interface IAccountUpdateForm {
     companyName: string
     email: string
     username: string
-    walletAddress?: string | null
+    walletAddress: string
     shareQuantity?: number
-    phone?: string | null
+    phone: string
     roleIds: string[]
     statusId: number
     avatar?: string
@@ -280,8 +280,8 @@ const UpdateAccount = () => {
                 {
                     email: values.email,
                     username: values.username,
-                    walletAddress: values.walletAddress || null,
-                    phone: values.phone || null,
+                    walletAddress: values.walletAddress || '',
+                    phone: values.phone || '',
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
                     avatar: urlAvatar,
@@ -385,7 +385,7 @@ const UpdateAccount = () => {
                                     rules={[{ required: true, type: 'email' }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" disabled={true} />
+                                    <Input size="large" />
                                 </Form.Item>
                             </Col>
 

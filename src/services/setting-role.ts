@@ -2,7 +2,6 @@ import { ParamsFilter } from '@/stores/setting-role/type'
 import { get, patch, post } from './fetcher'
 import { ICreateRolePayload, IUpdatePermissionRole } from './request.type'
 import {
-    INormalRoleResponse,
     IPermissionResponse,
     IRoleResponse,
 } from './response.type'
@@ -27,16 +26,6 @@ const serviceSettingRole = {
 
         if (response) return response?.data as IRoleResponse[]
         return []
-    },
-    getAllNormalRoles: async (
-        page: number,
-        limit: number,
-    ): Promise<INormalRoleResponse> => {
-        const payload = { page, limit }
-        const response = await get('/roles/normal-role', payload)
-
-        if (response) return response?.data as INormalRoleResponse
-        return {items:[]}
     },
     getCombineRoleWithPermission: async (
         payload?: ParamsFilter,

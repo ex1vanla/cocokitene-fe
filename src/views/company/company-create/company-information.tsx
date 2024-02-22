@@ -16,7 +16,6 @@ import { Col, DatePicker, Form, FormInstance, Input, Row, Select } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { ICompanyCreateForm } from '.'
-import { AvatarBgHexColors } from '@/constants/common'
 
 const { TextArea } = Input
 
@@ -249,17 +248,15 @@ const CompanyInformation = ({ form }: CompanyInfoProp) => {
                                 label: (
                                     <span
                                         style={{
-                                            color:
-                                                ServicePlanColor[
-                                                    plan.planName as ServicePlan
-                                                ] ||
-                                                AvatarBgHexColors.GREEK_BLUE,
+                                            color: ServicePlanColor[
+                                                plan.planName as ServicePlan
+                                            ],
                                         }}
                                     >
                                         {t(
                                             ServicePlanName[
                                                 plan.planName as ServicePlan
-                                            ] || plan.planName,
+                                            ],
                                         )}
                                     </span>
                                 ),

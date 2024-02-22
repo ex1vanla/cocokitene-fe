@@ -21,9 +21,9 @@ export interface IAccountCreateForm {
     companyName: string
     email: string
     username: string
-    walletAddress?: string
+    walletAddress: string
     shareQuantity?: number
-    phone?: string
+    phone: string
     roleIds: string[]
     statusId: number
     avatar?: string
@@ -84,8 +84,8 @@ const CreateAccount = () => {
             const response = await serviceAccount.createAccount({
                 email: values.email,
                 username: values.username,
-                walletAddress: values.walletAddress || null,
-                phone: values.phone || null,
+                walletAddress: values.walletAddress || '',
+                phone: values.phone || '',
                 roleIds: [...userRolesArr],
                 statusId: values.statusId,
                 avatar: urlAvatar,
@@ -94,7 +94,7 @@ const CreateAccount = () => {
             if (response) {
                 notification.success({
                     message: t('CREATED'),
-                    description: t('CREATED_ACCOUNT_SUCCESSFULLY'),
+                    description: t('CREATED_COMPANY_SUCCESSFULLY'),
                 })
                 router.push('/account')
                 form.resetFields()
