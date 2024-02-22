@@ -122,7 +122,7 @@ const Login = () => {
                         </Button>
                     </Form.Item>
 
-                    <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                    {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                         {t('DONT_HAVE_AN_ACCOUNT_YET')}{' '}
                         <Link
                             href="#"
@@ -130,7 +130,7 @@ const Login = () => {
                         >
                             {t('SIGN_UP')}
                         </Link>
-                    </p>
+                    </p> */}
                 </Form>
             </div>
         </AuthLayout>
