@@ -1,12 +1,12 @@
 import serviceUserSystem from '@/services/system-admin/user-system'
 import { ApiResponse } from '@/services/system-admin/response.type'
-import { instanceAdmin } from '@/services/system-admin/axios'
+import { instance } from '@/services/system-admin/axios'
 import store from '@/stores'
 import { signOutSys } from '@/stores/auth-admin/slice'
 
 type Obj = { [key: string]: any }
 
-instanceAdmin.interceptors.request.use(
+instance.interceptors.request.use(
     (config) => {
         const accessToken = serviceUserSystem.getAccessTokenStorageSys()
         if (
@@ -23,7 +23,7 @@ instanceAdmin.interceptors.request.use(
     },
 )
 
-instanceAdmin.interceptors.response.use(
+instance.interceptors.response.use(
     (response) => {
         const { status, data } = response
         if (status === 200 || status === 201) {
@@ -44,33 +44,33 @@ instanceAdmin.interceptors.response.use(
                 return false
             }
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
-            return instanceAdmin(prevRequest)
+            return instance(prevRequest)
         }
         return Promise.reject(error)
     },
 )
 
 function get<T, R = ApiResponse<T>>(route: string, params?: Obj): Promise<R> {
-    return instanceAdmin.get(route, { params })
+    return instance.get(route, { params })
 }
 
 function post<T, R = ApiResponse<T>>(route: string, payload?: Obj): Promise<R> {
-    return instanceAdmin.post(route, payload)
+    return instance.post(route, payload)
 }
 
 function put<T, R = ApiResponse<T>>(route: string, payload?: Obj): Promise<R> {
-    return instanceAdmin.put(route, payload)
+    return instance.put(route, payload)
 }
 
 function patch<T, R = ApiResponse<T>>(
     route: string,
     payload?: Obj,
 ): Promise<R> {
-    return instanceAdmin.patch(route, payload)
+    return instance.patch(route, payload)
 }
 
 function del<T, R = ApiResponse<T>>(route: string): Promise<R> {
-    return instanceAdmin.delete(route)
+    return instance.delete(route)
 }
 
 function upload<T, R = ApiResponse<T>>(
@@ -98,7 +98,7 @@ function upload<T, R = ApiResponse<T>>(
         }
     }
 
-    return instanceAdmin.post(route, formData)
+    return instance.post(route, formData)
 }
 
 export { del, get, patch, post, put, upload }

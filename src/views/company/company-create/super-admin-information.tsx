@@ -30,16 +30,15 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const userStatusList =
-                await serviceUserStatus.getAllUserStatusSysAdmin({
-                    page: 1,
-                    limit: 10,
-                })
+            const userStatusList = await serviceUserStatus.getAllUserStatus({
+                page: 1,
+                limit: 10,
+            })
 
             if (userStatusList) {
                 setUserStatusList(userStatusList)
                 const userStatusId = userStatusList.find(
-                    (item) => item.status == UserStatus.ACTIVE,
+                    (item) => (item.status = UserStatus.ACTIVE),
                 )?.id
                 setInitialActiveUserStatus(userStatusId)
             }

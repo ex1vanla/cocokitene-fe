@@ -182,7 +182,7 @@ export function useParticipants(): {
         }
 
     const getParticipantsByRole = (role: KeyRoles) => {
-        return meeting.participants[role].map(
+        return meeting[role].map(
             (userMeeting) =>
                 ({
                     defaultAvatarHashColor:

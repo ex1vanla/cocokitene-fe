@@ -1,6 +1,4 @@
-import {
-    IParticipantCustom,
-} from '@/components/participant-selector'
+import { IParticipants } from '@/components/participant-selector'
 import { IParticipantsView } from '@/components/participants-detail'
 import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
@@ -35,7 +33,7 @@ export interface IUploadResponse {
 }
 
 export interface IAccountListResponse {
-    items: IParticipantCustom[]
+    items: IParticipants[]
     meta: IMeta
 }
 
@@ -98,12 +96,11 @@ export interface IMeetingDetailResponse {
     creatorId: number
     meetingFiles: IMeetingFileResponse[]
     proposals: IProposalResponse[]
-    // hosts: IUserMeetingResponse[]
-    // controlBoards: IUserMeetingResponse[]
-    // directors: IUserMeetingResponse[]
-    // administrativeCouncils: IUserMeetingResponse[]
-    // shareholders: IUserMeetingResponse[]
-    participants: { [key: string]: IUserMeetingResponse[] }
+    hosts: IUserMeetingResponse[]
+    controlBoards: IUserMeetingResponse[]
+    directors: IUserMeetingResponse[]
+    administrativeCouncils: IUserMeetingResponse[]
+    shareholders: IUserMeetingResponse[]
     shareholdersTotal: number
     shareholdersJoined: number
     joinedMeetingShares: number
@@ -119,12 +116,11 @@ export interface IVoteProposalResult {
 }
 
 export interface IMeetingParticipantsResponse {
-    // hosts: IParticipantsView[]
-    // controlBoards: IParticipantsView[]
-    // directors: IParticipantsView[]
-    // shareholders: IParticipantsView[]
-    // administrativeCouncils: IParticipantsView[]
-    [key: string]: IParticipantsView[]
+    hosts: IParticipantsView[]
+    controlBoards: IParticipantsView[]
+    directors: IParticipantsView[]
+    shareholders: IParticipantsView[]
+    administrativeCouncils: IParticipantsView[]
 }
 
 export interface IPlanResponse {
@@ -174,11 +170,6 @@ export interface IRoleResponse {
     roleName: string
     description: string
 }
-
-export interface INormalRoleResponse {
-    items: IRoleResponse[]
-}
-
 export interface IListAccountResponse {
     users_id: number
     users_username: string
@@ -240,9 +231,9 @@ export interface IAccountDetailResponse {
 export interface ICreateAccountPayload {
     email: string
     username: string
-    walletAddress?: string | null
+    walletAddress: string
     shareQuantity?: number
-    phone?: string | null
+    phone: string
     roleIds: number[]
     statusId: number
     avatar?: string | null
@@ -279,9 +270,9 @@ export interface IShareholderDetailResponse {
 export interface IUpdateShareholderPayload {
     email: string
     username: string
-    walletAddress?: string | null
+    walletAddress: string
     shareQuantity?: number
-    phone?: string | null
+    phone: string
     roleIds: number[]
     statusId: number
     avatar?: string | null
@@ -289,8 +280,8 @@ export interface IUpdateShareholderPayload {
 export interface IUpdateProfile {
     email: string
     username: string
-    walletAddress?: string | null
-    phone: string | null
+    walletAddress?: string
+    phone: string
     avatar?: string
 }
 export interface IPermissionResponse {
