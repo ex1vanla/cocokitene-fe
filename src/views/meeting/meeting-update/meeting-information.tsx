@@ -197,6 +197,10 @@ const MeetingInformation = () => {
         if (dateString.length === 2) {
             if (dateString[0]) {
                 dt.startTime = new Date(dateString[0]).toISOString()
+                if (dt.endVotingTime < dt.startTime) {
+                    //TH EndVotingTime < StartTime => EndVotingTime = StartTime
+                    dt.endVotingTime = new Date(dateString[0]).toISOString()
+                }
             }
             if (dateString[1]) {
                 dt.endTime = new Date(dateString[1]).toISOString()
@@ -219,6 +223,10 @@ const MeetingInformation = () => {
             ...data,
             status: value,
         })
+    }
+
+    const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+        return current && current < dayjs(data.startTime)
     }
 
     return (
@@ -431,6 +439,7 @@ const MeetingInformation = () => {
                                 onOk={onOkDateTime}
                                 // defaultPickerValue={}
                                 value={dayjs(data.endVotingTime)}
+                                disabledDate={disabledDate}
                             />
                         </Form.Item>
                     </Form>
