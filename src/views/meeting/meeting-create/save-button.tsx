@@ -56,13 +56,13 @@ const SaveCreateMeetingButton = () => {
             rs.errors.meetingLink = 'meetingLink'
         }
 
-        if (
-            payload.resolutions.length + payload.amendmentResolutions.length ===
-            0
-        ) {
-            rs.isValid = false
-            rs.errors.resolution = 'resolution'
-        }
+        // if (
+        //     payload.resolutions.length + payload.amendmentResolutions.length ===
+        //     0
+        // ) {
+        //     rs.isValid = false
+        //     rs.errors.resolution = 'resolution'
+        // }
 
         // if (payload.amendmentResolutions.length === 0) {
         //     rs.isValid = false
