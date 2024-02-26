@@ -180,6 +180,10 @@ const MeetingInformation = () => {
         if (dateString.length === 2) {
             if (dateString[0]) {
                 dt.startTime = new Date(dateString[0]).toISOString()
+                if (dt.startTime > dt.endVotingTime) {
+                    //TH EndVotingTime < StartTime => EndVotingTime = StartTime
+                    dt.endVotingTime = new Date(dateString[0]).toISOString()
+                }
             }
             if (dateString[1]) {
                 dt.endTime = new Date(dateString[1]).toISOString()
@@ -187,7 +191,6 @@ const MeetingInformation = () => {
         } else {
             dt.endVotingTime = new Date(dateString as string).toISOString()
         }
-
         setData(dt)
     }
 
@@ -197,6 +200,9 @@ const MeetingInformation = () => {
         // console.log('onOk: ', value);
     }
 
+    const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+        return current && current < dayjs(data.startTime)
+    }
     return (
         <BoxArea title={t('MEETING_INFORMATION')}>
             <Row gutter={[16, 24]}>
@@ -390,6 +396,7 @@ const MeetingInformation = () => {
                                 onChange={onChangeDateTime}
                                 onOk={onOkDateTime}
                                 value={dayjs(data.endVotingTime)}
+                                disabledDate={disabledDate}
                             />
                         </Form.Item>
                     </Form>
