@@ -173,7 +173,15 @@ const CompanyInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="taxNumber"
                         label={t('TAX_NUMBER')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true },
+                            {
+                                pattern: new RegExp(/^\d{10}$/),
+                                message: t(
+                                    'PLEASE_ENTER_ ONLY_NUMBER_AND_LENGTH_EQUAL_10',
+                                ),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />

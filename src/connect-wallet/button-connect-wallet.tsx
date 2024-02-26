@@ -135,16 +135,25 @@ const ButtonConnectWallet = ({
                                                     >
                                                         <Form.Item
                                                             className="font-semibold"
-                                                            name="companyName"
+                                                            name="taxOfCompany"
                                                             label={t(
-                                                                'COMPANY_NAME',
+                                                                'TAX_OF_COMPANY',
                                                             )}
                                                             rules={[
                                                                 {
                                                                     required:
                                                                         true,
                                                                     message:
-                                                                        'Please input your company!',
+                                                                        'Please input Tax Number of your Company!',
+                                                                },
+                                                                {
+                                                                    pattern:
+                                                                        new RegExp(
+                                                                            /^\d{10}$/,
+                                                                        ),
+                                                                    message: t(
+                                                                        'PLEASE_ENTER_ ONLY_NUMBER_AND_LENGTH_EQUAL_10',
+                                                                    ),
                                                                 },
                                                             ]}
                                                         >

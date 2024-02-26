@@ -111,6 +111,22 @@ const ChangeUserPassword = () => {
                                 required: true,
                                 validator: validatePassword,
                             },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (
+                                        !value ||
+                                        getFieldValue('currentPassword') !==
+                                            value
+                                    ) {
+                                        return Promise.resolve()
+                                    }
+                                    return Promise.reject(
+                                        new Error(
+                                            'The new password that you entered  must be different from the old password!',
+                                        ),
+                                    )
+                                },
+                            }),
                         ]}
                     >
                         <Input.Password size="large" className="font-normal" />

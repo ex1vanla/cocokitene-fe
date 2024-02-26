@@ -301,7 +301,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="walletAddress"
                         label={t('WALLET_ADDRESS')}
-                        rules={[{ required: false }]}
+                        rules={[{ required: true }]}
                         className="mb-0"
                     >
                         <Input size="large" />

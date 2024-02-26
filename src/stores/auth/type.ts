@@ -29,7 +29,7 @@ export interface IAccount {
 }
 
 export interface ILoginEmailRequest {
-    companyName : string
+    taxOfCompany : string
     email : string
     password :  string
 }
