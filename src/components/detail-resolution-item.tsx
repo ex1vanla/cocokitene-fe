@@ -238,7 +238,7 @@ const DetailResolutionItem = ({
                                 <div>{t('VOTED')}</div>
                                 <Text className="text-polar-green">
                                     {formatNumber(votePercent.percentVoted, {
-                                        maximumFractionDigits: 1,
+                                        maximumFractionDigits: 2,
                                     })}
                                     %
                                 </Text>
@@ -249,7 +249,7 @@ const DetailResolutionItem = ({
                                 <div>{t('UNVOTED')}</div>
                                 <Text className="text-polar-green">
                                     {formatNumber(votePercent.percentUnVoted, {
-                                        maximumFractionDigits: 1,
+                                        maximumFractionDigits: 2,
                                     })}
                                     %
                                 </Text>
@@ -262,7 +262,7 @@ const DetailResolutionItem = ({
                                     {formatNumber(
                                         votePercent.percentNotVoteYet,
                                         {
-                                            maximumFractionDigits: 1,
+                                            maximumFractionDigits: 2,
                                         },
                                     )}
                                     %
