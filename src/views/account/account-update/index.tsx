@@ -385,7 +385,7 @@ const UpdateAccount = () => {
                                     rules={[{ required: true, type: 'email' }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" disabled={true} />
                                 </Form.Item>
                             </Col>
 
@@ -455,7 +455,7 @@ const UpdateAccount = () => {
                                 <Form.Item
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
-                                    rules={[{ required: false }]}
+                                    rules={[{ required: true }]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

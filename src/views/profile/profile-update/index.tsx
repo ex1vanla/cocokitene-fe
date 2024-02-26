@@ -303,7 +303,7 @@ const UpdateMyProfile = () => {
                                     name="phone"
                                     label={t('PHONE')}
                                     rules={[
-                                        { required: true },
+                                        { required: false },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -323,7 +323,7 @@ const UpdateMyProfile = () => {
                                     rules={[{ required: true, type: 'email' }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" disabled={true} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>

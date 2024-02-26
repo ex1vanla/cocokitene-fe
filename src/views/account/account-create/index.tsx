@@ -94,7 +94,7 @@ const CreateAccount = () => {
             if (response) {
                 notification.success({
                     message: t('CREATED'),
-                    description: t('CREATED_COMPANY_SUCCESSFULLY'),
+                    description: t('CREATED_ACCOUNT_SUCCESSFULLY'),
                 })
                 router.push('/account')
                 form.resetFields()
