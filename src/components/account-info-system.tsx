@@ -74,7 +74,7 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
                     className="py-[5px] text-sm leading-[22px]"
                     onClick={async () => {
                         handleLogout()
-                        await router.push('/')
+                        await router.push('/login')
                         // await new Promise((resolve) => setTimeout(resolve, 500))
                     }}
                 >
