@@ -35,7 +35,7 @@ const PlanList = ({ add }: { add?: boolean }) => {
                             maxStorage={item.maxStorage}
                             price={item.price}
                             isRecommended={false}
-                            className="mx-auto h-[420px] w-[320px]"
+                            className="mx-auto w-[320px]"
                             add={add}
                         />
                     </div>

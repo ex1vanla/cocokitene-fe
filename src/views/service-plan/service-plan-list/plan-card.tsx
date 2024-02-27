@@ -59,7 +59,7 @@ const PlanCard = ({
         <div
             id="plan-item-wrapper"
             className={` relative flex flex-col border-[1px] border-blue-700 bg-white  ${className} ${
-                add ? 'h-[360px]' : ''
+                add ? 'h-[340px]' : 'h-[420px]'
             }`}
             onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}
