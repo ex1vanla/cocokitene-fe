@@ -39,7 +39,7 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
             if (userStatusList) {
                 setUserStatusList(userStatusList)
                 const userStatusId = userStatusList.find(
-                    (item) => (item.status = UserStatus.ACTIVE),
+                    (item) => item.status == UserStatus.ACTIVE,
                 )?.id
                 setInitialActiveUserStatus(userStatusId)
             }

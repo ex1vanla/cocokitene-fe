@@ -52,6 +52,14 @@ const CompanyInfo = () => {
             ),
         },
         {
+            label: 'FAX',
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.fax}
+                </p>
+            ),
+        },
+        {
             label: 'REPRESENTATIVE',
             content: (
                 <div
@@ -101,10 +109,10 @@ const CompanyInfo = () => {
             ),
         },
         {
-            label: 'FAX',
+            label: 'TAX_OF_COMPANY',
             content: (
                 <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.fax}
+                    {company?.taxCompany}
                 </p>
             ),
         },

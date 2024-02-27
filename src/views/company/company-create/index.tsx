@@ -17,13 +17,13 @@ import { useState } from 'react'
 export interface ICompanyCreateForm {
     companyName: string
     address: string
-    companyShortName: string
+    companyShortName?: string
     companyEmail: string
     dateOfIncorporation: string
     phone: string
     taxNumber: string
     fax?: string
-    businessType: string
+    businessType?: string
     representativeUser: string
     companyStatusId: number
     planId: number

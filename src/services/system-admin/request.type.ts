@@ -7,13 +7,13 @@ export interface ICreateCompanyPayload {
     companyName: string
     description?: string
     address: string
-    companyShortName: string
+    companyShortName?: string
     email: string
     dateOfCorporation: string
     phone: string
     fax?: string
     taxNumber: string
-    businessType: string
+    businessType?: string
     representativeUser: string
     statusId: number
     planId: number

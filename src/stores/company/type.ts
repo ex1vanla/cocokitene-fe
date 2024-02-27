@@ -36,7 +36,8 @@ export interface ICompanyDetail {
     email: string
     dateOfCorporation: string
     phone: string
-    fax: string
+    taxCompany: string
+    fax: string | null
     businessType: string
     status: {
         id: number

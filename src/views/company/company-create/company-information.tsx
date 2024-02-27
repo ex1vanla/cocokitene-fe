@@ -122,7 +122,7 @@ const CompanyInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="companyShortName"
                         label={t('COMPANY_SHORT_NAME')}
-                        rules={[{ required: true }]}
+                        rules={[{ required: false }]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -196,7 +196,7 @@ const CompanyInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="businessType"
                         label={t('BUSINESS_TYPE')}
-                        rules={[{ required: true }]}
+                        rules={[{ required: false }]}
                         className="mb-0"
                     >
                         <Input size="large" />
