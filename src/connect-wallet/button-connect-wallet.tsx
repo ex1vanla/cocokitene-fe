@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useForm } from 'antd/es/form/Form'
 const { Text } = Typography
 interface IButtonProp {
     connectWalletText: string
@@ -23,7 +24,8 @@ const ButtonConnectWallet = ({
 }: IButtonProp) => {
     const t = useTranslations()
     const { openNotification, contextHolder } = useNotification()
-    const { authState, loginByEmailAction } = useAuthLogin()
+    const { authState, loginByEmailAction, logoutAction } = useAuthLogin()
+    const [form] = useForm<any>()
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -62,6 +64,7 @@ const ButtonConnectWallet = ({
                     placement: 'topRight',
                     type: 'success',
                 })
+                form.resetFields()
                 // await new Promise((resolve) => setTimeout(resolve, 1000))
                 // await router.push('/dashboard')
             }
@@ -72,6 +75,7 @@ const ButtonConnectWallet = ({
                     placement: 'topRight',
                     type: 'error',
                 })
+                logoutAction()
             }
         })()
         // eslint-disable-next-line
@@ -129,6 +133,7 @@ const ButtonConnectWallet = ({
                                                     <Form
                                                         layout="vertical"
                                                         onFinish={onFinish}
+                                                        form={form}
                                                         onFinishFailed={
                                                             onFinishFailed
                                                         }
@@ -137,7 +142,7 @@ const ButtonConnectWallet = ({
                                                             className="font-semibold"
                                                             name="taxOfCompany"
                                                             label={t(
-                                                                'TAX_OF_COMPANY',
+                                                                'COMPANY_CODE',
                                                             )}
                                                             rules={[
                                                                 {
