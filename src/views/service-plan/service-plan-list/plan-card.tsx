@@ -58,7 +58,9 @@ const PlanCard = ({
     return (
         <div
             id="plan-item-wrapper"
-            className={` relative flex flex-col border-[1px] border-blue-700 bg-white ${className}`}
+            className={` relative flex flex-col border-[1px] border-blue-700 bg-white  ${className} ${
+                add ? 'h-[360px]' : ''
+            }`}
             onMouseEnter={handleEnter}
             onMouseLeave={handleLeave}
             ref={cardRef}
@@ -123,18 +125,7 @@ const PlanCard = ({
                     </Text>
                 </div>
                 {add ? (
-                    <Button
-                        size="large"
-                        className={`absolute bottom-14 mx-auto w-[80%] text-base font-normal      ${
-                            isBold ? 'text-primary' : ''
-                        }`}
-                        //
-                        onClick={() => {
-                            // router.push(`/plan/update/${id}`)
-                        }}
-                    >
-                        {t('GET_THIS')}
-                    </Button>
+                    <></>
                 ) : (
                     <Button
                         size="large"
