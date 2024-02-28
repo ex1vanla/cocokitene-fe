@@ -393,6 +393,7 @@ const MeetingInformation = () => {
                                 showTime={{ format: 'HH:mm' }}
                                 format="YYYY-MM-DD HH:mm"
                                 style={{ width: '100%' }}
+                                // @ts-ignore
                                 onChange={onChangeDateTime}
                                 onOk={onOkDateTime}
                                 value={dayjs(data.endVotingTime)}

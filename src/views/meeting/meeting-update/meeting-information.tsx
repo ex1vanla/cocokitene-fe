@@ -435,6 +435,7 @@ const MeetingInformation = () => {
                                 format="YYYY-MM-DD HH:mm"
                                 style={{ width: '100%' }}
                                 // value={data.startTime}
+                                // @ts-ignore
                                 onChange={onChangeDateTime}
                                 onOk={onOkDateTime}
                                 // defaultPickerValue={}
