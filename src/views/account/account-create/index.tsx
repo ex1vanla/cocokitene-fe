@@ -21,7 +21,7 @@ export interface IAccountCreateForm {
     companyName: string
     email: string
     username: string
-    walletAddress: string
+    walletAddress?: string | null
     shareQuantity?: number
     phone: string
     roleIds: string[]
@@ -84,7 +84,7 @@ const CreateAccount = () => {
             const response = await serviceAccount.createAccount({
                 email: values.email,
                 username: values.username,
-                walletAddress: values.walletAddress || '',
+                walletAddress: values.walletAddress || null,
                 phone: values.phone || '',
                 roleIds: [...userRolesArr],
                 statusId: values.statusId,

@@ -78,7 +78,7 @@ export interface IShareholderUpdateForm {
     companyName: string
     email: string
     username: string
-    walletAddress: string
+    walletAddress?: string | null
     shareQuantity?: number
     phone: string
     roleIds: string[]
@@ -269,7 +269,7 @@ const UpdateShareholder = () => {
                 await serviceShareholder.updateShareholder(shareholderId, {
                     email: values.email,
                     username: values.username,
-                    walletAddress: values.walletAddress,
+                    walletAddress: values.walletAddress || null,
                     phone: values.phone,
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
@@ -442,7 +442,7 @@ const UpdateShareholder = () => {
                                 <Form.Item
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: false }]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

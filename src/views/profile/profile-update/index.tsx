@@ -51,7 +51,7 @@ export interface IProfileUpdateForm {
     companyName: string
     email: string
     username: string
-    walletAddress?: string
+    walletAddress?: string | null
     phone: string
     avatar?: string
 }
@@ -209,7 +209,7 @@ const UpdateMyProfile = () => {
                 {
                     username: values.username,
                     email: values.email,
-                    walletAddress: walletAddress,
+                    walletAddress: walletAddress || null,
                     phone: values.phone,
                     avatar: urlAvatar,
                 },

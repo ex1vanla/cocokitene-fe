@@ -87,7 +87,7 @@ export interface IAccountUpdateForm {
     companyName: string
     email: string
     username: string
-    walletAddress: string
+    walletAddress?: string | null
     shareQuantity?: number
     phone: string
     roleIds: string[]
@@ -457,7 +457,7 @@ const UpdateAccount = () => {
                                 <Form.Item
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
-                                    rules={[{ required: true }]}
+                                    rules={[{ required: false }]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

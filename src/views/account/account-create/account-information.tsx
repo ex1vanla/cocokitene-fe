@@ -23,7 +23,6 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import serviceUserStatus from '@/services/user-status'
 import serviceUserRole from '@/services/user-role'
-import { RoleBgColor } from '@/constants/role'
 import {
     ACCEPT_AVATAR_TYPES,
     AccountFileType,
@@ -31,7 +30,6 @@ import {
 } from '@/constants/account'
 import { PlusOutlined } from '@ant-design/icons'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
-import serviceUpload from '@/services/upload'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import serviceAccount from '@/services/account'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
@@ -303,7 +301,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="walletAddress"
                         label={t('WALLET_ADDRESS')}
-                        rules={[{ required: true }]}
+                        rules={[{ required: false }]}
                         className="mb-0"
                     >
                         <Input size="large" />
