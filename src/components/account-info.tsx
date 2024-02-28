@@ -7,13 +7,13 @@ import { Dropdown, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { useDisconnect } from 'wagmi'
 
 const { Text } = Typography
 const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
     const t = useTranslations()
-    const router = useRouter()
+    // const router = useRouter()
     const { authState, logoutAction } = useAuthLogin()
     const { disconnect } = useDisconnect()
     const handleLogout = async () => {

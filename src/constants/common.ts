@@ -32,12 +32,12 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         key: '/setting-role',
         permission: Permissions.SETTING_PERMISSIONS_FOR_ROLES,
     },
-    // {
-    //     icon: ClusterOutlined,
-    //     label: 'BOARD_MEETINGS',
-    //     key: '/board-meetings',
-    //     permission: Permissions.SHAREHOLDERS_MTG
-    // },
+    {
+        icon: ClusterOutlined,
+        label: 'BOARD_MEETINGS',
+        key: '/board-meetings',
+        permission: Permissions.SHAREHOLDERS_MTG
+    },
     {
         icon: VideoCameraOutlined,
         label: 'SHAREHOLDERS_MEETINGS',
