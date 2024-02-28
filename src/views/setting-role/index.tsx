@@ -48,12 +48,18 @@ const SettingRoleView = () => {
     const [data, setData] = useState<any>(null)
     const [columns, setColumns] = useState<any>(null)
     const [permissions, setPermissions] = useState<
-        { id: number; key: string }[] | null
-    >(null)
+        { id: number; key: string }[]
+    >([])
     const [roles, setRoles] = useState<{ id: number; key: string }[] | null>(
         null,
     )
     const [dataChecked, setDataCheked] = useState<IUpdatePermissionRole[]>([])
+
+    useEffect(() => {
+        getAllCombineRoleWithPermission({
+            searchQuery: settingRoleState.filter.searchQuery,
+        })
+    }, [])
 
     useEffect(() => {
         if (
@@ -96,12 +102,13 @@ const SettingRoleView = () => {
             settingRoleState.permissionRoleList &&
             Object.keys(settingRoleState.permissionRoleList).length > 0
         ) {
-            const result = Object.entries(
-                settingRoleState.permissionRoleList,
-            ).map(([namePermission, values]) => ({
-                namePermission,
-                ...values,
-            }))
+            let filter = settingRoleState.filter.searchQuery || ''
+            const result = Object.entries(settingRoleState.permissionRoleList)
+                .map(([namePermission, values]) => ({
+                    namePermission,
+                    ...values,
+                }))
+                .filter((item) => item.namePermission.includes(filter))
 
             const columnData = Object.keys(
                 Object.values(settingRoleState.permissionRoleList)[0],
@@ -141,14 +148,18 @@ const SettingRoleView = () => {
             setData(data)
         }
         // eslint-disable-next-line
-    }, [checkboxState, clickButtonEdit])
+    }, [checkboxState, clickButtonEdit, permissions])
 
     useEffect(() => {
         // eslint-disable-next-line
         ;(async () => {
             try {
                 const permissionResponse =
-                    await serviceSettingRole.getAllNormalPermissions(1, 100)
+                    await serviceSettingRole.getAllNormalPermissions(
+                        1,
+                        100,
+                        settingRoleState.filter.searchQuery,
+                    )
                 const permissionList = permissionResponse.map((item) => ({
                     id: item.id,
                     key: item.key,
@@ -173,16 +184,12 @@ const SettingRoleView = () => {
                 }
             }
         })()
-        getAllCombineRoleWithPermission({
-            searchQuery: settingRoleState.filter.searchQuery,
-        })
         // eslint-disable-next-line
     }, [settingRoleState.filter])
 
     const handleInputChange = (value: string) => {
         setFilterAction({ searchQuery: value })
     }
-
 
     const onChange = (
         namePermission: string,

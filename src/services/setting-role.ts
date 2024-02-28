@@ -8,11 +8,12 @@ import {
 
 const serviceSettingRole = {
     getAllNormalPermissions: async (
-        page: number,
-        limit: number,
+        page?: number,
+        limit?: number,
+        searchQuery?: string
     ): Promise<IPermissionResponse[]> => {
-        const payload = { page, limit }
-        const response = await get('/permissions/normal-permission', payload)
+        const payload = { page, limit  }
+        const response = await get('/permissions/normal-permission', {...payload ,searchQuery: searchQuery })
 
         if (response) return response?.data as IPermissionResponse[]
         return []
