@@ -1,19 +1,15 @@
-import { RoleBgHexColors } from '@/constants/role'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { Tag } from 'antd'
 import React from 'react'
 
 interface IRoleInfo {
     roleName: string
-    defaultRoleHashColor?: string
 }
 
-const RoleInfo = ({
-    roleName,
-    defaultRoleHashColor = RoleBgHexColors.DEFAULTCOLOR,
-}: IRoleInfo) => {
+const RoleInfo = ({ roleName }: IRoleInfo) => {
     return (
-        <Tag color={defaultRoleHashColor} className="mr-0 rounded">
-            {roleName}
+        <Tag className="mr-0 rounded">
+            {convertSnakeCaseToTitleCase(roleName)}
         </Tag>
     )
 }

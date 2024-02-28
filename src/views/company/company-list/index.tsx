@@ -1,7 +1,7 @@
 import { AvatarBgHexColors } from '@/constants/common'
-import { SERVICE_PLAN_ITEMS } from '@/constants/company'
 import { useListCompany } from '@/stores/company/hooks'
 import { ICompanyList } from '@/stores/company/type'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { Avatar, Badge, Typography } from 'antd'
 import Table, { ColumnsType } from 'antd/es/table'
@@ -36,27 +36,27 @@ const CompanyList = ({ data }: CompanyListProps) => {
         {
             title: t('SERVICE_PLAN'),
             dataIndex: 'servicePlan',
-            render: (_, record) => {
-                const indexItem = SERVICE_PLAN_ITEMS.find(
-                    (item) => item.value === record.servicePlan,
-                )
-                const planOptions: {
-                    [key: number]: { text: string; textColorClass: string }
-                } = {
-                    1: { text: t('FREE'), textColorClass: 'text-black' },
-                    2: { text: t('TRIAL'), textColorClass: 'text-orange-500' },
-                    3: {
-                        text: t('PAY_OF_MONTH'),
-                        textColorClass: 'text-green-500',
-                    },
-                    4: { text: 'Error', textColorClass: 'text-red-500' },
-                }
+            // render: (_, record) => {
+            //     const indexItem = SERVICE_PLAN_ITEMS.find(
+            //         (item) => item.value === record.servicePlan,
+            //     )
+            //     const planOptions: {
+            //         [key: number]: { text: string; textColorClass: string }
+            //     } = {
+            //         1: { text: t('FREE'), textColorClass: 'text-black' },
+            //         2: { text: t('TRIAL'), textColorClass: 'text-orange-500' },
+            //         3: {
+            //             text: t('PAY_OF_MONTH'),
+            //             textColorClass: 'text-green-500',
+            //         },
+            //         4: { text: 'Error', textColorClass: 'text-red-500' },
+            //     }
 
-                const { text, textColorClass } =
-                    planOptions[indexItem?.key ?? 4]
+            //     const { text, textColorClass } =
+            //         planOptions[indexItem?.key ?? 4]
 
-                return <span className={textColorClass}>{text}</span>
-            },
+            //     return <span className={textColorClass}>{text}</span>
+            // },
             width: '10%',
         },
         {
@@ -129,17 +129,23 @@ const CompanyList = ({ data }: CompanyListProps) => {
             filter: { ...companyState.filter },
         })
     }
+
+    const dataFinal = data.map((item) => ({
+        ...item,
+        servicePlan: convertSnakeCaseToTitleCase(item.servicePlan),
+    }))
+
     return (
         <div className="bg-white p-6 ">
             <Table
                 columns={columns}
-                dataSource={data}
+                dataSource={dataFinal}
                 rowKey="id"
                 pagination={{
                     pageSize: companyState.limit,
                     defaultCurrent: companyState.page,
                     total: companyState.totalCompanyItem,
-                    onChange: handlePageChange
+                    onChange: handlePageChange,
                 }}
             />
         </div>

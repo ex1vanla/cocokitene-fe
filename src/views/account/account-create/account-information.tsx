@@ -34,6 +34,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import serviceUpload from '@/services/upload'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import serviceAccount from '@/services/account'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const tagRenderStatus = (props: any) => {
     const { label, value, closable, onClose } = props
@@ -44,7 +45,6 @@ const tagRenderStatus = (props: any) => {
     }
     return (
         <Tag
-            color={RoleBgColor[value]}
             onMouseDown={onPreventMouseDown}
             closable={closable}
             onClose={onClose}
@@ -52,7 +52,7 @@ const tagRenderStatus = (props: any) => {
                 marginRight: 3,
             }}
         >
-            {t(label)}
+            {convertSnakeCaseToTitleCase(label)}
         </Tag>
     )
 }
@@ -265,7 +265,9 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                             tagRender={tagRenderStatus}
                             options={filteredOptions.map((status) => ({
                                 value: status.roleName,
-                                label: t(status.roleName),
+                                label: convertSnakeCaseToTitleCase(
+                                    status.roleName,
+                                ),
                             }))}
                         />
                     </Form.Item>

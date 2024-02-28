@@ -16,6 +16,7 @@ import { Col, DatePicker, Form, FormInstance, Input, Row, Select } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { ICompanyCreateForm } from '.'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const { TextArea } = Input
 
@@ -255,16 +256,19 @@ const CompanyInformation = ({ form }: CompanyInfoProp) => {
                                 value: plan.id,
                                 label: (
                                     <span
-                                        style={{
-                                            color: ServicePlanColor[
-                                                plan.planName as ServicePlan
-                                            ],
-                                        }}
+                                    // style={{
+                                    //     color: ServicePlanColor[
+                                    //         plan.planName as ServicePlan
+                                    //     ],
+                                    // }}
                                     >
-                                        {t(
+                                        {/* {t(
                                             ServicePlanName[
                                                 plan.planName as ServicePlan
                                             ],
+                                        )} */}
+                                        {convertSnakeCaseToTitleCase(
+                                            plan.planName,
                                         )}
                                     </span>
                                 ),

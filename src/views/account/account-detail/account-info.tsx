@@ -11,7 +11,7 @@ import Color from 'color'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import RoleInfo from '@/components/role-info'
-import { RoleBgColor } from '@/constants/role'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const AccountInfo = () => {
     const t = useTranslations()
@@ -49,8 +49,9 @@ const AccountInfo = () => {
                     {account?.roles.map((item) => (
                         <RoleInfo
                             key={item.id}
-                            roleName={t(item.roleName)}
-                            defaultRoleHashColor={RoleBgColor[item.roleName]}
+                            roleName={convertSnakeCaseToTitleCase(
+                                item.roleName,
+                            )}
                         />
                     ))}
                 </div>

@@ -5,12 +5,14 @@ import { Avatar, Badge, Tag, Tooltip, Typography } from 'antd'
 import Link from 'next/link'
 import { useListAccount } from '@/stores/account/hook'
 import { UserStatus } from '@/constants/user-status'
-import { truncateString } from '@/utils/format-string'
+import {
+    convertSnakeCaseToTitleCase,
+    truncateString,
+} from '@/utils/format-string'
 import Color from 'color'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { AvatarBgHexColors, MAX_DISPLAY_ROLES } from '@/constants/common'
 import RoleInfo from '@/components/role-info'
-import { RoleBgColor } from '@/constants/role'
 import React from 'react'
 
 const { Text } = Typography
@@ -103,8 +105,7 @@ const AccountList = () => {
                             return (
                                 <RoleInfo
                                     key={item}
-                                    roleName={t(item)}
-                                    defaultRoleHashColor={RoleBgColor[item]}
+                                    roleName={convertSnakeCaseToTitleCase(item)}
                                 />
                             )
                         })}
@@ -124,10 +125,7 @@ const AccountList = () => {
                                         {additionalRoleNames.map((item) => (
                                             <RoleInfo
                                                 key={item}
-                                                roleName={t(item)}
-                                                defaultRoleHashColor={
-                                                    RoleBgColor[item]
-                                                }
+                                                roleName={item}
                                             />
                                         ))}
                                     </div>

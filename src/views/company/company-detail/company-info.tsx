@@ -1,4 +1,4 @@
-import { Avatar, Button, Col, Row } from 'antd'
+import { Avatar, Col, Row } from 'antd'
 import { useTranslations } from 'next-intl'
 import Color from 'color'
 
@@ -8,7 +8,7 @@ import { IRowInfo, RowInfo } from './row-info'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { CompanyStatus } from '@/constants/company-status'
-import { ServicePlan } from '@/constants/company'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
     .lighten(0.6)
@@ -142,31 +142,37 @@ const CompanyInfo = () => {
         },
         {
             label: 'SERVICE_PLAN',
-            content:
-                company?.servicePlan.planName == ServicePlan.TRIAL ? (
-                    <p className="text-o text-sm text-orange-500">
-                        {t('TRIAL')}
-                    </p>
-                ) : company?.servicePlan.planName == ServicePlan.FREE ? (
-                    <div className="flex flex-col items-start">
-                        <div className="h-[30px] text-sm">
-                            <span className="mr-1 text-black/[85%]">
-                                {t('FREE')}
-                            </span>
-                            <span className="text-orange-500">
-                                ({t('TRIAL_HAS_EXPIRED')})
-                            </span>
-                        </div>
-                        <Button className="h-[32px] border-[1px] border-primary bg-primary px-4 py-1 text-neutral/2 shadow-02 hover:cursor-pointer">
-                            {t('UPGRADE_PLAN')}
-                        </Button>
-                    </div>
-                ) : company?.servicePlan.planName ==
-                  ServicePlan.PAY_OF_MONTH ? (
-                    <p className="text-sm text-polar-green">
-                        {t('PAY_OF_MONTH')}
-                    </p>
-                ) : null,
+            content: (
+                // company?.servicePlan.planName == ServicePlan.TRIAL ? (
+                //     <p className="text-o text-sm text-orange-500">
+                //         {t('TRIAL')}
+                //     </p>
+                // ) : company?.servicePlan.planName == ServicePlan.FREE ? (
+                //     <div className="flex flex-col items-start">
+                //         <div className="h-[30px] text-sm">
+                //             <span className="mr-1 text-black/[85%]">
+                //                 {t('FREE')}
+                //             </span>
+                //             <span className="text-orange-500">
+                //                 ({t('TRIAL_HAS_EXPIRED')})
+                //             </span>
+                //         </div>
+                //         <Button className="h-[32px] border-[1px] border-primary bg-primary px-4 py-1 text-neutral/2 shadow-02 hover:cursor-pointer">
+                //             {t('UPGRADE_PLAN')}
+                //         </Button>
+                //     </div>
+                // ) : company?.servicePlan.planName ==
+                //   ServicePlan.PAY_OF_MONTH ? (
+                //     <p className="text-sm text-polar-green">
+                //         {t('PAY_OF_MONTH')}
+                //     </p>
+                // ) : null,
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {convertSnakeCaseToTitleCase(
+                        company?.servicePlan.planName || '',
+                    )}
+                </p>
+            ),
         },
     ]
 

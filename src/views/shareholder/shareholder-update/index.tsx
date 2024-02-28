@@ -44,6 +44,7 @@ import SaveUpdateShareholderButton from '@/views/shareholder/shareholder-update/
 import { RoleBgColor } from '@/constants/role'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const tagRenderStatus = (props: any) => {
     const { label, value, closable, onClose } = props
@@ -54,7 +55,6 @@ const tagRenderStatus = (props: any) => {
     }
     return (
         <Tag
-            color={RoleBgColor[value]}
             onMouseDown={onPreventMouseDown}
             closable={closable}
             onClose={onClose}
@@ -62,7 +62,7 @@ const tagRenderStatus = (props: any) => {
                 marginRight: 3,
             }}
         >
-            {t(label)}
+            {convertSnakeCaseToTitleCase(label)}
         </Tag>
     )
 }
@@ -394,7 +394,9 @@ const UpdateShareholder = () => {
                                         options={filteredOptions.map(
                                             (role) => ({
                                                 value: role.roleName,
-                                                label: t(role.roleName),
+                                                label: convertSnakeCaseToTitleCase(
+                                                    role.roleName,
+                                                ),
                                             }),
                                         )}
                                     />

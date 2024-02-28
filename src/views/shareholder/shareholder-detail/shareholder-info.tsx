@@ -7,7 +7,6 @@ import {
     RowShareholderInfo,
 } from '@/views/shareholder/shareholder-detail/shareholder-rowinfo'
 import RoleInfo from '@/components/role-info'
-import { RoleBgColor } from '@/constants/role'
 import { Avatar, Col, Row } from 'antd'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import {
@@ -49,11 +48,7 @@ const ShareholderInfo = () => {
             content: (
                 <div className="mt-[-2px] flex gap-1 truncate hover:text-clip">
                     {shareholder?.roles.map((item) => (
-                        <RoleInfo
-                            key={item.id}
-                            roleName={t(item.roleName)}
-                            defaultRoleHashColor={RoleBgColor[item.roleName]}
-                        />
+                        <RoleInfo key={item.id} roleName={item.roleName} />
                     ))}
                 </div>
             ),

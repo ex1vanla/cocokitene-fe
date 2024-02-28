@@ -11,7 +11,6 @@ import Color from 'color'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import RoleInfo from '@/components/role-info'
-import { RoleBgColor } from '@/constants/role'
 
 const MyProfileInfo = () => {
     const t = useTranslations()
@@ -47,11 +46,7 @@ const MyProfileInfo = () => {
             content: (
                 <div className="mt-[-2px] flex gap-1 truncate hover:text-clip">
                     {account?.roles.map((item) => (
-                        <RoleInfo
-                            key={item.id}
-                            roleName={t(item.roleName)}
-                            defaultRoleHashColor={RoleBgColor[item.roleName]}
-                        />
+                        <RoleInfo key={item.id} roleName={item.roleName} />
                     ))}
                 </div>
             ),

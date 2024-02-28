@@ -42,6 +42,7 @@ import {
     MAX_AVATAR_FILE_SIZE,
 } from '@/constants/account'
 import serviceUpload from '@/services/upload'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const tagRenderStatus = (props: any) => {
     const { label, value, closable, onClose } = props
@@ -52,7 +53,6 @@ const tagRenderStatus = (props: any) => {
     }
     return (
         <Tag
-            color={RoleBgColor[value]}
             onMouseDown={onPreventMouseDown}
             closable={closable}
             onClose={onClose}
@@ -60,7 +60,7 @@ const tagRenderStatus = (props: any) => {
                 marginRight: 3,
             }}
         >
-            {t(label)}
+            {convertSnakeCaseToTitleCase(label)}
         </Tag>
     )
 }
@@ -407,7 +407,9 @@ const UpdateAccount = () => {
                                         options={filteredOptions.map(
                                             (role) => ({
                                                 value: role.roleName,
-                                                label: t(role.roleName),
+                                                label: convertSnakeCaseToTitleCase(
+                                                    role.roleName,
+                                                ),
                                             }),
                                         )}
                                     />
