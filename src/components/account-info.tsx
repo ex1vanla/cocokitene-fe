@@ -66,7 +66,6 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
                     onClick={async () => {
                         handleLogout()
                         await new Promise((resolve) => setTimeout(resolve, 500))
-                        await router.push('/')
                     }}
                 >
                     {t('LOGOUT')}

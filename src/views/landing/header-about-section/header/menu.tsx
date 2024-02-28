@@ -45,7 +45,7 @@ const Menu = () => {
         }
     }, [params])
 
-    console.log(hashFragment)
+    // console.log(hashFragment)
 
     const data = [
         {
