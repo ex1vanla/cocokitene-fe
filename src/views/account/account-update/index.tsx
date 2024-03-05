@@ -16,7 +16,7 @@ import {
 } from 'antd'
 // import dayjs from 'dayjs'
 import { FETCH_STATUS } from '@/constants/common'
-import { useForm } from 'antd/es/form/Form'
+import { useForm, useWatch } from 'antd/es/form/Form'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Loader from '@/components/loader'
@@ -29,7 +29,6 @@ import {
 import serviceUserStatus from '@/services/user-status'
 import { AxiosError } from 'axios'
 import serviceUserRole from '@/services/user-role'
-import { RoleBgColor } from '@/constants/role'
 import { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
 import { PlusOutlined } from '@ant-design/icons'
@@ -88,7 +87,7 @@ export interface IAccountUpdateForm {
     email: string
     username: string
     walletAddress?: string | null
-    shareQuantity?: number
+    shareQuantity?: number | null
     phone: string
     roleIds: string[]
     statusId: number
@@ -118,6 +117,10 @@ const UpdateAccount = () => {
 
     //Select
     const [selectedItems, setSelectedItems] = useState<string[]>([])
+    const [requiredQuantity, setRequiredQuantity] = useState<boolean>(false)
+
+    const quantity = useWatch('shareQuantity', form)
+
     const filteredOptions = roleList.filter(
         (o) => !selectedItems.includes(o.roleName),
     )
@@ -145,10 +148,15 @@ const UpdateAccount = () => {
                         email: res.email,
                         username: res.username,
                         walletAddress: res.walletAddress,
+                        shareQuantity: res.shareQuantity,
                         phone: res.phone,
                         roleIds: res.roles.map((item) => item.roleName),
                         statusId: res.userStatus.id,
                         avatar: res.avatar,
+                    })
+                    form.setFieldsValue({
+                        roleIds: res.roles.map((item) => item.roleName),
+                        shareQuantity: res.shareQuantity,
                     })
                     if (res.avatar) {
                         setFileList([
@@ -161,6 +169,11 @@ const UpdateAccount = () => {
                         ])
                     }
                     setSelectedItems(res.roles.map((item) => item.roleName))
+                    setRequiredQuantity(
+                        res.roles
+                            .map((item) => item.roleName)
+                            .includes('SHAREHOLDER'),
+                    )
                 }
                 const userStatusList = await serviceUserStatus.getAllUserStatus(
                     {
@@ -248,6 +261,46 @@ const UpdateAccount = () => {
         }
     }
 
+    useEffect(() => {
+        if (selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(true)
+        } else if (!selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(false)
+        } else {
+            setRequiredQuantity(false)
+        }
+    }, [JSON.stringify(selectedItems)])
+
+    useEffect(() => {
+        if (quantity && +quantity > 0) {
+            setRequiredQuantity(true)
+        } else if (!quantity || +quantity == 0) {
+            setRequiredQuantity(false)
+        } else {
+            setRequiredQuantity(false)
+        }
+    }, [quantity])
+
+    useEffect(() => {
+        if (!requiredQuantity) {
+            form.setFieldsValue({
+                roleIds: selectedItems.filter((item) => item != 'SHAREHOLDER'),
+                shareQuantity: null,
+            })
+            setSelectedItems(
+                selectedItems.filter((item) => item != 'SHAREHOLDER'),
+            )
+        }
+        if (requiredQuantity) {
+            if (!selectedItems.includes('SHAREHOLDER')) {
+                form.setFieldsValue({
+                    roleIds: [...selectedItems, 'SHAREHOLDER'],
+                })
+                setSelectedItems([...selectedItems, 'SHAREHOLDER'])
+            }
+        }
+    }, [requiredQuantity])
+
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
 
     const onFinish = async (values: IAccountUpdateForm) => {
@@ -281,6 +334,9 @@ const UpdateAccount = () => {
                     email: values.email,
                     username: values.username,
                     walletAddress: values.walletAddress || '',
+                    shareQuantity: values.shareQuantity
+                        ? +values.shareQuantity
+                        : undefined,
                     phone: values.phone || '',
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
@@ -458,6 +514,26 @@ const UpdateAccount = () => {
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
                                     rules={[{ required: false }]}
+                                    className="mb-0"
+                                >
+                                    <Input size="large" />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} lg={12}>
+                                <Form.Item
+                                    name="shareQuantity"
+                                    label={t('QUANTITY')}
+                                    rules={[
+                                        { required: requiredQuantity },
+                                        {
+                                            pattern: new RegExp(
+                                                /^(0*[1-9]\d*|0+)$/,
+                                            ),
+                                            message: requiredQuantity
+                                                ? t('PLEASE_ENTER_ ONLY_NUMBER')
+                                                : '',
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

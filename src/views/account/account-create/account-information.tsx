@@ -33,6 +33,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import { useAuthLogin } from '@/stores/auth/hooks'
 import serviceAccount from '@/services/account'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
+import { useWatch } from 'antd/es/form/Form'
 
 const tagRenderStatus = (props: any) => {
     const { label, value, closable, onClose } = props
@@ -84,6 +85,9 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     const [userRoleList, setUserRoleList] = useState<IUserRole[]>([])
     const [selectedItems, setSelectedItems] = useState<string[]>([])
     const [companyName, setCompanyName] = useState<string>('')
+    const [requiredQuantity, setRequiredQuantity] = useState<boolean>(false)
+
+    const quantity = useWatch('shareQuantity', form)
 
     const t = useTranslations()
     const { authState } = useAuthLogin()
@@ -91,6 +95,26 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     const filteredOptions = userRoleList?.filter(
         (o: IUserRole) => !selectedItems.includes(o.roleName),
     )
+
+    useEffect(() => {
+        if (selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(true)
+        } else if (!selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(false)
+        } else {
+            setRequiredQuantity(false)
+        }
+    }, [JSON.stringify(selectedItems)])
+
+    useEffect(() => {
+        if (quantity && +quantity > 0) {
+            setRequiredQuantity(true)
+        } else if (!quantity || +quantity == 0) {
+            setRequiredQuantity(false)
+        } else {
+            setRequiredQuantity(false)
+        }
+    }, [quantity])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -124,11 +148,28 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     }, [userStatusList])
 
     useEffect(() => {
-        form.setFieldsValue({
-            statusId: userStatusIdDefault,
-            companyName: companyName,
-        })
-    }, [userStatusIdDefault, companyName])
+        if (!requiredQuantity) {
+            form.setFieldsValue({
+                statusId: userStatusIdDefault,
+                companyName: companyName,
+                roleIds: selectedItems.filter((item) => item != 'SHAREHOLDER'),
+                shareQuantity: null,
+            })
+            setSelectedItems(
+                selectedItems.filter((item) => item != 'SHAREHOLDER'),
+            )
+        }
+        if (requiredQuantity) {
+            if (!selectedItems.includes('SHAREHOLDER')) {
+                form.setFieldsValue({
+                    statusId: userStatusIdDefault,
+                    companyName: companyName,
+                    roleIds: [...selectedItems, 'SHAREHOLDER'],
+                })
+                setSelectedItems([...selectedItems, 'SHAREHOLDER'])
+            }
+        }
+    }, [userStatusIdDefault, companyName, requiredQuantity])
 
     // Upload Image
     const [previewOpen, setPreviewOpen] = useState(false)
@@ -302,6 +343,24 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                         name="walletAddress"
                         label={t('WALLET_ADDRESS')}
                         rules={[{ required: false }]}
+                        className="mb-0"
+                    >
+                        <Input size="large" />
+                    </Form.Item>
+                </Col>
+                <Col xs={24} lg={12}>
+                    <Form.Item
+                        name="shareQuantity"
+                        label={t('QUANTITY')}
+                        rules={[
+                            { required: requiredQuantity },
+                            {
+                                pattern: new RegExp(/^(0*[1-9]\d*|0+)$/),
+                                message: requiredQuantity
+                                    ? t('PLEASE_ENTER_ ONLY_NUMBER')
+                                    : '',
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />

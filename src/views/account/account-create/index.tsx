@@ -22,7 +22,7 @@ export interface IAccountCreateForm {
     email: string
     username: string
     walletAddress?: string | null
-    shareQuantity?: number
+    shareQuantity?: number | null
     phone: string
     roleIds: string[]
     statusId: number
@@ -85,6 +85,9 @@ const CreateAccount = () => {
                 email: values.email,
                 username: values.username,
                 walletAddress: values.walletAddress || null,
+                shareQuantity: values.shareQuantity
+                    ? +values.shareQuantity
+                    : undefined,
                 phone: values.phone || '',
                 roleIds: [...userRolesArr],
                 statusId: values.statusId,

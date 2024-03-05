@@ -143,6 +143,15 @@ const AccountInfo = () => {
             ),
             lg: 3,
         },
+        {
+            label: 'QUANTITY',
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {account?.shareQuantity || ''}
+                </p>
+            ),
+            lg: 3,
+        },
     ]
 
     return (
