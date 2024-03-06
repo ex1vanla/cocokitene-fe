@@ -261,6 +261,7 @@ const UpdateAccount = () => {
         }
     }
 
+    //Quantity
     useEffect(() => {
         if (selectedItems.includes('SHAREHOLDER')) {
             setRequiredQuantity(true)
@@ -274,10 +275,6 @@ const UpdateAccount = () => {
     useEffect(() => {
         if (quantity && +quantity > 0) {
             setRequiredQuantity(true)
-        } else if (!quantity || +quantity == 0) {
-            setRequiredQuantity(false)
-        } else {
-            setRequiredQuantity(false)
         }
     }, [quantity])
 
@@ -300,6 +297,14 @@ const UpdateAccount = () => {
             }
         }
     }, [requiredQuantity])
+
+    const validateQuantity = (_: any, value: string) => {
+        const regex = /^(0*[1-9]\d*|0+)$/
+        if (!regex.test(value) || +value <= 0) {
+            return Promise.reject(t('QUANTITY_VALIDATE'))
+        }
+        return Promise.resolve()
+    }
 
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
 
@@ -524,14 +529,9 @@ const UpdateAccount = () => {
                                     name="shareQuantity"
                                     label={t('QUANTITY')}
                                     rules={[
-                                        { required: requiredQuantity },
                                         {
-                                            pattern: new RegExp(
-                                                /^(0*[1-9]\d*|0+)$/,
-                                            ),
-                                            message: requiredQuantity
-                                                ? t('PLEASE_ENTER_ ONLY_NUMBER')
-                                                : '',
+                                            required: requiredQuantity,
+                                            validator: validateQuantity,
                                         },
                                     ]}
                                     className="mb-0"
