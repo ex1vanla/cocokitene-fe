@@ -218,6 +218,7 @@ export interface IAccountDetailResponse {
     username: string
     email: string
     walletAddress: string
+    shareQuantity: number
     phone: string
     avatar: string
     defaultAvatarHashColor: string | null
@@ -232,7 +233,7 @@ export interface ICreateAccountPayload {
     email: string
     username: string
     walletAddress?: string | null
-    shareQuantity?: number
+    shareQuantity?: number | null
     phone: string
     roleIds: number[]
     statusId: number

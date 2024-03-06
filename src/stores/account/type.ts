@@ -55,6 +55,7 @@ export interface IAccountDetail {
     userName: string
     email: string
     walletAddress: string
+    shareQuantity: number | null
     phone: string
     avatar: string
     defaultAvatarHashColor: string | null
