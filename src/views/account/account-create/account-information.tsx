@@ -97,26 +97,6 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     )
 
     useEffect(() => {
-        if (selectedItems.includes('SHAREHOLDER')) {
-            setRequiredQuantity(true)
-        } else if (!selectedItems.includes('SHAREHOLDER')) {
-            setRequiredQuantity(false)
-        } else {
-            setRequiredQuantity(false)
-        }
-    }, [JSON.stringify(selectedItems)])
-
-    useEffect(() => {
-        if (quantity && +quantity > 0) {
-            setRequiredQuantity(true)
-        } else if (!quantity || +quantity == 0) {
-            setRequiredQuantity(false)
-        } else {
-            setRequiredQuantity(false)
-        }
-    }, [quantity])
-
-    useEffect(() => {
         const fetchData = async () => {
             const userStatusList = await serviceUserStatus.getAllUserStatus({
                 page: 1,
@@ -148,28 +128,57 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     }, [userStatusList])
 
     useEffect(() => {
+        form.setFieldsValue({
+            statusId: userStatusIdDefault,
+            companyName: companyName,
+        })
+    }, [userStatusIdDefault, companyName])
+
+    // Quantity
+    useEffect(() => {
+        if (selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(true)
+        } else if (!selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(false)
+        } else {
+            setRequiredQuantity(false)
+        }
+    }, [JSON.stringify(selectedItems)])
+
+    useEffect(() => {
+        if (quantity && +quantity > 0) {
+            setRequiredQuantity(true)
+        }
+    }, [quantity])
+
+    useEffect(() => {
         if (!requiredQuantity) {
             form.setFieldsValue({
-                statusId: userStatusIdDefault,
-                companyName: companyName,
-                roleIds: selectedItems.filter((item) => item != 'SHAREHOLDER'),
                 shareQuantity: null,
             })
-            setSelectedItems(
-                selectedItems.filter((item) => item != 'SHAREHOLDER'),
-            )
         }
         if (requiredQuantity) {
             if (!selectedItems.includes('SHAREHOLDER')) {
                 form.setFieldsValue({
-                    statusId: userStatusIdDefault,
-                    companyName: companyName,
                     roleIds: [...selectedItems, 'SHAREHOLDER'],
                 })
                 setSelectedItems([...selectedItems, 'SHAREHOLDER'])
             }
         }
-    }, [userStatusIdDefault, companyName, requiredQuantity])
+    }, [requiredQuantity])
+
+    const validateQuantity = (_: any, value: string) => {
+        const regex = /^(0*[1-9]\d*|0+)$/
+        if (!requiredQuantity) {
+            return Promise.resolve()
+        }
+        // if (value) {
+        if (!regex.test(value) || +value <= 0) {
+            return Promise.reject(t('QUANTITY_VALIDATE'))
+        }
+        // }
+        return Promise.resolve()
+    }
 
     // Upload Image
     const [previewOpen, setPreviewOpen] = useState(false)
@@ -353,12 +362,9 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                         name="shareQuantity"
                         label={t('QUANTITY')}
                         rules={[
-                            { required: requiredQuantity },
                             {
-                                pattern: new RegExp(/^(0*[1-9]\d*|0+)$/),
-                                message: requiredQuantity
-                                    ? t('PLEASE_ENTER_ ONLY_NUMBER')
-                                    : '',
+                                required: requiredQuantity,
+                                validator: validateQuantity,
                             },
                         ]}
                         className="mb-0"
