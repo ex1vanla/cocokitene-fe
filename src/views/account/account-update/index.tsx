@@ -300,9 +300,14 @@ const UpdateAccount = () => {
 
     const validateQuantity = (_: any, value: string) => {
         const regex = /^(0*[1-9]\d*|0+)$/
+        if (!requiredQuantity) {
+            return Promise.resolve()
+        }
+        // if (value) {
         if (!regex.test(value) || +value <= 0) {
             return Promise.reject(t('QUANTITY_VALIDATE'))
         }
+        // }
         return Promise.resolve()
     }
 
