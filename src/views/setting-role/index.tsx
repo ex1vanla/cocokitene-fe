@@ -386,5 +386,5 @@ const SettingRoleView = () => {
 
 export default withAuth(
     SettingRoleView,
-    Permissions.SETTING_PERMISSIONS_FOR_ROLES,
+    Permissions.SETTING_PERMISSION_FOR_ROLES,
 )
