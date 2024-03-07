@@ -14,7 +14,7 @@ const serviceUserStatus = {
 
         return response.data.items
     },
-    getAllUserStatusSysAdmin : async ({
+    getAllUserStatusSysAdmin: async ({
         page,
         limit,
     }: IGetAllDataRequest): Promise<IUserStatusResponse[]> => {
@@ -24,7 +24,6 @@ const serviceUserStatus = {
 
         return response.data.items
     },
-
 }
 
 export default serviceUserStatus

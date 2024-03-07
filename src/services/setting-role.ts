@@ -1,19 +1,19 @@
 import { ParamsFilter } from '@/stores/setting-role/type'
 import { get, patch, post } from './fetcher'
 import { ICreateRolePayload, IUpdatePermissionRole } from './request.type'
-import {
-    IPermissionResponse,
-    IRoleResponse,
-} from './response.type'
+import { IPermissionResponse, IRoleResponse } from './response.type'
 
 const serviceSettingRole = {
     getAllNormalPermissions: async (
         page?: number,
         limit?: number,
-        searchQuery?: string
+        searchQuery?: string,
     ): Promise<IPermissionResponse[]> => {
-        const payload = { page, limit  }
-        const response = await get('/permissions/normal-permission', {...payload ,searchQuery: searchQuery })
+        const payload = { page, limit }
+        const response = await get('/permissions/normal-permission', {
+            ...payload,
+            searchQuery: searchQuery,
+        })
 
         if (response) return response?.data as IPermissionResponse[]
         return []

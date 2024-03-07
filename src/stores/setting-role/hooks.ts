@@ -33,7 +33,9 @@ export const useSettingRole = (): SettingRoleType => {
     const getAllCombineRoleWithPermission = useCallback(
         (data?: ParamsFilter) => {
             dispatch(
-                getCombineRoleWithPermission({ searchQuery: data?.searchQuery }),
+                getCombineRoleWithPermission({
+                    searchQuery: data?.searchQuery,
+                }),
             )
         },
         [dispatch],

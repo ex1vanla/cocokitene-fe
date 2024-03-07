@@ -44,5 +44,11 @@ export const useAuthLogin = (): AuthLoginType => {
         dispatch(signOut())
     }, [dispatch])
 
-    return { authState, loginAction, loginByEmailAction , getNonceAction, logoutAction }
+    return {
+        authState,
+        loginAction,
+        loginByEmailAction,
+        getNonceAction,
+        logoutAction,
+    }
 }

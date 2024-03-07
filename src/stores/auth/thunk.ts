@@ -44,7 +44,9 @@ export const loginByEmail = createAsyncThunk<
     }
 >('auth/login-by-password', async (loginData, { rejectWithValue }) => {
     try {
-        const loginResponse: ILoginResponse = await serviceUser.loginUser(loginData)
+        const loginResponse: ILoginResponse = await serviceUser.loginUser(
+            loginData,
+        )
         const { userData, accessToken, refreshToken } = loginResponse
         serviceUser.storeInfo(userData)
         serviceUser.storeAccessToken(accessToken)

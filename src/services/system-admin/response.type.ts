@@ -91,14 +91,13 @@ export interface ICompanyDetailResponse {
     servicePlan: IPlanResponse
 }
 
-
 export interface IListPlanResponse {
-    id: number,
-    planName: string,
-    description: string,
-    maxStorage: number,
-    maxMeeting: number,
-    price: number,
+    id: number
+    planName: string
+    description: string
+    maxStorage: number
+    maxMeeting: number
+    price: number
     maxShareholderAccount: number
 }
 
@@ -120,4 +119,4 @@ export interface IPlanDetailResponse {
     maxShareholderAccount: number
 }
 
-export interface IUpdatePlan extends ICreatePlan{}
+export interface IUpdatePlan extends ICreatePlan {}

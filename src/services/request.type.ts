@@ -63,7 +63,7 @@ type RoleChecked = {
 }
 
 export interface ICreateRolePayload {
-    roleName: string;
-    description?: string;
+    roleName: string
+    description?: string
     idPermissions: number[]
 }

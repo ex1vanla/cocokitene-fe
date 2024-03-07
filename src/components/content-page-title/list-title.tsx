@@ -13,9 +13,9 @@ interface IListTitle extends IBaseTitle {
     addButton?: ReactNode
     editButton?: ReactNode
     // eslint-disable-next-line
-    onChangeInput?:  ((value: string) => void) | undefined
+    onChangeInput?: ((value: string) => void) | undefined
     // eslint-disable-next-line
-    onChangeSelect?:  ((value: string) => void) | undefined
+    onChangeSelect?: ((value: string) => void) | undefined
     defaultSort?: string
 }
 
@@ -65,8 +65,14 @@ const ListTitle = ({
                         style={{ width: 120 }}
                         onChange={handleChangeSelect}
                         options={[
-                            { value: SORT.ASC, label: t('SORT_OLDEST_MEETING') },
-                            { value: SORT.DESC, label: t('SORT_NEWEST_MEETING') },
+                            {
+                                value: SORT.ASC,
+                                label: t('SORT_OLDEST_MEETING'),
+                            },
+                            {
+                                value: SORT.DESC,
+                                label: t('SORT_NEWEST_MEETING'),
+                            },
                         ]}
                     />
                 )}

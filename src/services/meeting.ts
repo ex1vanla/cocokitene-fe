@@ -51,6 +51,12 @@ const serviceMeeting = {
         )
         return response.data
     },
+    sendMailInvitationShareholderMeeting: async (meetingId: number) => {
+        const response = await post<any>(
+            `/meetings/send-email/meeting/${meetingId}`,
+        )
+        return response.data
+    },
 }
 
 export default serviceMeeting

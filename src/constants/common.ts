@@ -24,7 +24,7 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: DashboardOutlined,
         label: 'DASHBOARD',
         key: '/dashboard',
-        permission: "DASHBOARD"
+        permission: 'DASHBOARD',
     },
     {
         icon: SettingOutlined,
@@ -36,7 +36,7 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: ClusterOutlined,
         label: 'BOARD_MEETINGS',
         key: '/board-meetings',
-        permission: Permissions.SHAREHOLDERS_MTG
+        permission: Permissions.SHAREHOLDERS_MTG,
     },
     {
         icon: VideoCameraOutlined,

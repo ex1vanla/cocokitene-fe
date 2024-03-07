@@ -1,5 +1,4 @@
-import { EActionStatus, FetchError } from "../type"
-
+import { EActionStatus, FetchError } from '../type'
 
 export interface ListParamsFilter {
     searchQuery?: string
@@ -14,15 +13,14 @@ export interface IGetAllPlanQuery {
 }
 
 export interface IPlanList {
-    id: number,
-    planName: string,
-    description: string,
-    maxStorage: number,
-    maxMeeting: number,
-    price: number,
+    id: number
+    planName: string
+    description: string
+    maxStorage: number
+    maxMeeting: number
+    price: number
     maxShareholderAccount: number
 }
-
 
 export interface IPlanState extends IGetAllPlanQuery, FetchError {
     status: EActionStatus

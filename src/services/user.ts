@@ -1,6 +1,11 @@
 import { Cookies } from 'react-cookie'
 import { get, post } from './fetcher'
-import { IAccount, ILoginEmailRequest, ILoginRequest, ILoginResponse } from '@/stores/auth/type'
+import {
+    IAccount,
+    ILoginEmailRequest,
+    ILoginRequest,
+    ILoginResponse,
+} from '@/stores/auth/type'
 import { IAccountListResponse } from './response.type'
 import { UserStatus } from '@/constants/user-status'
 const cookies = new Cookies()
@@ -74,9 +79,7 @@ const serviceUser = {
         return response.data
     },
 
-    loginUser: async (
-        payload: ILoginEmailRequest,
-    ): Promise<ILoginResponse> => {
+    loginUser: async (payload: ILoginEmailRequest): Promise<ILoginResponse> => {
         const response: { data: ILoginResponse } = await post(
             '/auths/login-by-password',
             payload,
@@ -108,13 +111,13 @@ const serviceUser = {
         }
     },
 
-    changePasswordUser : async(payload:{
-        currentPassword:string,
-        newPassword:string
-        }) =>{
-            const response = await post<any>('/auths/user/change-password',payload)
-            return response.data
-    }
+    changePasswordUser: async (payload: {
+        currentPassword: string
+        newPassword: string
+    }) => {
+        const response = await post<any>('/auths/user/change-password', payload)
+        return response.data
+    },
 }
 
 export default serviceUser

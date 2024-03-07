@@ -23,13 +23,13 @@ export interface IAccount {
     walletAddress: string
     username: string
     email: string
-    companyId: number,
-    avatar: string,
+    companyId: number
+    avatar: string
     permissionKeys: string[]
 }
 
 export interface ILoginEmailRequest {
-    taxOfCompany : string
-    email : string
-    password :  string
+    taxOfCompany: string
+    email: string
+    password: string
 }

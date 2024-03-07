@@ -61,10 +61,13 @@ const serviceCompany = {
         )
         return response.data
     },
-    sendMailRegisterCompanyLandingPage: async (payload: IContactForm)=> {
-        const response = await post<any>('/system-admin/register-company',payload)
+    sendMailRegisterCompanyLandingPage: async (payload: IContactForm) => {
+        const response = await post<any>(
+            '/system-admin/register-company',
+            payload,
+        )
         return response.data
-    }
+    },
 }
 
 export default serviceCompany

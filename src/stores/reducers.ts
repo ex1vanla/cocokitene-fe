@@ -31,7 +31,7 @@ const rootReducer = combineReducers({
     shareholderList: shareholderListReducer,
     shareholderDetail: shareholderDetailReducer,
     settingRole: settingRoleReducer,
-    planListSlice : planListSlice,
+    planListSlice: planListSlice,
     forgotPassword: forgotPasswordReducer,
 })
 
