@@ -148,7 +148,7 @@ const UpdatePlan = () => {
                             <Col xs={24} lg={12}>
                                 <Form.Item
                                     name="price"
-                                    label={t('PRICE')}
+                                    label={`${t('PRICE')} ($)`}
                                     rules={[
                                         { required: true },
                                         {
@@ -202,7 +202,7 @@ const UpdatePlan = () => {
                             <Col xs={24} lg={12}>
                                 <Form.Item
                                     name="maxStorage"
-                                    label={t('MAX_STORAGE')}
+                                    label={`${t('MAX_STORAGE')} (GB)`}
                                     rules={[
                                         {
                                             required: true,
