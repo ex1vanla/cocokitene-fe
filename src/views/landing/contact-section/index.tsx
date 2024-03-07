@@ -1,22 +1,67 @@
 'use client'
 
-import {
-    EnvironmentTwoTone,
-    MailTwoTone,
-    MobileTwoTone,
-    PhoneTwoTone,
-} from '@ant-design/icons'
-import { Button, Col, Form, Input, Row, Typography } from 'antd'
+import { EnvironmentTwoTone, MailTwoTone, MobileTwoTone, PhoneTwoTone } from '@ant-design/icons'
+import { Button, Col, Form, Input, notification, Row, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
+import { useForm } from 'antd/es/form/Form'
+import serviceCompany from '@/services/system-admin/company'
+import { useState } from 'react'
+import { FETCH_STATUS } from '@/constants/common'
+import { AxiosError } from 'axios'
+
 
 const { Title, Text } = Typography
 
+export interface IContactForm {
+    username: string
+    email: string
+    company: string
+    phone: string
+    note?: string | null
+}
+
+
 const ContactSection = () => {
     const t = useTranslations()
+    const [form] = useForm<IContactForm>()
+    const [status, setStatus] =useState(FETCH_STATUS.IDLE)
 
-    const onFinish = () => {}
 
-    const onFinishFailed = () => {}
+
+    const onFinish = async (values: IContactForm) => {
+        setStatus(FETCH_STATUS.LOADING)
+        try{
+            const response = await serviceCompany.sendMailRegisterCompanyLandingPage({
+                email: values.email,
+                phone: values.phone,
+                username: values.username,
+                company: values.company,
+                note: values.note || ''
+            })
+            if(response) {
+                notification.success({
+                    message: t('CREATED'),
+                    description: t('SEND_EMAIL_TO_SYSTEM_ADMIN_SUCCESSFULLY')
+                })
+                form.resetFields()
+                setStatus(FETCH_STATUS.SUCCESS)
+
+            }
+
+        }catch (error) {
+            if(error instanceof AxiosError) {
+                notification.error({
+                    message: t('ERROR'),
+                    description: error.response?.data.info.message
+                })
+            }
+            setStatus(FETCH_STATUS.ERROR)
+        }
+    }
+
+    const onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo)
+    }
 
     const groupContactClass = 'flex gap-2 font-normal'
 
@@ -38,6 +83,7 @@ const ContactSection = () => {
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"
                             layout="vertical"
+                            form={form}
                         >
                             <Row gutter={24}>
                                 <Col span={12}>
@@ -127,6 +173,7 @@ const ContactSection = () => {
                                             type="primary"
                                             htmlType="submit"
                                             size="large"
+                                            loading={status === FETCH_STATUS.LOADING}
                                         >
                                             {t('SUBMIT')}
                                         </Button>

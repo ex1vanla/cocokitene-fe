@@ -80,7 +80,6 @@ const CreateAccount = () => {
                 )
                 urlAvatar = res.uploadUrls[0].split('?')[0]
             }
-
             const response = await serviceAccount.createAccount({
                 email: values.email,
                 username: values.username,

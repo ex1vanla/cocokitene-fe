@@ -10,6 +10,7 @@ import {
     IListCompanyResponse,
 } from '@/services/system-admin/response.type'
 import { get, post, patch } from '@/services/system-admin/fetcher-system'
+import { IContactForm } from '@/views/landing/contact-section'
 
 const serviceCompany = {
     getAllCompanys: async ({
@@ -60,6 +61,10 @@ const serviceCompany = {
         )
         return response.data
     },
+    sendMailRegisterCompanyLandingPage: async (payload: IContactForm)=> {
+        const response = await post<any>('/system-admin/register-company',payload)
+        return response.data
+    }
 }
 
 export default serviceCompany
