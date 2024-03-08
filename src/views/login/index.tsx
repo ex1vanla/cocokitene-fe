@@ -79,8 +79,14 @@ const Login = () => {
                         rules={[
                             {
                                 required: true,
-                                type: 'email',
+                                // type: 'email',
                                 message: 'Please input your Email!',
+                            },
+                            {
+                                pattern: new RegExp(
+                                    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                ),
+                                message: t('INVALID_EMAIL'),
                             },
                         ]}
                     >
