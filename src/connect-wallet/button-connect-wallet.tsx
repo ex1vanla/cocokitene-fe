@@ -149,7 +149,7 @@ const ButtonConnectWallet = ({
                                                                     required:
                                                                         true,
                                                                     message:
-                                                                        'Please input Tax Number of your Company!',
+                                                                        'Please input CompanyCode of your Company!',
                                                                 },
                                                                 {
                                                                     pattern:
@@ -175,9 +175,19 @@ const ButtonConnectWallet = ({
                                                                 {
                                                                     required:
                                                                         true,
-                                                                    type: 'email',
+                                                                    // type: 'email',
                                                                     message:
                                                                         'Please input your Email!',
+                                                                },
+                                                                {
+                                                                    pattern:
+                                                                        new RegExp(
+                                                                            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                                                        ),
+                                                                    message:
+                                                                        t(
+                                                                            'INVALID_EMAIL',
+                                                                        ),
                                                                 },
                                                             ]}
                                                         >
@@ -244,18 +254,6 @@ const ButtonConnectWallet = ({
                                                                 {t('SIGN_IN')}
                                                             </Button>
                                                         </Form.Item>
-
-                                                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                                                            {t(
-                                                                'DONT_HAVE_AN_ACCOUNT_YET',
-                                                            )}{' '}
-                                                            <Link
-                                                                href="#"
-                                                                className="text-primary-600 dark:text-primary-500 font-medium hover:underline"
-                                                            >
-                                                                {t('SIGN_UP')}
-                                                            </Link>
-                                                        </p>
                                                     </Form>
                                                 </div>
                                             </div>
