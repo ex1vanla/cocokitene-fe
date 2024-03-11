@@ -111,13 +111,6 @@ const serviceUser = {
         }
     },
 
-    changePasswordUser: async (payload: {
-        currentPassword: string
-        newPassword: string
-    }) => {
-        const response = await post<any>('/auths/user/change-password', payload)
-        return response.data
-    },
 }
 
 export default serviceUser

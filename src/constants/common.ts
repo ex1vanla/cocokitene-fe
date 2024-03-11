@@ -30,7 +30,7 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: SettingOutlined,
         label: 'SETTING_ROLES',
         key: '/setting-role',
-        permission: Permissions.SETTING_PERMISSIONS_FOR_ROLES,
+        permission: Permissions.SETTING_PERMISSION_FOR_ROLES,
     },
     {
         icon: ClusterOutlined,
