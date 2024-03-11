@@ -58,7 +58,8 @@ const ChangePassword = () => {
                 message: t('SUCCESS'),
                 description: response,
             })
-            router.push('/dashboard-system')
+            // router.push('/dashboard-system')
+            router.push('/company')
         } catch (error) {
             if (error instanceof AxiosError) {
                 notification.error({

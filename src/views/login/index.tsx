@@ -36,7 +36,8 @@ const Login = () => {
                 })
                 resetStatusLogin()
                 await new Promise((resolve) => setTimeout(resolve, 1000))
-                await router.push('/dashboard-system')
+                // await router.push('/dashboard-system')
+                await router.push('/company')
             }
 
             if (authAdminState.status === EActionStatus.Failed) {

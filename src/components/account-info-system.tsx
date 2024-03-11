@@ -19,32 +19,20 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
     }
 
     const items: MenuProps['items'] = [
-        {
-            key: '0',
-            label: (
-                <Link
-                    className="py-[5px] text-sm leading-[22px]"
-                    rel="noopener noreferrer"
-                    href="/dashboard"
-                >
-                    {t('DASHBOARD')}
-                </Link>
-            ),
-        },
+        // {
+        //     key: '0',
+        //     label: (
+        //         <Link
+        //             className="py-[5px] text-sm leading-[22px]"
+        //             rel="noopener noreferrer"
+        //             href="/dashboard"
+        //         >
+        //             {t('DASHBOARD')}
+        //         </Link>
+        //     ),
+        // },
         {
             key: '1',
-            label: (
-                <Link
-                    className="py-[5px] text-sm leading-[22px]"
-                    rel="noopener noreferrer"
-                    href="/change-password"
-                >
-                    {t('CHANGE_PASSWORD')}
-                </Link>
-            ),
-        },
-        {
-            key: '2',
             label: (
                 <Link
                     className="py-[5px] text-sm  leading-[22px]"
@@ -56,17 +44,41 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
             ),
         },
         {
+            key: '2',
+            label: (
+                <Link
+                    className="py-[5px] text-sm leading-[22px]"
+                    rel="noopener noreferrer"
+                    href="/change-password"
+                >
+                    {t('CHANGE_PASSWORD')}
+                </Link>
+            ),
+        },
+        {
             key: '3',
             label: (
                 <Link
                     className="py-[5px] text-sm  leading-[22px]"
                     rel="noopener noreferrer"
-                    href="/reset-password"
+                    href="/profile"
                 >
-                    {t('RESET_PASSWORD')}
+                    {t('MY_PROFILE')}
                 </Link>
             ),
         },
+        // {
+        //     key: '3',
+        //     label: (
+        //         <Link
+        //             className="py-[5px] text-sm  leading-[22px]"
+        //             rel="noopener noreferrer"
+        //             href="/reset-password"
+        //         >
+        //             {t('RESET_PASSWORD')}
+        //         </Link>
+        //     ),
+        // },
         {
             key: '4',
             label: (
