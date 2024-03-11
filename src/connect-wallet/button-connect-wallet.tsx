@@ -231,7 +231,7 @@ const ButtonConnectWallet = ({
                                                         >
                                                             <Link
                                                                 className="login-form-forgot"
-                                                                href="/forgot-password"
+                                                                href="/forgot-password-user"
                                                             >
                                                                 {t(
                                                                     'FORGOT_PASSWORD',

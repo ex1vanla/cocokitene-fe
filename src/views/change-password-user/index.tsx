@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
 import serviceUser from '@/services/user'
+import servicePassword from "@/services/system-admin/forgot-password";
 
 const { Title } = Typography
 export interface IPasswordForm {
@@ -51,7 +52,7 @@ const ChangeUserPassword = () => {
     const onFinish = async (values: any) => {
         // console.log('Value :', values)
         try {
-            const response = await serviceUser.changePasswordUser({
+            const response = await servicePassword.changePasswordUser({
                 currentPassword: values.currentPassword,
                 newPassword: values.confirmPassword,
             })
