@@ -71,7 +71,7 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="walletAddress"
                         label={t('WALLET_ADDRESS')}
-                        rules={[{ required: true }]}
+                        rules={[{ required: false }]}
                     >
                         <Input size="large" />
                     </Form.Item>

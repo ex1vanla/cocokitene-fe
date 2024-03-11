@@ -29,7 +29,7 @@ export interface ICompanyCreateForm {
     planId: number
     description?: string
     username: string
-    walletAddress: string
+    walletAddress?: string
     superAdminStatusId: number
     superAdminEmail: string
 }

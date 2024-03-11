@@ -19,7 +19,7 @@ export interface ICreateCompanyPayload {
     planId: number
     superAdminCompany: {
         username: string
-        walletAddress: string
+        walletAddress?: string
         email: string
         statusId: number
     }
