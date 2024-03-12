@@ -60,6 +60,7 @@ const CreateAccount = () => {
         fetchData()
     }, [])
 
+
     const onFinish = async (values: IAccountCreateForm) => {
         let urlAvatar: string = ''
         setStatus(FETCH_STATUS.LOADING)

@@ -24,6 +24,7 @@ const MeetingCreate = () => {
                 <AmendmentResolutions />
                 <Participants />
             </div>
+
         </div>
     )
 }
