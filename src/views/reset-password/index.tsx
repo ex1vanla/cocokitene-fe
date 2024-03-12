@@ -56,13 +56,11 @@ const ResetPassword = () => {
             /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
         if (!value) {
-            return Promise.reject('Please input your new password!')
+            return Promise.reject(t('PLEASE_ENTER_NEW_PASSWORD'))
         }
 
         if (!regex.test(value)) {
-            return Promise.reject(
-                'Password must be at least 8 characters long, contain at least one uppercase letter, one special character, and one digit.',
-            )
+            return Promise.reject(t('VALID_PASSWORD'))
         }
 
         // Reset confirm password error when password changes
@@ -131,8 +129,7 @@ const ResetPassword = () => {
                                 rules={[
                                     {
                                         required: true,
-                                        message:
-                                            'Please confirm your password!',
+                                        message: t('REQUIRE_CONFIRM_PASSWORD'),
                                     },
                                     ({ getFieldValue }) => ({
                                         validator(_, value) {
@@ -145,7 +142,7 @@ const ResetPassword = () => {
                                             }
                                             return Promise.reject(
                                                 new Error(
-                                                    'The new password that you entered do not match!',
+                                                    t('VALID_CONFIRM_PASSWORD'),
                                                 ),
                                             )
                                         },

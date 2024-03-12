@@ -169,7 +169,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
 
     const validateQuantity = (_: any, value: string) => {
         const regex = /^(0*[1-9]\d*|0+)$/
-        if (!requiredQuantity) {
+        if (!value) {
             return Promise.resolve()
         }
         // if (value) {
@@ -238,7 +238,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     const uploadButton = (
         <div>
             <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <div style={{ marginTop: 8 }}>{t('UPLOAD')}</div>
         </div>
     )
 
@@ -249,7 +249,12 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="companyName"
                         label={t('COMPANY_NAME')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_COMPANY_NAME'),
+                            },
+                        ]}
                         className="mb-0"
                         shouldUpdate={false}
                     >
@@ -264,7 +269,9 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="username"
                         label={t('USERNAME')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true, message: t('REQUIRE_USER_NAME') },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -290,7 +297,10 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="email"
                         label={t('EMAIL')}
-                        rules={[{ required: true, type: 'email' }]}
+                        rules={[
+                            { required: true, message: t('REQUIRE_EMAIL') },
+                            { type: 'email', message: t('VALID_EMAIL') },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -300,7 +310,9 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="roleIds"
                         label={t('ROLES')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true, message: t('REQUIRE_USER_ROLE') },
+                        ]}
                         className="mb-0"
                     >
                         <Select
@@ -324,7 +336,12 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="statusId"
                         label={t('STATUS')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_USER_STATUS'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Select
@@ -361,11 +378,18 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                     <Form.Item
                         name="shareQuantity"
                         label={t('QUANTITY')}
+                        // rules={[
+                        //     {
+                        //         required: requiredQuantity,
+                        //         validator: validateQuantity,
+                        //     },
+                        // ]}
                         rules={[
                             {
                                 required: requiredQuantity,
-                                validator: validateQuantity,
+                                message: t('REQUIRE_QUANTITY'),
                             },
+                            { validator: validateQuantity },
                         ]}
                         className="mb-0"
                     >

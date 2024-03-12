@@ -79,7 +79,12 @@ const CreatePlan = () => {
                                 <Form.Item
                                     name="planName"
                                     label={t('PLAN_NAME')}
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: t('REQUIRE_PLAN_NAME'),
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />
@@ -100,7 +105,10 @@ const CreatePlan = () => {
                                     name="price"
                                     label={`${t('PRICE')} ($)`}
                                     rules={[
-                                        { required: true },
+                                        {
+                                            required: true,
+                                            message: t('REQUIRE_PLAN_PRICE'),
+                                        },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -118,7 +126,12 @@ const CreatePlan = () => {
                                     name="maxShareholderAccount"
                                     label={t('MAX_SHAREHOLDER_ACCOUNT')}
                                     rules={[
-                                        { required: true },
+                                        {
+                                            required: true,
+                                            message: t(
+                                                'REQUIRE_MAX_SHAREHOLDER_ACCOUNT',
+                                            ),
+                                        },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -136,7 +149,10 @@ const CreatePlan = () => {
                                     name="maxMeeting"
                                     label={t('MAX_MEETING')}
                                     rules={[
-                                        { required: true },
+                                        {
+                                            required: true,
+                                            message: t('REQUIRE_MAX_MEETING'),
+                                        },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
@@ -156,6 +172,7 @@ const CreatePlan = () => {
                                     rules={[
                                         {
                                             required: true,
+                                            message: t('REQUIRE_MAX_STORAGE'),
                                         },
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
