@@ -103,6 +103,7 @@ const UpdateAccount = () => {
     const [initAccount, setInitAccount] = useState<IAccountUpdateForm>()
     const [userStatusList, setUserStatusList] = useState<IUserStatus[]>([])
     const [roleList, setRoleList] = useState<IRoleList[]>([])
+    const [initialRole, setInitialRole] = useState<IRoleList[]>([])
     const [initStatus, setInitStatus] = useState<FETCH_STATUS>(
         FETCH_STATUS.IDLE,
     )
@@ -114,6 +115,7 @@ const UpdateAccount = () => {
         file: string | Blob | RcFile
         flag: boolean
     }>()
+    const [roleSuper, setRoleSuper] = useState<boolean>(false)
 
     //Select
     const [selectedItems, setSelectedItems] = useState<string[]>([])
@@ -158,6 +160,8 @@ const UpdateAccount = () => {
                         roleIds: res.roles.map((item) => item.roleName),
                         shareQuantity: res.shareQuantity,
                     })
+
+                    setInitialRole(res.roles)
                     if (res.avatar) {
                         setFileList([
                             {
@@ -173,6 +177,11 @@ const UpdateAccount = () => {
                         res.roles
                             .map((item) => item.roleName)
                             .includes('SHAREHOLDER'),
+                    )
+                    setRoleSuper(
+                        res.roles
+                            .map((item) => item.roleName)
+                            .includes('SUPER_ADMIN'),
                     )
                 }
                 const userStatusList = await serviceUserStatus.getAllUserStatus(
@@ -314,12 +323,20 @@ const UpdateAccount = () => {
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
 
     const onFinish = async (values: IAccountUpdateForm) => {
+        console.log('Value :', values)
         setStatus(FETCH_STATUS.LOADING)
         let urlAvatar: string = initAccount?.avatar || ''
-        const userRolesArr = roleList
+        const userRolesArr1 = roleList
+            .filter((role) => values.roleIds.includes(role.roleName))
+            .map((item) => item.id)
+        const userRolesArr2 = initialRole
             .filter((role) => values.roleIds.includes(role.roleName))
             .map((item) => item.id)
 
+        const userRolesArr = Array.from(
+            new Set([...userRolesArr1, ...userRolesArr2]),
+        )
+        console.log('role :', userRolesArr)
         try {
             if (fileAvatarInfo?.flag) {
                 const res = await serviceUpload.getPresignedUrlAvatar(
@@ -469,6 +486,7 @@ const UpdateAccount = () => {
                                         onChange={setSelectedItems}
                                         style={{ width: '100%' }}
                                         mode="multiple"
+                                        disabled={roleSuper}
                                         tagRender={tagRenderStatus}
                                         options={filteredOptions.map(
                                             (role) => ({
@@ -541,7 +559,7 @@ const UpdateAccount = () => {
                                     ]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" disabled={roleSuper} />
                                 </Form.Item>
                             </Col>
                         </Row>
