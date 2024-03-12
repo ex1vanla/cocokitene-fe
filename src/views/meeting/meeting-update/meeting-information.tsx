@@ -237,7 +237,13 @@ const MeetingInformation = () => {
                         <Form.Item
                             name="title"
                             label={t('MEETING_NAME')}
-                            rules={[{ required: true, whitespace: true }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    whitespace: true,
+                                    message: t('REQUIRE_MEETING_NAME'),
+                                },
+                            ]}
                             className="mb-0"
                             initialValue={data.title}
                         >
@@ -260,6 +266,7 @@ const MeetingInformation = () => {
                                 {
                                     required: true,
                                     whitespace: true,
+                                    message: t('REQUIRE_MEETING_LINK'),
                                 },
                                 // { type: 'url',  },
                                 {
@@ -399,7 +406,12 @@ const MeetingInformation = () => {
                     <Form layout="vertical">
                         <Form.Item
                             label={t('TIME')}
-                            rules={[{ required: true }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: t('REQUIRE_TIME'),
+                                },
+                            ]}
                             className="mb-0"
                         >
                             <RangePicker
@@ -425,7 +437,9 @@ const MeetingInformation = () => {
                     <Form layout="vertical">
                         <Form.Item
                             label={t('END_VOTING_TIME')}
-                            rules={[{ required: true }]}
+                            rules={[
+                                { required: true, message: t('REQUIRE_TIME') },
+                            ]}
                             className="mb-0"
                         >
                             <DatePicker
@@ -449,7 +463,12 @@ const MeetingInformation = () => {
                     <Form layout="vertical">
                         <Form.Item
                             label={t('STATUS')}
-                            rules={[{ required: true }]}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: t('REQUIRE_MEETING_STATUS'),
+                                },
+                            ]}
                             className="mb-0"
                         >
                             <Select

@@ -61,7 +61,9 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="username"
                         label={t('USERNAME')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true, message: t('REQUIRE_USER_NAME') },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -80,7 +82,12 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="superAdminStatusId"
                         label={t('STATUS')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_USER_STATUS'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Select
@@ -108,7 +115,10 @@ const SuperAdminInformation = ({ form }: CompanyInfoProp) => {
                     <Form.Item
                         name="superAdminEmail"
                         label={t('EMAIL')}
-                        rules={[{ required: true, type: 'email' }]}
+                        rules={[
+                            { required: true, message: t('REQUIRE_EMAIL') },
+                            { type: 'email', message: t('VALID_EMAIL') },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />

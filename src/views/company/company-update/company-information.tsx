@@ -69,7 +69,12 @@ const CompanyInformation = () => {
                     <Form.Item
                         name="companyName"
                         label={t('COMPANY_NAME')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_COMPANY_NAME'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -79,7 +84,12 @@ const CompanyInformation = () => {
                     <Form.Item
                         name="address"
                         label={t('ADDRESS')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_ADDRESS'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -99,7 +109,10 @@ const CompanyInformation = () => {
                     <Form.Item
                         name="companyEmail"
                         label={t('EMAIL')}
-                        rules={[{ required: true, type: 'email' }]}
+                        rules={[
+                            { required: true, message: t('REQUIRE_EMAIL') },
+                            { type: 'email', message: t('VALID_EMAIL') },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -110,7 +123,7 @@ const CompanyInformation = () => {
                         name="dateOfIncorporation"
                         label={t('DATE_OF_INCORPORATION')}
                         className="mb-0"
-                        rules={[{ required: true }]}
+                        rules={[{ required: true, message: t('REQUIRE_DATE') }]}
                     >
                         <DatePicker
                             size="large"
@@ -125,7 +138,7 @@ const CompanyInformation = () => {
                         name="phone"
                         label={t('PHONE')}
                         rules={[
-                            { required: true },
+                            { required: true, message: t('REQUIRE_PHONE') },
                             {
                                 pattern: new RegExp(/^[0-9]+$/),
                                 message: t('PLEASE_ENTER_ ONLY_NUMBER'),
@@ -141,7 +154,10 @@ const CompanyInformation = () => {
                         name="taxNumber"
                         label={t('TAX_NUMBER')}
                         rules={[
-                            { required: true },
+                            {
+                                required: true,
+                                message: t('REQUIRE_TAX_NUMBER'),
+                            },
                             {
                                 pattern: new RegExp(/^\d{10}$/),
                                 message: t(
@@ -173,7 +189,12 @@ const CompanyInformation = () => {
                     <Form.Item
                         name="representativeUser"
                         label={t('REPRESENTATIVE')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_REPRESENTATIVE'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Input size="large" />
@@ -183,7 +204,12 @@ const CompanyInformation = () => {
                     <Form.Item
                         name="companyStatusId"
                         label={t('STATUS')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_COMPANY_STATUS'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Select
@@ -211,7 +237,12 @@ const CompanyInformation = () => {
                     <Form.Item
                         name="planId"
                         label={t('SERVICE_PLAN')}
-                        rules={[{ required: true }]}
+                        rules={[
+                            {
+                                required: true,
+                                message: t('REQUIRE_SERVICE_PLAN'),
+                            },
+                        ]}
                         className="mb-0"
                     >
                         <Select

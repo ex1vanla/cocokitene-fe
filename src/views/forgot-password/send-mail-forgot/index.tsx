@@ -70,7 +70,7 @@ const SendMailForgot = () => {
                             {
                                 required: true,
                                 // type: 'email',
-                                message: 'Please input your Email!',
+                                message: t('REQUIRE_EMAIL'),
                             },
                             {
                                 pattern: new RegExp(

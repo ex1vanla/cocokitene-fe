@@ -252,7 +252,7 @@ const UpdateMyProfile = () => {
     const uploadButton = (
         <div>
             <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
+            <div style={{ marginTop: 8 }}>{t('UPLOAD')}</div>
         </div>
     )
 
@@ -282,7 +282,12 @@ const UpdateMyProfile = () => {
                                 <Form.Item
                                     name="companyName"
                                     label={t('COMPANY_NAME')}
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: t('REQUIRE_COMPANY_NAME'),
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" disabled={true} />
@@ -292,7 +297,12 @@ const UpdateMyProfile = () => {
                                 <Form.Item
                                     name="username"
                                     label={t('USERNAME')}
-                                    rules={[{ required: true }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: t('REQUIRE_USER_NAME'),
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />
@@ -320,7 +330,16 @@ const UpdateMyProfile = () => {
                                 <Form.Item
                                     name="email"
                                     label={t('EMAIL')}
-                                    rules={[{ required: true, type: 'email' }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: t('REQUIRE_EMAIL'),
+                                        },
+                                        {
+                                            type: 'email',
+                                            message: t('VALID_EMAIL'),
+                                        },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" disabled={true} />
@@ -330,7 +349,7 @@ const UpdateMyProfile = () => {
                                 <Form.Item
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
-                                    rules={[{}]}
+                                    rules={[{ required: false }]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

@@ -30,7 +30,7 @@ const Login = () => {
         ;(async () => {
             if (authAdminState.status === EActionStatus.Succeeded) {
                 await openNotification({
-                    message: 'Login Successfully!',
+                    message: t('LOGIN_SUCCESSFULLY'),
                     placement: 'topRight',
                     type: 'success',
                 })
@@ -81,7 +81,7 @@ const Login = () => {
                             {
                                 required: true,
                                 // type: 'email',
-                                message: 'Please input your Email!',
+                                message: t('REQUIRE_EMAIL'),
                             },
                             {
                                 pattern: new RegExp(
@@ -101,7 +101,7 @@ const Login = () => {
                             {
                                 required: true,
                                 whitespace: true,
-                                message: 'Please input your Password!',
+                                message: t('REQUIRE_PASSWORD'),
                             },
                         ]}
                         style={{ marginBottom: '10px' }}
