@@ -148,8 +148,9 @@ const ButtonConnectWallet = ({
                                                                 {
                                                                     required:
                                                                         true,
-                                                                    message:
-                                                                        'Please input CompanyCode of your Company!',
+                                                                    message: t(
+                                                                        'REQUIRE_COMPANY_CODE',
+                                                                    ),
                                                                 },
                                                                 {
                                                                     pattern:
@@ -177,7 +178,9 @@ const ButtonConnectWallet = ({
                                                                         true,
                                                                     // type: 'email',
                                                                     message:
-                                                                        'Please input your Email!',
+                                                                        t(
+                                                                            'REQUIRE_EMAIL',
+                                                                        ),
                                                                 },
                                                                 {
                                                                     pattern:
@@ -186,7 +189,7 @@ const ButtonConnectWallet = ({
                                                                         ),
                                                                     message:
                                                                         t(
-                                                                            'INVALID_EMAIL',
+                                                                            'VALID_EMAIL',
                                                                         ),
                                                                 },
                                                             ]}
@@ -209,7 +212,9 @@ const ButtonConnectWallet = ({
                                                                     whitespace:
                                                                         true,
                                                                     message:
-                                                                        'Please input your Password!',
+                                                                        t(
+                                                                            'REQUIRE_PASSWORD',
+                                                                        ),
                                                                 },
                                                             ]}
                                                             style={{
