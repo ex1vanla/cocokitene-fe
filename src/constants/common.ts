@@ -20,12 +20,12 @@ export interface ISidebarItem {
 }
 
 export const SIDEBAR_ITEMS: ISidebarItem[] = [
-    // {
-    //     icon: DashboardOutlined,
-    //     label: 'DASHBOARD',
-    //     key: '/dashboard',
-    //     permission: 'DASHBOARD',
-    // },
+    {
+        icon: DashboardOutlined,
+        label: 'DASHBOARD',
+        key: '/dashboard',
+        permission: 'DASHBOARD',
+    },
     {
         icon: SettingOutlined,
         label: 'SETTING_ROLES',

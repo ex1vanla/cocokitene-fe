@@ -22,18 +22,18 @@ const AccountInfo = ({ avatar }: { name: string; avatar: string }) => {
     }
 
     const items: MenuProps['items'] = [
-        // {
-        //     key: '0',
-        //     label: (
-        //         <Link
-        //             className="py-[5px] text-sm leading-[22px]"
-        //             rel="noopener noreferrer"
-        //             href="/dashboard"
-        //         >
-        //             {t('DASHBOARD')}
-        //         </Link>
-        //     ),
-        // },
+        {
+            key: '0',
+            label: (
+                <Link
+                    className="py-[5px] text-sm leading-[22px]"
+                    rel="noopener noreferrer"
+                    href="/dashboard"
+                >
+                    {t('DASHBOARD')}
+                </Link>
+            ),
+        },
         {
             key: '1',
             label: (
