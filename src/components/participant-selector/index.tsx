@@ -12,6 +12,7 @@ export interface IParticipants {
     users_username: string
     users_id: number
     userStatus_status?: string
+    listRoleResponse?: string
 }
 
 interface IParticipantSelector {
@@ -36,6 +37,7 @@ const ParticipantSelector = ({
                 selectedParticipants={selectedParticipants}
                 onSelectParticipant={onSelectParticipant}
                 onSelectAllParticipants={onSelectAllParticipants}
+                title={title}
             />
             <SelectedParticipantList
                 selectedParticipants={selectedParticipants}

@@ -14,12 +14,14 @@ export interface ISelectParticipantGroup {
     onSelectParticipant: (p: IParticipants) => void
     onSelectAllParticipants: (p: IParticipants[]) => void
     selectedParticipants: IParticipants[]
+    title: string
 }
 
 const SelectParticipantGroup = ({
     onSelectParticipant,
     onSelectAllParticipants,
     selectedParticipants,
+    title,
 }: ISelectParticipantGroup) => {
     const t = useTranslations()
     const [query, setQuery] = useState('')
@@ -50,11 +52,20 @@ const SelectParticipantGroup = ({
                         ...optionsData,
                         status: FETCH_STATUS.LOADING,
                     })
-                    const optionsRes = await serviceUser.getAccountList(query)
+                    let optionsRes = await serviceUser.getAccountList(query)
                     console.log(
                         '🚀 ~ file: select-participant-group.tsx:53 ~ ; ~ optionsRes:',
                         optionsRes,
                     )
+                    if (title === 'Shareholders') {
+                        optionsRes = {
+                            ...optionsRes,
+                            items: optionsRes.items.filter((item) => {
+                                const listRole = item.listRoleResponse || ''
+                                return listRole.includes('SHAREHOLDER')
+                            }),
+                        }
+                    }
                     setOptionsData({
                         options: [
                             {
