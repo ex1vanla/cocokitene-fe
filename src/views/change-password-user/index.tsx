@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
 import serviceUser from '@/services/user'
-import servicePassword from "@/services/system-admin/forgot-password";
+import servicePassword from '@/services/system-admin/forgot-password'
 
 const { Title } = Typography
 export interface IPasswordForm {
@@ -33,13 +33,11 @@ const ChangeUserPassword = () => {
             /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
         if (!value) {
-            return Promise.reject('Please input your new password!')
+            return Promise.reject(t('PLEASE_ENTER_NEW_PASSWORD'))
         }
 
         if (!regex.test(value)) {
-            return Promise.reject(
-                'Password must be at least 8 characters long, contain at least one uppercase letter, one special character, and one digit.',
-            )
+            return Promise.reject(t('VALID_PASSWORD'))
         }
 
         // Reset confirm password error when password changes
@@ -94,7 +92,7 @@ const ChangeUserPassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input your Password!',
+                                message: t('REQUIRE_PASSWORD'),
                             },
                         ]}
                     >
@@ -110,6 +108,7 @@ const ChangeUserPassword = () => {
                         rules={[
                             {
                                 required: true,
+                                // message: t('PLEASE_ENTER_NEW_PASSWORD'),
                                 validator: validatePassword,
                             },
                             ({ getFieldValue }) => ({
@@ -122,9 +121,7 @@ const ChangeUserPassword = () => {
                                         return Promise.resolve()
                                     }
                                     return Promise.reject(
-                                        new Error(
-                                            'The new password that you entered  must be different from the old password!',
-                                        ),
+                                        new Error(t('NEW_PASSWORD_DIFFERENT')),
                                     )
                                 },
                             }),
@@ -141,7 +138,7 @@ const ChangeUserPassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: 'Please confirm your password!',
+                                message: t('REQUIRE_CONFIRM_PASSWORD'),
                             },
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
@@ -152,9 +149,7 @@ const ChangeUserPassword = () => {
                                         return Promise.resolve()
                                     }
                                     return Promise.reject(
-                                        new Error(
-                                            'The new password that you entered do not match!',
-                                        ),
+                                        new Error(t('VALID_CONFIRM_PASSWORD')),
                                     )
                                 },
                             }),

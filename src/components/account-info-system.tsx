@@ -31,18 +31,18 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
         //         </Link>
         //     ),
         // },
-        {
-            key: '1',
-            label: (
-                <Link
-                    className="py-[5px] text-sm  leading-[22px]"
-                    rel="noopener noreferrer"
-                    href="/profile"
-                >
-                    {t('MY_PROFILE')}
-                </Link>
-            ),
-        },
+        // {
+        //     key: '1',
+        //     label: (
+        //         <Link
+        //             className="py-[5px] text-sm  leading-[22px]"
+        //             rel="noopener noreferrer"
+        //             href="/profile"
+        //         >
+        //             {t('MY_PROFILE')}
+        //         </Link>
+        //     ),
+        // },
         {
             key: '2',
             label: (
@@ -55,18 +55,18 @@ const AccountInfoSystem = ({ avatar }: { name: string; avatar: string }) => {
                 </Link>
             ),
         },
-        {
-            key: '3',
-            label: (
-                <Link
-                    className="py-[5px] text-sm  leading-[22px]"
-                    rel="noopener noreferrer"
-                    href="/profile"
-                >
-                    {t('MY_PROFILE')}
-                </Link>
-            ),
-        },
+        // {
+        //     key: '3',
+        //     label: (
+        //         <Link
+        //             className="py-[5px] text-sm  leading-[22px]"
+        //             rel="noopener noreferrer"
+        //             href="/profile"
+        //         >
+        //             {t('MY_PROFILE')}
+        //         </Link>
+        //     ),
+        // },
         // {
         //     key: '3',
         //     label: (
