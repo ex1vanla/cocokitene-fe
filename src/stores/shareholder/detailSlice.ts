@@ -60,6 +60,7 @@ const shareholderDetailSlice = createSlice({
             .addCase(getShareholderDetail.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
                 state.error = action.payload
+                state.shareholder = undefined
             })
     },
 })

@@ -35,7 +35,11 @@ const ShareholderDetail = () => {
         }
     }, [shareholderId])
 
-    if (!shareholder || status === EActionStatus.Pending) {
+    if (
+        !shareholder ||
+        status === EActionStatus.Pending ||
+        status === EActionStatus.Failed
+    ) {
         return <Loader />
     }
     return (

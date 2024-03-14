@@ -7,7 +7,7 @@ import {
 import { RootState, useAppDispatch, useAppSelector } from '@/stores'
 import { useCallback } from 'react'
 import { getAllShareholder, setFilter } from '@/stores/shareholder/listSlice'
-import { EActionStatus } from '@/stores/type'
+import { EActionStatus, FetchError } from '@/stores/type'
 import { getShareholderDetail } from '@/stores/shareholder/detailSlice'
 
 type ListShareholderType = {
@@ -48,12 +48,13 @@ export const useShareholderDetail = (): [
     {
         shareholder: IShareholderDetail | undefined
         status: EActionStatus
+        error?: FetchError | undefined
     },
     // eslint-disable-next-line
     (shareholderId: number) => void,
 ] => {
     const dispatch = useAppDispatch()
-    const { shareholder, status } = useAppSelector(
+    const { shareholder, status, error } = useAppSelector(
         (state: RootState) => state.shareholderDetail,
     )
     const fetchShareholderDetail = useCallback(
@@ -66,6 +67,7 @@ export const useShareholderDetail = (): [
         {
             shareholder,
             status,
+            error,
         },
         fetchShareholderDetail,
     ]

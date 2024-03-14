@@ -309,7 +309,7 @@ const UpdateAccount = () => {
 
     const validateQuantity = (_: any, value: string) => {
         const regex = /^(0*[1-9]\d*|0+)$/
-        if (!requiredQuantity) {
+        if (!value) {
             return Promise.resolve()
         }
         // if (value) {
@@ -321,9 +321,7 @@ const UpdateAccount = () => {
     }
 
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
-
     const onFinish = async (values: IAccountUpdateForm) => {
-        console.log('Value :', values)
         setStatus(FETCH_STATUS.LOADING)
         let urlAvatar: string = initAccount?.avatar || ''
         const userRolesArr1 = roleList
@@ -336,7 +334,6 @@ const UpdateAccount = () => {
         const userRolesArr = Array.from(
             new Set([...userRolesArr1, ...userRolesArr2]),
         )
-        console.log('role :', userRolesArr)
         try {
             if (fileAvatarInfo?.flag) {
                 const res = await serviceUpload.getPresignedUrlAvatar(
@@ -360,11 +357,11 @@ const UpdateAccount = () => {
                 {
                     email: values.email,
                     username: values.username,
-                    walletAddress: values.walletAddress || '',
+                    walletAddress: values.walletAddress || null,
                     shareQuantity: values.shareQuantity
                         ? +values.shareQuantity
                         : undefined,
-                    phone: values.phone || '',
+                    phone: values.phone,
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
                     avatar: urlAvatar,
