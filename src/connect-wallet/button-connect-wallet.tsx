@@ -60,7 +60,7 @@ const ButtonConnectWallet = ({
                 authState.userData
             ) {
                 await openNotification({
-                    message: 'Login Successfully!!!!',
+                    message: t('LOGIN_SUCCESSFULLY'),
                     placement: 'topRight',
                     type: 'success',
                 })

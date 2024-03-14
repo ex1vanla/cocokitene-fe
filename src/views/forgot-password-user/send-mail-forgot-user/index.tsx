@@ -4,7 +4,7 @@ import { useForgotPassword } from '@/stores/forgot-password/hooks'
 import { Button, Form, Input, Typography, notification } from 'antd'
 import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
-import Link from "next/link";
+import Link from 'next/link'
 
 const { Text } = Typography
 const SendMailForgotUser = () => {
@@ -23,7 +23,7 @@ const SendMailForgotUser = () => {
             })
             notification.success({
                 message: t('SUCCESS'),
-                description: response,
+                description: t('SUCCESS_SEND_EMAIL'),
             })
             setEmailForgotPassword(values?.email)
             setScreenForgotPassword(ScreenForgotPassword.CONFIRM)
@@ -31,7 +31,7 @@ const SendMailForgotUser = () => {
             if (error instanceof AxiosError) {
                 notification.error({
                     message: t('ERROR'),
-                    description: error.response?.data.info.message,
+                    description: t('USER_NOT_EXITED'),
                 })
             }
         }
