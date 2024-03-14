@@ -33,14 +33,14 @@ const ResetPassword = () => {
                 )
                 notification.success({
                     message: t('SUCCESS'),
-                    description: response,
+                    description: t('CHANGE_PASSWORD_SUCCESS'),
                 })
                 router.push('/')
             } catch (error) {
                 if (error instanceof AxiosError) {
                     notification.error({
                         message: t('ERROR'),
-                        description: error.response?.data.info.message,
+                        description: t('CHANGE_PASSWORD_FAILED'),
                     })
                 }
             }

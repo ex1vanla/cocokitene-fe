@@ -1,4 +1,5 @@
 import { post } from '@/services/system-admin/fetcher-system'
+import { post as postUser } from '@/services/fetcher'
 
 const servicePassword = {
     sendEmailForgotPassword: async (payload: { email: string }) => {
@@ -51,15 +52,12 @@ const servicePassword = {
         currentPassword: string
         newPassword: string
     }) => {
-        const response = await post<any>(
-            '/auths/user/reset-password',
+        const response = await postUser<any>(
+            '/auths/user/change-password',
             payload,
         )
         return response.data
     },
-
-
-
 }
 
 export default servicePassword
