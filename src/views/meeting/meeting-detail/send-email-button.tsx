@@ -35,7 +35,7 @@ const SendEmailButton = () => {
             if (error instanceof AxiosError) {
                 notification.error({
                     message: t('ERROR'),
-                    description: error.response?.data.info.message,
+                    description: t('SEND_EMAIL_TO_SHAREHOLDER_MEETING_FAILED'),
                 })
             }
             setStatus(FETCH_STATUS.ERROR)
