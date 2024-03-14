@@ -23,7 +23,7 @@ const SendMailForgot = () => {
             })
             notification.success({
                 message: t('SUCCESS'),
-                description: response,
+                description: t('SUCCESS_SEND_EMAIL_TO_SYSTEM_ADMIN'),
             })
             setEmailForgotPassword(values?.email)
             setScreenForgotPassword(ScreenForgotPassword.CONFIRM)
@@ -31,7 +31,7 @@ const SendMailForgot = () => {
             if (error instanceof AxiosError) {
                 notification.error({
                     message: t('ERROR'),
-                    description: error.response?.data.info.message,
+                    description: t('SYSADMIN_NOT_EXITED'),
                 })
             }
         }
