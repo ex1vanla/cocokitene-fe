@@ -22,7 +22,7 @@ export const ResolutionTitle: {
 }
 
 export enum VoteProposalOption {
-    VOTE = 'vote',
-    UN_VOTE = 'un_vote',
-    NO_IDEA = 'no_idea',
+    VOTE = '0',
+    UN_VOTE = '1',
+    NO_IDEA = '2',
 }
