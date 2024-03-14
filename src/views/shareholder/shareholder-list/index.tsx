@@ -23,7 +23,7 @@ const ShareholderList = () => {
             className: 'text-center',
         },
         {
-            title: t('USER_NAME'),
+            title: t('SHAREHOLDER_NAME'),
             dataIndex: 'username',
             render: (_, record) => {
                 return (
@@ -87,7 +87,7 @@ const ShareholderList = () => {
             width: '25',
         },
         {
-            title: t('SHARES'),
+            title: t('SHARES_QUANTITY'),
             dataIndex: 'shareQuantity',
             width: '17%',
         },

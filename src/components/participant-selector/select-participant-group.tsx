@@ -57,7 +57,7 @@ const SelectParticipantGroup = ({
                         '🚀 ~ file: select-participant-group.tsx:53 ~ ; ~ optionsRes:',
                         optionsRes,
                     )
-                    if (title === 'Shareholders') {
+                    if (title === 'Shareholders' || title === '株主') {
                         optionsRes = {
                             ...optionsRes,
                             items: optionsRes.items.filter((item) => {

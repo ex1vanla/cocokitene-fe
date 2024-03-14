@@ -26,7 +26,7 @@ const ShareholderInfo = () => {
         .hex()
     const dataShareholderDetailLeft: IRowShareholderInfo[] = [
         {
-            label: 'COMPANY',
+            label: 'COMPANY_NAME',
             content: (
                 <p className="truncate hover:text-clip">
                     {shareholder?.companyName || ''}
@@ -67,7 +67,7 @@ const ShareholderInfo = () => {
 
     const dataShareholderDetailRight: IRowShareholderInfo[] = [
         {
-            label: 'USERNAME',
+            label: 'SHAREHOLDER_NAME',
             content: shareholder?.userName && (
                 <div>
                     {shareholder?.avatar ? (
@@ -96,7 +96,7 @@ const ShareholderInfo = () => {
                     <span>{shareholder.userName}</span>
                 </div>
             ),
-            lg: 3,
+            lg: 6,
         },
         {
             label: 'EMAIL',
@@ -105,16 +105,16 @@ const ShareholderInfo = () => {
                     {shareholder?.email || ''}
                 </p>
             ),
-            lg: 3,
+            lg: 6,
         },
         {
-            label: 'SHARES',
+            label: 'SHARES_QUANTITY',
             content: (
                 <p className="max-w-[415px] truncate hover:text-clip">
                     {shareholder?.shareQuantity || ''}
                 </p>
             ),
-            lg: 3,
+            lg: 6,
         },
         {
             label: 'STATUS',
@@ -145,7 +145,7 @@ const ShareholderInfo = () => {
                     )}
                 </div>
             ),
-            lg: 3,
+            lg: 6,
         },
     ]
     return (

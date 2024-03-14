@@ -5,7 +5,7 @@ import {
     UserStatusName,
 } from '@/constants/user-status'
 import { useParams, useRouter } from 'next/navigation'
-import { useForm } from 'antd/es/form/Form'
+import { useForm, useWatch } from 'antd/es/form/Form'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { useEffect, useState } from 'react'
 import { FETCH_STATUS } from '@/constants/common'
@@ -79,7 +79,7 @@ export interface IShareholderUpdateForm {
     email: string
     username: string
     walletAddress?: string | null
-    shareQuantity?: number
+    shareQuantity?: number | null
     phone: string
     roleIds: string[]
     statusId: number
@@ -116,6 +116,10 @@ const UpdateShareholder = () => {
     }>()
     // select
     const [selectedItems, setSelectedItems] = useState<string[]>([])
+    const [requiredQuantity, setRequiredQuantity] = useState<boolean>(false)
+
+    const quantity = useWatch('shareQuantity', form)
+
     const filteredOptions = roleList.filter(
         (o) => !selectedItems.includes(o.roleName),
     )
@@ -141,11 +145,17 @@ const UpdateShareholder = () => {
                         email: res.email,
                         username: res.username,
                         walletAddress: res.walletAddress,
+                        shareQuantity: res.shareQuantity,
                         phone: res.phone,
                         statusId: res.userStatus.id,
                         avatar: res.avatar,
                         roleIds: res.roles.map((item) => item.roleName),
                     })
+                    form.setFieldsValue({
+                        roleIds: res.roles.map((item) => item.roleName),
+                        shareQuantity: res.shareQuantity,
+                    })
+
                     if (res.avatar) {
                         setFileList([
                             {
@@ -157,6 +167,11 @@ const UpdateShareholder = () => {
                         ])
                     }
                     setSelectedItems(res.roles.map((item) => item.roleName))
+                    setRequiredQuantity(
+                        res.roles
+                            .map((item) => item.roleName)
+                            .includes('SHAREHOLDER'),
+                    )
                 }
                 const userStatusList = await serviceUserStatus.getAllUserStatus(
                     {
@@ -240,6 +255,56 @@ const UpdateShareholder = () => {
         }
     }
 
+    //Quantity
+    useEffect(() => {
+        if (selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(true)
+        } else if (!selectedItems.includes('SHAREHOLDER')) {
+            setRequiredQuantity(false)
+        } else {
+            setRequiredQuantity(false)
+        }
+    }, [JSON.stringify(selectedItems)])
+
+    useEffect(() => {
+        if (quantity && +quantity > 0) {
+            setRequiredQuantity(true)
+        }
+    }, [quantity])
+
+    useEffect(() => {
+        if (!requiredQuantity) {
+            form.setFieldsValue({
+                roleIds: selectedItems.filter((item) => item != 'SHAREHOLDER'),
+                shareQuantity: null,
+            })
+            setSelectedItems(
+                selectedItems.filter((item) => item != 'SHAREHOLDER'),
+            )
+        }
+        if (requiredQuantity) {
+            if (!selectedItems.includes('SHAREHOLDER')) {
+                form.setFieldsValue({
+                    roleIds: [...selectedItems, 'SHAREHOLDER'],
+                })
+                setSelectedItems([...selectedItems, 'SHAREHOLDER'])
+            }
+        }
+    }, [requiredQuantity])
+
+    const validateQuantity = (_: any, value: string) => {
+        const regex = /^(0*[1-9]\d*|0+)$/
+        if (!value) {
+            return Promise.resolve()
+        }
+        // if (value) {
+        if (!regex.test(value) || +value <= 0) {
+            return Promise.reject(t('QUANTITY_VALIDATE'))
+        }
+        // }
+        return Promise.resolve()
+    }
+
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
     const onFinish = async (values: IShareholderUpdateForm) => {
         setStatus(FETCH_STATUS.LOADING)
@@ -270,6 +335,9 @@ const UpdateShareholder = () => {
                     email: values.email,
                     username: values.username,
                     walletAddress: values.walletAddress || null,
+                    shareQuantity: values.shareQuantity
+                        ? +values.shareQuantity
+                        : undefined,
                     phone: values.phone,
                     roleIds: [...userRolesArr],
                     statusId: values.statusId,
@@ -346,7 +414,7 @@ const UpdateShareholder = () => {
                             <Col xs={24} lg={12}>
                                 <Form.Item
                                     name="username"
-                                    label={t('USERNAME')}
+                                    label={t('SHAREHOLDER_NAME')}
                                     rules={[
                                         {
                                             required: true,
@@ -472,6 +540,28 @@ const UpdateShareholder = () => {
                                     name="walletAddress"
                                     label={t('WALLET_ADDRESS')}
                                     rules={[{ required: false }]}
+                                    className="mb-0"
+                                >
+                                    <Input size="large" />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} lg={12}>
+                                <Form.Item
+                                    name="shareQuantity"
+                                    label={t('QUANTITY')}
+                                    // rules={[
+                                    //     {
+                                    //         required: requiredQuantity,
+                                    //         validator: validateQuantity,
+                                    //     },
+                                    // ]}
+                                    rules={[
+                                        {
+                                            required: requiredQuantity,
+                                            message: t('REQUIRE_QUANTITY'),
+                                        },
+                                        { validator: validateQuantity },
+                                    ]}
                                     className="mb-0"
                                 >
                                     <Input size="large" />

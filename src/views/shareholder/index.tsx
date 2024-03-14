@@ -34,7 +34,7 @@ const ShareholderView = () => {
             <ListTitle
                 onChangeInput={handleInputChange}
                 onChangeSelect={handleSelectChange}
-                pageName={t('SHAREHOLDERS')}
+                pageName={t('SHAREHOLDER_LIST')}
             />
             <div className="p-6">
                 <ShareholderList />

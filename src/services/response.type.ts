@@ -272,7 +272,7 @@ export interface IUpdateShareholderPayload {
     email: string
     username: string
     walletAddress?: string | null
-    shareQuantity?: number
+    shareQuantity?: number | null
     phone: string
     roleIds: number[]
     statusId: number
