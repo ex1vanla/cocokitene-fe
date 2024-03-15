@@ -21,10 +21,12 @@ const SendMailForgotUser = () => {
             const response = await servicePassword.sendEmailForgotPasswordUser({
                 email: values.email,
             })
-            notification.success({
-                message: t('SUCCESS'),
-                description: t('SUCCESS_SEND_EMAIL'),
-            })
+            if (response) {
+                notification.success({
+                    message: t('SUCCESS'),
+                    description: t('SUCCESS_SEND_EMAIL'),
+                })
+            }
             setEmailForgotPassword(values?.email)
             setScreenForgotPassword(ScreenForgotPassword.CONFIRM)
         } catch (error) {
