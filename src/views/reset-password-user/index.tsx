@@ -31,10 +31,12 @@ const ResetPassword = () => {
                     tokenFromUrl,
                     values,
                 )
-                notification.success({
-                    message: t('SUCCESS'),
-                    description: t('CHANGE_PASSWORD_SUCCESS'),
-                })
+                if (response) {
+                    notification.success({
+                        message: t('SUCCESS'),
+                        description: t('CHANGE_PASSWORD_SUCCESS'),
+                    })
+                }
                 router.push('/')
             } catch (error) {
                 if (error instanceof AxiosError) {
