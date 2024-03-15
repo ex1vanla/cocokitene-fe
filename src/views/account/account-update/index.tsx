@@ -381,7 +381,7 @@ const UpdateAccount = () => {
             if (error instanceof AxiosError) {
                 notification.error({
                     message: t('ERROR'),
-                    description: error.response?.data.info.message,
+                    description: t(error.response?.data.info.message),
                 })
             }
             setStatus(FETCH_STATUS.ERROR)

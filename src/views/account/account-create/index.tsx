@@ -60,7 +60,6 @@ const CreateAccount = () => {
         fetchData()
     }, [])
 
-
     const onFinish = async (values: IAccountCreateForm) => {
         let urlAvatar: string = ''
         setStatus(FETCH_STATUS.LOADING)
@@ -107,7 +106,7 @@ const CreateAccount = () => {
             if (error instanceof AxiosError) {
                 notification.error({
                     message: t('ERROR'),
-                    description: error.response?.data.info.message,
+                    description: t(error.response?.data.info.message),
                 })
             }
             setStatus(FETCH_STATUS.ERROR)
