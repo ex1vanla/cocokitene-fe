@@ -2,7 +2,7 @@ const axios = require('axios')
 const fs = require('fs')
 
 const googleSheetTranslate =
-    'https://script.google.com/macros/s/AKfycbyGqpPsWVaVqSPAYtohrYyuBpD4ORnAT2rmV55hYhEp3ve6g3U_2F-AEj4eeMAsZVWR/exec'
+    'https://script.google.com/macros/s/AKfycbzPVsAvElNPF0i0DEAcqzUXCDnCw0ubGwABuQTLI50K79_ueT2uBaAgVGGc2YoTKTY0/exec'
 
 async function pullTranslate() {
     const res = await axios.get(googleSheetTranslate)
