@@ -70,11 +70,20 @@ const ButtonConnectWallet = ({
             }
 
             if (authState.status === EActionStatus.Failed) {
-                openNotification({
-                    message: t('MSG_ERR_USER_LOGIN_00000'),
-                    placement: 'topRight',
-                    type: 'error',
-                })
+                if (authState.errorMessage == 'USER_STATUS_INACTIVE') {
+                    console.log('User Inactive')
+                    openNotification({
+                        message: t('USER_STATUS_INACTIVE'),
+                        placement: 'topRight',
+                        type: 'error',
+                    })
+                } else {
+                    openNotification({
+                        message: t('MSG_ERR_USER_LOGIN_00000'),
+                        placement: 'topRight',
+                        type: 'error',
+                    })
+                }
                 logoutAction()
             }
         })()

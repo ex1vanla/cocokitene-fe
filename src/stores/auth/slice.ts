@@ -9,6 +9,8 @@ const initialState: IAuthState = {
     nonce: '',
     userData: serviceUser.getInfoStorage(),
     isAuthenticated: !!serviceUser.getInfoStorage(),
+    errorMessage: '',
+    errorCode: '',
 }
 
 const authSlice = createSlice({
@@ -20,6 +22,8 @@ const authSlice = createSlice({
             state.isAuthenticated = null
             state.userData = null
             state.nonce = ''
+            state.errorMessage = ''
+            state.errorCode = ''
             serviceUser.storeInfo(null)
         },
         update: (state: IAuthState, action: PayloadAction<IAccount | null>) => {
@@ -39,7 +43,8 @@ const authSlice = createSlice({
                     state.isAuthenticated = true
                 },
             )
-            .addCase(login.rejected, (state: IAuthState) => {
+            .addCase(login.rejected, (state: IAuthState, action) => {
+                state.errorMessage = action.payload?.errorMessage || ''
                 state.status = EActionStatus.Failed
             })
             .addCase(getNonceThunk.pending, (state: IAuthState) => {
@@ -63,7 +68,9 @@ const authSlice = createSlice({
                     state.isAuthenticated = true
                 },
             )
-            .addCase(loginByEmail.rejected, (state: IAuthState) => {
+            .addCase(loginByEmail.rejected, (state: IAuthState, action) => {
+                console.log('LoginByEmailReject: ', action.payload)
+                state.errorMessage = action.payload?.errorMessage || ''
                 state.status = EActionStatus.Failed
             })
     },
