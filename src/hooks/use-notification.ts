@@ -21,6 +21,7 @@ export const useNotification = () => {
             message,
             placement,
             description,
+            duration: 3,
         }
         switch (type) {
             case 'info':
