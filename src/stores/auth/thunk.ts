@@ -30,7 +30,7 @@ export const login = createAsyncThunk<
         const err = error as AxiosError
         const responseData: any = err.response?.data
         return rejectWithValue({
-            errorMessage: responseData?.message,
+            errorMessage: responseData?.info.message,
             errorCode: responseData?.code,
         })
     }
@@ -56,7 +56,7 @@ export const loginByEmail = createAsyncThunk<
         const err = error as AxiosError
         const responseData: any = err.response?.data
         return rejectWithValue({
-            errorMessage: responseData?.message,
+            errorMessage: responseData?.info.message,
             errorCode: responseData?.code,
         })
     }

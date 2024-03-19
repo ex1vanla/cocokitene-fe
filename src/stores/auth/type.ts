@@ -5,6 +5,8 @@ export interface IAuthState {
     nonce: any
     isAuthenticated: boolean | null
     userData: IAccount | null
+    errorMessage: string
+    errorCode: string
 }
 
 export interface ILoginRequest {
