@@ -241,15 +241,16 @@ export interface ICreateAccountPayload {
 }
 
 export interface IListShareholderResponse {
-    id: number
-    email: string
-    username: string
-    walletAddress: string
-    avatar: string | null
-    companyId: number
-    shareQuantity: number
-    defaultAvatarHashColor: string | null
-    userStatus: IUserStatusResponse
+    users_id: number
+    users_username: string
+    users_email: string
+    users_wallet_address: string
+    users_avartar: string | null
+    users_company_id: number
+    users_share_quantity: number
+    users_defaultAvatarHashColor: string | null
+    userStatus_status: IUserStatusResponse
+    listRoleResponse: string
 }
 
 export interface IShareholderDetailResponse {
