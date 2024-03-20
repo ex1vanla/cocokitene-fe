@@ -36,16 +36,17 @@ export const getAllShareholder = createAsyncThunk<
         const data = await serviceShareholder.getAllShareholders(param)
         const mappedData = data.items.map((item, index) => {
             return {
-                id: item.id,
+                id: item.users_id,
                 index: index + 1,
-                username: item.username,
-                avatar: item.avatar,
-                email: item.email,
-                defaultAvatarHashColor: item.defaultAvatarHashColor,
-                walletAddress: item.walletAddress,
-                status: item.userStatus.status,
-                shareQuantity: item.shareQuantity,
-                companyId: item.companyId,
+                username: item.users_username,
+                avatar: item.users_avartar,
+                email: item.users_email,
+                defaultAvatarHashColor: item.users_defaultAvatarHashColor,
+                walletAddress: item.users_wallet_address,
+                status: item.userStatus_status,
+                shareQuantity: item.users_share_quantity,
+                companyId: item.users_company_id,
+                listRoleResponse: item.listRoleResponse,
             }
         }) as unknown as IShareholderList[]
         return {
