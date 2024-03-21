@@ -62,10 +62,12 @@ const SelectParticipantGroup = ({
 
                         optionsRes = {
                             ...optionsRes,
-                            items: optionsRes.items.filter((item) => {
-                                const listRole = item.listRoleResponse || ''
-                                return listRole.includes('SHAREHOLDER')
-                            }),
+                            items: optionsRes.items
+                                .filter((item) => {
+                                    const listRole = item.listRoleResponse || ''
+                                    return listRole.includes('SHAREHOLDER')
+                                })
+                                .slice(0, 4),
                         }
                     } else {
                         optionsRes = await serviceUser.getAccountList(
