@@ -52,20 +52,34 @@ const SelectParticipantGroup = ({
                         ...optionsData,
                         status: FETCH_STATUS.LOADING,
                     })
-                    let optionsRes = await serviceUser.getAccountList(query)
+                    let optionsRes
+                    if (title === 'Shareholders' || title === '株主') {
+                        optionsRes = await serviceUser.getAccountList(
+                            query,
+                            1,
+                            50,
+                        )
+
+                        optionsRes = {
+                            ...optionsRes,
+                            items: optionsRes.items
+                                .filter((item) => {
+                                    const listRole = item.listRoleResponse || ''
+                                    return listRole.includes('SHAREHOLDER')
+                                })
+                                .slice(0, 4),
+                        }
+                    } else {
+                        optionsRes = await serviceUser.getAccountList(
+                            query,
+                            1,
+                            5,
+                        )
+                    }
                     console.log(
                         '🚀 ~ file: select-participant-group.tsx:53 ~ ; ~ optionsRes:',
                         optionsRes,
                     )
-                    if (title === 'Shareholders' || title === '株主') {
-                        optionsRes = {
-                            ...optionsRes,
-                            items: optionsRes.items.filter((item) => {
-                                const listRole = item.listRoleResponse || ''
-                                return listRole.includes('SHAREHOLDER')
-                            }),
-                        }
-                    }
                     setOptionsData({
                         options: [
                             {
