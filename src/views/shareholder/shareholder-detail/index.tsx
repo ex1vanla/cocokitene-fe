@@ -6,13 +6,13 @@ import { useEffect } from 'react'
 import { EActionStatus } from '@/stores/type'
 import Loader from '@/components/loader'
 import DetailTitle from '@/components/content-page-title/detail-title'
-// import { Button } from 'antd'
-// import { EditOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
+import { EditOutlined } from '@ant-design/icons'
 import ShareholderInfo from '@/views/shareholder/shareholder-detail/shareholder-info'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
 import { useAuthLogin } from '@/stores/auth/hooks'
-// import { checkPermission } from '@/utils/auth'
+import { checkPermission } from '@/utils/auth'
 
 const ShareholderDetail = () => {
     const params = useParams()
@@ -24,10 +24,10 @@ const ShareholderDetail = () => {
 
     const { authState } = useAuthLogin()
 
-    // const permissionEditShareholder = checkPermission(
-    //     authState.userData?.permissionKeys,
-    //     Permissions.EDIT_SHAREHOLDERS,
-    // )
+    const permissionEditShareholder = checkPermission(
+        authState.userData?.permissionKeys,
+        Permissions.EDIT_SHAREHOLDERS,
+    )
 
     useEffect(() => {
         if (shareholderId) {
@@ -47,22 +47,22 @@ const ShareholderDetail = () => {
             <DetailTitle
                 urlBack="/shareholder"
                 pageName={t('DETAIL_SHAREHOLDER')}
-                // editButton={
-                //     permissionEditShareholder && (
-                //         <Button
-                //             icon={<EditOutlined />}
-                //             type="default"
-                //             size="large"
-                //             onClick={() =>
-                //                 router.push(
-                //                     `/shareholder/update/${shareholderId}`,
-                //                 )
-                //             }
-                //         >
-                //             {t('EDIT')}
-                //         </Button>
-                //     )
-                // }
+                editButton={
+                    permissionEditShareholder && (
+                        <Button
+                            icon={<EditOutlined />}
+                            type="default"
+                            size="large"
+                            onClick={() =>
+                                router.push(
+                                    `/shareholder/update/${shareholderId}`,
+                                )
+                            }
+                        >
+                            {t('EDIT')}
+                        </Button>
+                    )
+                }
             />
             <div className="p-6">
                 <ShareholderInfo />
