@@ -6,9 +6,14 @@ export enum MeetingResourceType {
     MEETING_LINKS = 'MEETING_LINKS',
 }
 
-export enum MeetingType {
+export enum MeetingTime {
     MEETING_FUTURE = 'future',
     MEETING_PASS = 'pass',
+}
+
+export enum MeetingType {
+    SHAREHOLDER_MEETING = '0',
+    BOARD_MEETING = '1',
 }
 
 export enum MeetingStatus {

@@ -5,6 +5,7 @@ export enum Permissions {
     DETAIL_ACCOUNT = 'detail_account',
     LIST_ACCOUNT = 'list_account',
     CREATE_MEETING = 'create_meeting',
+    CREATE_BOARD_MEETING = 'create_board_meeting',
     EDIT_MEETING = 'edit_meeting',
     DETAIL_MEETING = 'detail_meeting',
     SEND_MAIL_TO_SHAREHOLDER = 'send_mail_to_shareholder',

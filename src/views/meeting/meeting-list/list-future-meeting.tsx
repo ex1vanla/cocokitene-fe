@@ -1,5 +1,5 @@
 import BoxArea from '@/components/box-area'
-import { MeetingType } from '@/constants/meeting'
+import { MeetingTime, MeetingType } from '@/constants/meeting'
 import { RootState, useAppDispatch } from '@/stores'
 import { getAllMeetings } from '@/stores/meeting/listSlice'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
@@ -24,8 +24,9 @@ const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
             getAllMeetings({
                 page: pageChange,
                 limit,
-                type: MeetingType.MEETING_FUTURE,
+                type: MeetingTime.MEETING_FUTURE,
                 filter: { ...filter },
+                typeMeeting: MeetingType.SHAREHOLDER_MEETING,
             }),
         )
     }

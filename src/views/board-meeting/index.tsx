@@ -1,46 +1,43 @@
-import withAuth from '@/components/component-auth'
-import ListTitle from '@/components/content-page-title/list-title'
-import { MeetingTime, MeetingType } from '@/constants/meeting'
-import { Permissions } from '@/constants/permission'
-import { useNotification } from '@/hooks/use-notification'
-import { useAttendance } from '@/stores/attendance/hooks'
-import { useAuthLogin } from '@/stores/auth/hooks'
-import { useListMeeting } from '@/stores/meeting/hooks'
-import { EActionStatus } from '@/stores/type'
-import { checkPermission } from '@/utils/auth'
-import ListMeetingFuture from '@/views/meeting/meeting-list/list-future-meeting'
-import ListMeetingPast from '@/views/meeting/meeting-list/list-past-meeting'
-import { PlusOutlined } from '@ant-design/icons'
-import { Button } from 'antd'
-import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useAttendance } from '@/stores/attendance/hooks'
+import { useNotification } from '@/hooks/use-notification'
+import { useAuthLogin } from '@/stores/auth/hooks'
+import { checkPermission } from '@/utils/auth'
+import { Permissions } from '@/constants/permission'
+import { useListMeeting } from '@/stores/meeting/hooks'
 import { useEffect } from 'react'
+import { MeetingTime, MeetingType } from '@/constants/meeting'
+import { EActionStatus } from '@/stores/type'
+import ListTitle from '@/components/content-page-title/list-title'
+import { Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
+import ListBoardMeetingFuture from '@/views/board-meeting/board-meeting-list/list-board-meeting-future'
+import ListBoardMeetingPast from './board-meeting-list/list-board-meeting-pass'
 
-const MeetingList = () => {
+const BoardMeetingList = () => {
     const router = useRouter()
     const t = useTranslations()
-    const { attendanceState, resetStateAttendance } = useAttendance()
+    const { attendanceState, resetStateAttendance } =
+        useAttendance()
     const { openNotification, contextHolder } = useNotification()
     const { authState } = useAuthLogin()
-
-    const permissionCreateMeeting = checkPermission(
+    const permissionCreateBoardMeeting = checkPermission(
         authState.userData?.permissionKeys,
         Permissions.CREATE_MEETING,
     )
-
     const {
         meetingState,
         getListFutureMeetingAction,
         getListPassMeetingAction,
         setFilterAction,
     } = useListMeeting()
-
     useEffect(() => {
         getListFutureMeetingAction({
             page: meetingState.page,
             limit: meetingState.limit,
             type: MeetingTime.MEETING_FUTURE,
-            typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+            typeMeeting: MeetingType.BOARD_MEETING,
             filter: { ...meetingState.filter },
         })
 
@@ -48,16 +45,14 @@ const MeetingList = () => {
             page: meetingState.page,
             limit: meetingState.limit,
             type: MeetingTime.MEETING_PASS,
-            typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+            typeMeeting: MeetingType.BOARD_MEETING,
             filter: { ...meetingState.filter },
         })
-        // eslint-disable-next-line
     }, [meetingState.filter])
 
     const handleInputChange = (value: string) => {
         setFilterAction({ ...meetingState.filter, searchQuery: value })
     }
-
     const handleSelectChange = (value: string) => {
         setFilterAction({ ...meetingState.filter, sortOrder: value })
     }
@@ -65,48 +60,35 @@ const MeetingList = () => {
     useEffect(() => {
         if (attendanceState.status == EActionStatus.Succeeded) {
             openNotification({
-                message: 'Meeting',
+                message: 'Board meeting',
                 placement: 'bottomRight',
                 type: 'info',
             })
             resetStateAttendance()
-            router.push('/meeting/detail/' + attendanceState.meetingIdJoin)
+            router.push('/board-meeting/detail' + attendanceState.meetingIdJoin)
         }
-
         if (attendanceState.status == EActionStatus.Failed) {
-            openNotification({
-                message: attendanceState.errorMessage,
-                placement: 'bottomRight',
-                type: 'error',
-            })
-        }
-        // eslint-disable-next-line
-    }, [attendanceState.status])
-
-    useEffect(() => {
-        if (meetingState.status == EActionStatus.Failed) {
             openNotification({
                 message: meetingState.errorMessage,
                 placement: 'bottomRight',
                 type: 'error',
             })
         }
-        // eslint-disable-next-line
     }, [meetingState.status])
 
     return (
         <div>
             {contextHolder}
             <ListTitle
-                pageName={t('SHAREHOLDERS_MEETINGS')}
+                pageName={t('BOARDS_MEETING')}
                 addButton={
-                    permissionCreateMeeting && (
+                    permissionCreateBoardMeeting && (
                         <Button
                             type="primary"
                             icon={<PlusOutlined />}
                             size="large"
                             onClick={() => {
-                                router.push('/meeting/create')
+                                router.push('/board-meeting/create')
                             }}
                         >
                             {t('ADD_NEW')}
@@ -118,11 +100,10 @@ const MeetingList = () => {
                 onChangeSelect={handleSelectChange}
             />
             <div className="p-6">
-                <ListMeetingFuture data={meetingState.meetingFutureList} />
-                <ListMeetingPast data={meetingState.meetingPassList} />
+                <ListBoardMeetingFuture data={meetingState.meetingFutureList} />
+                <ListBoardMeetingPast data={meetingState.meetingPassList} />
             </div>
         </div>
     )
 }
-
-export default withAuth(MeetingList, Permissions.SHAREHOLDERS_MTG)
+export default BoardMeetingList

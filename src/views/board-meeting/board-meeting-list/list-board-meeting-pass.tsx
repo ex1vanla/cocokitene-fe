@@ -1,47 +1,47 @@
-import BoxArea from '@/components/box-area'
-import { MeetingTime, MeetingType } from '@/constants/meeting'
-import { RootState, useAppDispatch } from '@/stores'
-import { getAllPassMeetings } from '@/stores/meeting/listSlice'
-import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
-import ItemPastMeeting from '@/views/meeting/meeting-list/item-past-meeting'
 import { IMeetingItem } from '@/views/meeting/meeting-list/type'
-import { Pagination } from 'antd'
-import { useTranslations } from 'next-intl'
 import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '@/stores'
+import { useTranslations } from 'next-intl'
+import BoxArea from '@/components/box-area'
+import ItemPassBoardMeeting from '@/views/board-meeting/board-meeting-list/item-pass-board-meeting'
+import { getAllMeetings } from '@/stores/meeting/listSlice'
+import { MeetingTime, MeetingType } from '@/constants/meeting'
+import { Pagination } from 'antd'
+import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 
-interface ListPastMeetingProps {
+export interface ListPassBoardMeetingProps {
     data: IMeetingItem[]
 }
 
-const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
-    const { page, limit, filter, totalPassMeetingItem } = useSelector(
+const ListBoardMeetingPast = ({ data }: ListPassBoardMeetingProps) => {
+    const { page, limit, totalPassMeetingItem, filter } = useSelector(
         (state: RootState) => state.meetingList,
     )
     const dispatch = useAppDispatch()
     const t = useTranslations()
     const handlePageChange = (pageChange: number) => {
         dispatch(
-            getAllPassMeetings({
+            getAllMeetings({
                 page: pageChange,
                 limit,
                 type: MeetingTime.MEETING_PASS,
                 filter: { ...filter },
-                typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+                typeMeeting: MeetingType.BOARD_MEETING,
             }),
         )
     }
     return (
-        <div className="list-meeting-past mt-6">
-            <BoxArea title={t('MEETING_PAST_LIST')}>
+        <div className="list-board-meeting-pass mt-6">
+            <BoxArea title={t('BOARD_MEETING_PAST_LIST')}>
                 {data && data.length > 0 ? (
                     <>
                         {data.map((item, index) => (
-                            <ItemPastMeeting key={index} {...item} />
+                            <ItemPassBoardMeeting key={index} {...item} />
                         ))}
-                        <div className="mt-6 flex justify-end">
+                        <div className="mt-6 flex  justify-end">
                             <Pagination
-                                pageSize={limit}
                                 defaultCurrent={page}
+                                pageSize={limit}
                                 total={totalPassMeetingItem}
                                 onChange={handlePageChange}
                             />
@@ -49,12 +49,11 @@ const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
                     </>
                 ) : (
                     <EmptyMeeting
-                        emptyMeetingMessage={t('NO_MEETING_PAST_MESSAGE')}
+                        emptyMeetingMessage={t('NO_BOARD_MEETING_PASS_MESSAGE')}
                     />
                 )}
             </BoxArea>
         </div>
     )
 }
-
-export default ListPastMeeting
+export default ListBoardMeetingPast

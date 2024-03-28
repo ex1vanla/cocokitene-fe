@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useForgotPassword } from '@/stores/forgot-password/hooks'
 import { ScreenForgotPassword } from '@/constants/forgot-password'
-import SendMailForgotUser from "./send-mail-forgot-user";
-import ConfirmCodeForgotUser from "./confirm-code-forgot";
+import SendMailForgotUser from './send-mail-forgot-user'
+import ConfirmCodeForgotUser from './confirm-code-forgot'
 const { Text } = Typography
 
 const ForgotPasswordUser = () => {

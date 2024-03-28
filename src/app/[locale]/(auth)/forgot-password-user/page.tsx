@@ -1,6 +1,5 @@
 'use client'
 
-
-import ForgotPasswordUser from "@/views/forgot-password-user";
+import ForgotPasswordUser from '@/views/forgot-password-user'
 
 export default ForgotPasswordUser
