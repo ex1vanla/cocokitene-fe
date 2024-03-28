@@ -45,7 +45,7 @@ const ListTitle = ({
             <Title level={4} className="mb-0 font-medium">
                 {pageName}
             </Title>
-            <div className="flex items-center gap-2">
+            <div className="items flex items-center gap-2">
                 <Input
                     className="w-[200px]"
                     size="large"

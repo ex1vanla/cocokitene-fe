@@ -1,24 +1,23 @@
+import { IMeetingItem } from '@/views/meeting/meeting-list/type'
+import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+import { useAttendance } from '@/stores/attendance/hooks'
+import { useNotification } from '@/hooks/use-notification'
+import { Button, Col, Modal, Row, Tooltip, Typography } from 'antd'
+import { calculateTimeDifference, formatTimeMeeting } from '@/utils/date'
+import Image from 'next/image'
+import { truncateString } from '@/utils/format-string'
+import Link from 'next/link'
 import {
     MeetingStatus,
     MeetingStatusColor,
     MeetingStatusName,
 } from '@/constants/meeting'
-import { useNotification } from '@/hooks/use-notification'
-import { useAttendance } from '@/stores/attendance/hooks'
 import { enumToArray } from '@/utils'
-import { calculateTimeDifference, formatTimeMeeting } from '@/utils/date'
-import { truncateString } from '@/utils/format-string'
-import { IMeetingItem } from '@/views/meeting/meeting-list/type'
-import { Button, Col, Modal, Row, Tooltip, Typography } from 'antd'
-import { useTranslations } from 'next-intl'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 
 const { Text } = Typography
-
-const ItemFutureMeeting = ({
+const ItemFutureBoardMeeting = ({
     meetings_id,
     meetings_title,
     meetings_start_time,
@@ -33,11 +32,10 @@ const ItemFutureMeeting = ({
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { joinMeetingAction } = useAttendance()
     const { openNotification, contextHolder } = useNotification()
-
     const showModal = (startTime: string) => {
         const result = calculateTimeDifference(startTime)
         if (result) {
-            const messageNoti = t('MEETING_START_MESSAGE', {
+            const messageNoti = t('BOARD_MEETING_START_MESSAGE', {
                 days: result[0].toString(),
                 hours: result[1].toString(),
                 minutes: result[2].toString(),
@@ -51,7 +49,6 @@ const ItemFutureMeeting = ({
         }
         setIsModalOpen(true)
     }
-
     const handleOk = (idMeeting: number) => {
         joinMeetingAction(idMeeting)
         setIsModalOpen(false)
@@ -60,14 +57,10 @@ const ItemFutureMeeting = ({
     const handleCancel = () => {
         setIsModalOpen(false)
     }
-
     return (
         <>
             {contextHolder}
-            <Row
-                className="border-true-gray-300 mb-2 rounded-lg border p-2"
-                gutter={[16, 16]}
-            >
+            <Row className="mb-2 rounded-lg border p-2" gutter={[16, 16]}>
                 <Col span={7} className="flex items-center space-x-2">
                     <Image
                         src="/images/logo-meeting-future.png"
@@ -93,19 +86,17 @@ const ItemFutureMeeting = ({
                         overlayClassName=" lg:max-2xl:max-w-[370px] 2xl:max-w-[500px]"
                         color={'rgba(81, 81, 229, 1)'}
                     >
-                        <Text className="overflow-hidden overflow-ellipsis whitespace-nowrap ">
-                            {meetings_title}
-                        </Text>
+                        <Text>{meetings_title}</Text>
                     </Tooltip>
                 </Col>
                 <Col span={3} className="flex items-center pl-4">
                     <Link href={meetings_meeting_link.toString()}>
                         <Text className="text-blue-500 hover:underline">
-                            {t('MEETING_LINK')}
+                            {t('BOARD_MEETING_LINK')}
                         </Text>
                     </Link>
                 </Col>
-                <Col span={2} className="flex items-center pl-3">
+                <Col span={2} className="flex items-center">
                     {enumToArray(MeetingStatus).map((status, key) => {
                         if (status === meetings_status) {
                             return (
@@ -121,7 +112,6 @@ const ItemFutureMeeting = ({
                         }
                     })}
                 </Col>
-
                 <Col
                     span={4}
                     className="flex items-center justify-end space-x-2"
@@ -135,14 +125,14 @@ const ItemFutureMeeting = ({
                             {t('BTN_JOIN')}
                         </Button>
                     ) : (
-                        <Button disabled type="primary" size="middle">
+                        <Button type="primary" size="middle" disabled>
                             {t('JOINED')}
                         </Button>
                     )}
                     <Button
                         size="middle"
                         onClick={() => {
-                            router.push('/meeting/detail/' + meetings_id)
+                            router.push('/board-meeting/detail/' + meetings_id)
                         }}
                     >
                         {t('BTN_VIEW_DETAIL')}
@@ -164,4 +154,4 @@ const ItemFutureMeeting = ({
     )
 }
 
-export default ItemFutureMeeting
+export default ItemFutureBoardMeeting

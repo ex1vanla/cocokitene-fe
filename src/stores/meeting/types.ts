@@ -1,6 +1,7 @@
 import {
     MeetingFileType,
     MeetingStatus,
+    MeetingTime,
     MeetingType,
 } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '../type'
@@ -57,6 +58,7 @@ export interface IMeeting {
     meetings_meeting_link: string
     isJoined: number
     meetings_status: string
+    // them type cua meeting nua
 }
 
 export interface ListParamsFilter {
@@ -68,8 +70,9 @@ export interface ListParamsFilter {
 export interface IGetAllMeetingQuery {
     page: number
     limit: number
-    type: MeetingType
+    type: MeetingTime
     filter?: ListParamsFilter
+    typeMeeting: MeetingType
 }
 
 export interface IMeetingState extends IGetAllMeetingQuery, FetchError {

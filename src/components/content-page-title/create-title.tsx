@@ -13,24 +13,22 @@ interface ICreateTitle extends IBaseTitle {
     saveButton: ReactNode
 }
 
-const CreateTitle = ({ pageName, saveButton  }: ICreateTitle) => {
+const CreateTitle = ({ pageName, saveButton }: ICreateTitle) => {
     const router = useRouter()
     const t = useTranslations()
     const [isModalOpen, setIsModalOpen] = useState(false)
 
-
-    const handleOk = ()=> {
+    const handleOk = () => {
         router.back()
         setIsModalOpen(false)
     }
 
-    const handleCancel = ()=> {
+    const handleCancel = () => {
         setIsModalOpen(false)
     }
 
     return (
         <>
-
             <LayoutTitle>
                 <div className="flex items-center gap-2">
                     <ArrowLeftOutlined
@@ -55,9 +53,7 @@ const CreateTitle = ({ pageName, saveButton  }: ICreateTitle) => {
             >
                 <p>{t('CONTENT_CONFIRM_BACK')}</p>
             </Modal>
-
         </>
-
     )
 }
 

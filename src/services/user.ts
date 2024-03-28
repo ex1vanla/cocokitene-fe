@@ -110,7 +110,6 @@ const serviceUser = {
             meta: response.data.meta,
         }
     },
-
 }
 
 export default serviceUser

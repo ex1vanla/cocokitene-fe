@@ -1,4 +1,4 @@
-import { MeetingType, SORT, SortField } from '@/constants/meeting'
+import { MeetingTime, MeetingType, SORT, SortField } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '../type'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import serviceMeeting from '@/services/meeting'
@@ -25,9 +25,10 @@ const initialState: IMeetingState = {
         sortOrder: SORT.DESC,
         sortField: SortField.START_TIME,
     },
-    type: MeetingType.MEETING_FUTURE,
+    type: MeetingTime.MEETING_FUTURE,
     errorCode: '',
     errorMessage: '',
+    typeMeeting: MeetingType.BOARD_MEETING,
 }
 
 export const getAllMeetings = createAsyncThunk<

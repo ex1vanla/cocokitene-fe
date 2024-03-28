@@ -32,9 +32,8 @@ const servicePassword = {
         return response.data
     },
 
-    sendEmailForgotPasswordUser: async(payload: {email: string})=> {
-        const response  = await post<any>('/auths/user/forgot-password',
-            payload,)
+    sendEmailForgotPasswordUser: async (payload: { email: string }) => {
+        const response = await post<any>('/auths/user/forgot-password', payload)
         return response.data
     },
     createNewPassWordUser: async (
