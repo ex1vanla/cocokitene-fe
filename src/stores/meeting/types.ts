@@ -72,7 +72,7 @@ export interface IGetAllMeetingQuery {
     limit: number
     type: MeetingTime
     filter?: ListParamsFilter
-    typeMeeting: MeetingType
+    meetingType: MeetingType
 }
 
 export interface IMeetingState extends IGetAllMeetingQuery, FetchError {

@@ -26,7 +26,7 @@ const ListBoardMeetingPast = ({ data }: ListPassBoardMeetingProps) => {
                 limit,
                 type: MeetingTime.MEETING_PASS,
                 filter: { ...filter },
-                typeMeeting: MeetingType.BOARD_MEETING,
+                meetingType: MeetingType.BOARD_MEETING,
             }),
         )
     }

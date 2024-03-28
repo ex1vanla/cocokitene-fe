@@ -28,7 +28,7 @@ const initialState: IMeetingState = {
     type: MeetingTime.MEETING_FUTURE,
     errorCode: '',
     errorMessage: '',
-    typeMeeting: MeetingType.BOARD_MEETING,
+    meetingType: MeetingType.BOARD_MEETING,
 }
 
 export const getAllMeetings = createAsyncThunk<

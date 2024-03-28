@@ -26,7 +26,7 @@ const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
                 limit,
                 type: MeetingTime.MEETING_PASS,
                 filter: { ...filter },
-                typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+                meetingType: MeetingType.SHAREHOLDER_MEETING,
             }),
         )
     }

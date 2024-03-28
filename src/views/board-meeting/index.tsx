@@ -37,7 +37,7 @@ const BoardMeetingList = () => {
             page: meetingState.page,
             limit: meetingState.limit,
             type: MeetingTime.MEETING_FUTURE,
-            typeMeeting: MeetingType.BOARD_MEETING,
+            meetingType: MeetingType.BOARD_MEETING,
             filter: { ...meetingState.filter },
         })
 
@@ -45,7 +45,7 @@ const BoardMeetingList = () => {
             page: meetingState.page,
             limit: meetingState.limit,
             type: MeetingTime.MEETING_PASS,
-            typeMeeting: MeetingType.BOARD_MEETING,
+            meetingType: MeetingType.BOARD_MEETING,
             filter: { ...meetingState.filter },
         })
     }, [meetingState.filter])

@@ -26,7 +26,7 @@ const ListFutureMeeting = ({ data }: ListFutureMeetingProps) => {
                 limit,
                 type: MeetingTime.MEETING_FUTURE,
                 filter: { ...filter },
-                typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+                meetingType: MeetingType.SHAREHOLDER_MEETING,
             }),
         )
     }

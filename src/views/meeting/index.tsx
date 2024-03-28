@@ -40,7 +40,7 @@ const MeetingList = () => {
             page: meetingState.page,
             limit: meetingState.limit,
             type: MeetingTime.MEETING_FUTURE,
-            typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+            meetingType: MeetingType.SHAREHOLDER_MEETING,
             filter: { ...meetingState.filter },
         })
 
@@ -48,7 +48,7 @@ const MeetingList = () => {
             page: meetingState.page,
             limit: meetingState.limit,
             type: MeetingTime.MEETING_PASS,
-            typeMeeting: MeetingType.SHAREHOLDER_MEETING,
+            meetingType: MeetingType.SHAREHOLDER_MEETING,
             filter: { ...meetingState.filter },
         })
         // eslint-disable-next-line
@@ -121,6 +121,7 @@ const MeetingList = () => {
                 <ListMeetingFuture data={meetingState.meetingFutureList} />
                 <ListMeetingPast data={meetingState.meetingPassList} />
             </div>
+
         </div>
     )
 }
