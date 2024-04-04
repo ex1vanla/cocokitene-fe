@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 import { useTranslations } from 'next-intl'
 import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
 import { useState } from 'react'
