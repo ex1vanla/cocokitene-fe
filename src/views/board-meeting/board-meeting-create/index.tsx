@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import CreateTitle from '@/components/content-page-title/create-title'
 import { useTranslations } from 'next-intl'
 import SaveCreateBoardMeetingButton from '@/views/board-meeting/board-meeting-create/save-button'

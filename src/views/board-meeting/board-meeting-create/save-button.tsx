@@ -10,7 +10,8 @@ import serviceBoardMeeting from '@/services/board-meeting'
 
 const SaveCreateBoardMeetingButton = () => {
     const t = useTranslations()
-    const [data, setCreateBoardMeetingInformation, resetData] =
+
+    const [data, , resetData] =
         useCreateBoardMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
     const router = useRouter()

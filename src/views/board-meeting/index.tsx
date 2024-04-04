@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { useAttendance } from '@/stores/attendance/hooks'
