@@ -1,9 +1,5 @@
-import { Button, Form, Input, Select, Typography, Upload } from 'antd'
-import {
-    Resolution,
-    ResolutionTitle,
-    ResolutionType,
-} from '@/constants/resolution'
+import { Button, Input, Select, Typography, Upload } from 'antd'
+import { Resolution, ResolutionTitle, ResolutionType } from '@/constants/resolution'
 import { IBoardProposalFile } from '@/stores/board-meeting/types'
 import { useTranslations } from 'next-intl'
 import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
@@ -14,7 +10,7 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 import serviceUpload from '@/services/upload'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { IElectionResponse } from '@/services/response.type'
-import { ElectionColor, ElectionEnum, ElectionName } from '@/constants/election'
+import { ElectionColor, ElectionName } from '@/constants/election'
 import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
 
 const { Text } = Typography
@@ -23,10 +19,15 @@ const { TextArea } = Input
 interface ICreateReportItem extends Resolution {
     type?: ResolutionType
     index: number
+    // eslint-disable-next-line
     onChangeTitle: (value: string) => void
+    // eslint-disable-next-line
     onChangeContent: (value: string) => void
+    // eslint-disable-next-line
     onChangeOldContent?: (value: string) => void
+    // eslint-disable-next-line
     onAddFile?: (file: IBoardProposalFile) => void
+    // eslint-disable-next-line
     onRemoveFile?: (uuid: string) => void
     onDelete: () => void
     electionList?: IElectionResponse[] | []
@@ -65,6 +66,7 @@ const CreateReportItem = ({
         }
 
     const onChange =
+        // eslint-disable-next-line
         (callback: (value: string) => void) =>
         (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             callback(event.target.value)
@@ -145,6 +147,7 @@ const CreateReportItem = ({
     return (
         <div className="flex flex-row items-start gap-2">
             <Text className="leading-10">
+
                 {t(ResolutionTitle[type])} {index}:
             </Text>
 
