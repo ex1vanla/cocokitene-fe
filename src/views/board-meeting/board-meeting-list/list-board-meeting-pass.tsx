@@ -4,12 +4,12 @@ import { RootState, useAppDispatch } from '@/stores'
 import { useTranslations } from 'next-intl'
 import BoxArea from '@/components/box-area'
 import ItemPassBoardMeeting from '@/views/board-meeting/board-meeting-list/item-pass-board-meeting'
-import { getAllMeetings } from '@/stores/meeting/listSlice'
 import { MeetingTime, MeetingType } from '@/constants/meeting'
 import { Pagination } from 'antd'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
+import { getAllPassBoardMeetings } from '@/stores/board-meeting/listSlice'
 
 export interface ListPassBoardMeetingProps {
     data: IMeetingItem[]
@@ -23,7 +23,7 @@ const ListBoardMeetingPast = ({ data }: ListPassBoardMeetingProps) => {
     const t = useTranslations()
     const handlePageChange = (pageChange: number) => {
         dispatch(
-            getAllMeetings({
+            getAllPassBoardMeetings({
                 page: pageChange,
                 limit,
                 type: MeetingTime.MEETING_PASS,

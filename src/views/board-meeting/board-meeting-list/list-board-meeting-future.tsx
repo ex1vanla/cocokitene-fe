@@ -4,10 +4,10 @@ import { RootState, useAppDispatch } from '@/stores'
 import { useTranslations } from 'next-intl'
 import BoxArea from '@/components/box-area'
 import { Pagination } from 'antd'
-import { getAllMeetings } from '@/stores/meeting/listSlice'
 import { MeetingTime, MeetingType } from '@/constants/meeting'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 import ItemFutureBoardMeeting from './item-future-board-meeting'
+import { getAllFutureBoardMeetings } from '@/stores/board-meeting/listSlice'
 
 export interface ListFutureBoardMeetingProps {
     data: IMeetingItem[]
@@ -21,7 +21,7 @@ const ListBoardMeetingFuture = ({ data }: ListFutureBoardMeetingProps) => {
     const t = useTranslations()
     const handlePageChange = (pageChange: number) => {
         dispatch(
-            getAllMeetings({
+            getAllFutureBoardMeetings({
                 page: pageChange,
                 limit,
                 type: MeetingTime.MEETING_FUTURE,
