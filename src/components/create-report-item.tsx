@@ -17,7 +17,7 @@ const { Text } = Typography
 const { TextArea } = Input
 
 interface ICreateReportItem extends Resolution {
-    type?: ResolutionType
+    type: ResolutionType
     index: number
     // eslint-disable-next-line
     onChangeTitle: (value: string) => void
@@ -141,7 +141,9 @@ const CreateReportItem = ({
                     url: res.uploadUrls[0].split('?')[0],
                     uid: (file as RcFile).uid,
                 })
-        } catch (error) {}
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
