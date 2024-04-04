@@ -13,9 +13,9 @@ const serviceMeeting = {
         limit,
         type,
         filter,
-        meetingType
+        meetingType,
     }: IGetAllMeetingQuery): Promise<IGetAllDataReponse<IMeeting>> => {
-        const payload = { page, limit, type,meetingType, ...filter }
+        const payload = { page, limit, type, meetingType, ...filter }
         const response: { data: IGetAllDataReponse<IMeeting> } = await get(
             '/meetings',
             payload,

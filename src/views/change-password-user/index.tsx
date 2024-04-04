@@ -48,7 +48,6 @@ const ChangeUserPassword = () => {
     }
 
     const onFinish = async (values: any) => {
-        // console.log('Value :', values)
         try {
             const response = await servicePassword.changePasswordUser({
                 currentPassword: values.currentPassword,

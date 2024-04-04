@@ -12,7 +12,6 @@ const SendEmailButton = () => {
     const params = useParams()
     const meetingId: number = Number(params.id)
 
-    console.log(typeof meetingId)
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
 
     const handleClick = async () => {

@@ -58,7 +58,6 @@ export interface IMeeting {
     meetings_meeting_link: string
     isJoined: number
     meetings_status: string
-    // them type cua meeting nua
 }
 
 export interface ListParamsFilter {

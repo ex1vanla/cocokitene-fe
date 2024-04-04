@@ -5,7 +5,6 @@ export enum Permissions {
     DETAIL_ACCOUNT = 'detail_account',
     LIST_ACCOUNT = 'list_account',
     CREATE_MEETING = 'create_meeting',
-    CREATE_BOARD_MEETING = 'create_board_meeting',
     EDIT_MEETING = 'edit_meeting',
     DETAIL_MEETING = 'detail_meeting',
     SEND_MAIL_TO_SHAREHOLDER = 'send_mail_to_shareholder',
@@ -23,4 +22,8 @@ export enum Permissions {
     LIST_SHAREHOLDERS = 'list_shareholders',
     DETAIL_SHAREHOLDERS = 'detail_shareholders',
     EDIT_SHAREHOLDERS = 'edit_shareholders',
+    CREATE_BOARD_MEETING = 'create_board_meeting',
+    BOARD_MEETING = 'board_meeting',
+    EDIT_BOARD_MEETING = 'edit_board_meeting',
+    DETAIL_BOARD_MEETING = 'detail_board_meeting',
 }

@@ -1,5 +1,10 @@
 import { MeetingStatus } from '@/constants/meeting'
 import { IMeetingDocument, IMeetingResolution } from '@/stores/meeting/types'
+import {
+    IBoardMeetingDocument,
+    IBoardMeetingExecutive,
+    IBoardMeetingReport,
+} from '@/stores/board-meeting/types'
 
 export interface ICreateMeetingPayload {
     title: string
@@ -15,6 +20,25 @@ export interface ICreateMeetingPayload {
     directors: number[]
     administrativeCouncils: number[]
     shareholders: number[]
+}
+
+export interface ICreateBoardMeetingPayload {
+    title: string
+    meetingLink: string
+    startTime: string
+    endTime: string
+    meetingMinutes: IBoardMeetingDocument[]
+    meetingInvitations: IBoardMeetingDocument[]
+
+    managementAndFinancials: IBoardMeetingReport[]
+    elections: IBoardMeetingReport[]
+
+    candidates: IBoardMeetingExecutive[]
+
+    hosts: number[]
+    controlBoards: number[]
+    directors: number[]
+    administrativeCouncils: number[]
 }
 
 export interface IUpdateMeetingPayload {

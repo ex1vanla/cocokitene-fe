@@ -39,7 +39,6 @@ const ConfirmCodeForgotUser = () => {
 
     const handleRetryCode = async () => {
         setIsLoading(true)
-        // console.log('forgotPasswordState:', forgotPasswordState.email)
         try {
             const response = await servicePassword.sendEmailForgotPasswordUser({
                 email: forgotPasswordState?.email || '',

@@ -1,37 +1,34 @@
-/* eslint-disable */
-import BoxArea from '@/components/box-area'
-import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
-import serviceUpload from '@/services/upload'
-import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
-import { UploadOutlined } from '@ant-design/icons'
-import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
 import {
     Button,
     Col,
+    DatePicker,
     Form,
     Input,
     Row,
-    Upload,
     Typography,
-    UploadFile,
-    DatePicker,
-    TimePicker,
+    Upload,
 } from 'antd'
-import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
-import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
-import dayjs from 'dayjs'
-import { urlRegex } from '@/constants/common'
+import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
 import { useState } from 'react'
-
-const { RangePicker } = DatePicker
-const { TextArea } = Input
+import { UploadFile } from 'antd/es/upload/interface'
+import BoxArea from '@/components/box-area'
+import { urlRegex } from '@/constants/common'
+import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
+import serviceUpload from '@/services/upload'
+import { RcFile, UploadChangeParam } from 'antd/es/upload'
+import { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
+import { UploadOutlined } from '@ant-design/icons'
+import dayjs from 'dayjs'
 
 const { Text } = Typography
+const { TextArea } = Input
+const { RangePicker } = DatePicker
 
-const MeetingInformation = () => {
+const BoardMeetingInformation = () => {
     const t = useTranslations()
-    const [data, setData] = useCreateMeetingInformation()
+    const [data, setData] = useCreateBoardMeetingInformation()
 
     const [fileData, setFileData] = useState<{
         [key in 'meetingInvitations' | 'meetingMinutes']: {
@@ -49,17 +46,6 @@ const MeetingInformation = () => {
         },
     })
 
-    const onChange = (
-        event:
-            | React.ChangeEvent<HTMLInputElement>
-            | React.ChangeEvent<HTMLTextAreaElement>,
-    ) => {
-        const { name, value } = event.target
-        setData({
-            ...data,
-            [name]: value,
-        })
-    }
     const onUpload =
         (
             name: 'meetingInvitations' | 'meetingMinutes',
@@ -93,8 +79,6 @@ const MeetingInformation = () => {
             fileType: MeetingFileType,
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
-            console.log(info)
-
             if (info.file.status === 'done') {
                 const url = info.file?.xhr?.responseURL
                 if (url) {
@@ -123,7 +107,6 @@ const MeetingInformation = () => {
                 const uid = info.file.uid
                 if (uid) {
                     const values = data[name].filter((item) => item.uid !== uid)
-
                     setData({
                         ...data,
                         [name]: values,
@@ -131,14 +114,14 @@ const MeetingInformation = () => {
                 }
             }
         }
+
     const validateFile =
         (name: 'meetingInvitations' | 'meetingMinutes') =>
         (file: RcFile, listRcFile: RcFile[]) => {
             // filter unique file
-            const listCurrentFileNames = fileData[name].fileList.map(
+            const listCurrentFileNames = fileData[name].fileList?.map(
                 (file) => file.name,
             )
-
             if (listCurrentFileNames.includes(file.name)) {
                 setFileData({
                     ...fileData,
@@ -149,11 +132,9 @@ const MeetingInformation = () => {
                 })
                 return false
             }
-
             const newUploadedFiles = listRcFile.filter(
                 (file) => !listCurrentFileNames.includes(file.name),
             )
-
             setFileData({
                 ...fileData,
                 [name]: {
@@ -161,7 +142,6 @@ const MeetingInformation = () => {
                     errorUniqueFile: false,
                 },
             })
-
             if (file.size > 10 * (1024 * 1024)) {
                 return Upload.LIST_IGNORE
             }
@@ -169,10 +149,8 @@ const MeetingInformation = () => {
             if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
                 return Upload.LIST_IGNORE
             }
-
             return true
         }
-
     const onChangeDateTime = (
         value: DatePickerProps['value'] | RangePickerProps['value'],
         dateString: [string, string] | string,
@@ -181,7 +159,6 @@ const MeetingInformation = () => {
         if (dateString.length === 2) {
             if (dateString[0]) {
                 dt.startTime = new Date(dateString[0]).toISOString()
-
                 if (dt.startTime > dt.endVotingTime) {
                     //TH EndVotingTime < StartTime => EndVotingTime = StartTime
                     dt.endVotingTime = new Date(dateString[0]).toISOString()
@@ -193,28 +170,37 @@ const MeetingInformation = () => {
         } else {
             dt.endVotingTime = new Date(dateString as string).toISOString()
         }
-
         setData(dt)
     }
-
     const onOkDateTime = (
         value: DatePickerProps['value'] | RangePickerProps['value'],
     ) => {
-        // console.log('onOk: ', value);
+        // console.log('onOk: ', value)
     }
 
+    const onChange = (
+        event:
+            | React.ChangeEvent<HTMLInputElement>
+            | React.ChangeEvent<HTMLTextAreaElement>,
+    ) => {
+        const { name, value } = event.target
+        setData({
+            ...data,
+            [name]: value,
+        })
+    }
     const disabledDate: RangePickerProps['disabledDate'] = (current) => {
         return current && current < dayjs(data.startTime)
     }
 
     return (
-        <BoxArea title={t('MEETING_INFORMATION')}>
+        <BoxArea title={t('BOARD_MEETING_INFORMATION')}>
             <Row gutter={[16, 24]}>
                 <Col xs={24} lg={12}>
                     <Form layout="vertical">
                         <Form.Item
                             name="title"
-                            label={t('MEETING_NAME')}
+                            label={t('BOARD_MEETING_NAME')}
                             rules={[
                                 {
                                     required: true,
@@ -238,7 +224,7 @@ const MeetingInformation = () => {
                     <Form layout="vertical">
                         <Form.Item
                             name="meetingLink"
-                            label={t('MEETING_LINK')}
+                            label={t('BOARD_MEETING_LINK')}
                             className="mb-0"
                             rules={[
                                 {
@@ -246,7 +232,6 @@ const MeetingInformation = () => {
                                     whitespace: true,
                                     message: t('REQUIRE_MEETING_LINK'),
                                 },
-                                // { type: 'url',  },
                                 {
                                     pattern: urlRegex,
                                     message: t('INVALID_LINK_ERROR_MESSAGE'),
@@ -264,11 +249,12 @@ const MeetingInformation = () => {
                         </Form.Item>
                     </Form>
                 </Col>
+
                 <Col xs={24} lg={12}>
                     <Form layout="horizontal">
                         <Form.Item
                             name="invitation"
-                            label={t('MEETING_INVITATION') + ':'}
+                            label={t('BOARD_MEETING_INVITATION') + ':'}
                             className="mb-0"
                         >
                             <Upload
@@ -280,18 +266,11 @@ const MeetingInformation = () => {
                                 beforeUpload={validateFile(
                                     'meetingInvitations',
                                 )}
-                                // multiple={true}
-                                // method="PUT"
-                                // action={onUpload(
-                                //     'meetingInvitations',
-                                //     MeetingFileType.MEETING_INVITATION,
-                                // )}
+                                accept={ACCEPT_FILE_TYPES}
                                 customRequest={onUpload(
                                     'meetingInvitations',
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
-                                accept={ACCEPT_FILE_TYPES}
-                                name="meeting-invitations"
                             >
                                 <div className="flex flex-col items-start">
                                     <Button icon={<UploadOutlined />}>
@@ -303,6 +282,7 @@ const MeetingInformation = () => {
                                     {fileData.meetingInvitations
                                         .errorUniqueFile && (
                                         <Text className="text-dust-red">
+                                            {' '}
                                             {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                         </Text>
                                     )}
@@ -314,8 +294,8 @@ const MeetingInformation = () => {
                 <Col xs={24} lg={12}>
                     <Form layout="horizontal">
                         <Form.Item
-                            name="minutes"
-                            label={t('MEETING_MINUTES') + ':'}
+                            name="invitation"
+                            label={t('BOARD_MEETING_MINUTES') + ':'}
                             className="mb-0"
                         >
                             <Upload
@@ -325,8 +305,6 @@ const MeetingInformation = () => {
                                 )}
                                 fileList={fileData.meetingMinutes.fileList}
                                 beforeUpload={validateFile('meetingMinutes')}
-                                // multiple={true}
-                                // method="PUT"
                                 accept={ACCEPT_FILE_TYPES}
                                 customRequest={onUpload(
                                     'meetingMinutes',
@@ -343,6 +321,7 @@ const MeetingInformation = () => {
                                     {fileData.meetingMinutes
                                         .errorUniqueFile && (
                                         <Text className="text-dust-red">
+                                            {' '}
                                             {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                         </Text>
                                     )}
@@ -351,19 +330,6 @@ const MeetingInformation = () => {
                         </Form.Item>
                     </Form>
                 </Col>
-                {/* <Col xs={24} lg={12}>
-                    <Form layout="vertical">
-                        <Form.Item
-                            name="title"
-                            label={t('START_TIME')}
-                            rules={[{ required: true, whitespace: true }]}
-                            className="mb-0"
-                            initialValue={data.title}
-                        >
-                            <DatePicker size='large' style={{ width: '100%' }} />
-                        </Form.Item>
-                    </Form>
-                </Col> */}
                 <Col xs={24} lg={12}>
                     <Form layout="vertical">
                         <Form.Item
@@ -401,7 +367,10 @@ const MeetingInformation = () => {
                         <Form.Item
                             label={t('END_VOTING_TIME')}
                             rules={[
-                                { required: true, message: t('REQUIRE_TIME') },
+                                {
+                                    required: true,
+                                    message: t('REQUIRE_TIME'),
+                                },
                             ]}
                             className="mb-0"
                         >
@@ -411,7 +380,6 @@ const MeetingInformation = () => {
                                 showTime={{ format: 'HH:mm' }}
                                 format="YYYY-MM-DD HH:mm"
                                 style={{ width: '100%' }}
-                                // @ts-ignore
                                 onChange={onChangeDateTime}
                                 onOk={onOkDateTime}
                                 value={dayjs(data.endVotingTime)}
@@ -420,7 +388,6 @@ const MeetingInformation = () => {
                         </Form.Item>
                     </Form>
                 </Col>
-
                 <Col xs={24} lg={24}>
                     <Form layout="vertical">
                         <Form.Item
@@ -453,5 +420,4 @@ const MeetingInformation = () => {
         </BoxArea>
     )
 }
-
-export default MeetingInformation
+export default BoardMeetingInformation

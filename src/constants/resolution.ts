@@ -12,6 +12,9 @@ export interface Resolution {
 export enum ResolutionType {
     RESOLUTION = '0',
     AMENDMENT_RESOLUTION = '1',
+    MANAGEMENT_FINANCIAL = '2',
+    ELECTION = '3',
+    EXECUTIVE_OFFICER = '4',
 }
 
 export const ResolutionTitle: {
@@ -19,6 +22,9 @@ export const ResolutionTitle: {
 } = {
     [ResolutionType.RESOLUTION]: 'RESOLUTION',
     [ResolutionType.AMENDMENT_RESOLUTION]: 'AMENDMENT_RESOLUTION',
+    [ResolutionType.MANAGEMENT_FINANCIAL]: 'MANAGEMENT_FINANCIAL',
+    [ResolutionType.ELECTION]: 'ELECTION',
+    [ResolutionType.EXECUTIVE_OFFICER]: 'EXECUTIVE_OFFICER',
 }
 
 export enum VoteProposalOption {

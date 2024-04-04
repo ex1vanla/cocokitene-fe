@@ -71,6 +71,7 @@ export const meetingCreateSlice = createSlice({
         ) => {
             // state.title = action.payload.title
             // state.link = action.payload.link]
+            console.log('action line 74--', action)
             return action.payload
         },
 

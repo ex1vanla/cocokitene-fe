@@ -5,6 +5,7 @@ import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserStatus } from '@/constants/user-status'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 import { ICompanyStatusResponse } from './system-admin/response.type'
+import { ElectionEnum } from '@/constants/election'
 
 export interface IMeta {
     totalItems: number
@@ -136,6 +137,12 @@ export interface IPlanResponse {
 export interface IUserStatusResponse {
     id: number
     status: UserStatus
+    description: string
+}
+
+export interface IElectionResponse {
+    id: number
+    status: ElectionEnum
     description: string
 }
 

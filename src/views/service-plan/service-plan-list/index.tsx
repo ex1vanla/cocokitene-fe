@@ -6,7 +6,6 @@ import Sliders from 'react-slick'
 const PlanList = ({ add }: { add?: boolean }) => {
     const { planState } = useListPlan()
 
-    // console.log('planState :', planState)
     const settings = {
         dots: true,
         infinite: false,

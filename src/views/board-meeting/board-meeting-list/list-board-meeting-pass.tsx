@@ -8,6 +8,8 @@ import { getAllMeetings } from '@/stores/meeting/listSlice'
 import { MeetingTime, MeetingType } from '@/constants/meeting'
 import { Pagination } from 'antd'
 import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
+import withAuth from '@/components/component-auth'
+import { Permissions } from '@/constants/permission'
 
 export interface ListPassBoardMeetingProps {
     data: IMeetingItem[]
@@ -56,4 +58,4 @@ const ListBoardMeetingPast = ({ data }: ListPassBoardMeetingProps) => {
         </div>
     )
 }
-export default ListBoardMeetingPast
+export default withAuth(ListBoardMeetingPast, Permissions.SHAREHOLDERS_MTG)

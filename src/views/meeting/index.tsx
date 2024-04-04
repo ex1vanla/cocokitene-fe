@@ -121,7 +121,6 @@ const MeetingList = () => {
                 <ListMeetingFuture data={meetingState.meetingFutureList} />
                 <ListMeetingPast data={meetingState.meetingPassList} />
             </div>
-
         </div>
     )
 }

@@ -14,12 +14,12 @@ import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import ListBoardMeetingFuture from '@/views/board-meeting/board-meeting-list/list-board-meeting-future'
 import ListBoardMeetingPast from './board-meeting-list/list-board-meeting-pass'
+import withAuth from '@/components/component-auth'
 
 const BoardMeetingList = () => {
     const router = useRouter()
     const t = useTranslations()
-    const { attendanceState, resetStateAttendance } =
-        useAttendance()
+    const { attendanceState, resetStateAttendance } = useAttendance()
     const { openNotification, contextHolder } = useNotification()
     const { authState } = useAuthLogin()
     const permissionCreateBoardMeeting = checkPermission(
@@ -106,4 +106,4 @@ const BoardMeetingList = () => {
         </div>
     )
 }
-export default BoardMeetingList
+export default withAuth(BoardMeetingList, Permissions.BOARD_MEETING)
