@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { RootState, useAppDispatch, useAppSelector } from '..'
 import { IAuthState, ILoginEmailRequest, ILoginRequest } from './type'
-import { signOut } from './slice'
+import { signOut, resetStatus } from './slice'
 import { getNonceThunk, login, loginByEmail } from './thunk'
 
 type AuthLoginType = {
@@ -13,6 +13,7 @@ type AuthLoginType = {
     // eslint-disable-next-line
     getNonceAction: (walletAddress: string) => void
     logoutAction: () => void
+    resetStatusAction: () => void
 }
 
 export const useAuthLogin = (): AuthLoginType => {
@@ -44,11 +45,16 @@ export const useAuthLogin = (): AuthLoginType => {
         dispatch(signOut())
     }, [dispatch])
 
+    const resetStatusAction = useCallback(() => {
+        dispatch(resetStatus())
+    }, [dispatch])
+
     return {
         authState,
         loginAction,
         loginByEmailAction,
         getNonceAction,
         logoutAction,
+        resetStatusAction,
     }
 }
