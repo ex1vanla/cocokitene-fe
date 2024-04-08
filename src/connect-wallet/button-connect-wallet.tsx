@@ -10,6 +10,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useForm } from 'antd/es/form/Form'
+import { useRouter } from 'next/navigation'
 const { Text } = Typography
 interface IButtonProp {
     connectWalletText: string
@@ -23,8 +24,11 @@ const ButtonConnectWallet = ({
     isAuthenticated,
 }: IButtonProp) => {
     const t = useTranslations()
+    const router = useRouter()
+
     const { openNotification, contextHolder } = useNotification()
-    const { authState, loginByEmailAction, logoutAction } = useAuthLogin()
+    const { authState, loginByEmailAction, logoutAction, resetStatusAction } =
+        useAuthLogin()
     const [form] = useForm<any>()
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -65,8 +69,9 @@ const ButtonConnectWallet = ({
                     type: 'success',
                 })
                 form.resetFields()
-                // await new Promise((resolve) => setTimeout(resolve, 1000))
-                // await router.push('/dashboard')
+                await new Promise((resolve) => setTimeout(resolve, 1000))
+                await router.push('/dashboard')
+                resetStatusAction()
             }
 
             if (authState.status === EActionStatus.Failed) {

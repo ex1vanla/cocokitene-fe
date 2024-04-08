@@ -52,29 +52,19 @@ const SelectParticipantGroup = ({
                         ...optionsData,
                         status: FETCH_STATUS.LOADING,
                     })
-                    let optionsRes
+                    let optionsRes = await serviceUser.getAccountList(
+                        query,
+                        1,
+                        278,
+                    )
                     if (title === 'Shareholders' || title === '株主') {
-                        optionsRes = await serviceUser.getAccountList(
-                            query,
-                            1,
-                            50,
-                        )
-
                         optionsRes = {
                             ...optionsRes,
-                            items: optionsRes.items
-                                .filter((item) => {
-                                    const listRole = item.listRoleResponse || ''
-                                    return listRole.includes('SHAREHOLDER')
-                                })
-                                .slice(0, 4),
+                            items: optionsRes.items.filter((item) => {
+                                const listRole = item.listRoleResponse || ''
+                                return listRole.includes('SHAREHOLDER')
+                            }),
                         }
-                    } else {
-                        optionsRes = await serviceUser.getAccountList(
-                            query,
-                            1,
-                            5,
-                        )
                     }
                     console.log(
                         '🚀 ~ file: select-participant-group.tsx:53 ~ ; ~ optionsRes:',
@@ -120,7 +110,7 @@ const SelectParticipantGroup = ({
             {isFocus && (
                 <div
                     ref={ref}
-                    className="absolute z-50 w-full bg-neutral/2 p-2 shadow-lg transition-all"
+                    className="absolute z-50 max-h-44 w-full overflow-auto bg-neutral/2 p-2 shadow-lg transition-all"
                 >
                     <div className="flex flex-col">
                         {optionsData?.options?.map((option, index) => (

@@ -29,6 +29,9 @@ const authSlice = createSlice({
         update: (state: IAuthState, action: PayloadAction<IAccount | null>) => {
             state.userData = action.payload
         },
+        resetStatus: (state: IAuthState) => {
+            state.status = EActionStatus.Idle
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -76,6 +79,6 @@ const authSlice = createSlice({
     },
 })
 
-export const { signOut, update } = authSlice.actions
+export const { signOut, update, resetStatus } = authSlice.actions
 
 export default authSlice.reducer
