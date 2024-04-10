@@ -4,6 +4,7 @@ import { Layout } from 'antd'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import AccountInfo from '../account-info'
+import LocaleSwitcher from '../local-switcher'
 
 const Header = () => {
     const { authState } = useAuthLogin()
@@ -17,12 +18,15 @@ const Header = () => {
                 <Link href="/dashboard">
                     <LogoAppIcon />
                 </Link>
-                {mounted && authState.isAuthenticated && (
-                    <AccountInfo
-                        name="Stan Lee"
-                        avatar="/images/default-avatar.png"
-                    />
-                )}
+                <div className="flex gap-5">
+                    <LocaleSwitcher />
+                    {mounted && authState.isAuthenticated && (
+                        <AccountInfo
+                            name="Stan Lee"
+                            avatar="/images/default-avatar.png"
+                        />
+                    )}
+                </div>
             </div>
         </Layout.Header>
     )
