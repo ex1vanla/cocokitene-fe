@@ -41,7 +41,6 @@ import Loader from '@/components/loader'
 import { PlusOutlined } from '@ant-design/icons'
 import UpdateTitle from '@/components/content-page-title/update-title'
 import SaveUpdateShareholderButton from '@/views/shareholder/shareholder-update/save-button'
-import { RoleBgColor } from '@/constants/role'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
@@ -269,6 +268,8 @@ const UpdateShareholder = () => {
     useEffect(() => {
         if (quantity && +quantity > 0) {
             setRequiredQuantity(true)
+        } else {
+            setRequiredQuantity(false)
         }
     }, [quantity])
 
@@ -349,7 +350,11 @@ const UpdateShareholder = () => {
                     description: t('UPDATED_SHAREHOLDER_SUCCESSFULLY'),
                 })
                 setStatus(FETCH_STATUS.SUCCESS)
-                router.push(`/shareholder/detail/${shareholderId}`)
+                if (values.shareQuantity) {
+                    router.push(`/shareholder/detail/${shareholderId}`)
+                } else {
+                    router.push(`/shareholder/`)
+                }
                 // router.push(``)
             }
         } catch (error) {

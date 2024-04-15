@@ -148,6 +148,8 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
     useEffect(() => {
         if (quantity && +quantity > 0) {
             setRequiredQuantity(true)
+        } else {
+            setRequiredQuantity(false)
         }
     }, [quantity])
 
