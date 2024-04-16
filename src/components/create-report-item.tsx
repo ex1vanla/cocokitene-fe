@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Button, Input, Select, Typography, Upload } from 'antd'
 import {
     Resolution,
@@ -70,13 +71,10 @@ const CreateReportItem = ({
         }
 
     const onChange =
-        // eslint-disable-next-line
-
-
-            (callback: (value: string) => void) =>
-            (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-                callback(event.target.value)
-            }
+        (callback: (value: string) => void) =>
+        (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+            callback(event.target.value)
+        }
 
     const [fileData, setFileData] = useState<{
         fileList: UploadFile[]

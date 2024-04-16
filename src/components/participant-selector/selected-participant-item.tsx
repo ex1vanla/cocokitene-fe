@@ -16,7 +16,6 @@ const SelectedParticipantItem = ({
     users_defaultAvatarHashColor,
     users_email,
     users_avartar,
-    roleName,
     onDeleteParticipant,
 }: ISelectedParticipantItem) => {
     const backgroundAvatarColor = Color(users_defaultAvatarHashColor)

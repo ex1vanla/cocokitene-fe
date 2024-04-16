@@ -5,6 +5,7 @@ import { FETCH_STATUS } from '@/constants/common'
 import useDebounce from '@/hooks/useDebounce'
 import serviceMeeting from '@/services/meeting'
 import { IMeetingParticipantsResponse } from '@/services/response.type'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { SettingOutlined } from '@ant-design/icons'
 import { Input, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -82,7 +83,9 @@ const Participants = () => {
                             isLoading={
                                 participants.status === FETCH_STATUS.LOADING
                             }
-                            title={item.roleMtgName}
+                            title={convertSnakeCaseToTitleCase(
+                                item.roleMtgName,
+                            )}
                             participantList={item.userParticipants}
                             width={itemWidth}
                         />

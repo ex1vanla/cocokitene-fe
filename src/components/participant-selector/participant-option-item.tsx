@@ -16,7 +16,6 @@ const ParticipantOptionItem = ({
     users_defaultAvatarHashColor = '#E57B41',
     users_email,
     users_avartar,
-    roleName,
     onSelectParticipant,
     selected,
 }: IParticipantOptionItem) => {

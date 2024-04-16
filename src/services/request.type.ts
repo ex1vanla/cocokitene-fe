@@ -32,16 +32,10 @@ export interface ICreateBoardMeetingPayload {
     endTime: string
     meetingMinutes: IBoardMeetingDocument[]
     meetingInvitations: IBoardMeetingDocument[]
-
     managementAndFinancials: IBoardMeetingReport[]
     elections: IBoardMeetingReport[]
-
     candidates: IBoardMeetingExecutive[]
-
-    hosts: number[]
-    controlBoards: number[]
-    directors: number[]
-    administrativeCouncils: number[]
+    participants: IParticipantPayload[]
 }
 
 export interface IUpdateMeetingPayload {

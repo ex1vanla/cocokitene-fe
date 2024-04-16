@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { IRoleMtg } from '@/views/meeting/meeting-create/participants'
 import serviceRoleMtg from '@/services/role-mtg'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 const Participants = () => {
     const t = useTranslations()
@@ -158,7 +159,7 @@ const Participants = () => {
                 {roleMtgList?.map((item, index) => (
                     <ParticipantSelector
                         key={index}
-                        title={t(item.roleName)}
+                        title={convertSnakeCaseToTitleCase(item.roleName)}
                         roleName={item.roleName}
                         selectedParticipants={data.participants?.filter(
                             (p) => p.roleName === item.roleName,

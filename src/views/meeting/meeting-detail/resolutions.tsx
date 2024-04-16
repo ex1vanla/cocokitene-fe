@@ -51,6 +51,7 @@ const Resolutions = () => {
             }
         }
         return message
+        // eslint-disable-next-line
     }, [meeting, authState])
 
     const body = useMemo(() => {

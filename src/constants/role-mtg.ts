@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export enum RoleMtgEnum {
     HOST = 'HOST',
     CONTROL_BOARD = 'CONTROL_BOARD',
