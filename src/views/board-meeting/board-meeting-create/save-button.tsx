@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-
 import { useTranslations } from 'next-intl'
 import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
 import { useState } from 'react'
@@ -14,8 +13,7 @@ import serviceBoardMeeting from '@/services/board-meeting'
 const SaveCreateBoardMeetingButton = () => {
     const t = useTranslations()
 
-    const [data, , resetData] =
-        useCreateBoardMeetingInformation()
+    const [data, , resetData] = useCreateBoardMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
     const router = useRouter()
     const onValidate = (data: ICreateBoardMeeting) => {

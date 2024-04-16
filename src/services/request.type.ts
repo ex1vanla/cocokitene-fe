@@ -5,6 +5,7 @@ import {
     IBoardMeetingExecutive,
     IBoardMeetingReport,
 } from '@/stores/board-meeting/types'
+import { TypeRoleMeeting } from '@/constants/role-mtg'
 
 export interface ICreateMeetingPayload {
     title: string
@@ -15,11 +16,13 @@ export interface ICreateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: number[]
-    controlBoards: number[]
-    directors: number[]
-    administrativeCouncils: number[]
-    shareholders: number[]
+    participants: IParticipantPayload[]
+}
+
+export interface IParticipantPayload {
+    roleMtgId: number
+    roleName: string
+    userIds: number[]
 }
 
 export interface ICreateBoardMeetingPayload {
@@ -51,11 +54,7 @@ export interface IUpdateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
-    hosts: number[]
-    controlBoards: number[]
-    directors: number[]
-    administrativeCouncils: number[]
-    shareholders: number[]
+    participants: IParticipantPayload[]
 }
 
 export interface IListMeetingPayload {}
@@ -63,6 +62,9 @@ export interface IListMeetingPayload {}
 export interface IGetAllDataRequest {
     page: number
     limit: number
+}
+export interface IGetAllRoleMtgByTypeRequest extends IGetAllDataRequest {
+    type?: TypeRoleMeeting
 }
 
 export interface ICreateAccountPayload {
