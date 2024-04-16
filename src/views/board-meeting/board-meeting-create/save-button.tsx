@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-
 import { useTranslations } from 'next-intl'
 import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
 import { useState } from 'react'
@@ -14,8 +13,7 @@ import serviceBoardMeeting from '@/services/board-meeting'
 const SaveCreateBoardMeetingButton = () => {
     const t = useTranslations()
 
-    const [data, , resetData] =
-        useCreateBoardMeetingInformation()
+    const [data, , resetData] = useCreateBoardMeetingInformation()
     const [status, setStatus] = useState(FETCH_STATUS.IDLE)
     const router = useRouter()
     const onValidate = (data: ICreateBoardMeeting) => {
@@ -25,12 +23,6 @@ const SaveCreateBoardMeetingButton = () => {
                 data.meetingLink && !data.meetingLink.startsWith('https://')
                     ? `https://${data.meetingLink}`
                     : data.meetingLink,
-            hosts: data.hosts.map((i) => i.users_id),
-            controlBoards: data.controlBoards.map((i) => i.users_id),
-            directors: data.directors.map((i) => i.users_id),
-            administrativeCouncils: data.administrativeCouncils.map(
-                (i) => i.users_id,
-            ),
             managementAndFinancials: data.managementAndFinancials.filter(
                 (r) => r.title.trim() || r.description.trim(),
             ),
@@ -40,6 +32,15 @@ const SaveCreateBoardMeetingButton = () => {
             candidates: data.candidates.filter(
                 (r) => r.title.trim() || r.candidateName.trim(),
             ),
+            participants: data.participants?.map((participant) => {
+                return {
+                    roleMtgId: participant.roleMtgId,
+                    roleName: participant.roleName,
+                    userIds: participant.userParticipant?.map(
+                        (user) => user.users_id,
+                    ),
+                }
+            }),
         }
         const rs: {
             isValid: boolean
