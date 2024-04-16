@@ -268,8 +268,6 @@ const UpdateShareholder = () => {
     useEffect(() => {
         if (quantity && +quantity > 0) {
             setRequiredQuantity(true)
-        } else {
-            setRequiredQuantity(false)
         }
     }, [quantity])
 
