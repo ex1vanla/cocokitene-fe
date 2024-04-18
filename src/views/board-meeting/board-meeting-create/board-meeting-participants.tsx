@@ -138,7 +138,13 @@ const BoardMeetingParticipants = () => {
 
     return (
         <BoxArea title={t('PARTICIPANTS')}>
-            <div className="grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div
+                className={`grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${
+                    roleBoardMtgList.length > 4 ? 4 : roleBoardMtgList.length
+                } xl:grid-cols-${
+                    roleBoardMtgList.length > 5 ? 5 : roleBoardMtgList.length
+                } `}
+            >
                 {roleBoardMtgList?.map((roleBoardMtg) => {
                     return (
                         <ParticipantSelector

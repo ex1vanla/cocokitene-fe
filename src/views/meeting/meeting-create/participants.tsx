@@ -201,7 +201,13 @@ const Participants = () => {
 
     return (
         <BoxArea title={t('PARTICIPANTS')}>
-            <div className="grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
+            <div
+                className={`grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${
+                    roleMtgList.length > 4 ? 4 : roleMtgList.length
+                } xl:grid-cols-${
+                    roleMtgList.length > 5 ? 5 : roleMtgList.length
+                } `}
+            >
                 {roleMtgList?.map((item, index) => (
                     <ParticipantSelector
                         key={index}
