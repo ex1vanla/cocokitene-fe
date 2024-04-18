@@ -21,8 +21,6 @@ const BoardMeetingParticipants = () => {
     const [roleBoardMtgList, setRoleBoardMtgList] = useState<IRoleBoardMtg[]>(
         [],
     )
-
-    console.log('data', data)
     useEffect(() => {
         const fetchInitialData = async () => {
             const roleBoardMtgList = await serviceRoleMtg.getAllRoleMtg({
@@ -36,8 +34,6 @@ const BoardMeetingParticipants = () => {
         }
         fetchInitialData()
     }, [])
-
-    console.log('roleBoardMtgList', roleBoardMtgList)
 
     const onSelect =
         (key: string, roleMtgId: number) => (participant: IParticipants) => {
@@ -142,7 +138,7 @@ const BoardMeetingParticipants = () => {
 
     return (
         <BoxArea title={t('PARTICIPANTS')}>
-            <div className="grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid min-h-[220px] grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {roleBoardMtgList?.map((roleBoardMtg) => {
                     return (
                         <ParticipantSelector
@@ -151,6 +147,7 @@ const BoardMeetingParticipants = () => {
                                 roleBoardMtg.roleName,
                             )}
                             roleName={roleBoardMtg.roleName}
+                            type={TypeRoleMeeting.BOARD_MTG}
                             selectedParticipants={data.participants?.filter(
                                 (participant) =>
                                     participant.roleName ==

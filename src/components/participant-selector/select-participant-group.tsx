@@ -10,6 +10,7 @@ import useDebounce from '@/hooks/useDebounce'
 import serviceUser from '@/services/user'
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
+import { RoleMtgEnum, TypeRoleMeeting } from '@/constants/role-mtg'
 
 export interface ISelectParticipantGroup {
     onSelectParticipant: (p: IParticipants) => void
@@ -17,6 +18,7 @@ export interface ISelectParticipantGroup {
     selectedParticipants: IParticipantsWithRole[]
     title: string
     roleName?: string
+    type?: string
 }
 
 const SelectParticipantGroup = ({
@@ -25,6 +27,7 @@ const SelectParticipantGroup = ({
     selectedParticipants,
     title,
     roleName,
+    type,
 }: ISelectParticipantGroup) => {
     const t = useTranslations()
     const [query, setQuery] = useState('')
@@ -68,6 +71,20 @@ const SelectParticipantGroup = ({
                             items: optionsRes.items.filter((item) => {
                                 const listRole = item.listRoleResponse || ''
                                 return listRole.includes('SHAREHOLDER')
+                            }),
+                        }
+                    }
+
+                    if (
+                        type === TypeRoleMeeting.BOARD_MTG &&
+                        roleName !==
+                            convertSnakeCaseToTitleCase(RoleMtgEnum.HOST)
+                    ) {
+                        optionsRes = {
+                            ...optionsRes,
+                            items: optionsRes.items.filter((item) => {
+                                const listRole = item.listRoleResponse || ''
+                                return listRole.includes('BOARD')
                             }),
                         }
                     }
