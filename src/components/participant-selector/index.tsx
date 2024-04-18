@@ -24,6 +24,7 @@ export interface IParticipantsWithRole {
 interface IParticipantSelector {
     title: string
     roleName?: string
+    type?: string
     selectedParticipants: IParticipantsWithRole[]
     onSelectParticipant: (p: IParticipants) => void
     onSelectAllParticipants: (p: IParticipants[]) => void
@@ -34,6 +35,7 @@ const ParticipantSelector = ({
     title,
     roleName,
     selectedParticipants,
+    type,
     onSelectParticipant,
     onSelectAllParticipants,
     onDeleteParticipant,
@@ -47,6 +49,7 @@ const ParticipantSelector = ({
                 onSelectAllParticipants={onSelectAllParticipants}
                 title={title}
                 roleName={roleName}
+                type={type}
             />
             <SelectedParticipantList
                 selectedParticipants={selectedParticipants}
