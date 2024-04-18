@@ -9,6 +9,7 @@ import ParticipantOptionItem from './participant-option-item'
 import useDebounce from '@/hooks/useDebounce'
 import serviceUser from '@/services/user'
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 export interface ISelectParticipantGroup {
     onSelectParticipant: (p: IParticipants) => void
@@ -59,7 +60,9 @@ const SelectParticipantGroup = ({
                         1,
                         278,
                     )
-                    if (roleName === 'SHAREHOLDER') {
+                    if (
+                        roleName === convertSnakeCaseToTitleCase('SHAREHOLDER')
+                    ) {
                         optionsRes = {
                             ...optionsRes,
                             items: optionsRes.items.filter((item) => {
