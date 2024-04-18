@@ -1,74 +1,54 @@
-import serviceSettingRole from '@/services/setting-role'
-import { useSettingRoleSys } from '@/stores/setting-role-sys/hooks'
-import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
-import { Button, Form, Input, Modal, Select, notification } from 'antd'
-import { useForm } from 'antd/es/form/Form'
-import { AxiosError } from 'axios'
+import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import { useTranslations } from 'next-intl'
-import { useEffect, useMemo, useState } from 'react'
+import { useForm } from 'antd/es/form/Form'
+import { Button, Form, Input, Modal, notification, Select } from 'antd'
+import { useEffect, useMemo } from 'react'
+import { enumToArray } from '@/utils'
+import { TypeRoleMeeting } from '@/constants/role-mtg'
+import { AxiosError } from 'axios'
+import serviceSettingRoleMtg from '@/services/setting-role-mtg'
 
-interface TypeSelect {
-    value: number
-    label: string
-}
-
-export interface IRoleForm {
+export interface IRoleMtgForm {
     roleName: string
     description: string
-    permissions: number[]
+    type?: TypeRoleMeeting | null
 }
 
-const ModalRegisterRole = () => {
+const ModalRegisterRoleMtg = () => {
     const t = useTranslations()
-    const [form] = useForm<IRoleForm>()
-    const { settingRoleState, setOpenModal, getAllCombineRoleWithPermission } =
-        useSettingRoleSys()
-    const [selectedItems, setSelectedItems] = useState<TypeSelect[]>([])
-    const [permissions, setPermissions] = useState<TypeSelect[]>([])
+    const [form] = useForm<IRoleMtgForm>()
 
-    const filteredOptions = useMemo(
-        () => permissions.filter((o) => !selectedItems.includes(o)),
-        [selectedItems, permissions],
-    )
+    const { settingRoleMtgState, getListRoleMtgAction, setOpenModalRoleMtg } =
+        useSettingRoleMtg()
 
-    useEffect(() => {
-        // eslint-disable-next-line
-        ;(async () => {
-            try {
-                const result = await serviceSettingRole.getAllNormalPermissions(
-                    1,
-                    100,
-                )
-                const data = result.map((item) => ({
-                    value: item.id,
-                    label: convertSnakeCaseToTitleCase(item.key),
-                }))
-                setPermissions(data)
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    notification.error({
-                        message: t('ERROR'),
-                        description: error.response?.data.info.message,
-                    })
-                }
-            }
-        })()
-        // eslint-disable-next-line
-    }, [])
+    // const [selectedItem, setSelectedItem] = useState<TypeSelectTypeRoleMtg>()
 
     const handleOk = () => {}
 
     const handleCancel = () => {
         form.resetFields()
-        setOpenModal(false)
+        setOpenModalRoleMtg(false)
     }
 
-    const onFinish = async (values: IRoleForm) => {
+    const typeRoleMtgDefalt = useMemo(() => {
+        const enumArray = enumToArray(TypeRoleMeeting)
+        const defaultValue = enumArray.find(
+            (item) => item === TypeRoleMeeting.SHAREHOLDER_MTG,
+        )
+        return defaultValue || null
+    }, [enumToArray(TypeRoleMeeting)])
+
+    useEffect(() => {
+        form.setFieldsValue({
+            type: typeRoleMtgDefalt,
+        })
+    }, [typeRoleMtgDefalt])
+    const onFinish = async (values: IRoleMtgForm) => {
         try {
-            const res = await serviceSettingRole.createRole({
+            const res = await serviceSettingRoleMtg.createRoleMtg({
                 roleName: values.roleName,
                 description: values.description,
-                idPermissions: values.permissions,
+                type: values.type ?? TypeRoleMeeting.SHAREHOLDER_MTG,
             })
             if (res) {
                 notification.success({
@@ -76,22 +56,23 @@ const ModalRegisterRole = () => {
                     description: t('CREATE_NEW_ROLE'),
                 })
                 form.resetFields()
-                setOpenModal(false)
-                getAllCombineRoleWithPermission()
+                setOpenModalRoleMtg(false)
+                getListRoleMtgAction(settingRoleMtgState)
             }
         } catch (error) {
             if (error instanceof AxiosError) {
                 notification.error({
                     message: t('ERROR'),
-                    description: error.response?.data.info.message,
+                    description: error?.response?.data.info.message,
                 })
             }
         }
     }
+
     return (
         <Modal
-            title={t('TITLE_CREATE_ROLE')}
-            open={settingRoleState.openModalRegisterRole}
+            title={t('TITLE_CREATE_ROLE_MTG')}
+            open={settingRoleMtgState.openModalRegisterRoleMtg}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={null}
@@ -102,46 +83,42 @@ const ModalRegisterRole = () => {
                 <Form layout="vertical" form={form} onFinish={onFinish}>
                     <Form.Item
                         name="roleName"
-                        label={t('ROLE_NAME')}
+                        label={t('ROLE_MTG_NAME')}
                         rules={[
                             {
                                 required: true,
-                                message: t('PLEASE_INPUT_YOUR_ROLE_NAME'),
+                                message: t('PLEASE_INPUT_YOUR_ROLE_MTG_NAME'),
                             },
                         ]}
                     >
-                        <Input size="large" placeholder={t('ROLE_NAME')} />
+                        <Input size="large" placeholder={t('ROLE_MTG_NAME')} />
                     </Form.Item>
                     <Form.Item name="description" label={t('DESCRIPTION')}>
                         <Input size="large" placeholder={t('DESCRIPTION')} />
                     </Form.Item>
 
                     <Form.Item
-                        name="permissions"
-                        label={t('SELECT_PERMISSION')}
+                        name="type"
+                        label={t('SELECT_TYPE_ROLE_MTG')}
                         rules={[
                             {
                                 required: true,
-                                message: t('PLEASE_INPUT_YOUR_PERMISSIONS'),
+                                message: t('PLEASE_INPUT_YOUR_TYPE'),
                             },
                         ]}
                     >
                         <Select
-                            mode="multiple"
-                            placeholder={t('PERMISSIONS')}
-                            value={selectedItems}
-                            onChange={setSelectedItems}
+                            placeholder={t('TYPE')}
                             style={{ width: '100%' }}
-                            showSearch
-                            optionFilterProp="label"
                             size="large"
-                            options={filteredOptions.map((item) => ({
-                                value: item.value,
-                                label: item.label,
-                            }))}
+                            options={enumToArray(TypeRoleMeeting).map(
+                                (type) => ({
+                                    value: type,
+                                    label: <span>{t(type)}</span>,
+                                }),
+                            )}
                         />
                     </Form.Item>
-
                     <Form.Item
                         wrapperCol={{ span: 24 }}
                         className="mt-10 flex justify-center"
@@ -169,4 +146,4 @@ const ModalRegisterRole = () => {
     )
 }
 
-export default ModalRegisterRole
+export default ModalRegisterRoleMtg

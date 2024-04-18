@@ -12,11 +12,11 @@ import accountListReducer from '@/stores/account/listSlice'
 import accountDetailReducer from '@/stores/account/detailSlice'
 import shareholderListReducer from '@/stores/shareholder/listSlice'
 import shareholderDetailReducer from '@/stores/shareholder/detailSlice'
-import settingRoleReducer from '@/stores/setting-role/slice'
+import settingRoleReducer from '@/stores/setting-role-sys/slice'
 import planListSlice from '@/stores/service-plan/listSlice'
 import forgotPasswordReducer from '@/stores/forgot-password/slice'
 import boardMeetingCreateReducer from '@/stores/board-meeting/createSlice'
-
+import settingRoleMtgReducer from '@/stores/setting-role-mtg/slice'
 const rootReducer = combineReducers({
     auth: authReducer,
     meetingList: meetingListReducer,
@@ -32,6 +32,7 @@ const rootReducer = combineReducers({
     shareholderList: shareholderListReducer,
     shareholderDetail: shareholderDetailReducer,
     settingRole: settingRoleReducer,
+    settingRoleMtg: settingRoleMtgReducer,
     planListSlice: planListSlice,
     forgotPassword: forgotPasswordReducer,
     boardMeetingCreate: boardMeetingCreateReducer,
