@@ -8,9 +8,15 @@ export enum RoleMtgEnum {
     SHAREHOLDER = 'SHAREHOLDER',
 }
 
+
+export enum ScreenSettingRole {
+    SETTING_ROLE_SYS = 'SETTING ROLE SYS',
+    SETTING_ROLE_MTG = 'SETTING ROLE MTG',
+}
+
 export enum TypeRoleMeeting {
-    SHAREHOLDER_MTG = '1',
-    BOARD_MTG = '2',
-    BOTH_MTG = '0',
-    NULL_MTG = '3',
+    SHAREHOLDER_MTG = 'SHAREHOLDER_MEETING',
+    BOARD_MTG = 'BOARD_MEETING',
+    BOTH_MTG = 'BOTH_MEETING',
+    NULL_MTG = 'NULL_MEETING',
 }

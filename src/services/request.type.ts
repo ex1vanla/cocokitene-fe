@@ -25,6 +25,14 @@ export interface IParticipantPayload {
     userIds: number[]
 }
 
+export interface ICreateRoleMtgPayload {
+    roleName: string
+    description?: string
+    type: TypeRoleMeeting
+}
+
+export interface IUpdateRoleMtgPayload extends ICreateRoleMtgPayload {}
+
 export interface ICreateBoardMeetingPayload {
     title: string
     meetingLink: string

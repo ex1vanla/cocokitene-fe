@@ -71,10 +71,13 @@ const CreateReportItem = ({
         }
 
     const onChange =
-        (callback: (value: string) => void) =>
-        (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            callback(event.target.value)
-        }
+        // eslint-disable-next-line
+
+
+            (callback: (value: string) => void) =>
+            (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+                callback(event.target.value)
+            }
 
     const [fileData, setFileData] = useState<{
         fileList: UploadFile[]

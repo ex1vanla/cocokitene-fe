@@ -10,6 +10,7 @@ import { UserStatus } from '@/constants/user-status'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 import { ICompanyStatusResponse } from './system-admin/response.type'
 import { ElectionEnum } from '@/constants/election'
+import { TypeRoleMeeting } from '@/constants/role-mtg'
 
 export interface IMeta {
     totalItems: number
@@ -74,6 +75,24 @@ export interface IProposalResponse {
     meetingId: number
     creator: IProposalCreatorResponse
     proposalFiles: IProposalFileResponse[]
+}
+
+export interface IUserMeetingResponse {
+    id: number
+    status: UserMeetingStatusEnum
+    user: {
+        id: number
+        username: string
+        email: string
+        avatar: string | null
+        defaultAvatarHashColor: string | null
+    }
+}
+export interface IRoleMtgDetailResponse {
+    id: number
+    roleName: string
+    description: string
+    type: TypeRoleMeeting
 }
 
 export interface IMeetingDetailResponse {
@@ -195,6 +214,13 @@ export interface IListAccountResponse {
     userStatus_status: string
     userStatus_description: string
     listRoleResponse: string
+}
+
+export interface IListRoleMtgResponse {
+    id: number
+    roleName: string
+    description: string
+    type: TypeRoleMeeting
 }
 
 export interface ICompanyDetailResponse {
