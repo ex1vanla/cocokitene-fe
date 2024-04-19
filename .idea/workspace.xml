@@ -5,50 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9347aca1-a35d-40a1-b695-0e51f2f1cf97" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/tailwind-tools-updates.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/create-report-item.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constants/election.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/board-meeting.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/election.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stores/board-meeting/createSlice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stores/board-meeting/detailSlice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stores/board-meeting/hook.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stores/board-meeting/types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/stores/board-meeting/updateSlice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/board-meeting-information.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/board-meeting-participants.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/candidates.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/elections.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/management-and-financial-reports.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/save-button.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/permission.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/permission.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/resolution.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/resolution.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/meeting.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/meeting.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/request.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/request.type.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/response.type.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/response.type.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/meeting/createSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/meeting/createSlice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/meeting/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/meeting/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stores/reducers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/reducers.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-detail/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-detail/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-list/list-board-meeting-pass.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-list/list-board-meeting-pass.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-update/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-update/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/change-password-user/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/change-password-user/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/change-password/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/change-password/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/forgot-password-user/confirm-code-forgot/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/forgot-password-user/confirm-code-forgot/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/forgot-password/confirm-code-forgot/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/forgot-password/confirm-code-forgot/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/meeting/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/meeting/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/meeting/meeting-create/meeting-information.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/meeting/meeting-create/meeting-information.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/meeting/meeting-detail/send-email-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/meeting/meeting-detail/send-email-button.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/service-plan/service-plan-list/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/service-plan/service-plan-list/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/detail/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/detail/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/update/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/[locale]/(workspace)/(user)/board-meeting/update/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/create-report-item.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/create-report-item.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants/election.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/election.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/board-meeting-information.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/board-meeting-information.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/candidates.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/candidates.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/save-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/board-meeting/board-meeting-create/save-button.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,30 +43,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;UI__create__bmeeting&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/TTM/project/cocokitene&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;npm.dev.executor&quot;: &quot;Run&quot;,
-    &quot;npm.format.executor&quot;: &quot;Run&quot;,
-    &quot;npm.format:lint-staged.executor&quot;: &quot;Run&quot;,
-    &quot;npm.lint.executor&quot;: &quot;Run&quot;,
-    &quot;prettier.import.notification.dismissed&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\TTM\\project\\fe_cocokitene\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "D:/TTM/project/cocokitene",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.dev.executor": "Run",
+    "npm.format.executor": "Run",
+    "npm.format:lint-staged.executor": "Run",
+    "npm.lint.executor": "Run",
+    "prettier.import.notification.dismissed": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "D:\\TTM\\project\\fe_cocokitene\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\TTM\project\fe_cocokitene\src\views\board-meetings" />
@@ -110,7 +74,7 @@
       <recent name="D:\TTM\project\fe_cocokitene\src\views\board-meetings\board-meeting-list" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.format">
+  <component name="RunManager" selected="npm.build">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -163,11 +127,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build" />
+        <item itemvalue="npm.dev" />
         <item itemvalue="npm.format" />
         <item itemvalue="npm.lint" />
-        <item itemvalue="npm.dev" />
         <item itemvalue="npm.format:lint-staged" />
-        <item itemvalue="npm.build" />
       </list>
     </recent_temporary>
   </component>
@@ -301,7 +265,7 @@
       <workItem from="1711936458687" duration="15627000" />
       <workItem from="1712021576000" duration="13214000" />
       <workItem from="1712108168945" duration="3083000" />
-      <workItem from="1712194540940" duration="17655000" />
+      <workItem from="1712194540940" duration="22955000" />
     </task>
     <servers />
   </component>
