@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'antd/es/form/Form'

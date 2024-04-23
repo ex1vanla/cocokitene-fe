@@ -13,15 +13,12 @@ interface ISettingTile {
     onChangeTab?: ((key: string) => void) | undefined
 }
 
-
-
 const SettingTitle = ({
     addButton,
     editButton,
     onChangeInput,
     onChangeTab,
 }: ISettingTile) => {
-
     const t = useTranslations()
     const items: TabsProps['items'] = [
         {
@@ -54,8 +51,6 @@ const SettingTitle = ({
                 onChange={onChange}
                 defaultActiveKey="roleSys"
             />
-
-
 
             <div className="items flex items-center gap-2" key={choiceTab}>
                 {choiceTab === 'roleSys' ? (
