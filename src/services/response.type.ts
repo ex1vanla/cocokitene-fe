@@ -50,6 +50,13 @@ export interface IMeetingFileResponse {
     fileType: MeetingFileType
 }
 
+export interface IBoardMeetingFileResponse {
+    id: number
+    url: string
+    meetingId: number
+    fileType: MeetingFileType
+}
+
 export interface IProposalCreatorResponse {
     username: string
     email: string
@@ -77,17 +84,45 @@ export interface IProposalResponse {
     proposalFiles: IProposalFileResponse[]
 }
 
-export interface IUserMeetingResponse {
+export interface IBoardMeetingProposalResponse {
     id: number
-    status: UserMeetingStatusEnum
-    user: {
-        id: number
-        username: string
-        email: string
-        avatar: string | null
-        defaultAvatarHashColor: string | null
-    }
+    title: string
+    description: string
+    oldDescription?: string
+    type: ResolutionType
+    votedQuantity: number | null
+    unVotedQuantity: number | null
+    notVoteYetQuantity: number | null
+    voteResult: VoteProposalOption
+    meetingId: number
+    creator: IProposalCreatorResponse
+    proposalFiles: IProposalFileResponse[]
 }
+
+export interface ICandidateResponse {
+    id: number
+    title: string
+    candidateName: string
+    type: ElectionEnum
+    votedQuantity: number | null
+    unVotedQuantity: number | null
+    notVoteYetQuantity: number | null
+    voteResult: VoteProposalOption
+    meetingId: number
+    creatorId: number
+}
+
+// export interface IUserMeetingResponse {
+//     id: number
+//     status: UserMeetingStatusEnum
+//     user: {
+//         id: number
+//         username: string
+//         email: string
+//         avatar: string | null
+//         defaultAvatarHashColor: string | null
+//     }
+// }
 export interface IRoleMtgDetailResponse {
     id: number
     roleName: string
@@ -116,6 +151,26 @@ export interface IMeetingDetailResponse {
     totalMeetingShares: number
 }
 
+export interface IBoardMeetingDetailResponse {
+    id: number
+    title: string
+    note: string
+    startTime: string
+    endTime: string
+    endVotingTime: string
+    meetingLink: string
+    status: MeetingStatus
+    companyId: number
+    creatorId: number
+    type: MeetingType
+    meetingFiles: IBoardMeetingFileResponse[]
+    proposals: IBoardMeetingProposalResponse[]
+    candidates: ICandidateResponse[]
+    participants: ParticipantDetailMeetingResponse[]
+    boardsTotal: number
+    boardsJoined: number
+}
+
 export interface ParticipantDetailMeetingResponse {
     roleMtgId: number
     roleMtgName: string
@@ -131,6 +186,7 @@ export interface IUserMeetingResponse {
     userShareQuantity: number | null
     userDefaultAvatarHashColor: string | null
 }
+
 export interface IVoteProposalResult {
     result: VoteProposalOption
     userId: number
@@ -139,6 +195,9 @@ export interface IVoteProposalResult {
     id: number
 }
 
+export interface IBoardMeetingParticipantsResponse {
+    userWithRoleMtg: IParticipantWithRoleMtg[]
+}
 export interface IMeetingParticipantsResponse {
     userWithRoleMtg: IParticipantWithRoleMtg[]
 }

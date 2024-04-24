@@ -17,6 +17,7 @@ import planListSlice from '@/stores/service-plan/listSlice'
 import forgotPasswordReducer from '@/stores/forgot-password/slice'
 import boardMeetingCreateReducer from '@/stores/board-meeting/createSlice'
 import settingRoleMtgReducer from '@/stores/setting-role-mtg/slice'
+import boardMeetingDetailReducer from '@/stores/board-meeting/detailSlice'
 const rootReducer = combineReducers({
     auth: authReducer,
     meetingList: meetingListReducer,
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
     planListSlice: planListSlice,
     forgotPassword: forgotPasswordReducer,
     boardMeetingCreate: boardMeetingCreateReducer,
+    boardMeetingDetail: boardMeetingDetailReducer,
 })
 
 export default rootReducer

@@ -8,7 +8,6 @@ export enum RoleMtgEnum {
     SHAREHOLDER = 'SHAREHOLDER',
 }
 
-
 export enum ScreenSettingRole {
     SETTING_ROLE_SYS = 'SETTING ROLE SYS',
     SETTING_ROLE_MTG = 'SETTING ROLE MTG',

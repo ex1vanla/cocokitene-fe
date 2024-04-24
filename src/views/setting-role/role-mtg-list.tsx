@@ -1,16 +1,16 @@
+/* eslint-disable */
+
 import { Typography } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
 import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import Table, { ColumnsType } from 'antd/es/table'
 import { IRoleMtgList } from '@/stores/setting-role-mtg/type'
-import React, { useEffect, useState } from 'react'
-import {
-    convertSnakeCaseToTitleCase,
-    truncateString,
-} from '@/utils/format-string'
+import React, { useEffect } from 'react'
+import { convertSnakeCaseToTitleCase, truncateString } from '@/utils/format-string'
 import { EditTwoTone } from '@ant-design/icons'
 import ModalUpdateRoleMtg from '@/views/setting-role/modal-update-role-mtg'
+import withAuth from '@/components/component-auth'
+import { Permissions } from '@/constants/permission'
 
 const { Text } = Typography
 const RoleMtgList = () => {
@@ -133,4 +133,4 @@ const RoleMtgList = () => {
     )
 }
 
-export default RoleMtgList
+export default withAuth(RoleMtgList,Permissions.LIST_ROLE_MTG)

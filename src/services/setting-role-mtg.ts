@@ -7,7 +7,6 @@ import { get, patch, post } from '@/services/fetcher'
 import { IGetAllRoleMtgQuery } from '@/stores/setting-role-mtg/type'
 import {
     ICreateRoleMtgPayload,
-    IUpdateMeetingPayload,
     IUpdateRoleMtgPayload,
 } from '@/services/request.type'
 

@@ -1,3 +1,5 @@
+
+/* eslint-disable */
 import { useEffect, useState } from 'react'
 import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import { EActionStatus } from '@/stores/type'
