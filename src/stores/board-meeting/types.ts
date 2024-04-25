@@ -141,3 +141,33 @@ export interface IBoardMeetingDetailState {
     boardMeeting: IBoardMeetingDetail | undefined
     error: FetchError | undefined
 }
+
+export interface IUpdateBoardMeeting {
+    id: number
+    title: string
+    note: string
+    status: MeetingStatus
+    meetingLink: string
+    startTime: string
+    endTime: string
+    endVotingTime: string
+    meetingMinutes: IBoardMeetingDocument[]
+    meetingInvitations: IBoardMeetingDocument[]
+    managementAndFinancials: IBoardMeetingReport[]
+    elections: IBoardMeetingReport[]
+    candidates: IBoardMeetingUpdateCandidate[]
+    participants: IParticipantsWithRole[]
+}
+
+export interface IUpdateBoardMeetingState {
+    status: EActionStatus,
+    meeting: IUpdateBoardMeeting,
+    error: FetchError | undefined
+}
+
+export interface IBoardMeetingUpdateCandidate {
+    id?: number
+    title: string
+    type?: number
+    candidateName: string
+}

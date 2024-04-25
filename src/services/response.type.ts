@@ -103,7 +103,8 @@ export interface ICandidateResponse {
     id: number
     title: string
     candidateName: string
-    type: ElectionEnum
+    // type: ElectionEnum
+    type: number
     votedQuantity: number | null
     unVotedQuantity: number | null
     notVoteYetQuantity: number | null
