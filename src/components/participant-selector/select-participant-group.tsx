@@ -64,7 +64,8 @@ const SelectParticipantGroup = ({
                         278,
                     )
                     if (
-                        roleName === convertSnakeCaseToTitleCase('SHAREHOLDER')
+                        roleName?.toLocaleUpperCase() ===
+                        RoleMtgEnum.SHAREHOLDER.toUpperCase()
                     ) {
                         optionsRes = {
                             ...optionsRes,
@@ -77,8 +78,8 @@ const SelectParticipantGroup = ({
 
                     if (
                         type === TypeRoleMeeting.BOARD_MTG &&
-                        roleName !==
-                            convertSnakeCaseToTitleCase(RoleMtgEnum.HOST)
+                        roleName?.toLocaleUpperCase() !==
+                            RoleMtgEnum.HOST.toLocaleUpperCase()
                     ) {
                         optionsRes = {
                             ...optionsRes,
