@@ -107,7 +107,6 @@ export interface IProposal {
     proposalFiles: IProposalFile[]
 }
 
-
 export interface IBoardProposal {
     id: number
     title: string

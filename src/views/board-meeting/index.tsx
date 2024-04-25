@@ -51,7 +51,6 @@ const BoardMeetingList = () => {
         })
     }, [meetingState.filter])
 
-
     const handleInputChange = (value: string) => {
         setFilterAction({ ...meetingState.filter, searchQuery: value })
     }
@@ -68,7 +67,9 @@ const BoardMeetingList = () => {
                 type: 'info',
             })
             resetStateAttendance()
-            router.push('/board-meeting/detail/' + attendanceState.meetingIdJoin)
+            router.push(
+                '/board-meeting/detail/' + attendanceState.meetingIdJoin,
+            )
         }
 
         if (attendanceState.status == EActionStatus.Failed) {

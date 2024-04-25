@@ -9,10 +9,15 @@ const serviceProposal = {
         )
         return response.data
     },
-    voteProposalBoardMtg: async (proposalId: number, option: VoteProposalOption)=> {
-        const response = await post<IBoardProposal>(`/proposals/vote-boardMtg/${proposalId}?result=${option}`)
+    voteProposalBoardMtg: async (
+        proposalId: number,
+        option: VoteProposalOption,
+    ) => {
+        const response = await post<IBoardProposal>(
+            `/proposals/vote-boardMtg/${proposalId}?result=${option}`,
+        )
         return response.data
-    }
+    },
 }
 
 export default serviceProposal

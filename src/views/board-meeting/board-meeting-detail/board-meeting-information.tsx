@@ -57,9 +57,9 @@ export const BoxGeneralInformation = ({
                 <Text className="font-bold text-polar-green">
                     {totalNumber === 0
                         ? 0
-                        : Math.round((realNumber / totalNumber) * 10000) / 100}%
+                        : Math.round((realNumber / totalNumber) * 10000) / 100}
+                    %
                 </Text>
-
             </div>
         </div>
     )

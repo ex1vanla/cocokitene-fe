@@ -57,10 +57,6 @@ const BoardMeetingParticipants = () => {
         setQuery(event.target.value)
     }
 
-    const numColumns = Math.min(participants.data.userWithRoleMtg.length, 5)
-    const gridClass = `grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-${numColumns} xl:grid-cols-${numColumns}`
-    const itemWidth = numColumns < 5 ? `calc(100% / ${numColumns})` : 'max-w-sm'
-
     return (
         <BoxArea title={t('PARTICIPANTS')}>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -73,7 +69,7 @@ const BoardMeetingParticipants = () => {
                     // onFocus={() => setFocus(true)}
                 />
             </div>
-            <div className={gridClass}>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {participants.data.userWithRoleMtg &&
                     participants.data.userWithRoleMtg.map((item, index) => (
                         <ParticipantDetail
@@ -84,7 +80,6 @@ const BoardMeetingParticipants = () => {
                                 item.roleMtgName,
                             )}
                             participantList={item.userParticipants}
-                            width={itemWidth}
                         />
                     ))}
             </div>
