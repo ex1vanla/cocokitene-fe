@@ -177,12 +177,12 @@ const Participants = () => {
                             item.id,
                         )}
                         onDeleteParticipant={onDelete(item.roleName)}
+                        type={TypeRoleMeeting.BOARD_MTG}
                     />
                 ))}
             </div>
         </BoxArea>
     )
 }
-
 
 export default Participants
