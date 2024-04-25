@@ -1,5 +1,5 @@
-import { ICreateBoardMeetingPayload } from '@/services/request.type'
-import { get, post } from './fetcher'
+import { ICreateBoardMeetingPayload, IUpdateBoardMeetingPayload } from '@/services/request.type'
+import { get, patch, post } from './fetcher'
 import { IGetAllMeetingQuery, IMeeting } from '@/stores/meeting/types'
 import {
     IBoardMeetingDetailResponse,
@@ -32,6 +32,15 @@ const serviceBoardMeeting = {
         )
         return response.data
     },
+
+    updateBoardMeeting: async (
+        boardMeetingId: number,
+        payload: IUpdateBoardMeetingPayload,
+    ) => {
+        const response = await patch<any>(`board-meetings/${boardMeetingId}`, payload)
+        return response.data
+    }
+
 }
 
 export default serviceBoardMeeting
