@@ -236,7 +236,8 @@ const CreateReportItem = ({
             </div>
             <div></div>
             <DeleteOutlined
-                className={`h-10 text-dust-red ${index === 1 && 'invisible'}`}
+                // className={`h-10 text-dust-red ${index === 1 && 'invisible'}`}
+                className={`h-10 text-dust-red`}
                 disabled={index === 1}
                 onClick={onDelete}
             />

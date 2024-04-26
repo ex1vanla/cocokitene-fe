@@ -22,7 +22,7 @@ const Candidates = () => {
     const t = useTranslations()
     const [data, setData] = useCreateBoardMeetingInformation()
     const [electionList, setElectionList] = useState<IElectionResponse[]>()
-    const [defaultElection, setDefaultElection] = useState<number>()
+    const [defaultElection, setDefaultElection] = useState<number>(1)
 
     useEffect(() => {
         try {
@@ -69,7 +69,7 @@ const Candidates = () => {
                 {
                     title: '',
                     candidateName: '',
-                    type: 1,
+                    type: defaultElection,
                 },
             ],
         })
@@ -96,7 +96,7 @@ const Candidates = () => {
                         onChangeContent={onChange('candidateName', index)}
                         onDelete={onDelete(index)}
                         electionList={electionList}
-                        defaultElection={defaultElection || 1}
+                        defaultElection={defaultElection}
                     />
                 ))}
             </div>

@@ -2,6 +2,7 @@
 
 import BoxArea from '@/components/box-area'
 import UpdateCandidateItem from '@/components/update-candidate-item'
+import { ElectionEnum } from '@/constants/election'
 import { ResolutionType } from '@/constants/resolution'
 import serviceElection from '@/services/election'
 import { IElectionResponse } from '@/services/response.type'
@@ -15,6 +16,7 @@ const Candidate = () => {
     const t = useTranslations()
     const [data, setData] = useUpdateBoardMeetingInformation()
     const [electionList, setElectionList] = useState<IElectionResponse[]>()
+    const [defaultElection, setDefaultElection] = useState<number>()
 
     useEffect(() => {
         try {
@@ -25,6 +27,13 @@ const Candidate = () => {
                 })
                 if (electionList) {
                     setElectionList(electionList)
+                    setDefaultElection(
+                        electionList.filter(
+                            (election) =>
+                                election.status ==
+                                ElectionEnum.VOTE_OF_CONFIDENCE,
+                        )[0].id,
+                    )
                 }
             })()
         } catch (error) {
@@ -53,6 +62,7 @@ const Candidate = () => {
                 {
                     title: '',
                     candidateName: '',
+                    type: defaultElection,
                 },
             ],
         })
