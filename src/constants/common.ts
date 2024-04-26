@@ -36,7 +36,7 @@ export const SIDEBAR_ITEMS: ISidebarItem[] = [
         icon: ClusterOutlined,
         label: 'BOARD_MEETINGS',
         key: '/board-meeting',
-        permission: Permissions.SHAREHOLDERS_MTG,
+        permission: Permissions.BOARD_MEETING,
     },
     {
         icon: VideoCameraOutlined,
