@@ -22,7 +22,7 @@ const Participants = () => {
             const roleMtgList = await serviceRoleMtg.getAllRoleMtg({
                 page: 1,
                 limit: 10,
-                type: TypeRoleMeeting.BOARD_MTG,
+                type: TypeRoleMeeting.BOARD_MEETING,
             })
             if (roleMtgList) {
                 setRoleMtgList(roleMtgList)
@@ -177,7 +177,7 @@ const Participants = () => {
                             item.id,
                         )}
                         onDeleteParticipant={onDelete(item.roleName)}
-                        type={TypeRoleMeeting.BOARD_MTG}
+                        type={TypeRoleMeeting.BOARD_MEETING}
                     />
                 ))}
             </div>

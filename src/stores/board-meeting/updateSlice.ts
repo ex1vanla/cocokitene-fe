@@ -1,14 +1,16 @@
-import { MeetingFileType, MeetingStatus } from "@/constants/meeting";
+import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '@/stores/type'
-import { IUpdateBoardMeeting, IUpdateBoardMeetingState } from "./types";
-import { ResolutionType } from "@/constants/resolution";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import serviceBoardMeeting from "@/services/board-meeting";
-import serviceMeeting from "@/services/meeting";
-import { IParticipants, IParticipantsWithRole } from "@/components/participant-selector";
-import { AxiosError } from "axios";
+import { IUpdateBoardMeeting, IUpdateBoardMeetingState } from './types'
+import { ResolutionType } from '@/constants/resolution'
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import serviceBoardMeeting from '@/services/board-meeting'
+import serviceMeeting from '@/services/meeting'
+import {
+    IParticipants,
+    IParticipantsWithRole,
+} from '@/components/participant-selector'
+import { AxiosError } from 'axios'
 
- 
 const initialState: IUpdateBoardMeetingState = {
     status: EActionStatus.Idle,
     error: undefined,
@@ -44,7 +46,7 @@ const initialState: IUpdateBoardMeetingState = {
         candidates: [
             {
                 title: '',
-                candidateName: ''
+                candidateName: '',
             },
         ],
         participants: [
@@ -54,9 +56,8 @@ const initialState: IUpdateBoardMeetingState = {
                 userParticipant: [],
             },
         ],
-    }
+    },
 }
-
 
 export const initUpdateBoardMeeting = createAsyncThunk<
     IUpdateBoardMeeting,
@@ -66,11 +67,12 @@ export const initUpdateBoardMeeting = createAsyncThunk<
     }
 >('boardMeeting/initUpdateMeeting', async (meetingId, { rejectWithValue }) => {
     try {
-        const boardMeetingDetail = await serviceBoardMeeting.getDetailBoardMeeting(meetingId)
+        const boardMeetingDetail =
+            await serviceBoardMeeting.getDetailBoardMeeting(meetingId)
 
         const getBoardMeetingFileByType = (type: MeetingFileType) => {
             return boardMeetingDetail.meetingFiles
-                .filter((file) =>file.fileType === type)
+                .filter((file) => file.fileType === type)
                 .map((file) => ({
                     id: file.id,
                     url: file.url,
@@ -96,24 +98,24 @@ export const initUpdateBoardMeeting = createAsyncThunk<
                 }))
         }
 
-
-        const getCandidate = () => boardMeetingDetail.candidates.map((candidate) => ({
+        const getCandidate = () =>
+            boardMeetingDetail.candidates.map((candidate) => ({
                 id: candidate.id,
                 title: candidate.title,
                 candidateName: candidate.candidateName,
                 type: candidate.type,
-        }))
+            }))
 
         const getRoleMtgInMeetings = await serviceMeeting.getRoleMtgs(meetingId)
 
         let participants: IParticipantsWithRole[] = []
-        
+
         await Promise.all([
             getRoleMtgInMeetings.map(async (roleMtg) => {
                 const participantsWithRole: IParticipantsWithRole = {
                     roleMtgId: roleMtg.id,
                     roleName: roleMtg.roleName,
-                    userParticipant: []
+                    userParticipant: [],
                 }
 
                 await Promise.all([
@@ -140,7 +142,7 @@ export const initUpdateBoardMeeting = createAsyncThunk<
                     }),
                 ])
                 participants.push(participantsWithRole)
-            })
+            }),
         ])
 
         return {
@@ -151,7 +153,9 @@ export const initUpdateBoardMeeting = createAsyncThunk<
             status: boardMeetingDetail.status,
             startTime: new Date(boardMeetingDetail.startTime).toISOString(),
             endTime: new Date(boardMeetingDetail.endTime).toISOString(),
-            endVotingTime: new Date(boardMeetingDetail.endVotingTime).toISOString(),
+            endVotingTime: new Date(
+                boardMeetingDetail.endVotingTime,
+            ).toISOString(),
             meetingInvitations: getBoardMeetingFileByType(
                 MeetingFileType.MEETING_INVITATION,
             ),
@@ -159,15 +163,12 @@ export const initUpdateBoardMeeting = createAsyncThunk<
                 MeetingFileType.MEETING_MINUTES,
             ),
             managementAndFinancials: getProposalsByType(
-                ResolutionType.MANAGEMENT_FINANCIAL
+                ResolutionType.MANAGEMENT_FINANCIAL,
             ),
-            elections: getProposalsByType(
-                ResolutionType.ELECTION
-            ),
-            candidates : getCandidate(),
+            elections: getProposalsByType(ResolutionType.ELECTION),
+            candidates: getCandidate(),
             participants: participants,
         }
-
     } catch (error) {
         const err = error as AxiosError
         const responseData: any = err.response?.data
@@ -190,7 +191,7 @@ export const boardMeetingUpdateSlice = createSlice({
         },
         resetUpdateBoardMeetingData: () => {
             return initialState
-        }
+        },
     },
 
     extraReducers: (builder) => {
@@ -199,16 +200,17 @@ export const boardMeetingUpdateSlice = createSlice({
                 state.status = EActionStatus.Pending
             })
             .addCase(initUpdateBoardMeeting.fulfilled, (state, action) => {
-                state.status = EActionStatus.Succeeded,
-                state.meeting = action.payload
+                ;(state.status = EActionStatus.Succeeded),
+                    (state.meeting = action.payload)
             })
             .addCase(initUpdateBoardMeeting.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
                 state.error = action.payload
             })
-    }
+    },
 })
 
-export const {updateBoardMeetingInformation , resetUpdateBoardMeetingData} = boardMeetingUpdateSlice.actions
+export const { updateBoardMeetingInformation, resetUpdateBoardMeetingData } =
+    boardMeetingUpdateSlice.actions
 
 export default boardMeetingUpdateSlice.reducer

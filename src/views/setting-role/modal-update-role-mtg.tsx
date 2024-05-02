@@ -1,9 +1,8 @@
 /* eslint-disable */
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import { EActionStatus } from '@/stores/type'
 import serviceSettingRoleMtg from '@/services/setting-role-mtg'
-import { useForm } from 'antd/es/form/Form'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
 import { AxiosError } from 'axios'
 import { Button, Form, Input, Modal, notification, Select } from 'antd'
@@ -11,11 +10,12 @@ import { useTranslations } from 'next-intl'
 import { enumToArray } from '@/utils'
 import { IRoleMtgForm } from '@/views/setting-role/modal-register-role-mtg'
 import Loader from '@/components/loader'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 export interface IRoleMtgUpdateForm {
     roleName: string
     description: string
-    type: TypeRoleMeeting
+    type: TypeRoleMeeting | string
 }
 
 const ModalUpdateRoleMtg = () => {
@@ -27,11 +27,11 @@ const ModalUpdateRoleMtg = () => {
         setOpenModalUpdatedRoleMtg,
         setIdMOpenModalUpdateRoleMtg,
     } = useSettingRoleMtg()
-    // const
+
     const [initStatus, setInitStatus] = useState<EActionStatus>(
         EActionStatus.Idle,
     )
-    const [form] = useForm<IRoleMtgUpdateForm>()
+    const [form] = Form.useForm()
     const [initRoleMtg, setInitRoleMtg] = useState<IRoleMtgUpdateForm>()
     const roleMtgId = Number(settingRoleMtgState.id)
     useEffect(() => {
@@ -67,8 +67,12 @@ const ModalUpdateRoleMtg = () => {
     }, [roleMtgId])
     useEffect(() => {
         form.setFieldsValue({
-            roleName: initRoleMtg?.roleName,
-            type: initRoleMtg?.type,
+            roleName: convertSnakeCaseToTitleCase(initRoleMtg?.roleName ?? ''),
+            type: convertSnakeCaseToTitleCase(
+                initRoleMtg?.type === TypeRoleMeeting.NULL_MEETING
+                    ? ''
+                    : initRoleMtg?.type,
+            ),
             description: initRoleMtg?.description,
         })
     }, [initRoleMtg])
@@ -81,17 +85,28 @@ const ModalUpdateRoleMtg = () => {
         setInitRoleMtg(undefined)
     }
     const onFinish = async (values: IRoleMtgForm) => {
+        let type = values?.type
+
+        if (!type || type.trim() === '') {
+            type = TypeRoleMeeting.NULL_MEETING;
+        } else {
+            // @ts-ignore
+            type = type.trim().toUpperCase().replace(/\s+/g, '_');
+        }
         try {
             const res = await serviceSettingRoleMtg.updateRoleMtg(roleMtgId, {
-                roleName: values.roleName,
+                roleName: values.roleName
+                    .trim()
+                    .toUpperCase()
+                    .replace(/ +/g, '_'),
                 description: values.description,
-                type: values.type ?? TypeRoleMeeting.SHAREHOLDER_MTG,
+                type: type ?? TypeRoleMeeting.NULL_MEETING,
             })
 
             if (res) {
                 notification.success({
                     message: t('UPDATED'),
-                    description: t('CREATE_UPDATE_ROLE_MTG'),
+                    description: t('UPDATE_ROLE_MTG_SUCCESSFULLY'),
                 })
                 form.resetFields()
                 setOpenModalUpdatedRoleMtg(false)
@@ -148,12 +163,12 @@ const ModalUpdateRoleMtg = () => {
                     <Form.Item
                         name="type"
                         label={t('SELECT_TYPE_ROLE_MTG')}
-                        rules={[
-                            {
-                                required: true,
-                                message: t('PLEASE_INPUT_YOUR_TYPE'),
-                            },
-                        ]}
+                        // rules={[
+                        //     {
+                        //         required: true,
+                        //         message: t('PLEASE_INPUT_YOUR_TYPE'),
+                        //     },
+                        // ]}
                     >
                         <Select
                             placeholder={t('TYPE')}
@@ -162,7 +177,16 @@ const ModalUpdateRoleMtg = () => {
                             options={enumToArray(TypeRoleMeeting).map(
                                 (type) => ({
                                     value: type,
-                                    label: <span>{t(type)}</span>,
+                                    label: (
+                                        <span>
+                                            {convertSnakeCaseToTitleCase(
+                                                type ===
+                                                    TypeRoleMeeting.NULL_MEETING
+                                                    ? ''
+                                                    : type,
+                                            )}
+                                        </span>
+                                    ),
                                 }),
                             )}
                         />

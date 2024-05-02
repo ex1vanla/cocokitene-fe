@@ -14,6 +14,7 @@ import { EditTwoTone } from '@ant-design/icons'
 import ModalUpdateRoleMtg from '@/views/setting-role/modal-update-role-mtg'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
+import { TypeRoleMeeting } from '@/constants/role-mtg'
 
 const { Text } = Typography
 const RoleMtgList = () => {
@@ -83,7 +84,13 @@ const RoleMtgList = () => {
             render: (_, record) => {
                 return (
                     <div className="flex items-center gap-2">
-                        <Text>{convertSnakeCaseToTitleCase(record.type)}</Text>
+                        <Text>
+                            {convertSnakeCaseToTitleCase(
+                                record.type === TypeRoleMeeting.NULL_MEETING
+                                    ? ''
+                                    : record.type,
+                            )}
+                        </Text>
                     </div>
                 )
             },

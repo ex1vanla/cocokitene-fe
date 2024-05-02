@@ -70,7 +70,7 @@ const SelectParticipantGroup = ({
                         },
                     }
 
-                    if (type === TypeRoleMeeting.BOARD_MTG) {
+                    if (type === TypeRoleMeeting.BOARD_MEETING) {
                         optionsRes = await serviceUser.getAccountListByRoleName(
                             query,
                             1,

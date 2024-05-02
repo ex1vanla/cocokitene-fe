@@ -40,7 +40,7 @@ const rootReducer = combineReducers({
     forgotPassword: forgotPasswordReducer,
     boardMeetingCreate: boardMeetingCreateReducer,
     boardMeetingDetail: boardMeetingDetailReducer,
-    boardMeetingUpdate: boardMeetingUpdateReducer
+    boardMeetingUpdate: boardMeetingUpdateReducer,
 })
 
 export default rootReducer
