@@ -4,11 +4,12 @@ import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import { useTranslations } from 'next-intl'
 import { useForm } from 'antd/es/form/Form'
 import { Button, Form, Input, Modal, notification, Select } from 'antd'
-import { useEffect, useMemo } from 'react'
-import { enumToArray } from '@/utils'
+import React, { useState } from 'react'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
 import { AxiosError } from 'axios'
 import serviceSettingRoleMtg from '@/services/setting-role-mtg'
+import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
+import { enumToArray } from '@/utils'
 
 export interface IRoleMtgForm {
     roleName: string
@@ -32,23 +33,20 @@ const ModalRegisterRoleMtg = () => {
         setOpenModalRoleMtg(false)
     }
 
-    const typeRoleMtgDefalt = useMemo(() => {
-        const enumArray = enumToArray(TypeRoleMeeting)
-        const defaultValue = enumArray.find(
-            (item) => item === TypeRoleMeeting.SHAREHOLDER_MTG,
-        )
-        return defaultValue || null
-    }, [enumToArray(TypeRoleMeeting)])
+    const [type, setType] = useState('')
 
-    useEffect(() => {
-        form.setFieldsValue({
-            type: typeRoleMtgDefalt,
-        })
-    }, [typeRoleMtgDefalt])
+    const handleChange = (value: any) => {
+        setType(value)
+    }
     const onFinish = async (values: IRoleMtgForm) => {
         try {
+            // const roleNameOriginal  = values.roleName
+
             const res = await serviceSettingRoleMtg.createRoleMtg({
-                roleName: values.roleName,
+                roleName: values.roleName
+                    .trim()
+                    .toUpperCase()
+                    .replace(/ +/g, '_'),
                 description: values.description,
                 type: values.type ?? TypeRoleMeeting.SHAREHOLDER_MTG,
             })
@@ -113,14 +111,26 @@ const ModalRegisterRoleMtg = () => {
                             placeholder={t('TYPE')}
                             style={{ width: '100%' }}
                             size="large"
+                            value={type}
+                            onChange={handleChange}
                             options={enumToArray(TypeRoleMeeting).map(
                                 (type) => ({
                                     value: type,
-                                    label: <span>{t(type)}</span>,
+                                    label: (
+                                        <span>
+                                            {convertSnakeCaseToTitleCase(
+                                                type ===
+                                                    TypeRoleMeeting.NULL_MTG
+                                                    ? ''
+                                                    : type,
+                                            )}
+                                        </span>
+                                    ),
                                 }),
                             )}
                         />
                     </Form.Item>
+
                     <Form.Item
                         wrapperCol={{ span: 24 }}
                         className="mt-10 flex justify-center"
