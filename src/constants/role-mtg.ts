@@ -14,8 +14,8 @@ export enum ScreenSettingRole {
 }
 
 export enum TypeRoleMeeting {
+    NULL_MTG = 'NULL_MEETING',
     SHAREHOLDER_MTG = 'SHAREHOLDER_MEETING',
     BOARD_MTG = 'BOARD_MEETING',
     BOTH_MTG = 'BOTH_MEETING',
-    NULL_MTG = 'NULL_MEETING',
 }

@@ -1,4 +1,4 @@
-import { IUpdateBoardMeeting } from './types';
+import { IUpdateBoardMeeting } from './types'
 import {
     IBoardMeetingDetail,
     IBoardProposalCreator,
@@ -17,7 +17,10 @@ import { BoardMeetingResource } from '@/views/board-meeting/board-meeting-detail
 import { MeetingFileType } from '@/constants/meeting'
 import { getFileTypeByUrl } from '@/utils/file'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
-import { initUpdateBoardMeeting, updateBoardMeetingInformation } from './updateSlice';
+import {
+    initUpdateBoardMeeting,
+    updateBoardMeetingInformation,
+} from './updateSlice'
 
 export function useCreateBoardMeetingInformation(): [
     ICreateBoardMeeting,
@@ -181,7 +184,6 @@ export function useReports(type: ResolutionType): {
 //     })
 // }
 
-
 export function useUpdateBoardMeetingInformation(): [
     IUpdateBoardMeeting,
     // eslint-disable-next-line
@@ -192,11 +194,11 @@ export function useUpdateBoardMeetingInformation(): [
 ] {
     const dispatch = useAppDispatch()
     const data = useAppSelector(
-        (state: RootState) => state.boardMeetingUpdate.meeting
+        (state: RootState) => state.boardMeetingUpdate.meeting,
     )
 
     const status = useAppSelector(
-        (state: RootState) => state.boardMeetingUpdate.status
+        (state: RootState) => state.boardMeetingUpdate.status,
     )
 
     const setUpdateBoardMeetingInformation = useCallback(
@@ -207,10 +209,11 @@ export function useUpdateBoardMeetingInformation(): [
     )
 
     const initData = useCallback(
-        (meetingId : number) => {
+        (meetingId: number) => {
             dispatch(initUpdateBoardMeeting(meetingId))
-        }
-    ,[dispatch])
+        },
+        [dispatch],
+    )
 
-    return [data , setUpdateBoardMeetingInformation , status , initData]
+    return [data, setUpdateBoardMeetingInformation, status, initData]
 }

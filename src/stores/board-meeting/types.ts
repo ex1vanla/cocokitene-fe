@@ -160,8 +160,8 @@ export interface IUpdateBoardMeeting {
 }
 
 export interface IUpdateBoardMeetingState {
-    status: EActionStatus,
-    meeting: IUpdateBoardMeeting,
+    status: EActionStatus
+    meeting: IUpdateBoardMeeting
     error: FetchError | undefined
 }
 
