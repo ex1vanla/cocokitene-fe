@@ -6,10 +6,7 @@ import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import Table, { ColumnsType } from 'antd/es/table'
 import { IRoleMtgList } from '@/stores/setting-role-mtg/type'
 import React, { useEffect } from 'react'
-import {
-    convertSnakeCaseToTitleCase,
-    truncateString,
-} from '@/utils/format-string'
+import { convertSnakeCaseToTitleCase, truncateString } from '@/utils/format-string'
 import { EditTwoTone } from '@ant-design/icons'
 import ModalUpdateRoleMtg from '@/views/setting-role/modal-update-role-mtg'
 import withAuth from '@/components/component-auth'
