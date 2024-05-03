@@ -2,13 +2,10 @@ import { MeetingFileType, MeetingStatus } from '@/constants/meeting'
 import { EActionStatus, FetchError } from '@/stores/type'
 import { IUpdateBoardMeeting, IUpdateBoardMeetingState } from './types'
 import { ResolutionType } from '@/constants/resolution'
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import serviceBoardMeeting from '@/services/board-meeting'
 import serviceMeeting from '@/services/meeting'
-import {
-    IParticipants,
-    IParticipantsWithRole,
-} from '@/components/participant-selector'
+import { IParticipants, IParticipantsWithRole } from '@/components/participant-selector'
 import { AxiosError } from 'axios'
 
 const initialState: IUpdateBoardMeetingState = {
