@@ -24,7 +24,7 @@ const SelectedParticipantItem = ({
 
     return (
         <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 max-w-full">
                 {users_avartar ? (
                     <Avatar
                         src={users_avartar}
@@ -48,12 +48,8 @@ const SelectedParticipantItem = ({
                     </Avatar>
                 )}
 
-                <Text title={users_email} className="cursor-pointer">
-                    {truncateString({
-                        text: users_email,
-                        start: 15,
-                        end: 0,
-                    })}
+                <Text title={users_email} className="cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[80%]">
+                    {users_email}
                 </Text>
             </div>
             <CloseCircleFilled

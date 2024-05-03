@@ -46,7 +46,7 @@ const RoleMtgList = () => {
             className: 'text-center',
         },
         {
-            title: t('ROLE_MTG_NAME'),
+            title: t('MEETING_ROLE'),
             dataIndex: 'roleName',
             render: (_, record) => {
                 return (
