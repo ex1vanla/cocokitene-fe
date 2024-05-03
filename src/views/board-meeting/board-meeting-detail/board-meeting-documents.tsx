@@ -60,7 +60,7 @@ const BoardDocumentList = ({
         <div className="flex gap-3">
             <Text className="text-black-45">
                 {' '}
-                {t(boardMeetingResourceType)}
+                {t(boardMeetingResourceType)}:
             </Text>
             <div className="flex flex-col gap-1">
                 {resources.map((resource, index) => (

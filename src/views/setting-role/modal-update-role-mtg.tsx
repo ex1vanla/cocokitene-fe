@@ -5,11 +5,19 @@ import { EActionStatus } from '@/stores/type'
 import serviceSettingRoleMtg from '@/services/setting-role-mtg'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
 import { AxiosError } from 'axios'
-import { Button, Form, Input, Modal, notification, Select } from 'antd'
+import {
+    Button,
+    Form,
+    Input,
+    Modal,
+    notification,
+    Row,
+    Select,
+    Spin,
+} from 'antd'
 import { useTranslations } from 'next-intl'
 import { enumToArray } from '@/utils'
 import { IRoleMtgForm } from '@/views/setting-role/modal-register-role-mtg'
-import Loader from '@/components/loader'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 
 export interface IRoleMtgUpdateForm {
@@ -88,10 +96,10 @@ const ModalUpdateRoleMtg = () => {
         let type = values?.type
 
         if (!type || type.trim() === '') {
-            type = TypeRoleMeeting.NULL_MEETING;
+            type = TypeRoleMeeting.NULL_MEETING
         } else {
             // @ts-ignore
-            type = type.trim().toUpperCase().replace(/\s+/g, '_');
+            type = type.trim().toUpperCase().replace(/\s+/g, '_')
         }
         try {
             const res = await serviceSettingRoleMtg.updateRoleMtg(roleMtgId, {
@@ -123,9 +131,9 @@ const ModalUpdateRoleMtg = () => {
             }
         }
     }
-    if (!initRoleMtg || initStatus === EActionStatus.Pending) {
-        return <Loader />
-    }
+    // if (!initRoleMtg || initStatus === EActionStatus.Pending) {
+    //     return <Loader />
+    // }
 
     return (
         <Modal
@@ -138,81 +146,99 @@ const ModalUpdateRoleMtg = () => {
             centered
         >
             <div className="mb-6">
-                <Form
-                    layout="vertical"
-                    form={form}
-                    initialValues={{ ...initRoleMtg }}
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        name="roleName"
-                        label={t('ROLE_MTG_NAME')}
-                        rules={[
-                            {
-                                required: true,
-                                message: t('PLEASE_INPUT_YOUR_ROLE_MTG_NAME'),
-                            },
-                        ]}
+                {!initRoleMtg || initStatus === EActionStatus.Pending ? (
+                    <Row
+                        align={'middle'}
+                        justify={'center'}
+                        style={{ height: '40vh' }}
                     >
-                        <Input size="large" placeholder={t('ROLE_MTG_NAME')} />
-                    </Form.Item>
-                    <Form.Item name="description" label={t('DESCRIPTION')}>
-                        <Input size="large" placeholder={t('DESCRIPTION')} />
-                    </Form.Item>
-
-                    <Form.Item
-                        name="type"
-                        label={t('SELECT_TYPE_ROLE_MTG')}
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         message: t('PLEASE_INPUT_YOUR_TYPE'),
-                        //     },
-                        // ]}
+                        <Spin tip="Loading..." />
+                    </Row>
+                ) : (
+                    <Form
+                        layout="vertical"
+                        form={form}
+                        initialValues={{ ...initRoleMtg }}
+                        onFinish={onFinish}
                     >
-                        <Select
-                            placeholder={t('TYPE')}
-                            style={{ width: '100%' }}
-                            size="large"
-                            options={enumToArray(TypeRoleMeeting).map(
-                                (type) => ({
-                                    value: type,
-                                    label: (
-                                        <span>
-                                            {convertSnakeCaseToTitleCase(
-                                                type ===
-                                                    TypeRoleMeeting.NULL_MEETING
-                                                    ? ''
-                                                    : type,
-                                            )}
-                                        </span>
+                        <Form.Item
+                            name="roleName"
+                            label={t('ROLE_MTG_NAME')}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: t(
+                                        'PLEASE_INPUT_YOUR_ROLE_MTG_NAME',
                                     ),
-                                }),
-                            )}
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        wrapperCol={{ span: 24 }}
-                        className="mt-10 flex justify-center"
-                    >
-                        <Button
-                            size="large"
-                            className="bg-#5151E5 rounded text-center text-sm font-semibold shadow-sm transition duration-200 hover:border-white hover:bg-[#e9eaeb] hover:text-black"
-                            style={{ marginRight: '30px' }}
-                            onClick={handleCancel}
+                                },
+                            ]}
                         >
-                            {t('CANCEL')}
-                        </Button>
-                        <Button
-                            size="large"
-                            type="primary"
-                            htmlType="submit"
-                            className="bg-#5151E5 rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
+                            <Input
+                                size="large"
+                                placeholder={t('ROLE_MTG_NAME')}
+                            />
+                        </Form.Item>
+                        <Form.Item name="description" label={t('DESCRIPTION')}>
+                            <Input
+                                size="large"
+                                placeholder={t('DESCRIPTION')}
+                            />
+                        </Form.Item>
+
+                        <Form.Item
+                            name="type"
+                            label={t('SELECT_TYPE_ROLE_MTG')}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: t('PLEASE_INPUT_YOUR_TYPE'),
+                            //     },
+                            // ]}
                         >
-                            {t('SUBMIT')}
-                        </Button>
-                    </Form.Item>
-                </Form>
+                            <Select
+                                placeholder={t('TYPE')}
+                                style={{ width: '100%' }}
+                                size="large"
+                                options={enumToArray(TypeRoleMeeting).map(
+                                    (type) => ({
+                                        value: type,
+                                        label: (
+                                            <span>
+                                                {convertSnakeCaseToTitleCase(
+                                                    type ===
+                                                        TypeRoleMeeting.NULL_MEETING
+                                                        ? ''
+                                                        : type,
+                                                )}
+                                            </span>
+                                        ),
+                                    }),
+                                )}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                            wrapperCol={{ span: 24 }}
+                            className="mt-10 flex justify-center"
+                        >
+                            <Button
+                                size="large"
+                                className="bg-#5151E5 rounded text-center text-sm font-semibold shadow-sm transition duration-200 hover:border-white hover:bg-[#e9eaeb] hover:text-black"
+                                style={{ marginRight: '30px' }}
+                                onClick={handleCancel}
+                            >
+                                {t('CANCEL')}
+                            </Button>
+                            <Button
+                                size="large"
+                                type="primary"
+                                htmlType="submit"
+                                className="bg-#5151E5 rounded text-center text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-600 "
+                            >
+                                {t('SUBMIT')}
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                )}
             </div>
         </Modal>
     )

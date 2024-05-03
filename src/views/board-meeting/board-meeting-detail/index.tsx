@@ -12,7 +12,7 @@ import Loader from '@/components/loader'
 import DetailTitle from '@/components/content-page-title/detail-title'
 import { Button } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
-import SendEmailButton from '@/views/meeting/meeting-detail/send-email-button'
+
 import BoardMeetingInformation from '@/views/board-meeting/board-meeting-detail/board-meeting-information'
 import BoardMeetingDocuments from '@/views/board-meeting/board-meeting-detail/board-meeting-documents'
 import ManagementAndFinancialReports from '@/views/board-meeting/board-meeting-detail/management-and-financial-reports'
@@ -21,6 +21,7 @@ import Candidates from '@/views/board-meeting/board-meeting-detail/candidates'
 import BoardMeetingParticipants from '@/views/board-meeting/board-meeting-detail/board-meeting-participants'
 import BoardMeetingNote from '@/views/board-meeting/board-meeting-detail/board-meeting-note'
 import withAuth from '@/components/component-auth'
+import SendEmailButton from './send-email-button'
 
 const BoardMeetingDetail = () => {
     const t = useTranslations()
@@ -32,6 +33,12 @@ const BoardMeetingDetail = () => {
         authState?.userData?.permissionKeys,
         Permissions.EDIT_BOARD_MEETING,
     )
+
+    const permissionSendMailBoard = checkPermission(
+        authState?.userData?.permissionKeys,
+        Permissions.SEND_MAIL_TO_BOARD,
+    )
+
     const [{ boardMeeting, status }, fetchBoardMeetingDetail] =
         useBoardMeetingDetail()
 
@@ -66,7 +73,7 @@ const BoardMeetingDetail = () => {
                         </Button>
                     )
                 }
-                extraButton={<SendEmailButton />}
+                extraButton={permissionSendMailBoard && <SendEmailButton />}
             />
             <div className="flex flex-col gap-6 p-6">
                 <BoardMeetingInformation />

@@ -1,5 +1,4 @@
 import { IParticipants } from '@/components/participant-selector'
-import { truncateString } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { Avatar, Typography } from 'antd'
 import Color from 'color'
@@ -30,7 +29,7 @@ const ParticipantOptionItem = ({
             } [&:not(.selected)]:hover:bg-neutral/4 `}
             onClick={onSelectParticipant}
         >
-            <div className="flex items-center gap-2 max-w-full">
+            <div className="flex w-full items-center gap-2">
                 {users_avartar ? (
                     <Avatar
                         src={users_avartar}
@@ -54,7 +53,10 @@ const ParticipantOptionItem = ({
                     </Avatar>
                 )}
 
-                <Text title={users_email} className="cursor-pointer overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[80%]">
+                <Text
+                    title={users_email}
+                    className="w-[80%] cursor-pointer truncate"
+                >
                     {users_email}
                 </Text>
             </div>
