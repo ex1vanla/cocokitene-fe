@@ -28,5 +28,4 @@ export enum Permissions {
     EDIT_BOARD_MEETING = 'edit_board_meeting',
     DETAIL_BOARD_MEETING = 'detail_board_meeting',
     LIST_ROLE_MTG = 'list_role_meeting',
-    VOTING_CANDIDATE = 'voting_candidate',
 }

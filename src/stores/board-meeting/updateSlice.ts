@@ -5,7 +5,10 @@ import { ResolutionType } from '@/constants/resolution'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import serviceBoardMeeting from '@/services/board-meeting'
 import serviceMeeting from '@/services/meeting'
-import { IParticipants, IParticipantsWithRole } from '@/components/participant-selector'
+import {
+    IParticipants,
+    IParticipantsWithRole,
+} from '@/components/participant-selector'
 import { AxiosError } from 'axios'
 
 const initialState: IUpdateBoardMeetingState = {
@@ -197,8 +200,8 @@ export const boardMeetingUpdateSlice = createSlice({
                 state.status = EActionStatus.Pending
             })
             .addCase(initUpdateBoardMeeting.fulfilled, (state, action) => {
-                state.status = EActionStatus.Succeeded,
-                state.meeting = action.payload
+                ;(state.status = EActionStatus.Succeeded),
+                    (state.meeting = action.payload)
             })
             .addCase(initUpdateBoardMeeting.rejected, (state, action) => {
                 state.status = EActionStatus.Failed
