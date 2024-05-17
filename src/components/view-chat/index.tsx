@@ -1,9 +1,10 @@
+'use client'
 /* eslint-disable */
 
 import { MessageTwoTone, SendOutlined } from '@ant-design/icons'
-import { Modal, Row, Select, Spin, message } from 'antd'
+import { Modal, Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
-import { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import { ChangeEvent, useEffect, useMemo, useState, useRef } from 'react'
 import {
     MessageChatItemFromYou,
     MessageChatItemToYou,
@@ -12,6 +13,8 @@ import { useAuthLogin } from '@/stores/auth/hooks'
 import { DataMessageChat } from '@/services/response.type'
 import { FETCH_STATUS } from '@/constants/common'
 import serviceChatMeeting from '@/services/chat-meeting'
+// Socket
+import { io } from 'socket.io-client'
 
 interface IParticipantDetail {
     roleMtgId: number
@@ -34,12 +37,17 @@ interface IMeetingChat {
 }
 
 const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
+    const bottomOfMessageChat = useRef<null | HTMLElement>(null)
+
     const { authState } = useAuthLogin()
 
     const [dataChat, setDataChat] = useState<{
         roomChat: number
         messageChat: DataMessageChat[]
-    }>()
+    }>({
+        roomChat: meetingInfo.id,
+        messageChat: [],
+    })
     const [chatModalOpen, setChatModalOpen] = useState<boolean>(false)
     const [valueMessage, setValueMessage] = useState<string>('')
     const [sendToUser, setSendToUser] = useState<number>(0)
@@ -47,7 +55,38 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         FETCH_STATUS.IDLE,
     )
 
-    console.log('dataChat', dataChat)
+    //Socket
+    const [socket, setSocket] = useState<any>(undefined)
+
+    //Scroll to bottom of chat
+    // useEffect(() => {
+    //     console.log('Scroll to bottom of chat')
+    //     bottomOfMessageChat.current?.scrollIntoView({ behavior: 'smooth' })
+    // }, [...dataChat.messageChat])
+
+    useEffect(() => {
+        const socket = io('http://localhost:4000')
+
+        socket.on('receive_chat_public', (message) => {
+            console.log('message: ', message)
+
+            setDataChat((prev) => {
+                return {
+                    roomChat: prev.roomChat,
+                    messageChat: [
+                        ...prev.messageChat,
+                        {
+                            ...message,
+                            receiverId: message.receiverId
+                                ? message.receiverId
+                                : 0,
+                        },
+                    ],
+                }
+            })
+        })
+        setSocket(socket)
+    }, [])
 
     useEffect(() => {
         const fetchDataChat = async (meetingId: number) => {
@@ -125,8 +164,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         }
     }, [...meetingInfo.participants])
 
-    console.log('participantJoinChat: ', participantJoinChat)
-
     const toggleModelDetailResolution = () => {
         setChatModalOpen(!chatModalOpen)
     }
@@ -155,7 +192,39 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     }
 
     const sendMessage = () => {
-        console.log(`Send Message to ${sendToUser} message : ${valueMessage}`)
+        const idSender = authState.userData?.id
+        const receiverId = sendToUser == 0 ? null : sendToUser
+
+        console.log('receiverId: ', receiverId)
+
+        if (idSender) {
+            // console.log(
+            //     `Send Message to ${sendToUser} message : ${valueMessage}`,
+            // )
+            socket.emit('send_chat_public', {
+                meetingId: meetingInfo.id,
+                receiverId: sendToUser == 0 ? null : sendToUser,
+                senderId: idSender,
+                content: valueMessage,
+            })
+
+            setDataChat((prev) => {
+                return {
+                    roomChat: prev.roomChat,
+                    messageChat: [
+                        ...prev.messageChat,
+                        {
+                            senderId: idSender,
+                            receiverId: sendToUser,
+                            content: valueMessage,
+                            createdAt: '',
+                        },
+                    ],
+                }
+            })
+        } else {
+            console.log('Send message chat failed!!! UnAuthor')
+        }
         setValueMessage('')
     }
 
@@ -246,16 +315,26 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                         index - 1
                                                     ]?.senderId
                                                 ],
-                                                to: participantJoinChat[
-                                                    dataChat.messageChat[
-                                                        index - 1
-                                                    ]?.receiverId
-                                                ],
+                                                to:
+                                                    participantJoinChat[
+                                                        dataChat.messageChat[
+                                                            index - 1
+                                                        ]?.receiverId
+                                                    ] ==
+                                                    authState.userData?.email
+                                                        ? 'You'
+                                                        : participantJoinChat[
+                                                              dataChat
+                                                                  .messageChat[
+                                                                  index - 1
+                                                              ]?.receiverId
+                                                          ],
                                             }}
                                             setSentUserTo={choiceSendMessageTo}
                                         />
                                     )
                                 })}
+                                <span ref={bottomOfMessageChat}></span>
                             </div>
                             <div className="flex h-[15%] gap-5">
                                 <div className="flex w-[95%] flex-col gap-2">
