@@ -65,7 +65,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     // }, [...dataChat.messageChat])
 
     useEffect(() => {
-        const socket = io('http://localhost:4000')
+        const socket = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
 
         socket.on('receive_chat_public', (message) => {
             console.log('message: ', message)
