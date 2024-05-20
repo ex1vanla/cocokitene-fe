@@ -76,6 +76,7 @@ const BoardMeetingParticipants = () => {
                             participants.data.userWithRoleMtg.map(
                                 (item, index) => (
                                     <ParticipantDetail
+                                        key={index}
                                         isLoading={
                                             participants.status ===
                                             FETCH_STATUS.LOADING
