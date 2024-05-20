@@ -1,7 +1,12 @@
 'use client'
 /* eslint-disable */
 
-import { MessageTwoTone, SendOutlined } from '@ant-design/icons'
+import {
+    CloseOutlined,
+    MessageTwoTone,
+    MinusOutlined,
+    SendOutlined,
+} from '@ant-design/icons'
 import { Modal, Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { ChangeEvent, useEffect, useMemo, useState, useRef } from 'react'
@@ -41,6 +46,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const { authState } = useAuthLogin()
 
+    const [scrollToBottom, setScrollToBottom] = useState<boolean>(false)
     const [dataChat, setDataChat] = useState<{
         roomChat: number
         messageChat: DataMessageChat[]
@@ -59,10 +65,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     const [socket, setSocket] = useState<any>(undefined)
 
     //Scroll to bottom of chat
-    // useEffect(() => {
-    //     console.log('Scroll to bottom of chat')
-    //     bottomOfMessageChat.current?.scrollIntoView({ behavior: 'smooth' })
-    // }, [...dataChat.messageChat])
 
     useEffect(() => {
         const socket = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
@@ -116,6 +118,13 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         }
     }, [meetingInfo.id])
 
+    useEffect(() => {
+        if (scrollToBottom) {
+            bottomOfMessageChat.current?.scrollIntoView({ behavior: 'smooth' })
+            setScrollToBottom(false)
+        }
+    }, [scrollToBottom])
+
     const participantToSendMessage = useMemo(() => {
         const participant = meetingInfo.participants
             .map((participant) => participant.userParticipants)
@@ -165,6 +174,15 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     }, [...meetingInfo.participants])
 
     const toggleModelDetailResolution = () => {
+        if (!chatModalOpen) {
+            console.log('Scroll bottom chat')
+            // bottomOfMessageChat.current?.scrollIntoView({ behavior: 'smooth' })
+            bottomOfMessageChat.current?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+                inline: 'nearest',
+            })
+        }
         setChatModalOpen(!chatModalOpen)
     }
 
@@ -222,6 +240,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     ],
                 }
             })
+
+            setScrollToBottom(true)
         } else {
             console.log('Send message chat failed!!! UnAuthor')
         }
@@ -229,186 +249,235 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     }
 
     return (
-        <div className="fixed bottom-7 right-5">
-            <Modal
-                open={chatModalOpen}
-                onCancel={toggleModelDetailResolution}
-                footer={[]}
-            >
-                <div className="flex h-[600px] flex-col gap-2">
-                    {initStatus === FETCH_STATUS.LOADING ? (
-                        <Row
-                            align={'middle'}
-                            justify={'center'}
-                            style={{ height: '40vh' }}
-                        >
-                            <Spin tip="Loading..." />
-                        </Row>
-                    ) : (
-                        <>
-                            <div className="flex h-[5%] items-center justify-center gap-2">
-                                <div className="text-xl font-medium">
-                                    Chat {meetingInfo.title}
+        <>
+            <div className="fixed bottom-7 right-5">
+                {/* <Modal
+                    open={chatModalOpen}
+                    onCancel={toggleModelDetailResolution}
+                    footer={[]}
+                > */}
+
+                {/* {chatModalOpen && ( */}
+                <div
+                    className={`mb-14 mr-3 border bg-white ${
+                        chatModalOpen
+                            ? 'animate-message-chat-move-left'
+                            : 'animate-message-chat-move-right'
+                    }`}
+                >
+                    <div className="flex h-[600px] w-[400px] flex-col">
+                        {initStatus === FETCH_STATUS.LOADING ? (
+                            <Row
+                                align={'middle'}
+                                justify={'center'}
+                                style={{ height: '40vh' }}
+                            >
+                                <Spin tip="Loading..." />
+                            </Row>
+                        ) : (
+                            <>
+                                <div className="relative flex h-[7%] w-full items-center bg-[#5151e5] px-2">
+                                    <span className="text-xl font-medium text-[#ffffff]">
+                                        Chat {meetingInfo.title}
+                                    </span>
+                                    <MinusOutlined
+                                        className="absolute right-1 top-[5px]"
+                                        onClick={toggleModelDetailResolution}
+                                        style={{
+                                            fontSize: '22px',
+                                            color: '#ffffff',
+                                        }}
+                                    />
                                 </div>
-                            </div>
-                            <div className="border-black-500 over h-[77%] overflow-y-auto border p-2">
-                                {dataChat?.messageChat.map((message, index) => {
-                                    if (
-                                        message.senderId ==
-                                        authState.userData?.id
-                                    ) {
-                                        return (
-                                            <MessageChatItemFromYou
-                                                key={index}
-                                                from={
-                                                    participantJoinChat[
-                                                        message.senderId
-                                                    ]
-                                                }
-                                                to={
-                                                    participantJoinChat[
-                                                        message.receiverId
-                                                    ]
-                                                }
-                                                message={message.content}
-                                                messageInfoPrev={{
-                                                    from: participantJoinChat[
-                                                        dataChat.messageChat[
-                                                            index - 1
-                                                        ]?.senderId
-                                                    ],
-                                                    to: participantJoinChat[
-                                                        dataChat.messageChat[
-                                                            index - 1
-                                                        ]?.receiverId
-                                                    ],
-                                                }}
-                                                setSentUserTo={
-                                                    choiceSendMessageTo
-                                                }
-                                            />
-                                        )
-                                    }
-
-                                    return (
-                                        <MessageChatItemToYou
-                                            key={index}
-                                            from={
-                                                participantJoinChat[
-                                                    message.senderId
-                                                ]
-                                            }
-                                            to={
-                                                participantJoinChat[
-                                                    message.receiverId
-                                                ].toLowerCase() ==
-                                                authState.userData?.email.toLowerCase()
-                                                    ? 'You'
-                                                    : participantJoinChat[
-                                                          message.receiverId
-                                                      ]
-                                            }
-                                            message={message.content}
-                                            messageInfoPrev={{
-                                                from: participantJoinChat[
-                                                    dataChat.messageChat[
-                                                        index - 1
-                                                    ]?.senderId
-                                                ],
-                                                to:
-                                                    participantJoinChat[
-                                                        dataChat.messageChat[
-                                                            index - 1
-                                                        ]?.receiverId
-                                                    ] ==
-                                                    authState.userData?.email
-                                                        ? 'You'
-                                                        : participantJoinChat[
-                                                              dataChat
-                                                                  .messageChat[
-                                                                  index - 1
-                                                              ]?.receiverId
-                                                          ],
-                                            }}
-                                            setSentUserTo={choiceSendMessageTo}
-                                        />
-                                    )
-                                })}
-                                <span ref={bottomOfMessageChat}></span>
-                            </div>
-                            <div className="flex h-[15%] gap-5">
-                                <div className="flex w-[95%] flex-col gap-2">
-                                    <div>
-                                        <span>To : </span>
-                                        <Select
-                                            defaultValue={'0'}
-                                            value={String(sendToUser)}
-                                            showSearch
-                                            placeholder="Select a person"
-                                            optionFilterProp="children"
-                                            onChange={onChange}
-                                            // onSearch={onSearch}
-                                            filterOption={filterOption}
-                                            options={participantToSendMessage.map(
-                                                (user) => ({
-                                                    value: user.userId + '',
-                                                    label: user.userEmail,
-                                                }),
-                                            )}
-                                            size={'small'}
-                                            className="w-[50%] rounded-[7px]"
-                                        />
-                                    </div>
-
-                                    <div className="flex w-full items-center gap-5">
-                                        <TextArea
-                                            value={valueMessage}
-                                            onChange={(e) =>
-                                                pressMessageChat(e)
-                                            }
-                                            placeholder="Please input message"
-                                            autoSize={{
-                                                minRows: 2,
-                                                maxRows: 2,
-                                            }}
-                                            onKeyUp={(e) => {
+                                <div className="h-[77%] p-2">
+                                    <div className="border-black-500 h-full overflow-hidden border px-2 hover:overflow-y-auto">
+                                        {dataChat?.messageChat.map(
+                                            (message, index) => {
                                                 if (
-                                                    e.keyCode == 13 &&
-                                                    !e.shiftKey
+                                                    message.senderId ==
+                                                    authState.userData?.id
                                                 ) {
-                                                    sendMessage()
-                                                }
-                                                if (
-                                                    e.keyCode == 13 &&
-                                                    e.shiftKey
-                                                ) {
-                                                    console.log(
-                                                        'Shift + Enter Key!!!!',
+                                                    return (
+                                                        <MessageChatItemFromYou
+                                                            key={index}
+                                                            from={
+                                                                participantJoinChat[
+                                                                    message
+                                                                        .senderId
+                                                                ]
+                                                            }
+                                                            to={
+                                                                participantJoinChat[
+                                                                    message
+                                                                        .receiverId
+                                                                ]
+                                                            }
+                                                            message={
+                                                                message.content
+                                                            }
+                                                            messageInfoPrev={{
+                                                                from: participantJoinChat[
+                                                                    dataChat
+                                                                        .messageChat[
+                                                                        index -
+                                                                            1
+                                                                    ]?.senderId
+                                                                ],
+                                                                to: participantJoinChat[
+                                                                    dataChat
+                                                                        .messageChat[
+                                                                        index -
+                                                                            1
+                                                                    ]
+                                                                        ?.receiverId
+                                                                ],
+                                                            }}
+                                                            setSentUserTo={
+                                                                choiceSendMessageTo
+                                                            }
+                                                        />
                                                     )
                                                 }
-                                            }}
-                                        />
-                                        <SendOutlined
-                                            style={{
-                                                fontSize: '22px',
-                                                color: '#5151e5',
-                                            }}
-                                            onClick={sendMessage}
-                                        />
+
+                                                return (
+                                                    <MessageChatItemToYou
+                                                        key={index}
+                                                        from={
+                                                            participantJoinChat[
+                                                                message.senderId
+                                                            ]
+                                                        }
+                                                        to={
+                                                            participantJoinChat[
+                                                                message
+                                                                    .receiverId
+                                                            ].toLowerCase() ==
+                                                            authState.userData?.email.toLowerCase()
+                                                                ? 'You'
+                                                                : participantJoinChat[
+                                                                      message
+                                                                          .receiverId
+                                                                  ]
+                                                        }
+                                                        message={
+                                                            message.content
+                                                        }
+                                                        messageInfoPrev={{
+                                                            from: participantJoinChat[
+                                                                dataChat
+                                                                    .messageChat[
+                                                                    index - 1
+                                                                ]?.senderId
+                                                            ],
+                                                            to:
+                                                                participantJoinChat[
+                                                                    dataChat
+                                                                        .messageChat[
+                                                                        index -
+                                                                            1
+                                                                    ]
+                                                                        ?.receiverId
+                                                                ] ==
+                                                                authState
+                                                                    .userData
+                                                                    ?.email
+                                                                    ? 'You'
+                                                                    : participantJoinChat[
+                                                                          dataChat
+                                                                              .messageChat[
+                                                                              index -
+                                                                                  1
+                                                                          ]
+                                                                              ?.receiverId
+                                                                      ],
+                                                        }}
+                                                        setSentUserTo={
+                                                            choiceSendMessageTo
+                                                        }
+                                                    />
+                                                )
+                                            },
+                                        )}
+                                        <span ref={bottomOfMessageChat}></span>
                                     </div>
                                 </div>
-                            </div>
-                        </>
-                    )}
-                </div>
-            </Modal>
+                                <div className="flex h-[15%] gap-5 px-2">
+                                    <div className="flex w-[95%] flex-col gap-2">
+                                        <div>
+                                            <span>To : </span>
+                                            <Select
+                                                defaultValue={'0'}
+                                                value={String(sendToUser)}
+                                                showSearch
+                                                placeholder="Select a person"
+                                                optionFilterProp="children"
+                                                onChange={onChange}
+                                                // onSearch={onSearch}
+                                                filterOption={filterOption}
+                                                options={participantToSendMessage.map(
+                                                    (user) => ({
+                                                        value: user.userId + '',
+                                                        label: user.userEmail,
+                                                    }),
+                                                )}
+                                                size={'small'}
+                                                className="w-[50%] rounded-[7px]"
+                                            />
+                                        </div>
 
-            <MessageTwoTone
-                twoToneColor="#5151e5"
-                style={{ fontSize: '48px' }}
-                onClick={toggleModelDetailResolution}
-            />
-        </div>
+                                        <div className="flex w-full items-center gap-5">
+                                            <TextArea
+                                                value={valueMessage}
+                                                onChange={(e) =>
+                                                    pressMessageChat(e)
+                                                }
+                                                placeholder="Please input message"
+                                                autoSize={{
+                                                    minRows: 2,
+                                                    maxRows: 2,
+                                                }}
+                                                onKeyUp={(e) => {
+                                                    if (
+                                                        e.keyCode == 13 &&
+                                                        !e.shiftKey
+                                                    ) {
+                                                        sendMessage()
+                                                    }
+                                                    if (
+                                                        e.keyCode == 13 &&
+                                                        e.shiftKey
+                                                    ) {
+                                                        console.log(
+                                                            'Shift + Enter Key!!!!',
+                                                        )
+                                                    }
+                                                }}
+                                            />
+                                            <SendOutlined
+                                                style={{
+                                                    fontSize: '22px',
+                                                    color: '#5151e5',
+                                                }}
+                                                onClick={sendMessage}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+                {/* )} */}
+                {/* </Modal> */}
+
+                <MessageTwoTone
+                    twoToneColor="#5151e5"
+                    style={{ fontSize: '48px' }}
+                    onClick={toggleModelDetailResolution}
+                    className="absolute bottom-0 right-0"
+                />
+            </div>
+        </>
     )
 }
 
