@@ -1,12 +1,7 @@
 'use client'
 /* eslint-disable */
 
-import {
-    CloseOutlined,
-    MessageTwoTone,
-    MinusOutlined,
-    SendOutlined,
-} from '@ant-design/icons'
+import { MessageTwoTone, MinusOutlined, SendOutlined } from '@ant-design/icons'
 import { Modal, Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { ChangeEvent, useEffect, useMemo, useState, useRef } from 'react'
@@ -21,6 +16,10 @@ import serviceChatMeeting from '@/services/chat-meeting'
 // Socket
 import { io } from 'socket.io-client'
 
+enum ScrollType {
+    SMOOTH = 1,
+    FAST = 2,
+}
 interface IParticipantDetail {
     roleMtgId: number
     roleMtgName: string
@@ -46,7 +45,13 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const { authState } = useAuthLogin()
 
-    const [scrollToBottom, setScrollToBottom] = useState<boolean>(false)
+    const [scrollToBottom, setScrollToBottom] = useState<{
+        type: ScrollType
+        scroll: boolean
+    }>({
+        type: ScrollType.SMOOTH,
+        scroll: false,
+    })
     const [dataChat, setDataChat] = useState<{
         roomChat: number
         messageChat: DataMessageChat[]
@@ -70,7 +75,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         const socket = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
 
         socket.on('receive_chat_public', (message) => {
-            console.log('message: ', message)
+            // console.log('message: ', message)
 
             setDataChat((prev) => {
                 return {
@@ -119,9 +124,21 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     }, [meetingInfo.id])
 
     useEffect(() => {
-        if (scrollToBottom) {
-            bottomOfMessageChat.current?.scrollIntoView({ behavior: 'smooth' })
-            setScrollToBottom(false)
+        if (scrollToBottom.scroll) {
+            if (scrollToBottom.type == ScrollType.SMOOTH) {
+                bottomOfMessageChat.current?.scrollIntoView({
+                    behavior: 'smooth',
+                    // block: 'end',
+                    // inline: 'nearest',
+                })
+            } else {
+                bottomOfMessageChat.current?.scrollIntoView({})
+            }
+            // console.log('scrollToBottom :', scrollToBottom)
+            setScrollToBottom({
+                type: ScrollType.FAST,
+                scroll: false,
+            })
         }
     }, [scrollToBottom])
 
@@ -175,12 +192,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const toggleModelDetailResolution = () => {
         if (!chatModalOpen) {
-            console.log('Scroll bottom chat')
-            // bottomOfMessageChat.current?.scrollIntoView({ behavior: 'smooth' })
-            bottomOfMessageChat.current?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'end',
-                inline: 'nearest',
+            setScrollToBottom({
+                type: ScrollType.SMOOTH,
+                scroll: true,
             })
         }
         setChatModalOpen(!chatModalOpen)
@@ -213,12 +227,25 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         const idSender = authState.userData?.id
         const receiverId = sendToUser == 0 ? null : sendToUser
 
-        console.log('receiverId: ', receiverId)
+        // console.log('receiverId: ', receiverId)
 
         if (idSender) {
             // console.log(
             //     `Send Message to ${sendToUser} message : ${valueMessage}`,
             // )
+            const now = new Date()
+            const year = now.getFullYear()
+            const month = (now.getMonth() + 1).toString().padStart(2, '0')
+            const day = now.getDate().toString().padStart(2, '0')
+            const hours = now.getHours().toString().padStart(2, '0')
+            const minutes = now.getMinutes().toString().padStart(2, '0')
+            const seconds = now.getSeconds().toString().padStart(2, '0')
+            const milliseconds = now
+                .getMilliseconds()
+                .toString()
+                .padStart(3, '0')
+
+            const isoStringWithZ = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`
             socket.emit('send_chat_public', {
                 meetingId: meetingInfo.id,
                 receiverId: sendToUser == 0 ? null : sendToUser,
@@ -235,13 +262,16 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                             senderId: idSender,
                             receiverId: sendToUser,
                             content: valueMessage,
-                            createdAt: '',
+                            createdAt: isoStringWithZ,
                         },
                     ],
                 }
             })
 
-            setScrollToBottom(true)
+            setScrollToBottom({
+                type: ScrollType.FAST,
+                scroll: true,
+            })
         } else {
             console.log('Send message chat failed!!! UnAuthor')
         }
@@ -250,7 +280,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     return (
         <>
-            <div className="fixed bottom-7 right-5">
+            <div className="fixed bottom-7 right-5 h-auto">
                 {/* <Modal
                     open={chatModalOpen}
                     onCancel={toggleModelDetailResolution}
@@ -262,7 +292,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     className={`mb-14 mr-3 border bg-white ${
                         chatModalOpen
                             ? 'animate-message-chat-move-left'
-                            : 'animate-message-chat-move-right'
+                            : 'hidden animate-message-chat-move-right'
                     }`}
                 >
                     <div className="flex h-[600px] w-[400px] flex-col">
@@ -293,6 +323,47 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                     <div className="border-black-500 h-full overflow-hidden border px-2 hover:overflow-y-auto">
                                         {dataChat?.messageChat.map(
                                             (message, index) => {
+                                                //Get Date of Message
+                                                const dateMessage = new Date(
+                                                    message.createdAt,
+                                                )
+                                                const dateInfo = {
+                                                    year: dateMessage.getUTCFullYear(),
+                                                    month:
+                                                        dateMessage.getUTCMonth() +
+                                                        1,
+                                                    day: dateMessage.getUTCDate(),
+                                                    hour: dateMessage.getUTCHours(),
+                                                    minute: dateMessage.getUTCMinutes(),
+                                                }
+                                                //Get Date of Message Prev
+                                                let dateInfoPrev: {
+                                                    year: number
+                                                    month: number
+                                                    day: number
+                                                }
+                                                if (index == 0) {
+                                                    dateInfoPrev = {
+                                                        year: 0,
+                                                        month: 0,
+                                                        day: 0,
+                                                    }
+                                                } else {
+                                                    const dateMessagePrev =
+                                                        new Date(
+                                                            dataChat.messageChat[
+                                                                index - 1
+                                                            ].createdAt,
+                                                        )
+                                                    dateInfoPrev = {
+                                                        year: dateMessagePrev.getUTCFullYear(),
+                                                        month:
+                                                            dateMessagePrev.getUTCMonth() +
+                                                            1,
+                                                        day: dateMessagePrev.getUTCDate(),
+                                                    }
+                                                }
+
                                                 if (
                                                     message.senderId ==
                                                     authState.userData?.id
@@ -312,6 +383,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                         .receiverId
                                                                 ]
                                                             }
+                                                            date={dateInfo}
                                                             message={
                                                                 message.content
                                                             }
@@ -331,6 +403,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                     ]
                                                                         ?.receiverId
                                                                 ],
+                                                                datePrev: {
+                                                                    ...dateInfoPrev,
+                                                                },
                                                             }}
                                                             setSentUserTo={
                                                                 choiceSendMessageTo
@@ -359,6 +434,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                           .receiverId
                                                                   ]
                                                         }
+                                                        date={dateInfo}
                                                         message={
                                                             message.content
                                                         }
@@ -390,6 +466,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                           ]
                                                                               ?.receiverId
                                                                       ],
+                                                            datePrev: {
+                                                                ...dateInfoPrev,
+                                                            },
                                                         }}
                                                         setSentUserTo={
                                                             choiceSendMessageTo
@@ -439,17 +518,21 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                 onKeyUp={(e) => {
                                                     if (
                                                         e.keyCode == 13 &&
-                                                        !e.shiftKey
+                                                        !e.shiftKey &&
+                                                        valueMessage.trim()
                                                     ) {
+                                                        // console.log(
+                                                        //     'SendMessage by Enter key',
+                                                        // )
                                                         sendMessage()
                                                     }
                                                     if (
                                                         e.keyCode == 13 &&
                                                         e.shiftKey
                                                     ) {
-                                                        console.log(
-                                                            'Shift + Enter Key!!!!',
-                                                        )
+                                                        // console.log(
+                                                        //     'Shift + Enter Key!!!!',
+                                                        // )
                                                     }
                                                 }}
                                             />
@@ -458,7 +541,11 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     fontSize: '22px',
                                                     color: '#5151e5',
                                                 }}
-                                                onClick={sendMessage}
+                                                onClick={() => {
+                                                    if (valueMessage.trim()) {
+                                                        sendMessage()
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     </div>
