@@ -74,8 +74,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     useEffect(() => {
         const socket = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
 
-        socket.on('receive_chat_public', (message) => {
-            // console.log('message: ', message)
+        socket.on(`receive_chat_public/${dataChat.roomChat}`, (message) => {
+            console.log('message public Chat: ', message)
 
             setDataChat((prev) => {
                 return {
@@ -92,6 +92,28 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 }
             })
         })
+
+        socket.on(
+            `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
+            (message) => {
+                console.log('message private chat: ', message)
+
+                setDataChat((prev) => {
+                    return {
+                        roomChat: prev.roomChat,
+                        messageChat: [
+                            ...prev.messageChat,
+                            {
+                                ...message,
+                                receiverId: message.receiverId
+                                    ? message.receiverId
+                                    : 0,
+                            },
+                        ],
+                    }
+                })
+            },
+        )
         setSocket(socket)
     }, [])
 
@@ -246,12 +268,23 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 .padStart(3, '0')
 
             const isoStringWithZ = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`
-            socket.emit('send_chat_public', {
-                meetingId: meetingInfo.id,
-                receiverId: sendToUser == 0 ? null : sendToUser,
-                senderId: idSender,
-                content: valueMessage,
-            })
+            //Send Chat Private
+            if (receiverId) {
+                socket.emit('send_chat_private', {
+                    meetingId: meetingInfo.id,
+                    receiverId: receiverId,
+                    senderId: idSender,
+                    content: valueMessage,
+                })
+            } else {
+                //Send chat Publish
+                socket.emit('send_chat_public', {
+                    meetingId: meetingInfo.id,
+                    receiverId: sendToUser == 0 ? null : sendToUser,
+                    senderId: idSender,
+                    content: valueMessage,
+                })
+            }
 
             setDataChat((prev) => {
                 return {
