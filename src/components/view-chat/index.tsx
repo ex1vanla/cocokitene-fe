@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { MessageTwoTone, MinusOutlined, SendOutlined } from '@ant-design/icons'
-import { Modal, Row, Select, Spin } from 'antd'
+import { Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { ChangeEvent, useEffect, useMemo, useState, useRef } from 'react'
 import {
@@ -80,15 +80,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             setDataChat((prev) => {
                 return {
                     roomChat: prev.roomChat,
-                    messageChat: [
-                        ...prev.messageChat,
-                        {
-                            ...message,
-                            receiverId: message.receiverId
-                                ? message.receiverId
-                                : 0,
-                        },
-                    ],
+                    messageChat: [...prev.messageChat, message],
                 }
             })
         })
@@ -126,15 +118,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         meetingId,
                     )
                 if (res) {
-                    setDataChat({
-                        ...res,
-                        messageChat: res.messageChat.map((message) => ({
-                            ...message,
-                            receiverId: message.receiverId
-                                ? message.receiverId
-                                : 0,
-                        })),
-                    })
+                    setDataChat(res)
                     setInitStatus(FETCH_STATUS.SUCCESS)
                 }
             } catch (error) {}
@@ -172,27 +156,36 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         const cachedObject: {
             [key in string]: boolean
         } = {}
-        const uniqueParticipant = participant.filter((obj) => {
-            if (
-                !cachedObject[obj.userId] &&
-                obj.userId !== authState.userData?.id
-            ) {
-                cachedObject[obj.userId] = true
-                return true
-            }
-            return false
-        })
+        const uniqueParticipant = participant
+            .filter((obj) => {
+                if (
+                    !cachedObject[obj.userId] &&
+                    obj.userId !== authState.userData?.id
+                ) {
+                    cachedObject[obj.userId] = true
+                    return true
+                }
+                return false
+            })
+            .map((user) => {
+                return {
+                    userId: user.userId,
+                    userEmail: user.userEmail,
+                }
+            })
 
         return [
             {
-                userId: '0',
+                userId: 0,
                 userEmail: 'EveryOne',
             },
             ...uniqueParticipant,
         ]
     }, [...meetingInfo.participants])
 
-    const participantJoinChat = useMemo((): { [key in number]: string } => {
+    // console.log('participantToSendMessage', participantToSendMessage)
+
+    const objParticipant = useMemo((): { [key in number]: string } => {
         const participant = meetingInfo.participants
             .map((participant) => participant.userParticipants)
             .flatMap((user) => user)
@@ -211,6 +204,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             ...cachedObject,
         }
     }, [...meetingInfo.participants])
+
+    // console.log('objParticipant', objParticipant)
 
     const toggleModelDetailResolution = () => {
         if (!chatModalOpen) {
@@ -268,22 +263,43 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 .padStart(3, '0')
 
             const isoStringWithZ = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`
-            //Send Chat Private
+
+            // Send Chat Private
             if (receiverId) {
                 socket.emit('send_chat_private', {
                     meetingId: meetingInfo.id,
-                    receiverId: receiverId,
-                    senderId: idSender,
+                    receiver: {
+                        id: receiverId,
+                        email: objParticipant[sendToUser],
+                    },
+                    sender: {
+                        id: idSender,
+                        email: objParticipant[idSender],
+                    },
                     content: valueMessage,
                 })
             } else {
                 //Send chat Publish
                 socket.emit('send_chat_public', {
                     meetingId: meetingInfo.id,
-                    receiverId: sendToUser == 0 ? null : sendToUser,
-                    senderId: idSender,
+                    receiver: {
+                        id: receiverId,
+                        email: objParticipant[sendToUser],
+                    },
+                    sender: {
+                        id: idSender,
+                        email: objParticipant[idSender],
+                    },
                     content: valueMessage,
                 })
+                console.log(
+                    meetingInfo.id,
+                    sendToUser,
+                    objParticipant[sendToUser],
+                    idSender,
+                    objParticipant[idSender],
+                    valueMessage,
+                )
             }
 
             setDataChat((prev) => {
@@ -292,8 +308,14 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     messageChat: [
                         ...prev.messageChat,
                         {
-                            senderId: idSender,
-                            receiverId: sendToUser,
+                            receiver: {
+                                id: sendToUser,
+                                email: objParticipant[sendToUser],
+                            },
+                            sender: {
+                                id: idSender,
+                                email: objParticipant[idSender],
+                            },
                             content: valueMessage,
                             createdAt: isoStringWithZ,
                         },
@@ -398,44 +420,34 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                 }
 
                                                 if (
-                                                    message.senderId ==
+                                                    message.sender.id ==
                                                     authState.userData?.id
                                                 ) {
                                                     return (
                                                         <MessageChatItemFromYou
                                                             key={index}
                                                             from={
-                                                                participantJoinChat[
-                                                                    message
-                                                                        .senderId
-                                                                ]
+                                                                message.sender
+                                                                    .email
                                                             }
                                                             to={
-                                                                participantJoinChat[
-                                                                    message
-                                                                        .receiverId
-                                                                ]
+                                                                message.receiver
+                                                                    .email
                                                             }
                                                             date={dateInfo}
                                                             message={
                                                                 message.content
                                                             }
                                                             messageInfoPrev={{
-                                                                from: participantJoinChat[
-                                                                    dataChat
-                                                                        .messageChat[
-                                                                        index -
-                                                                            1
-                                                                    ]?.senderId
-                                                                ],
-                                                                to: participantJoinChat[
-                                                                    dataChat
-                                                                        .messageChat[
-                                                                        index -
-                                                                            1
-                                                                    ]
-                                                                        ?.receiverId
-                                                                ],
+                                                                from: dataChat
+                                                                    .messageChat[
+                                                                    index - 1
+                                                                ].sender.email,
+                                                                to: dataChat
+                                                                    .messageChat[
+                                                                    index - 1
+                                                                ].receiver
+                                                                    .email,
                                                                 datePrev: {
                                                                     ...dateInfoPrev,
                                                                 },
@@ -451,54 +463,42 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     <MessageChatItemToYou
                                                         key={index}
                                                         from={
-                                                            participantJoinChat[
-                                                                message.senderId
-                                                            ]
+                                                            message.sender.email
                                                         }
                                                         to={
-                                                            participantJoinChat[
-                                                                message
-                                                                    .receiverId
-                                                            ].toLowerCase() ==
+                                                            message.receiver.email.toLowerCase() ==
                                                             authState.userData?.email.toLowerCase()
                                                                 ? 'You'
-                                                                : participantJoinChat[
-                                                                      message
-                                                                          .receiverId
-                                                                  ]
+                                                                : message
+                                                                      .receiver
+                                                                      .email
                                                         }
                                                         date={dateInfo}
                                                         message={
                                                             message.content
                                                         }
                                                         messageInfoPrev={{
-                                                            from: participantJoinChat[
+                                                            from: dataChat
+                                                                .messageChat[
+                                                                index - 1
+                                                            ]?.sender.email,
+                                                            to:
                                                                 dataChat
                                                                     .messageChat[
                                                                     index - 1
-                                                                ]?.senderId
-                                                            ],
-                                                            to:
-                                                                participantJoinChat[
-                                                                    dataChat
-                                                                        .messageChat[
-                                                                        index -
-                                                                            1
-                                                                    ]
-                                                                        ?.receiverId
-                                                                ] ==
+                                                                ]?.receiver
+                                                                    .email ==
                                                                 authState
                                                                     .userData
                                                                     ?.email
                                                                     ? 'You'
-                                                                    : participantJoinChat[
-                                                                          dataChat
-                                                                              .messageChat[
-                                                                              index -
-                                                                                  1
-                                                                          ]
-                                                                              ?.receiverId
-                                                                      ],
+                                                                    : dataChat
+                                                                          .messageChat[
+                                                                          index -
+                                                                              1
+                                                                      ]
+                                                                          ?.receiver
+                                                                          .email,
                                                             datePrev: {
                                                                 ...dateInfoPrev,
                                                             },
