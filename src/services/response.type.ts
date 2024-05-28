@@ -401,12 +401,23 @@ export interface IRoleMtgResponse {
 // }
 
 //Type Chat Meeting
+export interface userChatInfo {
+    id: number,
+    email: string,
+}
+
+export interface replyMessageInfo {
+    id: number,
+    senderId: userChatInfo,
+    receiverId:userChatInfo,
+    content: string
+}
 export interface DataMessageChat {
-    senderId: number
-    receiverId: number
+    sender: userChatInfo
+    receiver: userChatInfo
     content: string
     createdAt: string
-    replyMessageId?: number
+    replyMessage?: replyMessageInfo
 }
 
 export interface IAllMeetingChatInMeetingResponse {
