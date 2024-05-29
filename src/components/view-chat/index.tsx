@@ -420,7 +420,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                 }
 
                                                 if (
-                                                    message.sender.id ==
+                                                    message.sender?.id ==
                                                     authState.userData?.id
                                                 ) {
                                                     return (
@@ -442,11 +442,11 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                 from: dataChat
                                                                     .messageChat[
                                                                     index - 1
-                                                                ].sender.email,
+                                                                ]?.sender.email,
                                                                 to: dataChat
                                                                     .messageChat[
                                                                     index - 1
-                                                                ].receiver
+                                                                ]?.receiver
                                                                     .email,
                                                                 datePrev: {
                                                                     ...dateInfoPrev,
