@@ -255,7 +255,16 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         const message = dataChat.messageChat.find((message) => message.id == e)
         if (message) {
             setInitMessage(message)
-            // setSendToUser(+message.sender.id)
+            if (message.receiver.id === authState?.userData?.id) {
+                setSendToUser(+message.sender.id)
+            } else if (
+                message.sender.id === authState?.userData?.id &&
+                message.receiver.id !== 0
+            ) {
+                setSendToUser(+message.receiver.id)
+            } else if (message.receiver.id === 0) {
+                setSendToUser(0)
+            }
         }
     }
 
@@ -397,9 +406,10 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const clearReplySelection = () => {
         setInitMessage(undefined)
-        setSendToUser(0)
+        // setSendToUser(0)
     }
 
+    console.log('dataChat.messageChat----', dataChat.messageChat)
     return (
         <>
             <div className="fixed bottom-7 right-5 h-auto">
@@ -697,7 +707,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     </span>
                                                 </div>
                                                 <Button
-                                                    className="absolute right-0 top-0 flex items-center justify-center rounded-sm bg-gray-200 text-lg font-medium hover:bg-white "
+                                                    className="absolute right-0 top-0 flex items-center justify-center rounded-sm border-none bg-gray-200 text-xs font-medium"
                                                     onClick={
                                                         clearReplySelection
                                                     }
