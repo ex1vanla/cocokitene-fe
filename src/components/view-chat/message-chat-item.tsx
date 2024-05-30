@@ -1,4 +1,9 @@
+import { truncateString } from '@/utils/format-string'
+import { CommentOutlined, MehOutlined } from '@ant-design/icons'
+import { useState } from 'react'
+
 export interface IMessageChatItem {
+    id: number
     from: string
     to: string
     message: string
@@ -18,20 +23,41 @@ export interface IMessageChatItem {
             day: number
         }
     }
+    replyMessage?: {
+        id: number
+        from: string
+        to: string
+        content: string
+    }
     // eslint-disable-next-line
     setSentUserTo: (e: string) => void
+    // eslint-disable-next-line no-unused-vars
+    setReplyMessage: (e: number) => void
+    // eslint-disable-next-line no-undef
+    ref?: React.RefObject<HTMLDivElement>
 }
 
 export const MessageChatItemToYou = ({
+    id,
     from,
     to,
     message,
     date,
     messageInfoPrev,
     setSentUserTo,
+    replyMessage,
+    setReplyMessage,
+    ref,
 }: IMessageChatItem) => {
+    const [isHover, setIsHover] = useState(false)
+
     return (
-        <div className="flex w-full flex-col gap-[2px]">
+        <div
+            ref={ref}
+            className="flex w-full flex-col gap-[2px]"
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+        >
             {(messageInfoPrev.datePrev.year === date.year &&
                 messageInfoPrev.datePrev.month === date.month &&
                 messageInfoPrev.datePrev.day === date.day) || (
@@ -67,8 +93,27 @@ export const MessageChatItemToYou = ({
                     </span>
                 </div>
             )}
-            <div className="mb-[1px] flex">
+            <div
+                className="mb-[1px] flex items-center"
+                id={`message-${id}`}
+                onClick={() => {
+                    document.getElementById(`message-${id}`)?.scrollIntoView()
+                }}
+            >
                 <span className="h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 text-[14px]">
+                    {replyMessage !== undefined && (
+                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-400 p-1 font-semibold text-white">
+                            <div>{replyMessage.from}</div>
+                            <span className="text-[12px]">
+                                {' '}
+                                {truncateString({
+                                    text: replyMessage?.content,
+                                    start: 20,
+                                    end: 0,
+                                })}{' '}
+                            </span>
+                        </div>
+                    )}
                     {message.split('\n').map((mess, index) => {
                         return <div key={index}>{mess}</div>
                     })}
@@ -77,21 +122,54 @@ export const MessageChatItemToYou = ({
                         {date.minute < 10 ? '0' + date.minute : date.minute}
                     </span>
                 </span>
+                {isHover && (
+                    <div className="ml-1 flex h-[25px] items-center justify-between gap-1 rounded-3xl border border-gray-500 bg-white p-1">
+                        <CommentOutlined
+                            style={{
+                                fontSize: '20px',
+                                color: '#5151e5',
+                            }}
+                            onClick={() => {
+                                setReplyMessage(id)
+                            }}
+                        />
+                        <MehOutlined
+                            style={{
+                                fontSize: '20px',
+                                color: '#5151e5',
+                            }}
+                            onClick={() => {
+                                console.log('like')
+                            }}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     )
 }
 
 export const MessageChatItemFromYou = ({
+    id,
     from,
     to,
     message,
     date,
     messageInfoPrev,
     setSentUserTo,
+    replyMessage,
+    setReplyMessage,
+    ref,
 }: IMessageChatItem) => {
+    const [isHover, setIsHover] = useState(false)
+
     return (
-        <div className="flex w-full flex-col gap-[2px]">
+        <div
+            ref={ref}
+            className="flex w-full flex-col gap-[2px]"
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+        >
             {(messageInfoPrev.datePrev.year === date.year &&
                 messageInfoPrev.datePrev.month === date.month &&
                 messageInfoPrev.datePrev.day === date.day) || (
@@ -127,8 +205,44 @@ export const MessageChatItemFromYou = ({
                     </span>
                 </div>
             )}
-            <div className="mb-[1px] flex justify-end">
+            <div className="mb-[1px] flex items-center justify-end">
+                {isHover && (
+                    <div className=" mr-1 flex h-[25px] items-center justify-between gap-1 rounded-3xl border border-gray-500 bg-white p-1 ">
+                        <CommentOutlined
+                            style={{
+                                fontSize: '20px',
+                                color: '#5151e5',
+                            }}
+                            onClick={() => {
+                                setReplyMessage(id)
+                            }}
+                        />
+                        <MehOutlined
+                            style={{
+                                fontSize: '20px',
+                                color: '#5151e5',
+                            }}
+                            onClick={() => {
+                                console.log('like')
+                            }}
+                        />
+                    </div>
+                )}
                 <span className="h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 pl-1 text-[14px]">
+                    {replyMessage !== undefined && (
+                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-400 p-1 font-semibold text-white">
+                            <div>{replyMessage.from}</div>
+                            <span className="text-[12px]">
+                                {' '}
+                                {truncateString({
+                                    text: replyMessage?.content,
+                                    start: 20,
+                                    end: 0,
+                                })}{' '}
+                            </span>
+                        </div>
+                    )}
+
                     {message.split('\n').map((mess, index) => {
                         return <div key={index}>{mess}</div>
                     })}

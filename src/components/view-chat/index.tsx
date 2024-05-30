@@ -1,20 +1,24 @@
 'use client'
 /* eslint-disable */
 
+import { FETCH_STATUS } from '@/constants/common'
+import serviceChatMeeting from '@/services/chat-meeting'
+import { DataMessageChat } from '@/services/response.type'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { MessageTwoTone, MinusOutlined, SendOutlined } from '@ant-design/icons'
-import { Row, Select, Spin } from 'antd'
+import { Button, Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
-import { ChangeEvent, useEffect, useMemo, useState, useRef } from 'react'
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
 import {
     MessageChatItemFromYou,
     MessageChatItemToYou,
 } from './message-chat-item'
-import { useAuthLogin } from '@/stores/auth/hooks'
-import { DataMessageChat } from '@/services/response.type'
-import { FETCH_STATUS } from '@/constants/common'
-import serviceChatMeeting from '@/services/chat-meeting'
 // Socket
+import { truncateString } from '@/utils/format-string'
 import { io } from 'socket.io-client'
+import { useTransaction } from 'wagmi'
+import { useTranslations } from 'next-intl'
+import React from 'react'
 
 enum ScrollType {
     SMOOTH = 1,
@@ -41,6 +45,7 @@ interface IMeetingChat {
 }
 
 const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
+    const t = useTranslations()
     const bottomOfMessageChat = useRef<null | HTMLElement>(null)
 
     const { authState } = useAuthLogin()
@@ -65,6 +70,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     const [initStatus, setInitStatus] = useState<FETCH_STATUS>(
         FETCH_STATUS.IDLE,
     )
+    const [initMessage, setInitMessage] = useState<DataMessageChat>()
+    const messageRefs = useRef([] as React.RefObject<HTMLDivElement>[])
+    // scroll to message
 
     //Socket
     const [socket, setSocket] = useState<any>(undefined)
@@ -129,6 +137,22 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         }
     }, [meetingInfo.id])
 
+    // useEffect(() => {
+    //     if (dataChat.messageChat && dataChat.messageChat.length > 0) {
+    //         messageRefs.current = Array(dataChat.messageChat.length).fill(null).map(() => React.createRef());
+    //     }
+    // }, [dataChat.messageChat]);
+
+    // console.log('messageRefs.current---', messageRefs.current);
+    const scrollToMessage = (id: number) => {
+        // const messageElement = messageRefs.current[id] as HTMLDivElement
+        // if (messageElement) {
+        //     messageElement.scrollIntoView({ behavior: 'smooth' })
+        // } else {
+        //     console.error(`Message element at index ${id} does not exist`)
+        // }
+    }
+
     useEffect(() => {
         if (scrollToBottom.scroll) {
             if (scrollToBottom.type == ScrollType.SMOOTH) {
@@ -147,6 +171,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             })
         }
     }, [scrollToBottom])
+    // console.log('dataChat.messageChat-----',dataChat.messageChat)
 
     const participantToSendMessage = useMemo(() => {
         const participant = meetingInfo.participants
@@ -183,8 +208,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         ]
     }, [...meetingInfo.participants])
 
-    // console.log('participantToSendMessage', participantToSendMessage)
-
     const objParticipant = useMemo((): { [key in number]: string } => {
         const participant = meetingInfo.participants
             .map((participant) => participant.userParticipants)
@@ -205,8 +228,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         }
     }, [...meetingInfo.participants])
 
-    // console.log('objParticipant', objParticipant)
-
     const toggleModelDetailResolution = () => {
         if (!chatModalOpen) {
             setScrollToBottom({
@@ -221,13 +242,20 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         setSendToUser(+value)
     }
 
-    //
     const choiceSendMessageTo = (e: string) => {
         const idOfUserToSendMessage = participantToSendMessage.find(
             (user) => user.userEmail.toLowerCase() == e.toLowerCase(),
         )
         if (idOfUserToSendMessage) {
             setSendToUser(+idOfUserToSendMessage.userId)
+        }
+    }
+
+    const replyResponseMessage = (e: number) => {
+        const message = dataChat.messageChat.find((message) => message.id == e)
+        if (message) {
+            setInitMessage(message)
+            // setSendToUser(+message.sender.id)
         }
     }
 
@@ -266,32 +294,86 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
             // Send Chat Private
             if (receiverId) {
-                socket.emit('send_chat_private', {
-                    meetingId: meetingInfo.id,
-                    receiver: {
-                        id: receiverId,
-                        email: objParticipant[sendToUser],
-                    },
-                    sender: {
-                        id: idSender,
-                        email: objParticipant[idSender],
-                    },
-                    content: valueMessage,
-                })
+                if (initMessage) {
+                    socket.emit('send_chat_private', {
+                        meetingId: meetingInfo.id,
+                        receiver: {
+                            id: receiverId,
+                            email: objParticipant[sendToUser],
+                        },
+                        sender: {
+                            id: idSender,
+                            email: objParticipant[idSender],
+                        },
+                        content: valueMessage,
+                        replyMessage: {
+                            id: initMessage.id,
+                            senderId: {
+                                id: initMessage.sender.id,
+                                email: initMessage.sender.email,
+                            },
+                            receiverId: {
+                                id: initMessage.receiver.id,
+                                email: initMessage.receiver.email,
+                            },
+                            content: initMessage.content,
+                        },
+                    })
+                } else {
+                    socket.emit('send_chat_private', {
+                        meetingId: meetingInfo.id,
+                        receiver: {
+                            id: receiverId,
+                            email: objParticipant[sendToUser],
+                        },
+                        sender: {
+                            id: idSender,
+                            email: objParticipant[idSender],
+                        },
+                        content: valueMessage,
+                    })
+                }
             } else {
                 //Send chat Publish
-                socket.emit('send_chat_public', {
-                    meetingId: meetingInfo.id,
-                    receiver: {
-                        id: receiverId,
-                        email: objParticipant[sendToUser],
-                    },
-                    sender: {
-                        id: idSender,
-                        email: objParticipant[idSender],
-                    },
-                    content: valueMessage,
-                })
+                if (initMessage) {
+                    socket.emit('send_chat_public', {
+                        meetingId: meetingInfo.id,
+                        receiver: {
+                            id: receiverId,
+                            email: objParticipant[sendToUser],
+                        },
+                        sender: {
+                            id: idSender,
+                            email: objParticipant[idSender],
+                        },
+                        content: valueMessage,
+                        replyMessage: {
+                            id: initMessage.id,
+                            senderId: {
+                                id: initMessage.sender.id,
+                                email: initMessage.sender.email,
+                            },
+                            receiverId: {
+                                id: initMessage.receiver.id,
+                                email: initMessage.receiver.email,
+                            },
+                            content: initMessage.content,
+                        },
+                    })
+                } else {
+                    socket.emit('send_chat_public', {
+                        meetingId: meetingInfo.id,
+                        receiver: {
+                            id: receiverId,
+                            email: objParticipant[sendToUser],
+                        },
+                        sender: {
+                            id: idSender,
+                            email: objParticipant[idSender],
+                        },
+                        content: valueMessage,
+                    })
+                }
                 console.log(
                     meetingInfo.id,
                     sendToUser,
@@ -302,27 +384,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 )
             }
 
-            setDataChat((prev) => {
-                return {
-                    roomChat: prev.roomChat,
-                    messageChat: [
-                        ...prev.messageChat,
-                        {
-                            receiver: {
-                                id: sendToUser,
-                                email: objParticipant[sendToUser],
-                            },
-                            sender: {
-                                id: idSender,
-                                email: objParticipant[idSender],
-                            },
-                            content: valueMessage,
-                            createdAt: isoStringWithZ,
-                        },
-                    ],
-                }
-            })
-
             setScrollToBottom({
                 type: ScrollType.FAST,
                 scroll: true,
@@ -331,18 +392,17 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             console.log('Send message chat failed!!! UnAuthor')
         }
         setValueMessage('')
+        setInitMessage(undefined)
+    }
+
+    const clearReplySelection = () => {
+        setInitMessage(undefined)
+        setSendToUser(0)
     }
 
     return (
         <>
             <div className="fixed bottom-7 right-5 h-auto">
-                {/* <Modal
-                    open={chatModalOpen}
-                    onCancel={toggleModelDetailResolution}
-                    footer={[]}
-                > */}
-
-                {/* {chatModalOpen && ( */}
                 <div
                     className={`mb-14 mr-3 border bg-white ${
                         chatModalOpen
@@ -350,7 +410,11 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                             : 'hidden animate-message-chat-move-right'
                     }`}
                 >
-                    <div className="flex h-[600px] w-[400px] flex-col">
+                    <div
+                        className={`flex w-[400px] flex-col ${
+                            initMessage ? 'h-[700px]' : 'h-[600px]'
+                        }`}
+                    >
                         {initStatus === FETCH_STATUS.LOADING ? (
                             <Row
                                 align={'middle'}
@@ -374,7 +438,11 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                         }}
                                     />
                                 </div>
-                                <div className="h-[77%] p-2">
+                                <div
+                                    className={`${
+                                        initMessage ? 'h-[71%]' : 'h-[77%]'
+                                    } p-2`}
+                                >
                                     <div className="border-black-500 h-full overflow-hidden border px-2 hover:overflow-y-auto">
                                         {dataChat?.messageChat.map(
                                             (message, index) => {
@@ -425,6 +493,13 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                 ) {
                                                     return (
                                                         <MessageChatItemFromYou
+                                                            ref={
+                                                                messageRefs
+                                                                    .current[
+                                                                    index
+                                                                ]
+                                                            }
+                                                            id={message.id}
                                                             key={index}
                                                             from={
                                                                 message.sender
@@ -452,8 +527,32 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                     ...dateInfoPrev,
                                                                 },
                                                             }}
+                                                            replyMessage={
+                                                                message.replyMessage
+                                                                    ? {
+                                                                          id: message
+                                                                              ?.replyMessage
+                                                                              ?.id,
+                                                                          from: message
+                                                                              ?.replyMessage
+                                                                              ?.senderId
+                                                                              .email,
+                                                                          to: message
+                                                                              ?.replyMessage
+                                                                              ?.receiverId
+                                                                              .email,
+                                                                          content:
+                                                                              message
+                                                                                  ?.replyMessage
+                                                                                  ?.content,
+                                                                      }
+                                                                    : undefined
+                                                            }
                                                             setSentUserTo={
                                                                 choiceSendMessageTo
+                                                            }
+                                                            setReplyMessage={
+                                                                replyResponseMessage
                                                             }
                                                         />
                                                     )
@@ -461,6 +560,12 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
                                                 return (
                                                     <MessageChatItemToYou
+                                                        id={message.id}
+                                                        ref={
+                                                            messageRefs.current[
+                                                                index
+                                                            ]
+                                                        }
                                                         key={index}
                                                         from={
                                                             message.sender.email
@@ -503,8 +608,32 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                 ...dateInfoPrev,
                                                             },
                                                         }}
+                                                        replyMessage={
+                                                            message.replyMessage
+                                                                ? {
+                                                                      id: message
+                                                                          ?.replyMessage
+                                                                          ?.id,
+                                                                      from: message
+                                                                          ?.replyMessage
+                                                                          ?.senderId
+                                                                          .email,
+                                                                      to: message
+                                                                          ?.replyMessage
+                                                                          ?.receiverId
+                                                                          .email,
+                                                                      content:
+                                                                          message
+                                                                              ?.replyMessage
+                                                                              ?.content,
+                                                                  }
+                                                                : undefined
+                                                        }
                                                         setSentUserTo={
                                                             choiceSendMessageTo
+                                                        }
+                                                        setReplyMessage={
+                                                            replyResponseMessage
                                                         }
                                                     />
                                                 )
@@ -513,10 +642,14 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                         <span ref={bottomOfMessageChat}></span>
                                     </div>
                                 </div>
-                                <div className="flex h-[15%] gap-5 px-2">
+                                <div
+                                    className={`flex gap-5 px-2 ${
+                                        initMessage ? 'h-[22%]' : 'h-[15%]'
+                                    }`}
+                                >
                                     <div className="flex w-[95%] flex-col gap-2">
                                         <div>
-                                            <span>To : </span>
+                                            <span>To: </span>
                                             <Select
                                                 defaultValue={'0'}
                                                 value={String(sendToUser)}
@@ -537,6 +670,43 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                             />
                                         </div>
 
+                                        {initMessage && (
+                                            <div className="relative flex justify-between rounded-lg bg-gray-200 p-1 ">
+                                                <div>
+                                                    <div>
+                                                        <span className="text-xs">
+                                                            {t('RESPONSE')}{' '}
+                                                        </span>
+                                                        <span className="text-sm font-semibold">
+                                                            {initMessage?.sender
+                                                                ?.id ===
+                                                            authState?.userData
+                                                                ?.id
+                                                                ? ''
+                                                                : initMessage
+                                                                      ?.sender
+                                                                      .email}
+                                                        </span>
+                                                    </div>
+                                                    <span>
+                                                        {truncateString({
+                                                            text: initMessage?.content,
+                                                            start: 44,
+                                                            end: 0,
+                                                        })}{' '}
+                                                    </span>
+                                                </div>
+                                                <Button
+                                                    className="absolute right-0 top-0 flex items-center justify-center rounded-sm bg-gray-200 text-lg font-medium hover:bg-white "
+                                                    onClick={
+                                                        clearReplySelection
+                                                    }
+                                                >
+                                                    X
+                                                </Button>
+                                            </div>
+                                        )}
+
                                         <div className="flex w-full items-center gap-5">
                                             <TextArea
                                                 value={valueMessage}
@@ -554,18 +724,12 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                         !e.shiftKey &&
                                                         valueMessage.trim()
                                                     ) {
-                                                        // console.log(
-                                                        //     'SendMessage by Enter key',
-                                                        // )
                                                         sendMessage()
                                                     }
                                                     if (
                                                         e.keyCode == 13 &&
                                                         e.shiftKey
                                                     ) {
-                                                        // console.log(
-                                                        //     'Shift + Enter Key!!!!',
-                                                        // )
                                                     }
                                                 }}
                                             />
@@ -587,8 +751,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         )}
                     </div>
                 </div>
-                {/* )} */}
-                {/* </Modal> */}
 
                 <MessageTwoTone
                     twoToneColor="#5151e5"
