@@ -102,9 +102,11 @@ export const MessageChatItemToYou = ({
             >
                 <span className="h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 text-[14px]">
                     {replyMessage !== undefined && (
-                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-400 p-1 font-semibold text-white">
-                            <div>{replyMessage.from}</div>
-                            <span className="text-[12px]">
+                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white">
+                            <div className="text-gray-500">
+                                {replyMessage.from}
+                            </div>
+                            <span className="text-[12px] text-gray-500">
                                 {' '}
                                 {truncateString({
                                     text: replyMessage?.content,
@@ -114,6 +116,7 @@ export const MessageChatItemToYou = ({
                             </span>
                         </div>
                     )}
+
                     {message.split('\n').map((mess, index) => {
                         return <div key={index}>{mess}</div>
                     })}
@@ -230,9 +233,11 @@ export const MessageChatItemFromYou = ({
                 )}
                 <span className="h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 pl-1 text-[14px]">
                     {replyMessage !== undefined && (
-                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-400 p-1 font-semibold text-white">
-                            <div>{replyMessage.from}</div>
-                            <span className="text-[12px]">
+                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white">
+                            <div className="text-gray-500">
+                                {replyMessage.from}
+                            </div>
+                            <span className="text-[12px] text-gray-500">
                                 {' '}
                                 {truncateString({
                                     text: replyMessage?.content,

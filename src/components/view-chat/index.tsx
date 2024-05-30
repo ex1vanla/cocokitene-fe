@@ -397,7 +397,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const clearReplySelection = () => {
         setInitMessage(undefined)
-        setSendToUser(0)
+        // setSendToUser(0)
     }
 
     return (
@@ -697,7 +697,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     </span>
                                                 </div>
                                                 <Button
-                                                    className="absolute right-0 top-0 flex items-center justify-center rounded-sm bg-gray-200 text-lg font-medium hover:bg-white "
+                                                    className="absolute border-none right-0 top-0 flex items-center justify-center rounded-sm bg-gray-200 text-xs font-medium"
                                                     onClick={
                                                         clearReplySelection
                                                     }
