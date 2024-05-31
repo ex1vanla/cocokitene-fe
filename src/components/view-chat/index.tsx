@@ -263,7 +263,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             ) {
                 setSendToUser(+message.receiver.id)
             } else if (message.receiver.id === 0) {
-                setSendToUser(0)
+                setSendToUser(message.receiver.id)
             }
         }
     }
