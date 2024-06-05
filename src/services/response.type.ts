@@ -425,3 +425,15 @@ export interface IAllMeetingChatInMeetingResponse {
     roomChat: number
     messageChat: DataMessageChat[]
 }
+
+export interface IDataHashMeeting {
+    id: number
+    basicInformationMeetingHash: string
+    fileMeetingHash: string
+    proposalMeetingHash: string
+    votedProposalHash: string
+    candidateHash: string
+    votedCandidateHash: string
+    participantHash: string
+    detailMeetingHash: string
+}

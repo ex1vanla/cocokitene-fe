@@ -10,6 +10,7 @@ import EmptyMeeting from '@/views/meeting/meeting-list/empty-meeting'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
 import { getAllPassBoardMeetings } from '@/stores/board-meeting/listSlice'
+import ModalCheckDataInMtg from '@/components/check-data-meeting'
 
 export interface ListPassBoardMeetingProps {
     data: IMeetingItem[]
@@ -32,6 +33,7 @@ const ListBoardMeetingPast = ({ data }: ListPassBoardMeetingProps) => {
             }),
         )
     }
+
     return (
         <div className="list-board-meeting-pass mt-6">
             <BoxArea title={t('BOARD_MEETING_PAST_LIST')}>
@@ -55,6 +57,7 @@ const ListBoardMeetingPast = ({ data }: ListPassBoardMeetingProps) => {
                     />
                 )}
             </BoxArea>
+            <ModalCheckDataInMtg />
         </div>
     )
 }

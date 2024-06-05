@@ -76,7 +76,7 @@ const ItemFutureBoardMeeting = ({
         <>
             {contextHolder}
             <Row className="mb-2 rounded-lg border p-2" gutter={[16, 16]}>
-                <Col span={7} className="flex items-center space-x-2">
+                <Col span={6} className="flex items-center space-x-2">
                     <Image
                         src="/images/logo-meeting-future.png"
                         alt="service-image-alt"
@@ -90,14 +90,9 @@ const ItemFutureBoardMeeting = ({
                         )}
                     </Text>
                 </Col>
-                <Col span={8} className="flex items-center">
+                <Col span={4} className="flex items-center">
                     <Tooltip
                         placement="topLeft"
-                        // title={truncateString({
-                        //     text: meetings_note,
-                        //     start: 200,
-                        //     end: 0,
-                        // })}
                         title={
                             meetings_note && (
                                 <>
@@ -119,6 +114,7 @@ const ItemFutureBoardMeeting = ({
                         <Text>{meetings_title}</Text>
                     </Tooltip>
                 </Col>
+                <Col span={5}></Col>
                 <Col span={3} className="flex items-center pl-4">
                     <Link href={meetings_meeting_link.toString()}>
                         <Text className="text-blue-500 hover:underline">
@@ -142,14 +138,12 @@ const ItemFutureBoardMeeting = ({
                         }
                     })}
                 </Col>
-                <Col
-                    span={4}
-                    className="flex items-center justify-end gap-5 space-x-2 pr-5"
-                >
+                <Col span={2} className="flex items-center justify-center">
                     {isJoined === 0 ? (
                         <Button
+                            className="w-[68px]"
                             type="primary"
-                            size="middle"
+                            // size="middle"
                             onClick={() => showModal(meetings_start_time)}
                         >
                             {t('BTN_JOIN')}
@@ -159,14 +153,11 @@ const ItemFutureBoardMeeting = ({
                             {t('JOINED')}
                         </Button>
                     )}
-                    {/* <Button
-                        size="middle"
-                        onClick={() => {
-                            router.push('/board-meeting/detail/' + meetings_id)
-                        }}
-                    >
-                        {t('BTN_VIEW_DETAIL')}
-                    </Button> */}
+                </Col>
+                <Col
+                    span={2}
+                    className="flex items-center justify-end gap-5 space-x-2 pr-5"
+                >
                     <div className="flex gap-3">
                         {permissionEdit && (
                             <EditTwoTone

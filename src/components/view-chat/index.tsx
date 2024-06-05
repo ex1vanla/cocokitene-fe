@@ -16,7 +16,6 @@ import {
 // Socket
 import { truncateString } from '@/utils/format-string'
 import { io } from 'socket.io-client'
-import { useTransaction } from 'wagmi'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
@@ -426,7 +425,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         ) : (
                             <>
                                 <div className="relative flex h-[7%] w-full items-center bg-[#5151e5] px-2">
-                                    <span className="text-xl font-medium text-[#ffffff]">
+                                    <span className="max-w-[90%] truncate text-xl font-medium text-[#ffffff]	">
                                         Chat {meetingInfo.title}
                                     </span>
                                     <MinusOutlined
@@ -697,7 +696,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     </span>
                                                 </div>
                                                 <Button
-                                                    className="absolute border-none right-0 top-0 flex items-center justify-center rounded-sm bg-gray-200 text-xs font-medium"
+                                                    className="absolute right-0 top-0 flex items-center justify-center rounded-sm border-none bg-gray-200 text-xs font-medium"
                                                     onClick={
                                                         clearReplySelection
                                                     }
