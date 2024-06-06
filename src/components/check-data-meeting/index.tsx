@@ -121,8 +121,9 @@ const ModalCheckDataInMtg = () => {
             >
                 <div className="mb-5 flex h-[38px] w-full items-center px-2">
                     <span className="mx-auto max-w-full truncate text-xl">
-                        {t('CHECK_DATA_OF_MEETING')}{' '}
-                        {checkDataMeetingState.name}
+                        {t('CHECK_DATA_OF_MEETING', {
+                            name: checkDataMeetingState.name,
+                        })}
                     </span>
                 </div>
                 <div>
