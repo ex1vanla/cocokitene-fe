@@ -231,6 +231,12 @@ export interface IElectionResponse {
     description: string
 }
 
+export interface IReactionIconResponse {
+    id: number
+    key: string
+    description: string
+}
+
 export interface IListCompanyResponse {
     companys_id: number
     companys_company_name: string
@@ -396,11 +402,20 @@ export interface IRoleMtgResponse {
     roleName: string
     description: string
 }
-// export interface IRoleMtgResponse {
-//
-// }
 
 //Type Chat Meeting
+
+export interface ReactionIconResponse {
+    id: number
+    key: string
+}
+
+export interface ReactionMessage {
+    id: number
+    userId: number
+    messageId: number
+    emoji: ReactionIconResponse
+}
 export interface userChatInfo {
     id: number
     email: string
@@ -419,6 +434,7 @@ export interface DataMessageChat {
     content: string
     createdAt: string
     replyMessage?: replyMessageInfo
+    reactions?: ReactionMessage[]
 }
 
 export interface IAllMeetingChatInMeetingResponse {
