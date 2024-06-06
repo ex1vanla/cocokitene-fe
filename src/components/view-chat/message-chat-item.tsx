@@ -272,11 +272,11 @@ export const MessageChatItemToYou = ({
                                     >
                                         <div
                                             className={`cursor-pointer rounded-md hover:scale-125 ${reactionGroup.key in
-                                                    reactionColorMap
-                                                    ? reactionColorMap[
-                                                    reactionGroup.key
-                                                    ]
-                                                    : ''
+                                                reactionColorMap
+                                                ? reactionColorMap[
+                                                reactionGroup.key
+                                                ]
+                                                : ''
                                                 }`}
                                             style={{ display: 'inline-block' }}
                                         >
@@ -336,11 +336,11 @@ export const MessageChatItemToYou = ({
                                                 <div
                                                     key={index}
                                                     className={`cursor-pointer rounded-md px-1 py-1 text-lg hover:scale-125 ${icon.key in
-                                                            reactionColorMap
-                                                            ? reactionColorMap[
-                                                            icon.key
-                                                            ]
-                                                            : ''
+                                                        reactionColorMap
+                                                        ? reactionColorMap[
+                                                        icon.key
+                                                        ]
+                                                        : ''
                                                         }   ${ischecked
                                                             ? 'bg-gray-300'
                                                             : ''
@@ -479,7 +479,7 @@ export const MessageChatItemFromYou = ({
                             }}
                         />
                         <div
-                            className="relative"
+                            className="relative flex items-center"
                             onMouseEnter={() => setIsHoverLike(true)}
                             onMouseLeave={() => setIsHoverLike(false)}
                         >
@@ -491,7 +491,7 @@ export const MessageChatItemFromYou = ({
                                 }}
                             />
                             {isHoverLike && (
-                                <div className="absolute bottom-6 right-2 flex gap-1 rounded-lg border bg-white p-2 shadow-lg">
+                                <div className="absolute bottom-5 right-2 flex gap-1 rounded-lg border bg-white p-2 shadow-lg">
                                     {reactionIconList &&
                                         reactionIconList.map((icon, index) => {
                                             let ischecked: boolean = false
@@ -516,7 +516,7 @@ export const MessageChatItemFromYou = ({
                                                         ]
                                                         : ''
                                                         }   ${ischecked
-                                                            ? 'bg-gray-300'
+                                                            ? 'bg-gray-200'
                                                             : ''
                                                         }    `}
                                                     onClick={() =>
@@ -542,109 +542,97 @@ export const MessageChatItemFromYou = ({
                     </div>
                 )}
 
-                {replyMessage !== undefined && (
-                    <div
-                        className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white"
-                        onClick={() => {
-                            scrollToMessageReply(replyMessage.id)
-                        }}
+                <div
+                    className={`relative flex flex-col  ${groupedReactionsL &&
+                        Object.keys(groupedReactionsL).length > 0
+                        ? 'mb-2'
+                        : ''
+                        }`}
+                >
+                    <span
+                        className={`h-auto min-w-[70px] max-w-[300px]  break-words rounded-lg border border-gray-300 p-1 pl-1 text-[14px] ${groupedReactionsL ? 'mb-[5px]' : ''
+                            } ${scrollTo ? 'animate-scale-up-message bg-blue-200' : ''
+                            }  `}
                     >
-                        <div className="text-gray-500">
-                            {replyMessage.from}
-                            <div
-                                className={`relative flex flex-col  ${groupedReactionsL &&
-                                    Object.keys(groupedReactionsL).length > 0
-                                    ? 'mb-2'
-                                    : ''
-                                    }`}
-                            >
-                                <span
-                                    className={`h-auto min-w-[70px] max-w-[300px]  break-words rounded-lg border border-gray-300 p-1 pl-1 text-[14px] ${groupedReactionsL ? 'mb-[5px]' : ''
-                                        } ${scrollTo ? 'animate-scale-up-message bg-blue-200' : ''
-                                        }  `}
-                                >
-                                    {replyMessage !== undefined && (
-                                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white">
-                                            <div className="text-gray-500">
-                                                {replyMessage.from}
-                                            </div>
-                                            <span className="text-[12px] text-gray-500">
-                                                {' '}
-                                                {truncateString({
-                                                    text: replyMessage?.content,
-                                                    start: 20,
-                                                    end: 0,
-                                                })}{' '}
-                                            </span>
-                                        </div>
-                                    )}
-
-                                    {message.split('\n').map((mess, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                style={{
-                                                    maxWidth: '150px',
-                                                    whiteSpace: 'normal',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                }}
-                                            >
-                                                {mess}
-                                            </div>
-                                        )
-                                    })}
-                                    <span className="float-right text-[10px]">
-                                        {date.hour}:
-                                        {date.minute < 10 ? '0' + date.minute : date.minute}
-                                    </span>
+                        {replyMessage !== undefined && (
+                            <div className="mb-1 border-l-[3px] border-black-45  p-1 font-semibold text-white">
+                                <div className="text-gray-500">
+                                    {replyMessage.from}
+                                </div>
+                                <span className="text-[12px] text-gray-500">
+                                    {' '}
+                                    {truncateString({
+                                        text: replyMessage?.content,
+                                        start: 20,
+                                        end: 0,
+                                    })}{' '}
                                 </span>
-                                {Object.keys(groupedReactionsL).length > 0 && (
-                                    <div className="absolute bottom-[-10px] mb-[9px] mr-2 mt-0 flex justify-end gap-[3px] rounded-md border border-solid bg-gray-200">
-                                        {Object.entries(groupedReactionsL).map(
-                                            ([emojiId, reactionGroup], index) => (
-                                                <Tooltip
-                                                    key={index}
-                                                    color="gray"
-                                                    placement="topRight"
-                                                    title={reactionGroup.userEmail
-                                                        .map((email) =>
-                                                            truncateString({
-                                                                text: email,
-                                                                start: 10,
-                                                                end: 0,
-                                                            }),
-                                                        )
-                                                        .join(', ')}
-                                                    overlayStyle={{ maxWidth: '120px' }}
-                                                >
-                                                    <div
-                                                        className={`cursor-pointer rounded-md hover:scale-125 ${reactionGroup.key in
-                                                            reactionColorMap
-                                                            ? reactionColorMap[
-                                                            reactionGroup.key
-                                                            ]
-                                                            : ''
-                                                            }`}
-                                                        style={{ display: 'inline-block' }}
-                                                    >
-                                                        {reactionGroup.key in
-                                                            reactionIconMap
-                                                            ? reactionIconMap[
-                                                            reactionGroup.key
-                                                            ]
-                                                            : null}
-                                                    </div>
-                                                </Tooltip>
-                                            ),
-                                        )}
-                                    </div>
-                                )}
                             </div>
+                        )}
+
+                        {message.split('\n').map((mess, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    style={{
+                                        maxWidth: '150px',
+                                        whiteSpace: 'normal',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                    }}
+                                >
+                                    {mess}
+                                </div>
+                            )
+                        })}
+                        <span className="float-right text-[10px]">
+                            {date.hour}:
+                            {date.minute < 10 ? '0' + date.minute : date.minute}
+                        </span>
+                    </span>
+                    {Object.keys(groupedReactionsL).length > 0 && (
+                        <div className="absolute bottom-[-10px] mb-[9px] mr-2 mt-0 left-2 flex justify-end gap-[3px] rounded-md border border-solid bg-gray-200">
+                            {Object.entries(groupedReactionsL).map(
+                                ([emojiId, reactionGroup], index) => (
+                                    <Tooltip
+                                        key={index}
+                                        color="gray"
+                                        placement="topRight"
+                                        title={reactionGroup.userEmail
+                                            .map((email) =>
+                                                truncateString({
+                                                    text: email,
+                                                    start: 10,
+                                                    end: 0,
+                                                }),
+                                            )
+                                            .join(', ')}
+                                        overlayStyle={{ maxWidth: '120px' }}
+                                    >
+                                        <div
+                                            className={`cursor-pointer rounded-md hover:scale-125 ${reactionGroup.key in
+                                                reactionColorMap
+                                                ? reactionColorMap[
+                                                reactionGroup.key
+                                                ]
+                                                : ''
+                                                }`}
+                                            style={{ display: 'inline-block' }}
+                                        >
+                                            {reactionGroup.key in
+                                                reactionIconMap
+                                                ? reactionIconMap[
+                                                reactionGroup.key
+                                                ]
+                                                : null}
+                                        </div>
+                                    </Tooltip>
+                                ),
+                            )}
                         </div>
-                    </div>
-                )
-                }
+                    )}
+                </div>
+
             </div>
         </div>
     )
