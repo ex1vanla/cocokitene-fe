@@ -53,7 +53,17 @@ const ItemPassBoardMeeting = ({
     const copyToClipboard = async () => {
         if (transaction_key_query) {
             try {
-                await navigator.clipboard.writeText(transaction_key_query)
+                if (window.isSecureContext && navigator.clipboard) {
+                    await navigator.clipboard.writeText(transaction_key_query)
+                } else {
+                    const textArea = document.createElement('textarea')
+                    textArea.value = transaction_key_query
+                    document.body.appendChild(textArea)
+                    textArea.focus()
+                    textArea.select()
+                    document.execCommand('copy')
+                    document.body.removeChild(textArea)
+                }
                 setCopySuccess(true)
                 // Reset the message after 1 second
                 setTimeout(() => setCopySuccess(false), 1500)
@@ -79,7 +89,7 @@ const ItemPassBoardMeeting = ({
                     )}
                 </Text>
             </Col>
-            <Col span={4} className="flex items-center">
+            <Col span={5} className="flex items-center">
                 <Tooltip
                     placement="topLeft"
                     title={
@@ -171,11 +181,11 @@ const ItemPassBoardMeeting = ({
                             )
                         }}
                     >
-                        Check
+                        {t('CHECK_DATA')}
                     </Button>
                 )}
             </Col>
-            <Col span={2} className="flex items-center justify-end pr-5">
+            <Col span={1} className="flex items-center justify-end pr-5">
                 {permissionDetail && (
                     <EyeTwoTone
                         style={{ fontSize: '18px' }}

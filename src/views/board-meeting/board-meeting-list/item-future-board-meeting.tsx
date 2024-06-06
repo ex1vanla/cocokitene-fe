@@ -90,7 +90,7 @@ const ItemFutureBoardMeeting = ({
                         )}
                     </Text>
                 </Col>
-                <Col span={4} className="flex items-center">
+                <Col span={5} className="flex items-center">
                     <Tooltip
                         placement="topLeft"
                         title={
@@ -155,7 +155,7 @@ const ItemFutureBoardMeeting = ({
                     )}
                 </Col>
                 <Col
-                    span={2}
+                    span={1}
                     className="flex items-center justify-end gap-5 space-x-2 pr-5"
                 >
                     <div className="flex gap-3">
