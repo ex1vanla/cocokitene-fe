@@ -322,13 +322,12 @@ export const MessageChatItemToYou = ({
                                     {reactionIconList &&
                                         reactionIconList.map((icon, index) => {
                                             let ischecked: boolean = false
-                                            const findReactionChoiced =
-                                                groupedReactionsL[icon.id]
+                                            const findReactionChoiced = groupedReactionsL[icon.id]
                                             // @ts-ignore
                                             if (
                                                 findReactionChoiced &&
                                                 findReactionChoiced.userEmail.includes(
-                                                    authState.userData.email,
+                                                    authState.userData?.email || '',
                                                 ) === true
                                             ) {
                                                 ischecked = true
@@ -502,7 +501,7 @@ export const MessageChatItemFromYou = ({
                                             if (
                                                 findReactionChoiced &&
                                                 findReactionChoiced.userEmail.includes(
-                                                    authState.userData.email,
+                                                    authState.userData?.email || '',
                                                 ) === true
                                             ) {
                                                 ischecked = true
