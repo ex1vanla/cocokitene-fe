@@ -509,7 +509,7 @@ export const MessageChatItemFromYou = ({
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`cursor-pointer rounded-md  px-1 py-1 hover:scale-125 ${icon.key in
+                                                    className={`cursor-pointer rounded-md text-lg  px-1 py-1 hover:scale-125 ${icon.key in
                                                         reactionColorMap
                                                         ? reactionColorMap[
                                                         icon.key
