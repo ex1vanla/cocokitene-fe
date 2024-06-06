@@ -16,7 +16,6 @@ import {
 // Socket
 import { truncateString } from '@/utils/format-string'
 import { io } from 'socket.io-client'
-import { useTransaction } from 'wagmi'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 
@@ -47,9 +46,13 @@ interface IMeetingChat {
 const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     const t = useTranslations()
     const bottomOfMessageChat = useRef<null | HTMLElement>(null)
+    const messageRefs = useRef<(HTMLElement | null)[]>([])
 
     const { authState } = useAuthLogin()
 
+    const [scrollToMessageId, setScrollToMessageId] = useState<
+        number | undefined
+    >(undefined)
     const [scrollToBottom, setScrollToBottom] = useState<{
         type: ScrollType
         scroll: boolean
@@ -70,9 +73,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     const [initStatus, setInitStatus] = useState<FETCH_STATUS>(
         FETCH_STATUS.IDLE,
     )
+
     const [initMessage, setInitMessage] = useState<DataMessageChat>()
-    const messageRefs = useRef([] as React.RefObject<HTMLDivElement>[])
-    // scroll to message
 
     //Socket
     const [socket, setSocket] = useState<any>(undefined)
@@ -144,14 +146,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     // }, [dataChat.messageChat]);
 
     // console.log('messageRefs.current---', messageRefs.current);
-    const scrollToMessage = (id: number) => {
-        // const messageElement = messageRefs.current[id] as HTMLDivElement
-        // if (messageElement) {
-        //     messageElement.scrollIntoView({ behavior: 'smooth' })
-        // } else {
-        //     console.error(`Message element at index ${id} does not exist`)
-        // }
-    }
 
     useEffect(() => {
         if (scrollToBottom.scroll) {
@@ -409,7 +403,21 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         // setSendToUser(0)
     }
 
-    console.log('dataChat.messageChat----', dataChat.messageChat)
+    //Scroll to message is reply
+    const scrollToMessageReply = (id: number) => {
+        console.log('Id of Message is reply: ', id)
+        if (messageRefs.current.length) {
+            // @ts-ignore
+            messageRefs.current[id].scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            })
+            setScrollToMessageId(id)
+
+            setTimeout(() => setScrollToMessageId(undefined), 2000)
+        }
+    }
+
     return (
         <>
             <div className="fixed bottom-7 right-5 h-auto">
@@ -502,22 +510,108 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     authState.userData?.id
                                                 ) {
                                                     return (
-                                                        <MessageChatItemFromYou
-                                                            ref={
-                                                                messageRefs
-                                                                    .current[
-                                                                    index
-                                                                ]
+                                                        <span
+                                                            ref={(ref) =>
+                                                                (messageRefs.current[
+                                                                    message.id
+                                                                ] = ref)
                                                             }
+                                                            key={message.id}
+                                                        >
+                                                            <MessageChatItemFromYou
+                                                                id={message.id}
+                                                                from={
+                                                                    message
+                                                                        .sender
+                                                                        .email
+                                                                }
+                                                                to={
+                                                                    message
+                                                                        .receiver
+                                                                        .email
+                                                                }
+                                                                date={dateInfo}
+                                                                message={
+                                                                    message.content
+                                                                }
+                                                                messageInfoPrev={{
+                                                                    from: dataChat
+                                                                        .messageChat[
+                                                                        index -
+                                                                            1
+                                                                    ]?.sender
+                                                                        .email,
+                                                                    to: dataChat
+                                                                        .messageChat[
+                                                                        index -
+                                                                            1
+                                                                    ]?.receiver
+                                                                        .email,
+                                                                    datePrev: {
+                                                                        ...dateInfoPrev,
+                                                                    },
+                                                                }}
+                                                                replyMessage={
+                                                                    message.replyMessage
+                                                                        ? {
+                                                                              id: message
+                                                                                  ?.replyMessage
+                                                                                  ?.id,
+                                                                              from: message
+                                                                                  ?.replyMessage
+                                                                                  ?.senderId
+                                                                                  .email,
+                                                                              to: message
+                                                                                  ?.replyMessage
+                                                                                  ?.receiverId
+                                                                                  .email,
+                                                                              content:
+                                                                                  message
+                                                                                      ?.replyMessage
+                                                                                      ?.content,
+                                                                          }
+                                                                        : undefined
+                                                                }
+                                                                setSentUserTo={
+                                                                    choiceSendMessageTo
+                                                                }
+                                                                setReplyMessage={
+                                                                    replyResponseMessage
+                                                                }
+                                                                scrollToMessageReply={
+                                                                    scrollToMessageReply
+                                                                }
+                                                                scrollTo={
+                                                                    scrollToMessageId ==
+                                                                    message.id
+                                                                }
+                                                            />
+                                                        </span>
+                                                    )
+                                                }
+
+                                                return (
+                                                    <span
+                                                        ref={(ref) =>
+                                                            (messageRefs.current[
+                                                                message.id
+                                                            ] = ref)
+                                                        }
+                                                        key={message.id}
+                                                    >
+                                                        <MessageChatItemToYou
                                                             id={message.id}
-                                                            key={index}
                                                             from={
                                                                 message.sender
                                                                     .email
                                                             }
                                                             to={
-                                                                message.receiver
-                                                                    .email
+                                                                message.receiver.email.toLowerCase() ==
+                                                                authState.userData?.email.toLowerCase()
+                                                                    ? 'You'
+                                                                    : message
+                                                                          .receiver
+                                                                          .email
                                                             }
                                                             date={dateInfo}
                                                             message={
@@ -528,11 +622,24 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                     .messageChat[
                                                                     index - 1
                                                                 ]?.sender.email,
-                                                                to: dataChat
-                                                                    .messageChat[
-                                                                    index - 1
-                                                                ]?.receiver
-                                                                    .email,
+                                                                to:
+                                                                    dataChat
+                                                                        .messageChat[
+                                                                        index -
+                                                                            1
+                                                                    ]?.receiver
+                                                                        .email ==
+                                                                    authState
+                                                                        .userData
+                                                                        ?.email
+                                                                        ? 'You'
+                                                                        : dataChat
+                                                                              .messageChat[
+                                                                              index -
+                                                                                  1
+                                                                          ]
+                                                                              ?.receiver
+                                                                              .email,
                                                                 datePrev: {
                                                                     ...dateInfoPrev,
                                                                 },
@@ -564,88 +671,15 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                             setReplyMessage={
                                                                 replyResponseMessage
                                                             }
+                                                            scrollToMessageReply={
+                                                                scrollToMessageReply
+                                                            }
+                                                            scrollTo={
+                                                                scrollToMessageId ==
+                                                                message.id
+                                                            }
                                                         />
-                                                    )
-                                                }
-
-                                                return (
-                                                    <MessageChatItemToYou
-                                                        id={message.id}
-                                                        ref={
-                                                            messageRefs.current[
-                                                                index
-                                                            ]
-                                                        }
-                                                        key={index}
-                                                        from={
-                                                            message.sender.email
-                                                        }
-                                                        to={
-                                                            message.receiver.email.toLowerCase() ==
-                                                            authState.userData?.email.toLowerCase()
-                                                                ? 'You'
-                                                                : message
-                                                                      .receiver
-                                                                      .email
-                                                        }
-                                                        date={dateInfo}
-                                                        message={
-                                                            message.content
-                                                        }
-                                                        messageInfoPrev={{
-                                                            from: dataChat
-                                                                .messageChat[
-                                                                index - 1
-                                                            ]?.sender.email,
-                                                            to:
-                                                                dataChat
-                                                                    .messageChat[
-                                                                    index - 1
-                                                                ]?.receiver
-                                                                    .email ==
-                                                                authState
-                                                                    .userData
-                                                                    ?.email
-                                                                    ? 'You'
-                                                                    : dataChat
-                                                                          .messageChat[
-                                                                          index -
-                                                                              1
-                                                                      ]
-                                                                          ?.receiver
-                                                                          .email,
-                                                            datePrev: {
-                                                                ...dateInfoPrev,
-                                                            },
-                                                        }}
-                                                        replyMessage={
-                                                            message.replyMessage
-                                                                ? {
-                                                                      id: message
-                                                                          ?.replyMessage
-                                                                          ?.id,
-                                                                      from: message
-                                                                          ?.replyMessage
-                                                                          ?.senderId
-                                                                          .email,
-                                                                      to: message
-                                                                          ?.replyMessage
-                                                                          ?.receiverId
-                                                                          .email,
-                                                                      content:
-                                                                          message
-                                                                              ?.replyMessage
-                                                                              ?.content,
-                                                                  }
-                                                                : undefined
-                                                        }
-                                                        setSentUserTo={
-                                                            choiceSendMessageTo
-                                                        }
-                                                        setReplyMessage={
-                                                            replyResponseMessage
-                                                        }
-                                                    />
+                                                    </span>
                                                 )
                                             },
                                         )}

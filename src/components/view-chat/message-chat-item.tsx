@@ -7,6 +7,7 @@ export interface IMessageChatItem {
     from: string
     to: string
     message: string
+    scrollTo: boolean
     date: {
         year: number
         month: number
@@ -33,8 +34,8 @@ export interface IMessageChatItem {
     setSentUserTo: (e: string) => void
     // eslint-disable-next-line no-unused-vars
     setReplyMessage: (e: number) => void
-    // eslint-disable-next-line no-undef
-    ref?: React.RefObject<HTMLDivElement>
+    // eslint-disable-next-line
+    scrollToMessageReply: (id: number) => void
 }
 
 export const MessageChatItemToYou = ({
@@ -47,13 +48,13 @@ export const MessageChatItemToYou = ({
     setSentUserTo,
     replyMessage,
     setReplyMessage,
-    ref,
+    scrollToMessageReply,
+    scrollTo,
 }: IMessageChatItem) => {
     const [isHover, setIsHover] = useState(false)
 
     return (
         <div
-            ref={ref}
             className="flex w-full flex-col gap-[2px]"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
@@ -96,13 +97,22 @@ export const MessageChatItemToYou = ({
             <div
                 className="mb-[1px] flex items-center"
                 id={`message-${id}`}
-                onClick={() => {
-                    document.getElementById(`message-${id}`)?.scrollIntoView()
-                }}
+                // onClick={() => {
+                //     document.getElementById(`message-${id}`)?.scrollIntoView()
+                // }}
             >
-                <span className="h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 text-[14px]">
+                <span
+                    className={`h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 text-[14px] ${
+                        scrollTo ? 'animate-scale-up-message bg-blue-200' : ''
+                    }`}
+                >
                     {replyMessage !== undefined && (
-                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white">
+                        <div
+                            className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white"
+                            onClick={() => {
+                                scrollToMessageReply(replyMessage.id)
+                            }}
+                        >
                             <div className="text-gray-500">
                                 {replyMessage.from}
                             </div>
@@ -162,13 +172,13 @@ export const MessageChatItemFromYou = ({
     setSentUserTo,
     replyMessage,
     setReplyMessage,
-    ref,
+    scrollToMessageReply,
+    scrollTo,
 }: IMessageChatItem) => {
     const [isHover, setIsHover] = useState(false)
 
     return (
         <div
-            ref={ref}
             className="flex w-full flex-col gap-[2px]"
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
@@ -231,9 +241,18 @@ export const MessageChatItemFromYou = ({
                         />
                     </div>
                 )}
-                <span className="h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45 p-1 pl-1 text-[14px]">
+                <span
+                    className={`h-auto min-w-[70px] max-w-[300px] break-words rounded-lg border border-black-45  p-1 pl-1 text-[14px] ${
+                        scrollTo ? 'animate-scale-up-message bg-blue-200' : ''
+                    }`}
+                >
                     {replyMessage !== undefined && (
-                        <div className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white">
+                        <div
+                            className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white"
+                            onClick={() => {
+                                scrollToMessageReply(replyMessage.id)
+                            }}
+                        >
                             <div className="text-gray-500">
                                 {replyMessage.from}
                             </div>
