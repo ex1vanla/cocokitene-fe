@@ -3,12 +3,10 @@ import serviceReactionIcon from '@/services/reaction-icon'
 import { IReactionIconResponse } from '@/services/response.type'
 import { useAuthLogin } from '@/stores/auth/hooks'
 import { truncateString } from '@/utils/format-string'
-import { CommentOutlined, MehOutlined } from '@ant-design/icons'
+import { CommentOutlined, SmileOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
-import { useTranslations } from 'next-intl'
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { FaAngry, FaHeart, FaSadCry, FaSmile, FaThumbsUp } from 'react-icons/fa'
-import ts from 'typescript'
 
 const reactionIconMap: Record<string, ReactElement> = {
     ':thumbsup:': <FaThumbsUp />,
@@ -162,49 +160,52 @@ export const MessageChatItemToYou = ({
             {(messageInfoPrev.datePrev.year === date.year &&
                 messageInfoPrev.datePrev.month === date.month &&
                 messageInfoPrev.datePrev.day === date.day) || (
-                    <span className="border-blue mx-auto my-2 rounded-xl border bg-gray-400 px-2 text-white">
-                        {date.day}/{date.month}/{date.year}
-                    </span>
-                )}
+                <span className="border-blue mx-auto my-2 rounded-xl border bg-gray-400 px-2 text-white">
+                    {date.day}/{date.month}/{date.year}
+                </span>
+            )}
             {(messageInfoPrev?.from == from &&
                 messageInfoPrev?.to == to &&
                 messageInfoPrev.datePrev.year === date.year &&
                 messageInfoPrev.datePrev.month === date.month &&
                 messageInfoPrev.datePrev.day === date.day) || (
-                    <div className="mt-2 flex">
-                        <span className="pl-1 text-xs font-thin">
-                            <span className="font-normal text-black">from </span>
-                            <span
-                                className="cursor-pointer text-[#0547e3]"
-                                onClick={() => {
-                                    setSentUserTo(from)
-                                }}
-                            >
-                                {from}
-                            </span>
-                            <span className="font-normal text-black"> to </span>
-                            <span
-                                className="cursor-pointer text-[#e305b3]"
-                                onClick={() => {
-                                    setSentUserTo(to)
-                                }}
-                            >
-                                {to}
-                            </span>
+                <div className="mt-2 flex">
+                    <span className="pl-1 text-xs font-thin">
+                        <span className="font-normal text-black">from </span>
+                        <span
+                            className="cursor-pointer text-[#0547e3]"
+                            onClick={() => {
+                                setSentUserTo(from)
+                            }}
+                        >
+                            {from}
                         </span>
-                    </div>
-                )}
+                        <span className="font-normal text-black"> to </span>
+                        <span
+                            className="cursor-pointer text-[#e305b3]"
+                            onClick={() => {
+                                setSentUserTo(to)
+                            }}
+                        >
+                            {to}
+                        </span>
+                    </span>
+                </div>
+            )}
             <div
-                className={`relative  flex items-center ${groupedReactionsL &&
+                className={`relative  flex items-center ${
+                    groupedReactionsL &&
                     Object.keys(groupedReactionsL).length > 0
-                    ? 'mb-2'
-                    : ''
-                    }`}
+                        ? 'mb-2'
+                        : ''
+                }`}
             >
-
                 <span
-                    className={`relative h-auto min-w-[70px] max-w-[300px]  break-words rounded-lg border border-gray-300 p-1 pl-1 text-[14px] ${groupedReactionsL ? 'mb-[5px]' : ''
-                        } ${scrollTo ? 'animate-scale-up-message bg-blue-200' : ''}  `}
+                    className={`relative h-auto min-w-[70px] max-w-[300px]  break-words rounded-lg border border-gray-300 p-1 pl-1 text-[14px] ${
+                        groupedReactionsL ? 'mb-[5px]' : ''
+                    } ${
+                        scrollTo ? 'animate-scale-up-message bg-blue-200' : ''
+                    }  `}
                 >
                     {replyMessage !== undefined && (
                         <div
@@ -271,20 +272,21 @@ export const MessageChatItemToYou = ({
                                         overlayStyle={{ maxWidth: '120px' }}
                                     >
                                         <div
-                                            className={`cursor-pointer rounded-md hover:scale-125 ${reactionGroup.key in
+                                            className={`cursor-pointer rounded-md hover:scale-125 ${
+                                                reactionGroup.key in
                                                 reactionColorMap
-                                                ? reactionColorMap[
-                                                reactionGroup.key
-                                                ]
-                                                : ''
-                                                }`}
+                                                    ? reactionColorMap[
+                                                          reactionGroup.key
+                                                      ]
+                                                    : ''
+                                            }`}
                                             style={{ display: 'inline-block' }}
                                         >
                                             {reactionGroup.key in
-                                                reactionIconMap
+                                            reactionIconMap
                                                 ? reactionIconMap[
-                                                reactionGroup.key
-                                                ]
+                                                      reactionGroup.key
+                                                  ]
                                                 : null}
                                         </div>
                                     </Tooltip>
@@ -310,7 +312,7 @@ export const MessageChatItemToYou = ({
                             onMouseEnter={() => setIsHoverLike(true)}
                             onMouseLeave={() => setIsHoverLike(false)}
                         >
-                            <MehOutlined
+                            <SmileOutlined
                                 style={{
                                     fontSize: '20px',
                                     color: '#5151e5',
@@ -322,12 +324,14 @@ export const MessageChatItemToYou = ({
                                     {reactionIconList &&
                                         reactionIconList.map((icon, index) => {
                                             let ischecked: boolean = false
-                                            const findReactionChoiced = groupedReactionsL[icon.id]
+                                            const findReactionChoiced =
+                                                groupedReactionsL[icon.id]
                                             // @ts-ignore
                                             if (
                                                 findReactionChoiced &&
                                                 findReactionChoiced.userEmail.includes(
-                                                    authState.userData?.email || '',
+                                                    authState.userData?.email ||
+                                                        '',
                                                 ) === true
                                             ) {
                                                 ischecked = true
@@ -335,16 +339,18 @@ export const MessageChatItemToYou = ({
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`cursor-pointer rounded-md px-1 py-1 text-lg hover:scale-125 ${icon.key in
+                                                    className={`cursor-pointer rounded-md px-1 py-1 text-lg hover:scale-125 ${
+                                                        icon.key in
                                                         reactionColorMap
-                                                        ? reactionColorMap[
-                                                        icon.key
-                                                        ]
-                                                        : ''
-                                                        }   ${ischecked
+                                                            ? reactionColorMap[
+                                                                  icon.key
+                                                              ]
+                                                            : ''
+                                                    }   ${
+                                                        ischecked
                                                             ? 'bg-gray-300'
                                                             : ''
-                                                        }    `}
+                                                    }    `}
                                                     onClick={() =>
                                                         setReactionMessageId(
                                                             icon.id,
@@ -356,8 +362,8 @@ export const MessageChatItemToYou = ({
                                                 >
                                                     {icon.key in reactionIconMap
                                                         ? reactionIconMap[
-                                                        icon.key
-                                                        ]
+                                                              icon.key
+                                                          ]
                                                         : null}
                                                 </div>
                                             )
@@ -434,38 +440,38 @@ export const MessageChatItemFromYou = ({
             {(messageInfoPrev.datePrev.year === date.year &&
                 messageInfoPrev.datePrev.month === date.month &&
                 messageInfoPrev.datePrev.day === date.day) || (
-                    <span className="border-blue mx-auto my-2 rounded-xl border bg-gray-400 px-2 text-white">
-                        {date.day}/{date.month}/{date.year}
-                    </span>
-                )}
+                <span className="border-blue mx-auto my-2 rounded-xl border bg-gray-400 px-2 text-white">
+                    {date.day}/{date.month}/{date.year}
+                </span>
+            )}
             {(messageInfoPrev?.from == from &&
                 messageInfoPrev?.to == to &&
                 messageInfoPrev.datePrev.year === date.year &&
                 messageInfoPrev.datePrev.month === date.month &&
                 messageInfoPrev.datePrev.day === date.day) || (
-                    <div className="mt-2 flex justify-end">
-                        <span className="pl-1 text-xs font-thin">
-                            <span className="font-normal text-black">from </span>
-                            <span
-                                className="cursor-pointer text-[#0547e3]"
-                                onClick={() => {
-                                    setSentUserTo(from)
-                                }}
-                            >
-                                You
-                            </span>
-                            <span className="font-normal text-black"> to </span>
-                            <span
-                                className="cursor-pointer text-[#e305b3]"
-                                onClick={() => {
-                                    setSentUserTo(to)
-                                }}
-                            >
-                                {to}
-                            </span>
+                <div className="mt-2 flex justify-end">
+                    <span className="pl-1 text-xs font-thin">
+                        <span className="font-normal text-black">from </span>
+                        <span
+                            className="cursor-pointer text-[#0547e3]"
+                            onClick={() => {
+                                setSentUserTo(from)
+                            }}
+                        >
+                            You
                         </span>
-                    </div>
-                )}
+                        <span className="font-normal text-black"> to </span>
+                        <span
+                            className="cursor-pointer text-[#e305b3]"
+                            onClick={() => {
+                                setSentUserTo(to)
+                            }}
+                        >
+                            {to}
+                        </span>
+                    </span>
+                </div>
+            )}
             <div className="flex items-center justify-end">
                 {isHover && (
                     <div className="ml-1 flex h-[25px] items-center justify-between gap-1 rounded-3xl border border-gray-500 bg-white p-1">
@@ -483,7 +489,7 @@ export const MessageChatItemFromYou = ({
                             onMouseEnter={() => setIsHoverLike(true)}
                             onMouseLeave={() => setIsHoverLike(false)}
                         >
-                            <MehOutlined
+                            <SmileOutlined
                                 style={{
                                     fontSize: '20px',
                                     color: '#5151e5',
@@ -501,7 +507,8 @@ export const MessageChatItemFromYou = ({
                                             if (
                                                 findReactionChoiced &&
                                                 findReactionChoiced.userEmail.includes(
-                                                    authState.userData?.email || '',
+                                                    authState.userData?.email ||
+                                                        '',
                                                 ) === true
                                             ) {
                                                 ischecked = true
@@ -509,16 +516,18 @@ export const MessageChatItemFromYou = ({
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`cursor-pointer rounded-md text-lg  px-1 py-1 hover:scale-125 ${icon.key in
+                                                    className={`cursor-pointer rounded-md px-1  py-1 text-lg hover:scale-125 ${
+                                                        icon.key in
                                                         reactionColorMap
-                                                        ? reactionColorMap[
-                                                        icon.key
-                                                        ]
-                                                        : ''
-                                                        }   ${ischecked
+                                                            ? reactionColorMap[
+                                                                  icon.key
+                                                              ]
+                                                            : ''
+                                                    }   ${
+                                                        ischecked
                                                             ? 'bg-gray-200'
                                                             : ''
-                                                        }    `}
+                                                    }    `}
                                                     onClick={() =>
                                                         setReactionMessageId(
                                                             icon.id,
@@ -530,8 +539,8 @@ export const MessageChatItemFromYou = ({
                                                 >
                                                     {icon.key in reactionIconMap
                                                         ? reactionIconMap[
-                                                        icon.key
-                                                        ]
+                                                              icon.key
+                                                          ]
                                                         : null}
                                                 </div>
                                             )
@@ -543,19 +552,29 @@ export const MessageChatItemFromYou = ({
                 )}
 
                 <div
-                    className={`relative flex flex-col  ${groupedReactionsL &&
+                    className={`relative flex flex-col  ${
+                        groupedReactionsL &&
                         Object.keys(groupedReactionsL).length > 0
-                        ? 'mb-2'
-                        : ''
-                        }`}
+                            ? 'mb-2'
+                            : ''
+                    }`}
                 >
                     <span
-                        className={`h-auto min-w-[70px] max-w-[300px]  break-words rounded-lg border border-gray-300 p-1 pl-1 text-[14px] ${groupedReactionsL ? 'mb-[5px]' : ''
-                            } ${scrollTo ? 'animate-scale-up-message bg-blue-200' : ''
-                            }  `}
+                        className={`h-auto min-w-[70px] max-w-[300px]  break-words rounded-lg border border-gray-300 p-1 pl-1 text-[14px] ${
+                            groupedReactionsL ? 'mb-[5px]' : ''
+                        } ${
+                            scrollTo
+                                ? 'animate-scale-up-message bg-blue-200'
+                                : ''
+                        }  `}
                     >
                         {replyMessage !== undefined && (
-                            <div className="mb-1 border-l-[3px] border-black-45  p-1 font-semibold text-white">
+                            <div
+                                className="mb-1 border-l-[3px] border-black-45 bg-gray-200 p-1 font-semibold text-white"
+                                onClick={() => {
+                                    scrollToMessageReply(replyMessage.id)
+                                }}
+                            >
                                 <div className="text-gray-500">
                                     {replyMessage.from}
                                 </div>
@@ -591,7 +610,7 @@ export const MessageChatItemFromYou = ({
                         </span>
                     </span>
                     {Object.keys(groupedReactionsL).length > 0 && (
-                        <div className="absolute bottom-[-10px] mb-[9px] mr-2 mt-0 left-2 flex justify-end gap-[3px] rounded-md border border-solid bg-gray-200">
+                        <div className="absolute bottom-[-10px] left-2 mb-[9px] mr-2 mt-0 flex justify-end gap-[3px] rounded-md border border-solid bg-gray-200">
                             {Object.entries(groupedReactionsL).map(
                                 ([emojiId, reactionGroup], index) => (
                                     <Tooltip
@@ -610,20 +629,21 @@ export const MessageChatItemFromYou = ({
                                         overlayStyle={{ maxWidth: '120px' }}
                                     >
                                         <div
-                                            className={`cursor-pointer rounded-md hover:scale-125 ${reactionGroup.key in
+                                            className={`cursor-pointer rounded-md hover:scale-125 ${
+                                                reactionGroup.key in
                                                 reactionColorMap
-                                                ? reactionColorMap[
-                                                reactionGroup.key
-                                                ]
-                                                : ''
-                                                }`}
+                                                    ? reactionColorMap[
+                                                          reactionGroup.key
+                                                      ]
+                                                    : ''
+                                            }`}
                                             style={{ display: 'inline-block' }}
                                         >
                                             {reactionGroup.key in
-                                                reactionIconMap
+                                            reactionIconMap
                                                 ? reactionIconMap[
-                                                reactionGroup.key
-                                                ]
+                                                      reactionGroup.key
+                                                  ]
                                                 : null}
                                         </div>
                                     </Tooltip>
@@ -632,7 +652,6 @@ export const MessageChatItemFromYou = ({
                         </div>
                     )}
                 </div>
-
             </div>
         </div>
     )
