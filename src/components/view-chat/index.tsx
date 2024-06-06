@@ -371,6 +371,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         to: string,
         from?: string,
     ) => {
+        console.log('from----',from)
+        console.log('to----',to)
         if (authState.userData?.id) {
             if (to === 'EveryOne') {
                 socket.emit('send_reaction_message_public', {
@@ -679,6 +681,11 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                 date={dateInfo}
                                                                 message={
                                                                     message.content
+                                                                }
+                                                                reactions={
+                                                                    message.reactions
+                                                                        ? message.reactions
+                                                                        : undefined
                                                                 }
                                                                 messageInfoPrev={{
                                                                     from: dataChat
