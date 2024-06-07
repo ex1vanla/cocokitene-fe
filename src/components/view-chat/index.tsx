@@ -5,8 +5,15 @@ import { FETCH_STATUS } from '@/constants/common'
 import serviceChatMeeting from '@/services/chat-meeting'
 import { DataMessageChat, ReactionMessage } from '@/services/response.type'
 import { useAuthLogin } from '@/stores/auth/hooks'
-import { MessageTwoTone, MinusOutlined, SendOutlined } from '@ant-design/icons'
-import { Button, Row, Select, Spin, message } from 'antd'
+import {
+    CheckOutlined,
+    MessageTwoTone,
+    MinusOutlined,
+    MoreOutlined,
+    SendOutlined,
+    SettingOutlined,
+} from '@ant-design/icons'
+import { Button, Popover, Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
 import {
@@ -18,11 +25,15 @@ import { truncateString } from '@/utils/format-string'
 import { useTranslations } from 'next-intl'
 import React from 'react'
 import { io } from 'socket.io-client'
+import { ChatPermissionEnum, ScrollType } from '@/constants/meeting'
+import { RoleMtgEnum } from '@/constants/role-mtg'
 
-enum ScrollType {
-    SMOOTH = 1,
-    FAST = 2,
+interface IPermissionChat {
+    id: number
+    name: string
+    description?: string
 }
+
 interface IParticipantDetail {
     roleMtgId: number
     roleMtgName: string
@@ -37,6 +48,7 @@ interface IMeetingInfo {
     id: number
     title: string
     participants: IParticipantDetail[]
+    chatPermissionId: number
 }
 
 interface IMeetingChat {
@@ -74,14 +86,19 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         FETCH_STATUS.IDLE,
     )
 
-    const [initMessage, setInitMessage] = useState<DataMessageChat>()
+    //Permission Chat
+    const [idHost, setIdHost] = useState<number[]>([])
+    const [listPermissionChat, setListPermissionChat] = useState<
+        IPermissionChat[]
+    >([])
+    const [permissionChat, setPermissionChat] = useState<number>(
+        meetingInfo.chatPermissionId,
+    )
 
-    // scroll to message
+    const [initMessage, setInitMessage] = useState<DataMessageChat>()
 
     //Socket
     const [socket, setSocket] = useState<any>(undefined)
-
-    //Scroll to bottom of chat
     useEffect(() => {
         const socket = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
 
@@ -97,28 +114,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         socket.on(
             `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (message) => {
-                setDataChat((prev) => {
-                    return {
-                        roomChat: prev.roomChat,
-                        messageChat: [
-                            ...prev.messageChat,
-                            {
-                                ...message,
-                                receiverId: message.receiverId
-                                    ? message.receiverId
-                                    : 0,
-                            },
-                        ],
-                    }
-                })
-            },
-        )
-
-        socket.on(
-            `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
-            (message) => {
-                console.log('message private chat: ', message)
-
                 setDataChat((prev) => {
                     return {
                         roomChat: prev.roomChat,
@@ -227,8 +222,16 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             },
         )
 
+        //Socket update permission of chat
+        socket.on(
+            `permission_chat_meeting/${dataChat.roomChat}`,
+            (permission) => {
+                setPermissionChat(permission)
+            },
+        )
+
         setSocket(socket)
-    }, [dataChat])
+    }, [dataChat.roomChat])
 
     useEffect(() => {
         const fetchDataChat = async (meetingId: number) => {
@@ -238,9 +241,17 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     await serviceChatMeeting.getAllMessageChatByMeetingId(
                         meetingId,
                     )
+                const listPermissionChat =
+                    await serviceChatMeeting.getAllPermissionChat({
+                        page: 1,
+                        limit: 10,
+                    })
                 if (res) {
                     setDataChat(res)
                     setInitStatus(FETCH_STATUS.SUCCESS)
+                }
+                if (listPermissionChat) {
+                    setListPermissionChat(listPermissionChat)
                 }
             } catch (error) {}
         }
@@ -301,6 +312,19 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     userEmail: user.userEmail,
                 }
             })
+
+        //Get Id of Host in Meeting
+        const hostParticipantId =
+            meetingInfo.participants
+                .find(
+                    (participant) =>
+                        participant.roleMtgName.toUpperCase() ===
+                        RoleMtgEnum.HOST.toUpperCase(),
+                )
+                ?.userParticipants.map((user) => user.userId) ?? []
+
+        // console.log('hostParticipantId: ', hostParticipantId)
+        setIdHost(hostParticipantId)
 
         return [
             {
@@ -377,8 +401,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         to: string,
         from?: string,
     ) => {
-        console.log('from----', from)
-        console.log('to----', to)
         if (authState.userData?.id) {
             if (to === 'EveryOne') {
                 socket.emit('send_reaction_message_public', {
@@ -438,19 +460,19 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             // console.log(
             //     `Send Message to ${sendToUser} message : ${valueMessage}`,
             // )
-            const now = new Date()
-            const year = now.getFullYear()
-            const month = (now.getMonth() + 1).toString().padStart(2, '0')
-            const day = now.getDate().toString().padStart(2, '0')
-            const hours = now.getHours().toString().padStart(2, '0')
-            const minutes = now.getMinutes().toString().padStart(2, '0')
-            const seconds = now.getSeconds().toString().padStart(2, '0')
-            const milliseconds = now
-                .getMilliseconds()
-                .toString()
-                .padStart(3, '0')
+            // const now = new Date()
+            // const year = now.getFullYear()
+            // const month = (now.getMonth() + 1).toString().padStart(2, '0')
+            // const day = now.getDate().toString().padStart(2, '0')
+            // const hours = now.getHours().toString().padStart(2, '0')
+            // const minutes = now.getMinutes().toString().padStart(2, '0')
+            // const seconds = now.getSeconds().toString().padStart(2, '0')
+            // const milliseconds = now
+            //     .getMilliseconds()
+            //     .toString()
+            //     .padStart(3, '0')
 
-            const isoStringWithZ = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`
+            // const isoStringWithZ = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`
 
             // Send Chat Private
             if (receiverId) {
@@ -534,14 +556,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         content: valueMessage,
                     })
                 }
-                console.log(
-                    meetingInfo.id,
-                    sendToUser,
-                    objParticipant[sendToUser],
-                    idSender,
-                    objParticipant[idSender],
-                    valueMessage,
-                )
             }
 
             setScrollToBottom({
@@ -562,7 +576,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     //Scroll to message is reply
     const scrollToMessageReply = (id: number) => {
-        console.log('Id of Message is reply: ', id)
         if (messageRefs.current.length) {
             // @ts-ignore
             messageRefs.current[id].scrollIntoView({
@@ -574,6 +587,58 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             setTimeout(() => setScrollToMessageId(undefined), 2000)
         }
     }
+
+    //Handle setting permission chat in MTG
+    const settingPermissionChat = async (id: number) => {
+        if (
+            id !== permissionChat &&
+            authState.userData?.id &&
+            idHost.includes(authState.userData?.id)
+        ) {
+            socket.emit('permission_chat_meeting', {
+                userId: authState.userData?.id,
+                meetingId: meetingInfo.id,
+                companyId: authState.userData.companyId,
+                permissionChatId: id,
+            })
+        } else {
+            console.log('Cannot change permission chat of meeting!!!!')
+        }
+    }
+
+    const controlAlowChat: { allowSendMess: boolean; onlyPublic: boolean } =
+        useMemo(() => {
+            const permissionChatName = listPermissionChat.find(
+                (permission) => permission.id === permissionChat,
+            )?.name
+            switch (permissionChatName) {
+                case ChatPermissionEnum.EVERY_PUBLIC:
+                    return {
+                        allowSendMess: true,
+                        onlyPublic: true,
+                    }
+                    break
+                case ChatPermissionEnum.HOST_ONLY:
+                    return {
+                        allowSendMess: authState.userData?.id
+                            ? idHost.includes(authState.userData?.id)
+                            : false,
+                        onlyPublic: false,
+                    }
+                    break
+                case ChatPermissionEnum.EVERY_PUBLIC_PRIVATE:
+                    return {
+                        allowSendMess: true,
+                        onlyPublic: false,
+                    }
+                    break
+                default:
+                    return {
+                        allowSendMess: false,
+                        onlyPublic: false,
+                    }
+            }
+        }, [permissionChat, listPermissionChat])
 
     return (
         <>
@@ -587,7 +652,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 >
                     <div
                         className={`flex w-[400px] flex-col ${
-                            initMessage ? 'h-[700px]' : 'h-[600px]'
+                            initMessage ? 'h-[680px]' : 'h-[600px]'
                         }`}
                     >
                         {initStatus === FETCH_STATUS.LOADING ? (
@@ -600,12 +665,12 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                             </Row>
                         ) : (
                             <>
-                                <div className="relative flex h-[7%] w-full items-center bg-[#5151e5] px-2">
+                                <div className="relative mb-2 flex h-[7%] w-full items-center bg-[#5151e5] px-2">
                                     <span className="text-xl font-medium text-[#ffffff]">
                                         Chat {meetingInfo.title}
                                     </span>
                                     <MinusOutlined
-                                        className="absolute right-1 top-[5px]"
+                                        className="absolute right-2 top-[7px]"
                                         onClick={toggleModelDetailResolution}
                                         style={{
                                             fontSize: '22px',
@@ -615,10 +680,22 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                 </div>
                                 <div
                                     className={`${
-                                        initMessage ? 'h-[71%]' : 'h-[77%]'
-                                    } p-2`}
+                                        initMessage ? 'h-[70%]' : 'h-[76%]'
+                                    }`}
                                 >
-                                    <div className="border-black-500 h-full overflow-hidden border px-2 hover:overflow-y-auto">
+                                    <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-hidden border px-2 hover:overflow-y-auto">
+                                        <div className="fixed right-[50%] top-[8%] z-10 flex w-[95%] translate-x-2/4 border border-gray-400 bg-[#A8C3EB] px-[12px]">
+                                            <p className="mx-auto">
+                                                {t(
+                                                    listPermissionChat.find(
+                                                        (permission) =>
+                                                            permission.id ===
+                                                            permissionChat,
+                                                    )?.name,
+                                                )}
+                                            </p>
+                                        </div>
+                                        <div className="h-[20px]"></div>
                                         {dataChat?.messageChat?.map(
                                             (message, index) => {
                                                 //Get Date of Message
@@ -866,31 +943,119 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                     </div>
                                 </div>
                                 <div
-                                    className={`flex gap-5 px-2 ${
-                                        initMessage ? 'h-[22%]' : 'h-[15%]'
+                                    className={`mx-1 my-1 flex gap-5 px-2 ${
+                                        initMessage ? 'h-[23%]' : 'h-[16%]'
                                     }`}
                                 >
                                     <div className="flex w-[95%] flex-col gap-2">
-                                        <div>
-                                            <span>To: </span>
-                                            <Select
-                                                defaultValue={'0'}
-                                                value={String(sendToUser)}
-                                                showSearch
-                                                placeholder="Select a person"
-                                                optionFilterProp="children"
-                                                onChange={onChange}
-                                                // onSearch={onSearch}
-                                                filterOption={filterOption}
-                                                options={participantToSendMessage.map(
-                                                    (user) => ({
-                                                        value: user.userId + '',
-                                                        label: user.userEmail,
-                                                    }),
+                                        <div className="flex w-full items-center">
+                                            <div className="w-[95%]">
+                                                <span>{t('TO')}: </span>
+                                                <Select
+                                                    defaultValue={'0'}
+                                                    value={
+                                                        controlAlowChat.onlyPublic
+                                                            ? '0'
+                                                            : String(sendToUser)
+                                                    }
+                                                    showSearch
+                                                    placeholder="Select a person"
+                                                    optionFilterProp="children"
+                                                    onChange={onChange}
+                                                    // onSearch={onSearch}
+                                                    filterOption={filterOption}
+                                                    options={
+                                                        controlAlowChat.onlyPublic
+                                                            ? [
+                                                                  {
+                                                                      value: '0',
+                                                                      label: 'EveryOne',
+                                                                  },
+                                                              ]
+                                                            : participantToSendMessage.map(
+                                                                  (user) => ({
+                                                                      value:
+                                                                          user.userId +
+                                                                          '',
+                                                                      label: user.userEmail,
+                                                                  }),
+                                                              )
+                                                    }
+                                                    size={'small'}
+                                                    className="ml-2 w-[60%] rounded-[7px]"
+                                                />
+                                            </div>
+                                            {authState.userData?.id &&
+                                                idHost.includes(
+                                                    authState.userData?.id,
+                                                ) && (
+                                                    <Popover
+                                                        placement="topRight"
+                                                        title={
+                                                            <div className="text-center">
+                                                                {t(
+                                                                    'SETTING_CHAT',
+                                                                )}
+                                                            </div>
+                                                        }
+                                                        content={
+                                                            <div className="flex flex-col">
+                                                                {listPermissionChat.map(
+                                                                    (
+                                                                        permission,
+                                                                    ) => {
+                                                                        return (
+                                                                            <div
+                                                                                className={`cursor-pointer items-stretch ${
+                                                                                    permissionChat ==
+                                                                                    permission.id
+                                                                                        ? 'bg-blue-300'
+                                                                                        : ''
+                                                                                }`}
+                                                                                key={
+                                                                                    permission.id
+                                                                                }
+                                                                                onClick={() => {
+                                                                                    settingPermissionChat(
+                                                                                        permission.id,
+                                                                                    )
+                                                                                }}
+                                                                            >
+                                                                                <div className="flex justify-between">
+                                                                                    <span>
+                                                                                        {t(
+                                                                                            permission.name,
+                                                                                        )}
+                                                                                    </span>
+                                                                                    {/* {permissionChat ==
+                                                                                        permission.id && (
+                                                                                        <CheckOutlined className="mr-1" />
+                                                                                    )} */}
+                                                                                    <CheckOutlined
+                                                                                        className={`ml-3 mr-1 ${
+                                                                                            permissionChat !==
+                                                                                            permission.id
+                                                                                                ? 'invisible'
+                                                                                                : ''
+                                                                                        }`}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                    },
+                                                                )}
+                                                            </div>
+                                                        }
+                                                        trigger="click"
+                                                    >
+                                                        <MoreOutlined
+                                                            style={{
+                                                                fontSize:
+                                                                    '22px',
+                                                            }}
+                                                        />
+                                                    </Popover>
                                                 )}
-                                                size={'small'}
-                                                className="w-[50%] rounded-[7px]"
-                                            />
                                         </div>
 
                                         {initMessage && (
@@ -932,11 +1097,17 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
                                         <div className="flex w-full items-center gap-5">
                                             <TextArea
-                                                value={valueMessage}
+                                                value={
+                                                    controlAlowChat.allowSendMess
+                                                        ? valueMessage
+                                                        : ''
+                                                }
                                                 onChange={(e) =>
                                                     pressMessageChat(e)
                                                 }
-                                                placeholder="Please input message"
+                                                placeholder={t(
+                                                    'PLEASE_INPUT_MESSAGE',
+                                                )}
                                                 autoSize={{
                                                     minRows: 2,
                                                     maxRows: 2,
@@ -955,17 +1126,30 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     ) {
                                                     }
                                                 }}
+                                                disabled={
+                                                    !controlAlowChat.allowSendMess
+                                                }
                                             />
-                                            <SendOutlined
-                                                style={{
-                                                    fontSize: '22px',
-                                                    color: '#5151e5',
-                                                }}
+                                            <Button
+                                                type="primary"
+                                                shape="round"
+                                                icon={
+                                                    <SendOutlined
+                                                        style={{
+                                                            fontSize: '15px',
+                                                        }}
+                                                    />
+                                                }
+                                                size="middle"
                                                 onClick={() => {
                                                     if (valueMessage.trim()) {
                                                         sendMessage()
                                                     }
                                                 }}
+                                                disabled={
+                                                    !valueMessage.trim() ||
+                                                    !controlAlowChat.allowSendMess
+                                                }
                                             />
                                         </div>
                                     </div>

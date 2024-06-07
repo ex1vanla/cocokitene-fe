@@ -170,6 +170,7 @@ export interface IBoardMeetingDetailResponse {
     participants: ParticipantDetailMeetingResponse[]
     boardsTotal: number
     boardsJoined: number
+    chatPermissionId: number
 }
 
 export interface ParticipantDetailMeetingResponse {
@@ -440,4 +441,14 @@ export interface DataMessageChat {
 export interface IAllMeetingChatInMeetingResponse {
     roomChat: number
     messageChat: DataMessageChat[]
+}
+
+export interface IPermissionChatResponse {
+    id: number
+    name: string
+    description?: string
+}
+
+export interface IUpdatePermissionChat {
+    permissionChatId: number
 }
