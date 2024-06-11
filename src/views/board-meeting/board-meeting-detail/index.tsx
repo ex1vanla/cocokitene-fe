@@ -53,6 +53,8 @@ const BoardMeetingDetail = () => {
         return <Loader />
     }
 
+    console.log('Board Meeting : ', boardMeeting)
+
     return (
         <div>
             <DetailTitle

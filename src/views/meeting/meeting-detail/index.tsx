@@ -53,6 +53,8 @@ const MeetingDetail = () => {
         return <Loader />
     }
 
+    console.log('meeting: ', meeting)
+
     return (
         <div>
             <DetailTitle
