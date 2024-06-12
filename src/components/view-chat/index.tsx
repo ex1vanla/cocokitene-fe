@@ -27,6 +27,7 @@ import React from 'react'
 import { io } from 'socket.io-client'
 import { ChatPermissionEnum, ScrollType } from '@/constants/meeting'
 import { RoleMtgEnum } from '@/constants/role-mtg'
+import { set } from 'date-fns'
 
 interface IPermissionChat {
     id: number
@@ -97,6 +98,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const [initMessage, setInitMessage] = useState<DataMessageChat>()
 
+    const [lasteIndexReadedMessage, setLasteIndexReadedMessage] = useState<number>(dataChat.messageChat.length );
+    const [countUnreadMessage, setCountUnreadMessage] = useState<number>(0);
+
     //Socket
     const [socket, setSocket] = useState<any>(undefined)
     useEffect(() => {
@@ -104,30 +108,39 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
         socket.on(`receive_chat_public/${dataChat.roomChat}`, (message) => {
             setDataChat((prev) => {
+                const newMessage = {...message, isReaded: false}
                 return {
                     roomChat: prev.roomChat,
-                    messageChat: [...prev.messageChat, message],
+                    messageChat: [...prev.messageChat, newMessage],
                 }
             })
+            if(message.senderId !== authState.userData?.id){
+                setCountUnreadMessage((prevCount) => prevCount + 1);
+            }
         })
-
+        
         socket.on(
             `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (message) => {
                 setDataChat((prev) => {
+                    setCountUnreadMessage((prevCount) => prevCount + 1);
+                    const newMessage = {...message, isReaded: false}
                     return {
                         roomChat: prev.roomChat,
                         messageChat: [
                             ...prev.messageChat,
                             {
-                                ...message,
-                                receiverId: message.receiverId
-                                    ? message.receiverId
+                                ...newMessage,
+                                receiverId: newMessage.receiverId
+                                    ? newMessage.receiverId
                                     : 0,
                             },
                         ],
                     }
                 })
+                if (message.senderId !== authState.userData?.id) {
+                    setCountUnreadMessage((prevCount) => prevCount + 1);
+                }
             },
         )
 
@@ -323,7 +336,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 )
                 ?.userParticipants.map((user) => user.userId) ?? []
 
-        // console.log('hostParticipantId: ', hostParticipantId)
         setIdHost(hostParticipantId)
 
         return [
@@ -357,6 +369,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const toggleModelDetailResolution = () => {
         if (!chatModalOpen) {
+            setCountUnreadMessage(0);
             setScrollToBottom({
                 type: ScrollType.SMOOTH,
                 scroll: true,
@@ -542,6 +555,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                             content: initMessage.content,
                         },
                     })
+                    
                 } else {
                     socket.emit('send_chat_public', {
                         meetingId: meetingInfo.id,
@@ -555,9 +569,10 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         },
                         content: valueMessage,
                     })
+                    
                 }
             }
-
+            
             setScrollToBottom({
                 type: ScrollType.FAST,
                 scroll: true,
@@ -571,7 +586,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     const clearReplySelection = () => {
         setInitMessage(undefined)
-        // setSendToUser(0)
     }
 
     //Scroll to message is reply
@@ -605,6 +619,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             console.log('Cannot change permission chat of meeting!!!!')
         }
     }
+
 
     const controlAlowChat: { allowSendMess: boolean; onlyPublic: boolean } =
         useMemo(() => {
@@ -1159,13 +1174,20 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         )}
                     </div>
                 </div>
+                <div className="absolute bottom-0 right-0">
 
-                <MessageTwoTone
-                    twoToneColor="#5151e5"
-                    style={{ fontSize: '48px' }}
-                    onClick={toggleModelDetailResolution}
-                    className="absolute bottom-0 right-0"
-                />
+                    {chatModalOpen===false && countUnreadMessage > 0 && (
+                        <div className='absolute top-[-10px] right-0 bg-red-500 mt-1 text-white rounded-full w-6 h-6 flex justify-center items-center text-center'>
+                            {countUnreadMessage > 5? '5+': countUnreadMessage}
+                        </div>
+                    )}
+                    <MessageTwoTone
+                        twoToneColor="#5151e5"
+                        style={{ fontSize: '48px' }}
+                        onClick={toggleModelDetailResolution}
+                    />
+
+                </div>
             </div>
         </>
     )
