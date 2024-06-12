@@ -150,6 +150,7 @@ export interface IMeetingDetailResponse {
     shareholdersJoined: number
     joinedMeetingShares: number
     totalMeetingShares: number
+    chatPermissionId: number
 }
 
 export interface IBoardMeetingDetailResponse {

@@ -683,7 +683,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                         initMessage ? 'h-[70%]' : 'h-[76%]'
                                     }`}
                                 >
-                                    <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-hidden border px-2 hover:overflow-y-auto">
+                                    {/* <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-hidden border px-2 hover:overflow-y-auto"> */}
+                                    <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-y-auto border px-2">
                                         <div className="fixed right-[50%] top-[8%] z-10 flex w-[95%] translate-x-2/4 border border-gray-400 bg-[#A8C3EB] px-[12px]">
                                             <p className="mx-auto">
                                                 {t(
