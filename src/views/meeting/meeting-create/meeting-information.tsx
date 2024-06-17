@@ -16,6 +16,7 @@ import {
     UploadFile,
     DatePicker,
     TimePicker,
+    notification,
 } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
@@ -23,6 +24,7 @@ import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
 import dayjs from 'dayjs'
 import { urlRegex } from '@/constants/common'
 import { useState } from 'react'
+import { error } from 'console'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -37,15 +39,18 @@ const MeetingInformation = () => {
         [key in 'meetingInvitations' | 'meetingMinutes']: {
             fileList: UploadFile[]
             errorUniqueFile: boolean
+            errorWrongFileType?: boolean
         }
     }>({
         meetingInvitations: {
             fileList: [],
             errorUniqueFile: false,
+            errorWrongFileType: false,
         },
         meetingMinutes: {
             fileList: [],
             errorUniqueFile: false,
+            errorWrongFileType: false,
         },
     })
 
@@ -71,6 +76,7 @@ const MeetingInformation = () => {
                     [file as File],
                     fileType,
                 )
+                
                 await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
                 const values = data[name]
                 setData({
@@ -118,6 +124,7 @@ const MeetingInformation = () => {
                     [name]: {
                         fileList: info.fileList,
                         errorUniqueFile: false,
+                        errorWrongFileType: false,
                     },
                 })
                 const uid = info.file.uid
@@ -133,7 +140,19 @@ const MeetingInformation = () => {
         }
     const validateFile =
         (name: 'meetingInvitations' | 'meetingMinutes') =>
-        (file: RcFile, listRcFile: RcFile[]) => {
+            (file: RcFile, listRcFile: RcFile[]) => {
+            const extension = file.name.split('.').slice(-1)[0]
+            if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        ...fileData[name],
+                        errorWrongFileType: true,
+                    },
+                })
+                return false
+                // return Upload.LIST_IGNORE
+            }
             // filter unique file
             const listCurrentFileNames = fileData[name].fileList.map(
                 (file) => file.name,
@@ -163,10 +182,6 @@ const MeetingInformation = () => {
             })
 
             if (file.size > 10 * (1024 * 1024)) {
-                return Upload.LIST_IGNORE
-            }
-            const extension = file.name.split('.').slice(-1)[0]
-            if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
                 return Upload.LIST_IGNORE
             }
 
@@ -305,6 +320,12 @@ const MeetingInformation = () => {
                                         .errorUniqueFile && (
                                         <Text className="text-dust-red">
                                             {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
+                                    {fileData.meetingInvitations
+                                        .errorWrongFileType && (
+                                        <Text className="text-dust-red">
+                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
                                         </Text>
                                     )}
                                 </div>
