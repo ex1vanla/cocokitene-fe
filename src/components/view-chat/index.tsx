@@ -287,6 +287,18 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 if (lastMessageSeen) {
                     setLastMessageSeenPrev(lastMessageSeen.lastMessageIdSeen)
                 }
+                if (res.messageChat.length) {
+                    const indexOfLastMessageRead = res.messageChat.findIndex(
+                        (mess) => mess.id == lastMessageSeen.lastMessageIdSeen,
+                    )
+                    if (indexOfLastMessageRead == -1) {
+                        setCountUnreadMessage(res.messageChat.length)
+                    } else {
+                        setCountUnreadMessage(
+                            res.messageChat.length - indexOfLastMessageRead - 1,
+                        )
+                    }
+                }
             } catch (error) {}
         }
 
