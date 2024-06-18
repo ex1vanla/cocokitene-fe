@@ -105,6 +105,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     const [inBottomChat, setInBottomChat] = useState<boolean>(true)
 
     const [initMessage, setInitMessage] = useState<DataMessageChat>()
+
     const [countUnreadMessage, setCountUnreadMessage] = useState<number>(0)
 
     //Socket
@@ -133,6 +134,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (message) => {
                 setDataChat((prev) => {
+                    // setCountUnreadMessage((prevCount) => prevCount + 1)
                     const newMessage = { ...message, isReaded: false }
                     return {
                         roomChat: prev.roomChat,
