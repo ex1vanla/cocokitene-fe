@@ -3,7 +3,9 @@ import { IGetAllDataRequest } from './request.type'
 import {
     IAllMeetingChatInMeetingResponse,
     IGetAllDataReponse,
+    ILastMessageSeen,
     IPermissionChatResponse,
+    IUpdateLastMessageSeen,
     IUpdatePermissionChat,
 } from './response.type'
 
@@ -34,6 +36,27 @@ const serviceChatMeeting = {
     ) => {
         const response = await patch<any>(
             `/meetings/${meetingId}/changePermissionChat`,
+            payload,
+        )
+        return response.data
+    },
+
+    //Get Last Message in Meeting Seen
+    getLastMessageSeen: async (
+        meetingId: number,
+    ): Promise<ILastMessageSeen> => {
+        const response = await get<ILastMessageSeen>(
+            `/user-seen-message/meeting/${meetingId}`,
+        )
+        return response.data
+    },
+
+    updateLastMeetingSeen: async (
+        meetingId: number,
+        payload: IUpdateLastMessageSeen,
+    ) => {
+        const response = await patch<any>(
+            `/user-seen-message/meeting/${meetingId}`,
             payload,
         )
         return response.data
