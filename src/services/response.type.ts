@@ -453,3 +453,14 @@ export interface IPermissionChatResponse {
 export interface IUpdatePermissionChat {
     permissionChatId: number
 }
+
+export interface ILastMessageSeen {
+    id: number
+    userId: number
+    meetingId: number
+    lastMessageIdSeen: number
+}
+
+export interface IUpdateLastMessageSeen {
+    lastMessageIdSeen: number
+}

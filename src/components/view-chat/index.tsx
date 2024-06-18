@@ -11,7 +11,6 @@ import {
     MinusOutlined,
     MoreOutlined,
     SendOutlined,
-    SettingOutlined,
 } from '@ant-design/icons'
 import { Button, Popover, Row, Select, Spin } from 'antd'
 import TextArea from 'antd/es/input/TextArea'
@@ -27,7 +26,6 @@ import React from 'react'
 import { io } from 'socket.io-client'
 import { ChatPermissionEnum, ScrollType } from '@/constants/meeting'
 import { RoleMtgEnum } from '@/constants/role-mtg'
-import { set } from 'date-fns'
 
 interface IPermissionChat {
     id: number
@@ -96,10 +94,19 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         meetingInfo.chatPermissionId,
     )
 
+    //Store ID of Last message seen of User
+    const [lastMessageIdSeen, setLastMessageIdSeen] = useState<number>()
+    //Last Message of Meeting User Seen Prev
+    const [lastMessageSeenPrev, setLastMessageSeenPrev] = useState<number>()
+    const [showBtnSeenUnreadMess, setShowBtnSeenUnreadMess] =
+        useState<boolean>(false)
+
+    const [newMessageIncoming, setNewMessageIncoming] = useState<boolean>(false)
+    const [inBottomChat, setInBottomChat] = useState<boolean>(true)
+
     const [initMessage, setInitMessage] = useState<DataMessageChat>()
 
-    const [lasteIndexReadedMessage, setLasteIndexReadedMessage] = useState<number>(dataChat.messageChat.length );
-    const [countUnreadMessage, setCountUnreadMessage] = useState<number>(0);
+    const [countUnreadMessage, setCountUnreadMessage] = useState<number>(0)
 
     //Socket
     const [socket, setSocket] = useState<any>(undefined)
@@ -108,23 +115,27 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
         socket.on(`receive_chat_public/${dataChat.roomChat}`, (message) => {
             setDataChat((prev) => {
-                const newMessage = {...message, isReaded: false}
+                const newMessage = { ...message, isReaded: false }
                 return {
                     roomChat: prev.roomChat,
                     messageChat: [...prev.messageChat, newMessage],
                 }
             })
-            if(message.senderId !== authState.userData?.id){
-                setCountUnreadMessage((prevCount) => prevCount + 1);
+            if (message.senderId !== authState.userData?.id) {
+                setCountUnreadMessage((prevCount) => prevCount + 1)
+                setNewMessageIncoming(true)
+            } else {
+                // console.log('message: ', message)
+                setLastMessageSeenPrev(message.id)
             }
         })
-        
+
         socket.on(
             `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (message) => {
                 setDataChat((prev) => {
-                    setCountUnreadMessage((prevCount) => prevCount + 1);
-                    const newMessage = {...message, isReaded: false}
+                    // setCountUnreadMessage((prevCount) => prevCount + 1)
+                    const newMessage = { ...message, isReaded: false }
                     return {
                         roomChat: prev.roomChat,
                         messageChat: [
@@ -139,15 +150,20 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     }
                 })
                 if (message.senderId !== authState.userData?.id) {
-                    setCountUnreadMessage((prevCount) => prevCount + 1);
+                    setCountUnreadMessage((prevCount) => prevCount + 1)
+                    setNewMessageIncoming(true)
+                } else {
+                    // console.log('message: ', message)
+                    setLastMessageSeenPrev(message.id)
                 }
             },
         )
 
+        //Reaction Message
         socket.on(
             `receive_reaction_message_public/${dataChat.roomChat}`,
             (item) => {
-                console.log('receive_reaction_message-public', item)
+                // console.log('receive_reaction_message-public', item)
                 setDataChat((prev) => {
                     const updatedMessageChat = prev.messageChat.map((msg) => {
                         if (msg.id === item.messageId) {
@@ -193,7 +209,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         socket.on(
             `receive_reaction_message_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (item) => {
-                console.log('receive_reaction_message-private', item)
+                // console.log('receive_reaction_message-private', item)
                 setDataChat((prev) => {
                     const updatedMessageChat = prev.messageChat.map((msg) => {
                         if (msg.id === item.messageId) {
@@ -259,12 +275,17 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         page: 1,
                         limit: 10,
                     })
+                const lastMessageSeen =
+                    await serviceChatMeeting.getLastMessageSeen(meetingId)
                 if (res) {
                     setDataChat(res)
                     setInitStatus(FETCH_STATUS.SUCCESS)
                 }
                 if (listPermissionChat) {
                     setListPermissionChat(listPermissionChat)
+                }
+                if (lastMessageSeen) {
+                    setLastMessageSeenPrev(lastMessageSeen.lastMessageIdSeen)
                 }
             } catch (error) {}
         }
@@ -273,6 +294,134 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             fetchDataChat(meetingInfo.id)
         }
     }, [meetingInfo.id])
+
+    //Feature Unread Message
+    const unReadRef = useRef<HTMLElement | null>(null)
+    const chatRef = useRef<HTMLDivElement | null>(null)
+
+    //Feature know unread Message
+    useEffect(() => {
+        let countIn: number = 0
+        if (!!window.IntersectionObserver) {
+            const observer = new IntersectionObserver(
+                (entries: IntersectionObserverEntry[]) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            countIn++
+                            setShowBtnSeenUnreadMess(false)
+
+                            if (countIn == 2) {
+                                observer.unobserve(entry.target)
+                            }
+                        } else {
+                            setShowBtnSeenUnreadMess(true)
+                        }
+                    })
+                },
+                {
+                    root: chatRef.current,
+                    threshold: 1,
+                },
+            )
+            if (unReadRef.current) {
+                observer.observe(unReadRef.current)
+            }
+            return () => {
+                if (unReadRef.current) {
+                    observer.unobserve(unReadRef.current)
+                }
+            }
+        }
+    }, [unReadRef.current, chatRef.current])
+
+    //
+    const handleUpdateLastMessageSeen = async (
+        meetingId: number,
+        lastMessageIdSeen: number,
+    ) => {
+        await serviceChatMeeting.updateLastMeetingSeen(meetingId, {
+            lastMessageIdSeen: lastMessageIdSeen,
+        })
+    }
+
+    //Update last message read when scroll to bottom chat
+    useEffect(() => {
+        if (inBottomChat) {
+            if (
+                dataChat?.messageChat.length &&
+                newMessageIncoming &&
+                lastMessageSeenPrev !==
+                    dataChat?.messageChat[dataChat?.messageChat.length - 1]?.id
+            ) {
+                handleUpdateLastMessageSeen(
+                    meetingInfo.id,
+                    dataChat.messageChat[dataChat.messageChat.length - 1].id,
+                )
+            }
+            if (dataChat?.messageChat) {
+                setLastMessageIdSeen(
+                    dataChat?.messageChat[dataChat?.messageChat.length - 1]?.id,
+                )
+            }
+            if (countUnreadMessage) {
+                setCountUnreadMessage(0)
+            }
+            setNewMessageIncoming(false)
+        }
+    }, [inBottomChat])
+
+    //check scroll to bottom chat
+    useEffect(() => {
+        if (!!window.IntersectionObserver) {
+            const observer = new IntersectionObserver(
+                (entries: IntersectionObserverEntry[]) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            setInBottomChat(true)
+                        } else {
+                            setInBottomChat(false)
+                        }
+                    })
+                },
+                {
+                    root: chatRef.current,
+                    threshold: 1,
+                },
+            )
+            if (bottomOfMessageChat.current) {
+                observer.observe(bottomOfMessageChat.current)
+            }
+            return () => {
+                if (bottomOfMessageChat.current) {
+                    observer.unobserve(bottomOfMessageChat.current)
+                }
+            }
+        }
+    }, [bottomOfMessageChat.current])
+
+    //Update last message seen when open chat modal
+    useEffect(() => {
+        if (chatModalOpen) {
+            if (
+                dataChat?.messageChat.length &&
+                lastMessageSeenPrev !==
+                    dataChat?.messageChat[dataChat?.messageChat.length - 1]?.id
+            ) {
+                handleUpdateLastMessageSeen(
+                    meetingInfo.id,
+                    dataChat.messageChat[dataChat.messageChat.length - 1].id,
+                )
+            }
+        }
+    }, [chatModalOpen])
+
+    //Scroll to unread Message
+    const scrollToUnReadMessage = () => {
+        unReadRef.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        })
+    }
 
     //Scroll to bottom chat
     useEffect(() => {
@@ -287,7 +436,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     })
                 }, 0)
             } else {
-                // console.log('scroll to bottom chat fast')
                 setTimeout(() => {
                     bottomOfMessageChat.current?.scrollIntoView({})
                 }, 100)
@@ -367,13 +515,25 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         }
     }, [...meetingInfo.participants])
 
-    const toggleModelDetailResolution = () => {
+    const toggleModelDetailResolution = async () => {
         if (!chatModalOpen) {
-            setCountUnreadMessage(0);
+            setCountUnreadMessage(0)
             setScrollToBottom({
                 type: ScrollType.SMOOTH,
                 scroll: true,
             })
+        } else {
+            try {
+                if (lastMessageIdSeen) {
+                    handleUpdateLastMessageSeen(
+                        meetingInfo.id,
+                        lastMessageIdSeen,
+                    )
+                    setLastMessageSeenPrev(lastMessageIdSeen)
+                }
+            } catch (error) {
+                console.log('error: ', error)
+            }
         }
         setChatModalOpen(!chatModalOpen)
     }
@@ -470,23 +630,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         const receiverId = sendToUser == 0 ? null : sendToUser
 
         if (idSender) {
-            // console.log(
-            //     `Send Message to ${sendToUser} message : ${valueMessage}`,
-            // )
-            // const now = new Date()
-            // const year = now.getFullYear()
-            // const month = (now.getMonth() + 1).toString().padStart(2, '0')
-            // const day = now.getDate().toString().padStart(2, '0')
-            // const hours = now.getHours().toString().padStart(2, '0')
-            // const minutes = now.getMinutes().toString().padStart(2, '0')
-            // const seconds = now.getSeconds().toString().padStart(2, '0')
-            // const milliseconds = now
-            //     .getMilliseconds()
-            //     .toString()
-            //     .padStart(3, '0')
-
-            // const isoStringWithZ = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}Z`
-
             // Send Chat Private
             if (receiverId) {
                 if (initMessage) {
@@ -555,7 +698,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                             content: initMessage.content,
                         },
                     })
-                    
                 } else {
                     socket.emit('send_chat_public', {
                         meetingId: meetingInfo.id,
@@ -569,10 +711,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         },
                         content: valueMessage,
                     })
-                    
                 }
             }
-            
+
             setScrollToBottom({
                 type: ScrollType.FAST,
                 scroll: true,
@@ -620,7 +761,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         }
     }
 
-
     const controlAlowChat: { allowSendMess: boolean; onlyPublic: boolean } =
         useMemo(() => {
             const permissionChatName = listPermissionChat.find(
@@ -649,7 +789,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     break
                 default:
                     return {
-                        allowSendMess: false,
+                        allowSendMess: true,
                         onlyPublic: false,
                     }
             }
@@ -699,7 +839,10 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                     }`}
                                 >
                                     {/* <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-hidden border px-2 hover:overflow-y-auto"> */}
-                                    <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-y-auto border px-2">
+                                    <div
+                                        className="border-black-500 custom-class relative mx-auto h-full w-[95%] overflow-y-auto border px-2"
+                                        ref={chatRef}
+                                    >
                                         <div className="fixed right-[50%] top-[8%] z-10 flex w-[95%] translate-x-2/4 border border-gray-400 bg-[#A8C3EB] px-[12px]">
                                             <p className="mx-auto">
                                                 {t(
@@ -711,9 +854,36 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                 )}
                                             </p>
                                         </div>
+                                        {showBtnSeenUnreadMess &&
+                                            !newMessageIncoming &&
+                                            unReadRef.current && (
+                                                <Button
+                                                    onClick={
+                                                        scrollToUnReadMessage
+                                                    }
+                                                    className="fixed right-[50%] top-[13%] z-10 translate-x-2/4 rounded-lg bg-[#0059ff] px-2 py-1 text-xs text-[#ffff]"
+                                                >
+                                                    {t('UNREAD_MESSAGE')}
+                                                </Button>
+                                            )}
                                         <div className="h-[20px]"></div>
+                                        {!lastMessageSeenPrev &&
+                                        dataChat?.messageChat?.length ? (
+                                            <span
+                                                className="mt-2 flex items-center"
+                                                ref={unReadRef}
+                                            >
+                                                <div className="h-[1px] grow border-t border-[#BB3E4E]"></div>
+                                                <div className="mx-1 text-[#BB3E4E]">
+                                                    {t('UNREAD_MESSAGE')}
+                                                </div>
+                                                <div className="h-[1px] grow border-t border-[#BB3E4E]"></div>
+                                            </span>
+                                        ) : (
+                                            <></>
+                                        )}
                                         {dataChat?.messageChat?.map(
-                                            (message, index) => {
+                                            (message, index, arr) => {
                                                 //Get Date of Message
                                                 const dateMessage = new Date(
                                                     message.createdAt,
@@ -847,6 +1017,25 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                     participantToSendMessage
                                                                 }
                                                             />
+                                                            {lastMessageSeenPrev ==
+                                                                message.id &&
+                                                                index + 1 !==
+                                                                    arr.length && (
+                                                                    <span
+                                                                        className="flex items-center"
+                                                                        ref={
+                                                                            unReadRef
+                                                                        }
+                                                                    >
+                                                                        <div className="h-[1px] grow border-t border-[#BB3E4E]"></div>
+                                                                        <div className="mx-1 text-[#BB3E4E]">
+                                                                            {t(
+                                                                                'UNREAD_MESSAGE',
+                                                                            )}
+                                                                        </div>
+                                                                        <div className="h-[1px] grow border-t border-[#BB3E4E]"></div>
+                                                                    </span>
+                                                                )}
                                                         </span>
                                                     )
                                                 }
@@ -951,10 +1140,50 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                 participantToSendMessage
                                                             }
                                                         />
+                                                        {lastMessageSeenPrev ==
+                                                            message.id &&
+                                                            index + 1 !==
+                                                                arr.length && (
+                                                                <span
+                                                                    className="flex items-center"
+                                                                    ref={
+                                                                        unReadRef
+                                                                    }
+                                                                >
+                                                                    <div className="h-[1px] grow border-t border-[#BB3E4E]"></div>
+                                                                    <div className="mx-1 text-[#BB3E4E]">
+                                                                        {t(
+                                                                            'UNREAD_MESSAGE',
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="h-[1px] grow border-t border-[#BB3E4E]"></div>
+                                                                </span>
+                                                            )}
                                                     </span>
                                                 )
                                             },
                                         )}
+                                        {newMessageIncoming &&
+                                            !inBottomChat && (
+                                                <Button
+                                                    onClick={() => {
+                                                        bottomOfMessageChat.current?.scrollIntoView(
+                                                            {
+                                                                behavior:
+                                                                    'smooth',
+                                                                block: 'end',
+                                                            },
+                                                        )
+                                                    }}
+                                                    className={`fixed right-[50%] ${
+                                                        initMessage
+                                                            ? 'bottom-[23%]'
+                                                            : 'bottom-[17%]'
+                                                    } z-10 translate-x-2/4 rounded-lg bg-[#0059ff] px-2 py-1 text-xs text-[#ffff]`}
+                                                >
+                                                    {t('NEW_MESSAGE')}
+                                                </Button>
+                                            )}
                                         <span ref={bottomOfMessageChat}></span>
                                     </div>
                                 </div>
@@ -1175,10 +1404,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     </div>
                 </div>
                 <div className="absolute bottom-0 right-0">
-
-                    {chatModalOpen===false && countUnreadMessage > 0 && (
-                        <div className='absolute top-[-10px] right-0 bg-red-500 mt-1 text-white rounded-full w-6 h-6 flex justify-center items-center text-center'>
-                            {countUnreadMessage > 5? '5+': countUnreadMessage}
+                    {chatModalOpen === false && countUnreadMessage > 0 && (
+                        <div className="absolute right-0 top-[-10px] mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-center text-white">
+                            {countUnreadMessage > 5 ? '5+' : countUnreadMessage}
                         </div>
                     )}
                     <MessageTwoTone
@@ -1186,7 +1414,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                         style={{ fontSize: '48px' }}
                         onClick={toggleModelDetailResolution}
                     />
-
                 </div>
             </div>
         </>
