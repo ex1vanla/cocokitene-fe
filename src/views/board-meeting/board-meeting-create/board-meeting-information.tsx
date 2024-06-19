@@ -37,17 +37,20 @@ const BoardMeetingInformation = () => {
             fileList: UploadFile[]
             errorUniqueFile: boolean
             errorWrongFileType?: boolean
+            errorFileSize?: boolean
         }
     }>({
         meetingInvitations: {
             fileList: [],
             errorUniqueFile: false,
             errorWrongFileType: false,
+            errorFileSize: false,
         },
         meetingMinutes: {
             fileList: [],
             errorUniqueFile: false,
             errorWrongFileType: false,
+            errorFileSize: false,
         },
     })
 
@@ -109,6 +112,7 @@ const BoardMeetingInformation = () => {
                         fileList: info.fileList,
                         errorUniqueFile: false,
                         errorWrongFileType: false,
+                        errorFileSize: false,
                     },
                 })
                 const uid = info.file.uid
@@ -162,7 +166,15 @@ const BoardMeetingInformation = () => {
                 },
             })
             if (file.size > 10 * (1024 * 1024)) {
-                return Upload.LIST_IGNORE
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        ...fileData[name],
+                        errerrorFileSize: true,
+                    },
+                })
+                return false
+                // return Upload.LIST_IGNORE
             }
 
             return true
@@ -310,6 +322,12 @@ const BoardMeetingInformation = () => {
                                         {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
+                                {fileData.meetingInvitations
+                                    .errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
+                                    </Text>
+                                )}
                             </div>
                         </Form.Item>
                     </Form>
@@ -352,6 +370,12 @@ const BoardMeetingInformation = () => {
                                     .errorWrongFileType && (
                                         <Text className="text-dust-red">
                                             {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
+                                {fileData.meetingMinutes
+                                    .errorFileSize && (
+                                        <Text className="text-dust-red">
+                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
                                         </Text>
                                     )}
                             </div>

@@ -84,23 +84,26 @@ const CreateReportItem = ({
     const [fileData, setFileData] = useState<{
         fileList: UploadFile[]
         errorUniqueFile: boolean
+        errorWrongFileType?: boolean
+        errorFileSize?: boolean
     }>({ fileList: fileList, errorUniqueFile: false })
-
+    
     const onFileChange = (info: UploadChangeParam) => {
         if (info.file.status === 'done') {
             const url = info.file?.xhr?.responseURL
             if (url) {
                 onAddFile &&
-                    onAddFile({
-                        url: url.split('?')[0],
-                        uid: info.file.uid,
-                    })
+                onAddFile({
+                    url: url.split('?')[0],
+                    uid: info.file.uid,
+                })
             }
         }
         if (info.file.status === 'removed') {
             setFileData({
                 fileList: info.fileList,
                 errorUniqueFile: false,
+                errorFileSize: false,
             })
             const uid = info.file.uid
             if (uid) {
@@ -127,11 +130,21 @@ const CreateReportItem = ({
             errorUniqueFile: false,
         })
         if (file.size > 10 * (1024 * 1024)) {
-            return Upload.LIST_IGNORE
+            setFileData({
+                ...fileData,
+                errorFileSize: true,
+            })
+            return false
+            // return Upload.LIST_IGNORE
         }
         const extension = file.name.split('.').slice(-1)[0]
         if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
-            return Upload.LIST_IGNORE
+            setFileData({
+                ...fileData,
+                errorWrongFileType: true,
+            })
+            return false
+            // return Upload.LIST_IGNORE
         }
 
         return true
@@ -225,6 +238,19 @@ const CreateReportItem = ({
                                 {fileData.errorUniqueFile && (
                                     <Text className="text-dust-red">
                                         {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                               
+                            {fileData
+                                .errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                            {fileData
+                                .errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
                                     </Text>
                                 )}
                             </div>

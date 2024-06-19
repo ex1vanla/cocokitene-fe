@@ -50,6 +50,8 @@ const CreateResolutionItem = ({
     const [fileData, setFileData] = useState<{
         fileList: UploadFile[]
         errorUniqueFile: boolean
+        errorWrongFileType?: boolean
+        errorFileSize?: boolean
     }>({ fileList: fileList, errorUniqueFile: false })
 
     const onUpload = async ({ file }: RcCustomRequestOptions) => {
@@ -129,11 +131,21 @@ const CreateResolutionItem = ({
         })
 
         if (file.size > 10 * (1024 * 1024)) {
-            return Upload.LIST_IGNORE
+            setFileData({
+                ...fileData,
+                errorFileSize: true,
+            })
+            return false
+            // return Upload.LIST_IGNORE
         }
         const extension = file.name.split('.').slice(-1)[0]
         if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
-            return Upload.LIST_IGNORE
+            setFileData({
+                ...fileData,
+                errorWrongFileType: true,
+            })
+            return false
+            // return Upload.LIST_IGNORE
         }
 
         return true
@@ -192,6 +204,18 @@ const CreateResolutionItem = ({
                                     {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                 </Text>
                             )}
+                            {fileData
+                                .errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                            {fileData
+                                .errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
+                                    </Text>
+                                )}
                         </div>
                     </>
                 )}
