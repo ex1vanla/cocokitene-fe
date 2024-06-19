@@ -141,7 +141,7 @@ const ItemFutureMeeting = ({
                         </a>
                     </Link>
                 </Col>
-                <Col span={2} className="flex items-center pl-3">
+                <Col span={3} className="flex items-center pl-3">
                     {enumToArray(MeetingStatus).map((status, key) => {
                         if (status === meetings_status) {
                             return (
@@ -159,21 +159,29 @@ const ItemFutureMeeting = ({
                 </Col>
 
                 <Col
-                    span={4}
-                    className="flex items-center justify-end gap-5 space-x-2 pr-5"
+                    span={3}
+                    className={`flex items-center ${
+                        meetings_status !== MeetingStatus.CANCELED
+                            ? 'justify-between'
+                            : 'justify-end'
+                    } gap-5 space-x-2 pr-5`}
                 >
-                    {isJoined === 0 ? (
-                        <Button
-                            type="primary"
-                            size="middle"
-                            onClick={() => showModal(meetings_start_time)}
-                        >
-                            {t('BTN_JOIN')}
-                        </Button>
+                    {meetings_status !== MeetingStatus.CANCELED ? (
+                        isJoined === 0 ? (
+                            <Button
+                                type="primary"
+                                size="middle"
+                                onClick={() => showModal(meetings_start_time)}
+                            >
+                                {t('BTN_JOIN')}
+                            </Button>
+                        ) : (
+                            <Button disabled type="primary" size="middle">
+                                {t('JOINED')}
+                            </Button>
+                        )
                     ) : (
-                        <Button disabled type="primary" size="middle">
-                            {t('JOINED')}
-                        </Button>
+                        <></>
                     )}
                     {/* <Button
                         size="middle"
@@ -185,17 +193,18 @@ const ItemFutureMeeting = ({
                     </Button> */}
 
                     <div className="flex gap-3">
-                        {permissionEdit && (
-                            <EditTwoTone
-                                style={{ fontSize: '18px' }}
-                                twoToneColor="#5151e5"
-                                onClick={() => {
-                                    router.push(
-                                        `/meeting/update/${meetings_id}`,
-                                    )
-                                }}
-                            />
-                        )}
+                        {permissionEdit &&
+                            meetings_status !== MeetingStatus.CANCELED && (
+                                <EditTwoTone
+                                    style={{ fontSize: '18px' }}
+                                    twoToneColor="#5151e5"
+                                    onClick={() => {
+                                        router.push(
+                                            `/meeting/update/${meetings_id}`,
+                                        )
+                                    }}
+                                />
+                            )}
                         {permissionDetail && (
                             <EyeTwoTone
                                 style={{ fontSize: '18px' }}
