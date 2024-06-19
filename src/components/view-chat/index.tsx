@@ -365,6 +365,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                 lastMessageSeenPrev !==
                     dataChat?.messageChat[dataChat?.messageChat.length - 1]?.id
             ) {
+                setNewMessageIncoming(false)
                 handleUpdateLastMessageSeen(
                     meetingInfo.id,
                     dataChat.messageChat[dataChat.messageChat.length - 1].id,
