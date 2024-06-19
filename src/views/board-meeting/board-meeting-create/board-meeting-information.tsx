@@ -124,17 +124,17 @@ const BoardMeetingInformation = () => {
 
     const validateFile =
         (name: 'meetingInvitations' | 'meetingMinutes') =>
-            (file: RcFile, listRcFile: RcFile[]) => {
+        (file: RcFile, listRcFile: RcFile[]) => {
             const extension = file.name.split('.').slice(-1)[0]
-                if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
-                    setFileData({
-                        ...fileData,
-                        [name]: {
-                            ...fileData[name],
-                            errorWrongFileType: true,
-                        },
-                    })
-                    return false
+            if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
+                setFileData({
+                    ...fileData,
+                    [name]: {
+                        ...fileData[name],
+                        errorWrongFileType: true,
+                    },
+                })
+                return false
                 // return Upload.LIST_IGNORE
             }
             // filter unique file
@@ -164,7 +164,7 @@ const BoardMeetingInformation = () => {
             if (file.size > 10 * (1024 * 1024)) {
                 return Upload.LIST_IGNORE
             }
-            
+
             return true
         }
     const onChangeDateTime = (
@@ -289,28 +289,28 @@ const BoardMeetingInformation = () => {
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
                             >
-                                <div className="flex flex-col items-start">
-                                    <Button icon={<UploadOutlined />}>
-                                        {t('CLICK_TO_UPLOAD')}
-                                    </Button>
-                                    <Text className="text-black-45">
-                                        {t('INVITATION_FILE_UPLOAD_NOTICE')}
-                                    </Text>
-                                    {fileData.meetingInvitations
-                                        .errorUniqueFile && (
-                                        <Text className="text-dust-red">
-                                            {' '}
-                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
-                                        </Text>
-                                        )}
-                                    {fileData.meetingInvitations
-                                        .errorWrongFileType && (
-                                            <Text className="text-dust-red">
-                                                {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                            </Text>
-                                        )}
-                                </div>
+                                <Button icon={<UploadOutlined />}>
+                                    {t('CLICK_TO_UPLOAD')}
+                                </Button>
                             </Upload>
+                            <div className="flex flex-col items-start">
+                                <Text className="text-black-45">
+                                    {t('INVITATION_FILE_UPLOAD_NOTICE')}
+                                </Text>
+                                {fileData.meetingInvitations
+                                    .errorUniqueFile && (
+                                    <Text className="text-dust-red">
+                                        {' '}
+                                        {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                                {fileData.meetingInvitations
+                                    .errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                            </div>
                         </Form.Item>
                     </Form>
                 </Col>
@@ -334,22 +334,21 @@ const BoardMeetingInformation = () => {
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
                             >
-                                <div className="flex flex-col items-start">
-                                    <Button icon={<UploadOutlined />}>
-                                        {t('CLICK_TO_UPLOAD')}
-                                    </Button>
-                                    <Text className="text-black-45">
-                                        {t('INVITATION_FILE_UPLOAD_NOTICE')}
-                                    </Text>
-                                    {fileData.meetingMinutes
-                                        .errorUniqueFile && (
-                                        <Text className="text-dust-red">
-                                            {' '}
-                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                </div>
+                                <Button icon={<UploadOutlined />}>
+                                    {t('CLICK_TO_UPLOAD')}
+                                </Button>
                             </Upload>
+                            <div className="flex flex-col items-start">
+                                <Text className="text-black-45">
+                                    {t('INVITATION_FILE_UPLOAD_NOTICE')}
+                                </Text>
+                                {fileData.meetingMinutes.errorUniqueFile && (
+                                    <Text className="text-dust-red">
+                                        {' '}
+                                        {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                            </div>
                         </Form.Item>
                     </Form>
                 </Col>
