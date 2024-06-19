@@ -402,6 +402,12 @@ const MeetingInformation = () => {
                                         {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
+                                {fileData.meetingMinutes
+                                    .errorWrongFileType && (
+                                        <Text className="text-dust-red">
+                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
                             </div>
                         </Form.Item>
                     </Form>
