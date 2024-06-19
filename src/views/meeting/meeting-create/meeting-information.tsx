@@ -76,7 +76,7 @@ const MeetingInformation = () => {
                     [file as File],
                     fileType,
                 )
-                
+
                 await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
                 const values = data[name]
                 setData({
@@ -140,7 +140,7 @@ const MeetingInformation = () => {
         }
     const validateFile =
         (name: 'meetingInvitations' | 'meetingMinutes') =>
-            (file: RcFile, listRcFile: RcFile[]) => {
+        (file: RcFile, listRcFile: RcFile[]) => {
             const extension = file.name.split('.').slice(-1)[0]
             if (!ACCEPT_FILE_TYPES.split(',').includes(`.${extension}`)) {
                 setFileData({
@@ -309,27 +309,27 @@ const MeetingInformation = () => {
                                 accept={ACCEPT_FILE_TYPES}
                                 name="meeting-invitations"
                             >
-                                <div className="flex flex-col items-start">
-                                    <Button icon={<UploadOutlined />}>
-                                        {t('CLICK_TO_UPLOAD')}
-                                    </Button>
-                                    <Text className="text-black-45">
-                                        {t('INVITATION_FILE_UPLOAD_NOTICE')}
-                                    </Text>
-                                    {fileData.meetingInvitations
-                                        .errorUniqueFile && (
-                                        <Text className="text-dust-red">
-                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                    {fileData.meetingInvitations
-                                        .errorWrongFileType && (
-                                        <Text className="text-dust-red">
-                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                </div>
+                                <Button icon={<UploadOutlined />}>
+                                    {t('CLICK_TO_UPLOAD')}
+                                </Button>
                             </Upload>
+                            <div className="flex flex-col items-start">
+                                <Text className="text-black-45">
+                                    {t('INVITATION_FILE_UPLOAD_NOTICE')}
+                                </Text>
+                                {fileData.meetingInvitations
+                                    .errorUniqueFile && (
+                                    <Text className="text-dust-red">
+                                        {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                                {fileData.meetingInvitations
+                                    .errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                            </div>
                         </Form.Item>
                     </Form>
                 </Col>
@@ -355,10 +355,10 @@ const MeetingInformation = () => {
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
                             >
+                                <Button icon={<UploadOutlined />}>
+                                    {t('CLICK_TO_UPLOAD')}
+                                </Button>
                                 <div className="flex flex-col items-start">
-                                    <Button icon={<UploadOutlined />}>
-                                        {t('CLICK_TO_UPLOAD')}
-                                    </Button>
                                     <Text className="text-black-45">
                                         {t('INVITATION_FILE_UPLOAD_NOTICE')}
                                     </Text>
