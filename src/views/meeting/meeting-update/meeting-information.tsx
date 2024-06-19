@@ -58,7 +58,7 @@ const MeetingInformation = () => {
             })),
             errorUniqueFile: false,
             errorWrongFileType: false,
-            errorFileSize: false
+            errorFileSize: false,
         },
         meetingMinutes: {
             fileList: data?.meetingMinutes?.map((file, index) => ({
@@ -69,7 +69,7 @@ const MeetingInformation = () => {
             })),
             errorUniqueFile: false,
             errorWrongFileType: false,
-            errorFileSize: false
+            errorFileSize: false,
         },
     })
 
@@ -143,7 +143,7 @@ const MeetingInformation = () => {
                         fileList: info.fileList,
                         errorUniqueFile: false,
                         errorWrongFileType: false,
-                        errorFileSize: false
+                        errorFileSize: false,
                     },
                 })
                 const uid = info.file.uid
@@ -365,13 +365,14 @@ const MeetingInformation = () => {
                                     <Text className="text-dust-red">
                                         {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
                                     </Text>
-                                    )}
-                                {fileData.meetingInvitations
-                                    .errorFileSize && (
-                                        <Text className="text-dust-red">
-                                            {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
-                                        </Text>
-                                    )}
+                                )}
+                                {fileData.meetingInvitations.errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
+                                    </Text>
+                                )}
                             </div>
                         </Form.Item>
                     </Form>
@@ -407,7 +408,8 @@ const MeetingInformation = () => {
                                     'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
-                            >handleSliderChange
+                            >
+                                handleSliderChange
                                 <Button icon={<UploadOutlined />}>
                                     {t('CLICK_TO_UPLOAD')}
                                 </Button>
@@ -421,18 +423,18 @@ const MeetingInformation = () => {
                                         {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
-                                {fileData.meetingMinutes
-                                    .errorWrongFileType && (
-                                        <Text className="text-dust-red">
-                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                {fileData.meetingMinutes
-                                    .errorFileSize && (
-                                        <Text className="text-dust-red">
-                                            {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
-                                        </Text>
-                                    )}
+                                {fileData.meetingMinutes.errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                                {fileData.meetingMinutes.errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
+                                    </Text>
+                                )}
                             </div>
                         </Form.Item>
                     </Form>
@@ -526,27 +528,38 @@ const MeetingInformation = () => {
                                 onChange={onChangeStatus}
                                 options={enumToArray(MeetingStatus).map(
                                     (status) => {
-                                        const isDisabled = ['0', '1', '2'].includes(status);
+                                        const isDisabled = [
+                                            '0',
+                                            '1',
+                                            '2',
+                                        ].includes(status)
                                         return {
                                             value: status,
                                             label: (
-                                                <div style={{ position: 'relative' }}>
+                                                <div
+                                                    style={{
+                                                        position: 'relative',
+                                                    }}
+                                                >
                                                     <span
                                                         style={{
-                                                            color: MeetingStatusColor[status],
-                                                            
+                                                            color: MeetingStatusColor[
+                                                                status
+                                                            ],
                                                         }}
                                                     >
-                                                        {t(MeetingStatusName[status])}
+                                                        {t(
+                                                            MeetingStatusName[
+                                                                status
+                                                            ],
+                                                        )}
                                                     </span>
-                                                    
                                                 </div>
                                             ),
                                             disabled: isDisabled,
-                                        };
-                                    }
+                                        }
+                                    },
                                 )}
-
                             />
                         </Form.Item>
                     </Form>

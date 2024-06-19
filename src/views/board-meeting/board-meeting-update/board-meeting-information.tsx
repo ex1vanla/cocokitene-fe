@@ -59,7 +59,7 @@ const BoardMeetingInformation = () => {
             })),
             errorUniqueFile: false,
             errorWrongFileType: false,
-            errorFileSize: false
+            errorFileSize: false,
         },
         meetingMinutes: {
             fileList: data?.meetingMinutes?.map((file, index) => ({
@@ -70,7 +70,7 @@ const BoardMeetingInformation = () => {
             })),
             errorUniqueFile: false,
             errorWrongFileType: false,
-            errorFileSize: false
+            errorFileSize: false,
         },
     })
 
@@ -144,7 +144,7 @@ const BoardMeetingInformation = () => {
                         fileList: info.fileList,
                         errorUniqueFile: false,
                         errorWrongFileType: false,
-                        errorFileSize: false
+                        errorFileSize: false,
                     },
                 })
                 const uid = info.file.uid
@@ -359,10 +359,11 @@ const BoardMeetingInformation = () => {
                                         {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
-                                {fileData.meetingInvitations
-                                    .errorFileSize && (
+                                {fileData.meetingInvitations.errorFileSize && (
                                     <Text className="text-dust-red">
-                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
                                     </Text>
                                 )}
                             </div>
@@ -414,19 +415,20 @@ const BoardMeetingInformation = () => {
                                         <Text className="text-dust-red">
                                             {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                         </Text>
-                                        )}
+                                    )}
                                     {fileData.meetingMinutes
                                         .errorWrongFileType && (
-                                            <Text className="text-dust-red">
-                                                {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                            </Text>
-                                        )}
-                                    {fileData.meetingMinutes
-                                        .errorFileSize && (
-                                            <Text className="text-dust-red">
-                                            {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
-                                            </Text>
-                                        )}
+                                        <Text className="text-dust-red">
+                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                        </Text>
+                                    )}
+                                    {fileData.meetingMinutes.errorFileSize && (
+                                        <Text className="text-dust-red">
+                                            {t(
+                                                'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                            )}
+                                        </Text>
+                                    )}
                                 </div>
                             </Upload>
                         </Form.Item>

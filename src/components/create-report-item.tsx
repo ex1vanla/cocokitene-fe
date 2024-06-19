@@ -87,16 +87,16 @@ const CreateReportItem = ({
         errorWrongFileType?: boolean
         errorFileSize?: boolean
     }>({ fileList: fileList, errorUniqueFile: false })
-    
+
     const onFileChange = (info: UploadChangeParam) => {
         if (info.file.status === 'done') {
             const url = info.file?.xhr?.responseURL
             if (url) {
                 onAddFile &&
-                onAddFile({
-                    url: url.split('?')[0],
-                    uid: info.file.uid,
-                })
+                    onAddFile({
+                        url: url.split('?')[0],
+                        uid: info.file.uid,
+                    })
             }
         }
         if (info.file.status === 'removed') {
@@ -240,17 +240,17 @@ const CreateReportItem = ({
                                         {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
-                               
-                            {fileData
-                                .errorWrongFileType && (
+
+                                {fileData.errorWrongFileType && (
                                     <Text className="text-dust-red">
                                         {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
-                            {fileData
-                                .errorFileSize && (
+                                {fileData.errorFileSize && (
                                     <Text className="text-dust-red">
-                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
                                     </Text>
                                 )}
                             </div>

@@ -322,10 +322,11 @@ const BoardMeetingInformation = () => {
                                         {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
-                                {fileData.meetingInvitations
-                                    .errorFileSize && (
+                                {fileData.meetingInvitations.errorFileSize && (
                                     <Text className="text-dust-red">
-                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
                                     </Text>
                                 )}
                             </div>
@@ -366,18 +367,18 @@ const BoardMeetingInformation = () => {
                                         {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                     </Text>
                                 )}
-                                {fileData.meetingMinutes
-                                    .errorWrongFileType && (
-                                        <Text className="text-dust-red">
-                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                {fileData.meetingMinutes
-                                    .errorFileSize && (
-                                        <Text className="text-dust-red">
-                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
-                                        </Text>
-                                    )}
+                                {fileData.meetingMinutes.errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                                {fileData.meetingMinutes.errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
+                                    </Text>
+                                )}
                             </div>
                         </Form.Item>
                     </Form>

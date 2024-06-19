@@ -204,18 +204,16 @@ const CreateResolutionItem = ({
                                     {t('UNIQUE_FILE_ERROR_MESSAGE')}
                                 </Text>
                             )}
-                            {fileData
-                                .errorWrongFileType && (
-                                    <Text className="text-dust-red">
-                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                    </Text>
-                                )}
-                            {fileData
-                                .errorFileSize && (
-                                    <Text className="text-dust-red">
-                                        {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
-                                    </Text>
-                                )}
+                            {fileData.errorWrongFileType && (
+                                <Text className="text-dust-red">
+                                    {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                </Text>
+                            )}
+                            {fileData.errorFileSize && (
+                                <Text className="text-dust-red">
+                                    {t('FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD')}
+                                </Text>
+                            )}
                         </div>
                     </>
                 )}
