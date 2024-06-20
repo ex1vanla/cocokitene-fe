@@ -172,11 +172,17 @@ const ItemFutureMeeting = ({
                                 type="primary"
                                 size="middle"
                                 onClick={() => showModal(meetings_start_time)}
+                                className="w-[73px]"
                             >
                                 {t('BTN_JOIN')}
                             </Button>
                         ) : (
-                            <Button disabled type="primary" size="middle">
+                            <Button
+                                disabled
+                                type="primary"
+                                size="middle"
+                                className="w-[73px]"
+                            >
                                 {t('JOINED')}
                             </Button>
                         )
