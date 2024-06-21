@@ -13,6 +13,7 @@ const LocaleSwitcher = () => {
         const nextLocaleSelected = event.target.value
         startTransition(() => {
             router.replace(pathname, { locale: nextLocaleSelected })
+            router.refresh()
         })
     }
 
