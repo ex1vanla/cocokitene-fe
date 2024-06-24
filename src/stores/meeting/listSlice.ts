@@ -28,7 +28,7 @@ const initialState: IMeetingState = {
     type: MeetingTime.MEETING_FUTURE,
     errorCode: '',
     errorMessage: '',
-    meetingType: MeetingType.BOARD_MEETING,
+    meetingType: MeetingType.SHAREHOLDER_MEETING,
 }
 
 export const getAllMeetings = createAsyncThunk<
@@ -82,9 +82,11 @@ const meetingListSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllMeetings.pending, (state) => {
+                console.log('pending')
                 state.status = EActionStatus.Pending
             })
             .addCase(getAllMeetings.fulfilled, (state, action) => {
+                console.log('Shareholder MTG: ',action.payload)
                 state.status = EActionStatus.Succeeded
                 state.meetingFutureList = action.payload?.items ?? []
                 state.totalFutureMeetingItem =
