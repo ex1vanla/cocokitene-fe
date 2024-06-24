@@ -72,6 +72,7 @@ const ItemFutureBoardMeeting = ({
     const handleCancel = () => {
         setIsModalOpen(false)
     }
+
     return (
         <>
             {contextHolder}
