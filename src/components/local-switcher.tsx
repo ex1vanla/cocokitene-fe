@@ -2,7 +2,9 @@
 import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from 'next-intl/client'
 import { ChangeEvent, useTransition } from 'react'
-
+import Image from 'next/image'
+import { Button, Dropdown, Menu } from 'antd'
+import { DownOutlined } from '@ant-design/icons'
 const LocaleSwitcher = () => {
     const [isPending, startTransition] = useTransition()
     const locale = useLocale()
@@ -12,7 +14,9 @@ const LocaleSwitcher = () => {
     function onSelectLocal(event: ChangeEvent<HTMLSelectElement>) {
         const nextLocaleSelected = event.target.value
         startTransition(() => {
+            document.cookie = `NEXT_LOCALE=${nextLocaleSelected}; path=/, max-age=31536000, SameSite=Lax`
             router.replace(pathname, { locale: nextLocaleSelected })
+            router.refresh()
         })
     }
 
