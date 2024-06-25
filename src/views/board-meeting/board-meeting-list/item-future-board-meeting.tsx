@@ -129,7 +129,7 @@ const ItemFutureBoardMeeting = ({
                         </a>
                     </Link>
                 </Col>
-                <Col span={3} className="flex items-center">
+                <Col span={2} className="flex items-center">
                     {enumToArray(MeetingStatus).map((status, key) => {
                         if (status === meetings_status) {
                             return (
@@ -146,7 +146,7 @@ const ItemFutureBoardMeeting = ({
                     })}
                 </Col>
                 <Col
-                    span={3}
+                    span={2}
                     className={`flex items-center ${
                         meetings_status !== MeetingStatus.CANCELED
                             ? 'justify-between'

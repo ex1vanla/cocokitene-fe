@@ -179,10 +179,10 @@ const ItemPastMeeting = ({
                     }
                 })}
             </Col>
-            <Col span={2} className="flex items-center justify-center">
+            <Col span={2} className="flex items-center justify-between">
                 {permissionCheckData && (
                     <Button
-                        className="w-[68px]"
+                        className="w-[73px]"
                         type="primary"
                         // icon={<PlusOutlined />}
                         // size="Default"
