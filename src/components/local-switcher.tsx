@@ -2,9 +2,7 @@
 import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from 'next-intl/client'
 import { ChangeEvent, useTransition } from 'react'
-import Image from 'next/image'
-import { Button, Dropdown, Menu } from 'antd'
-import { DownOutlined } from '@ant-design/icons'
+
 const LocaleSwitcher = () => {
     const [isPending, startTransition] = useTransition()
     const locale = useLocale()
