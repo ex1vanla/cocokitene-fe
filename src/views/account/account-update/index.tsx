@@ -42,7 +42,8 @@ import {
 } from '@/constants/account'
 import serviceUpload from '@/services/upload'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
-
+import { Cookies } from 'react-cookie'
+const cookies = new Cookies()
 const tagRenderStatus = (props: any) => {
     const { label, value, closable, onClose } = props
     const t = useTranslations()
@@ -139,10 +140,10 @@ const UpdateAccount = () => {
                 if (res) {
                     const userCompanyName = authState.userData?.id
                         ? (
-                              await serviceAccount.getDetailAccount(
-                                  authState.userData.id,
-                              )
-                          ).company.companyName
+                            await serviceAccount.getDetailAccount(
+                                authState.userData.id,
+                            )
+                        ).company.companyName
                         : ''
 
                     setInitAccount({
@@ -222,11 +223,36 @@ const UpdateAccount = () => {
 
     // Upload Image
     const beforeUpload = (file: RcFile) => {
-        const isLt20M = file.size < Number(MAX_AVATAR_FILE_SIZE) * (1024 * 1024)
+        const isLt20M = file.size < Number(MAX_AVATAR_FILE_SIZE) * (1024 * 1024);
+        const langCurrent = cookies.get('NEXT_LOCALE')
         if (!isLt20M) {
-            message.error(`Image must smaller than ${MAX_AVATAR_FILE_SIZE}MB!`)
+            if (langCurrent === 'en') {
+
+                message.error(`Image must smaller than ${MAX_AVATAR_FILE_SIZE}MB!`);
+                return false;
+            } else {
+                message.error(`添付ファイルのサイズが最大値を越えています。${MAX_AVATAR_FILE_SIZE}Mbyte以内で登録してください`);
+
+                return false
+            }
+
+
         }
-        return isLt20M
+
+        const extension = file.name.split('.').slice(-1)[0]
+        const isAcceptedType = ACCEPT_AVATAR_TYPES.split(',').includes(`.${extension}`);
+        if (!isAcceptedType) {
+            if (langCurrent === 'en') {
+
+                message.error(`${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`);
+                return false;
+            } else {
+                message.error(`${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`);
+                return false
+            }
+        }
+
+        return true;
     }
 
     useEffect(() => {
@@ -237,10 +263,10 @@ const UpdateAccount = () => {
 
     const onUpload =
         (name: 'avatarAccount', fileType: AccountFileType) =>
-        async ({ file }: RcCustomRequestOptions) => {
-            // console.log('file :', file)
-            setFileAvatarInfo({ file: file, flag: true })
-        }
+            async ({ file }: RcCustomRequestOptions) => {
+                // console.log('file :', file)
+                setFileAvatarInfo({ file: file, flag: true })
+            }
 
     const handleCancel = () => setPreviewOpen(false)
     const handlePreview = async (file: UploadFile) => {
@@ -552,7 +578,7 @@ const UpdateAccount = () => {
                                                     >
                                                         {t(
                                                             UserStatusName[
-                                                                status.status
+                                                            status.status
                                                             ],
                                                         )}
                                                     </span>

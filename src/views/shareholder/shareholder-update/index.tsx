@@ -1,50 +1,51 @@
 /* eslint-disable */
-import {
-    UserStatus,
-    UserStatusColor,
-    UserStatusName,
-} from '@/constants/user-status'
-import { useParams, useRouter } from 'next/navigation'
-import { useForm, useWatch } from 'antd/es/form/Form'
-import { useAuthLogin } from '@/stores/auth/hooks'
-import { useEffect, useState } from 'react'
-import { FETCH_STATUS } from '@/constants/common'
-import { useTranslations } from 'next-intl'
-import {
-    Col,
-    Form,
-    Input,
-    message,
-    Modal,
-    notification,
-    Row,
-    Select,
-    Tag,
-    Upload,
-    UploadFile,
-} from 'antd'
-import { RcFile } from 'antd/es/upload'
-import { AxiosError } from 'axios'
-import serviceShareholder from '@/services/shareholder'
-import serviceAccount from '@/services/account'
-import serviceUserStatus from '@/services/user-status'
-import serviceUserRole from '@/services/user-role'
+import withAuth from '@/components/component-auth'
+import UpdateTitle from '@/components/content-page-title/update-title'
+import Loader from '@/components/loader'
 import {
     ACCEPT_AVATAR_TYPES,
     AccountFileType,
     MAX_AVATAR_FILE_SIZE,
 } from '@/constants/account'
-import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
-import { UploadProps } from 'antd/es/upload/interface'
-import serviceUpload from '@/services/upload'
-import Loader from '@/components/loader'
-import { PlusOutlined } from '@ant-design/icons'
-import UpdateTitle from '@/components/content-page-title/update-title'
-import SaveUpdateShareholderButton from '@/views/shareholder/shareholder-update/save-button'
-import withAuth from '@/components/component-auth'
+import { FETCH_STATUS } from '@/constants/common'
 import { Permissions } from '@/constants/permission'
+import {
+    UserStatus,
+    UserStatusColor,
+    UserStatusName,
+} from '@/constants/user-status'
+import serviceAccount from '@/services/account'
+import serviceShareholder from '@/services/shareholder'
+import serviceUpload from '@/services/upload'
+import serviceUserRole from '@/services/user-role'
+import serviceUserStatus from '@/services/user-status'
+import { useAuthLogin } from '@/stores/auth/hooks'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
-
+import SaveUpdateShareholderButton from '@/views/shareholder/shareholder-update/save-button'
+import { PlusOutlined } from '@ant-design/icons'
+import {
+    Col,
+    Form,
+    Input,
+    Modal,
+    Row,
+    Select,
+    Tag,
+    Upload,
+    UploadFile,
+    message,
+    notification,
+} from 'antd'
+import { useForm, useWatch } from 'antd/es/form/Form'
+import { RcFile } from 'antd/es/upload'
+import { UploadProps } from 'antd/es/upload/interface'
+import { AxiosError } from 'axios'
+import { useTranslations } from 'next-intl'
+import { useParams, useRouter } from 'next/navigation'
+import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
+import { useEffect, useState } from 'react'
+import { Cookies } from 'react-cookie'
+const cookies = new Cookies()
 const tagRenderStatus = (props: any) => {
     const { label, value, closable, onClose } = props
     const t = useTranslations()
@@ -133,10 +134,10 @@ const UpdateShareholder = () => {
                 if (res) {
                     const userCompanyName = authState.userData?.id
                         ? (
-                              await serviceAccount.getDetailAccount(
-                                  authState.userData.id,
-                              )
-                          ).company.companyName
+                            await serviceAccount.getDetailAccount(
+                                authState.userData.id,
+                            )
+                        ).company.companyName
                         : ''
                     setInitShareholder({
                         companyName: userCompanyName,
@@ -206,11 +207,36 @@ const UpdateShareholder = () => {
     }, [shareholderId])
     // upload image
     const beforeUpload = (file: RcFile) => {
-        const isLt20M = file.size < Number(MAX_AVATAR_FILE_SIZE) * (1024 * 1024)
+        const isLt20M = file.size < Number(MAX_AVATAR_FILE_SIZE) * (1024 * 1024);
+        const langCurrent = cookies.get('NEXT_LOCALE')
         if (!isLt20M) {
-            message.error(`Image must smaller than ${MAX_AVATAR_FILE_SIZE}MB!`)
+            if (langCurrent === 'en') {
+
+                message.error(`Image must smaller than ${MAX_AVATAR_FILE_SIZE}MB!`);
+                return false;
+            } else {
+                message.error(`添付ファイルのサイズが最大値を越えています。${MAX_AVATAR_FILE_SIZE}Mbyte以内で登録してください`);
+
+                return false
+            }
+
+
         }
-        return isLt20M
+
+        const extension = file.name.split('.').slice(-1)[0]
+        const isAcceptedType = ACCEPT_AVATAR_TYPES.split(',').includes(`.${extension}`);
+        if (!isAcceptedType) {
+            if (langCurrent === 'en') {
+
+                message.error(`${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`);
+                return false;
+            } else {
+                message.error(`${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`);
+                return false
+            }
+        }
+
+        return true;
     }
     useEffect(() => {
         if (fileList.length == 0) {
@@ -223,9 +249,9 @@ const UpdateShareholder = () => {
 
     const onUpload =
         (name: 'avatarAccount', fileType: AccountFileType) =>
-        async ({ file }: RcCustomRequestOptions) => {
-            setFileAvatarInfo({ file: file, flag: true })
-        }
+            async ({ file }: RcCustomRequestOptions) => {
+                setFileAvatarInfo({ file: file, flag: true })
+            }
 
     const handleCancel = () => setPreviewOpen(false)
     const handlePreview = async (file: UploadFile) => {
@@ -527,7 +553,7 @@ const UpdateShareholder = () => {
                                                     >
                                                         {t(
                                                             UserStatusName[
-                                                                status.status
+                                                            status.status
                                                             ],
                                                         )}
                                                     </span>
