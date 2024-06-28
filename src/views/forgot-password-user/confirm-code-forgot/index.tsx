@@ -80,7 +80,7 @@ const ConfirmCodeForgotUser = () => {
                 </div>
 
                 <div className="text-red-500">
-                    {countdown == 0 && t('LINK_HAS_EXPIRED.')}
+                    {countdown == 0 && t('LINK_HAS_EXPIRED')}
                 </div>
             </div>
 
