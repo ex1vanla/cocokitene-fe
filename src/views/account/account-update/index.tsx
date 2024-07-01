@@ -140,10 +140,10 @@ const UpdateAccount = () => {
                 if (res) {
                     const userCompanyName = authState.userData?.id
                         ? (
-                            await serviceAccount.getDetailAccount(
-                                authState.userData.id,
-                            )
-                        ).company.companyName
+                              await serviceAccount.getDetailAccount(
+                                  authState.userData.id,
+                              )
+                          ).company.companyName
                         : ''
 
                     setInitAccount({
@@ -210,6 +210,7 @@ const UpdateAccount = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: error.response?.data.info.message,
+                        duration: 3,
                     })
                 }
 
@@ -223,36 +224,42 @@ const UpdateAccount = () => {
 
     // Upload Image
     const beforeUpload = (file: RcFile) => {
-        const isLt20M = file.size < Number(MAX_AVATAR_FILE_SIZE) * (1024 * 1024);
+        const isLt20M = file.size < Number(MAX_AVATAR_FILE_SIZE) * (1024 * 1024)
         const langCurrent = cookies.get('NEXT_LOCALE')
         if (!isLt20M) {
             if (langCurrent === 'en') {
-
-                message.error(`Image must smaller than ${MAX_AVATAR_FILE_SIZE}MB!`);
-                return false;
+                message.error(
+                    `Image must smaller than ${MAX_AVATAR_FILE_SIZE}MB!`,
+                )
+                return false
             } else {
-                message.error(`添付ファイルのサイズが最大値を越えています。${MAX_AVATAR_FILE_SIZE}Mbyte以内で登録してください`);
+                message.error(
+                    `添付ファイルのサイズが最大値を越えています。${MAX_AVATAR_FILE_SIZE}Mbyte以内で登録してください`,
+                )
 
                 return false
             }
-
-
         }
 
         const extension = file.name.split('.').slice(-1)[0]
-        const isAcceptedType = ACCEPT_AVATAR_TYPES.split(',').includes(`.${extension}`);
+        const isAcceptedType = ACCEPT_AVATAR_TYPES.split(',').includes(
+            `.${extension}`,
+        )
         if (!isAcceptedType) {
             if (langCurrent === 'en') {
-
-                message.error(`${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`);
-                return false;
+                message.error(
+                    `${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`,
+                )
+                return false
             } else {
-                message.error(`${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`);
+                message.error(
+                    `${ACCEPT_AVATAR_TYPES} ファイルのみアップロード可です`,
+                )
                 return false
             }
         }
 
-        return true;
+        return true
     }
 
     useEffect(() => {
@@ -263,10 +270,10 @@ const UpdateAccount = () => {
 
     const onUpload =
         (name: 'avatarAccount', fileType: AccountFileType) =>
-            async ({ file }: RcCustomRequestOptions) => {
-                // console.log('file :', file)
-                setFileAvatarInfo({ file: file, flag: true })
-            }
+        async ({ file }: RcCustomRequestOptions) => {
+            // console.log('file :', file)
+            setFileAvatarInfo({ file: file, flag: true })
+        }
 
     const handleCancel = () => setPreviewOpen(false)
     const handlePreview = async (file: UploadFile) => {
@@ -398,6 +405,7 @@ const UpdateAccount = () => {
                 notification.success({
                     message: t('UPDATED'),
                     description: t('UPDATED_ACCOUNT_SUCCESSFULLY'),
+                    duration: 2,
                 })
 
                 setStatus(FETCH_STATUS.SUCCESS)
@@ -408,6 +416,7 @@ const UpdateAccount = () => {
                 notification.error({
                     message: t('ERROR'),
                     description: t(error.response?.data.info.message),
+                    duration: 3,
                 })
             }
             setStatus(FETCH_STATUS.ERROR)
@@ -578,7 +587,7 @@ const UpdateAccount = () => {
                                                     >
                                                         {t(
                                                             UserStatusName[
-                                                            status.status
+                                                                status.status
                                                             ],
                                                         )}
                                                     </span>

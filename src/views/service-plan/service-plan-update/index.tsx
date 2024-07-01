@@ -55,6 +55,7 @@ const UpdatePlan = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: t(error.response?.data.info.message),
+                        duration: 3,
                     })
                 }
 
@@ -84,6 +85,7 @@ const UpdatePlan = () => {
                 notification.success({
                     message: t('UPDATED'),
                     description: t('UPDATED_PLAN_SUCCESSFULLY'),
+                    duration: 2,
                 })
                 setStatus(FETCH_STATUS.SUCCESS)
                 router.push('/plan')
@@ -93,6 +95,7 @@ const UpdatePlan = () => {
                 notification.error({
                     message: t('ERROR'),
                     description: t(error.response?.data.info.message),
+                    duration: 3,
                 })
             }
             setStatus(FETCH_STATUS.ERROR)

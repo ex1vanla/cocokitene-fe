@@ -197,6 +197,7 @@ const UpdateShareholder = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: error.response?.data.info.message,
+                        duration: 3,
                     })
                 }
                 setInitStatus(FETCH_STATUS.ERROR)
@@ -378,6 +379,7 @@ const UpdateShareholder = () => {
                 notification.success({
                     message: t('UPDATED'),
                     description: t('UPDATED_SHAREHOLDER_SUCCESSFULLY'),
+                    duration: 2,
                 })
                 setStatus(FETCH_STATUS.SUCCESS)
                 if (values.shareQuantity) {
@@ -392,6 +394,7 @@ const UpdateShareholder = () => {
                 notification.error({
                     message: t('ERROR'),
                     description: t(error.response?.data.info.message),
+                    duration: 3,
                 })
             }
             setStatus(FETCH_STATUS.ERROR)

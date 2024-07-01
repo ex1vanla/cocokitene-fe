@@ -186,6 +186,7 @@ const SettingRoleView = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: error.response?.data.info.message,
+                        duration: 3,
                     })
                 }
             }
@@ -323,6 +324,7 @@ const SettingRoleView = () => {
                     notification.success({
                         message: t('UPDATED_PERMISSION'),
                         description: t('CHANGE_RESULT_PERMISSION_SUCCESSFULLY'),
+                        duration: 2,
                     })
                     setClickButtonEdit(!clickButtonEdit)
                     setDataCheked([])
@@ -333,6 +335,7 @@ const SettingRoleView = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: error.response?.data.info.message,
+                        duration: 3,
                     })
                 }
             }
