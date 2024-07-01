@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl'
 
 const { Text } = Typography
 
-const EmptyServicePlan = () => {
+const EmptyData = () => {
     const t = useTranslations()
     return (
         <div className="flex flex-col items-center">
@@ -20,4 +20,4 @@ const EmptyServicePlan = () => {
     )
 }
 
-export default EmptyServicePlan
+export default EmptyData
