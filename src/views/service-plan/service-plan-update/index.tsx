@@ -82,7 +82,7 @@ const UpdatePlan = () => {
 
             if (updateAccountResponse) {
                 notification.success({
-                    message: t('UPDATE'),
+                    message: t('UPDATED'),
                     description: t('UPDATED_PLAN_SUCCESSFULLY'),
                 })
                 setStatus(FETCH_STATUS.SUCCESS)
@@ -162,7 +162,7 @@ const UpdatePlan = () => {
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
-                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                                'PLEASE_ENTER_ONLY_NUMBER',
                                             ),
                                         },
                                     ]}
@@ -185,7 +185,7 @@ const UpdatePlan = () => {
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
-                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                                'PLEASE_ENTER_ONLY_NUMBER',
                                             ),
                                         },
                                     ]}
@@ -206,7 +206,7 @@ const UpdatePlan = () => {
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
-                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                                'PLEASE_ENTER_ONLY_NUMBER',
                                             ),
                                         },
                                     ]}
@@ -227,7 +227,7 @@ const UpdatePlan = () => {
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
-                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                                'PLEASE_ENTER_ONLY_NUMBER',
                                             ),
                                         },
                                     ]}

@@ -485,7 +485,7 @@ const UpdateAccount = () => {
                                         {
                                             pattern: new RegExp(/^[0-9]+$/),
                                             message: t(
-                                                'PLEASE_ENTER_ ONLY_NUMBER',
+                                                'PLEASE_ENTER_ONLY_NUMBER',
                                             ),
                                         },
                                     ]}
