@@ -153,6 +153,12 @@ const ContactSection = () => {
                                                     'PLEASE_INPUT_YOUR_PHONE_NUMBER',
                                                 ),
                                             },
+                                            {
+                                                pattern: new RegExp(/^[0-9]+$/),
+                                                message: t(
+                                                    'PLEASE_ENTER_ONLY_NUMBER',
+                                                ),
+                                            },
                                         ]}
                                     >
                                         <Input size="large" />

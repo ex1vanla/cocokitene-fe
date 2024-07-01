@@ -42,7 +42,6 @@ export const getAllBoardMeetings = createAsyncThunk<
     async (param, { rejectWithValue }) => {
         try {
             const data = await serviceBoardMeeting.getAllMeetings(param)
-            console.log('getAllFutureBoardMeetings: ',data)
             return data
         } catch (error) {
             const err = error as AxiosError
@@ -86,11 +85,9 @@ const boardMeetingListSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllBoardMeetings.pending, (state) => {
-                console.log('pending')
                 state.status = EActionStatus.Pending
             })
             .addCase(getAllBoardMeetings.fulfilled, (state, action) => {
-                console.log('action.payload: ',action.payload)
                 state.status = EActionStatus.Succeeded
                 state.meetingFutureList = action.payload?.items ?? []
                 state.totalFutureMeetingItem = action.payload?.meta?.totalItems ?? 0

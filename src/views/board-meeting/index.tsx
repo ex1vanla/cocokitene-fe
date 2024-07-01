@@ -106,11 +106,6 @@ const BoardMeetingList = () => {
         // eslint-disable-next-line
     }, [boardMeetingState.status])
 
-    console.log(
-        'boardMeetingState.meetingFutureList:',
-        boardMeetingState.meetingFutureList,
-    )
-
     return (
         <div>
             {contextHolder}

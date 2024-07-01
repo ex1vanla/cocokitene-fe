@@ -82,11 +82,9 @@ const meetingListSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllMeetings.pending, (state) => {
-                console.log('pending')
                 state.status = EActionStatus.Pending
             })
             .addCase(getAllMeetings.fulfilled, (state, action) => {
-                console.log('Shareholder MTG: ',action.payload)
                 state.status = EActionStatus.Succeeded
                 state.meetingFutureList = action.payload?.items ?? []
                 state.totalFutureMeetingItem =
