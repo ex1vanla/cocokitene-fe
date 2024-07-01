@@ -57,6 +57,7 @@ const ResetPassword = () => {
                     notification.success({
                         message: t('SUCCESS'),
                         description: t('CHANGE_PASSWORD_SUCCESS'),
+                        duration: 2,
                     })
                     router.push('/login')
                 }
@@ -65,6 +66,7 @@ const ResetPassword = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: t('CHANGE_PASSWORD_FAILED'),
+                        duration: 3,
                     })
                 }
             }

@@ -314,7 +314,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                             // { required: true },
                             {
                                 pattern: new RegExp(/^[0-9]+$/),
-                                message: t('PLEASE_ENTER_ ONLY_NUMBER'),
+                                message: t('PLEASE_ENTER_ONLY_NUMBER'),
                             },
                         ]}
                         className="mb-0"

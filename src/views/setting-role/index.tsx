@@ -19,6 +19,7 @@ import SettingTitle from '@/components/content-page-title/setting-title'
 import RoleMtgList from '@/views/setting-role/role-mtg-list'
 import { useSettingRoleMtg } from '@/stores/setting-role-mtg/hook'
 import ModalRegisterRoleMtg from '@/views/setting-role/modal-register-role-mtg'
+import EmptyData from '../service-plan/service-plan-list/empty-plan'
 interface DataType {
     namePermission: string
     [key: string]: any
@@ -60,6 +61,10 @@ const SettingRoleView = () => {
         null,
     )
     const [dataChecked, setDataCheked] = useState<IUpdatePermissionRole[]>([])
+
+    let locale = {
+        emptyText: <EmptyData />,
+    }
 
     useEffect(() => {
         getAllCombineRoleWithPermission({
@@ -186,6 +191,7 @@ const SettingRoleView = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: error.response?.data.info.message,
+                        duration: 3,
                     })
                 }
             }
@@ -317,12 +323,14 @@ const SettingRoleView = () => {
         // eslint-disable-next-line
         ;(async () => {
             try {
-                const response =
-                    await serviceSettingRole.updateRolePermissions(dataChecked)
+                const response = await serviceSettingRole.updateRolePermissions(
+                    dataChecked,
+                )
                 if (response) {
                     notification.success({
                         message: t('UPDATED_PERMISSION'),
                         description: t('CHANGE_RESULT_PERMISSION_SUCCESSFULLY'),
+                        duration: 2,
                     })
                     setClickButtonEdit(!clickButtonEdit)
                     setDataCheked([])
@@ -333,6 +341,7 @@ const SettingRoleView = () => {
                     notification.error({
                         message: t('ERROR'),
                         description: error.response?.data.info.message,
+                        duration: 3,
                     })
                 }
             }
@@ -397,6 +406,7 @@ const SettingRoleView = () => {
                         rowKey={(record) => record.namePermission}
                         loading={isLoading != FETCH_STATUS.SUCCESS}
                         // pagination={false}
+                        locale={locale}
                     />
                 ) : (
                     <RoleMtgList />
