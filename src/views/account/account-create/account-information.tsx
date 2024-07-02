@@ -422,7 +422,7 @@ const AccountInformation = ({ form, getFileAvatar }: AccountInfoProp) => {
                         ]}
                         className="mb-0"
                     >
-                        <Input size="large" />
+                        <Input size="large" maxLength={9}/>
                     </Form.Item>
                 </Col>
                 <Col xs={24} lg={24}>

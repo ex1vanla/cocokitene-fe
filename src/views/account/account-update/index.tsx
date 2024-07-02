@@ -627,7 +627,11 @@ const UpdateAccount = () => {
                                     ]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" disabled={roleSuper} />
+                                    <Input
+                                        size="large"
+                                        disabled={roleSuper}
+                                        maxLength={9}
+                                    />
                                 </Form.Item>
                             </Col>
                         </Row>

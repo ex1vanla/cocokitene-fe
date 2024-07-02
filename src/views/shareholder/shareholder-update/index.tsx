@@ -602,7 +602,7 @@ const UpdateShareholder = () => {
                                     ]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" maxLength={9} />
                                 </Form.Item>
                             </Col>
                         </Row>
