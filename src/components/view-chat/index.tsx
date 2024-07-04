@@ -1387,6 +1387,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                 disabled={
                                                     !controlAlowChat.allowSendMess
                                                 }
+                                                maxLength={999}
                                             />
                                             <Button
                                                 type="primary"
