@@ -132,7 +132,13 @@ const SettingRoleView = () => {
                         style={{
                             pointerEvents: !clickButtonEdit ? 'none' : 'auto',
                         }}
-                        disabled={item === RoleName.SUPER_ADMIN}
+                        disabled={
+                            item === RoleName.SUPER_ADMIN ||
+                            record.namePermission ===
+                                Permissions.CREATE_MEETING ||
+                            record.namePermission ===
+                                Permissions.CREATE_BOARD_MEETING
+                        }
                         checked={checkboxState[record.namePermission]?.[item]}
                         onChange={(e) =>
                             onChange(record.namePermission, item, e)
@@ -200,7 +206,9 @@ const SettingRoleView = () => {
     }, [settingRoleState.filter])
 
     const handleInputChange = (value: string) => {
-        setFilterAction({ searchQuery: value })
+        setFilterAction({
+            searchQuery: value.toLocaleLowerCase().trim().replaceAll(' ', '_'),
+        })
     }
 
     const onChange = (
