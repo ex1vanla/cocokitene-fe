@@ -6,7 +6,8 @@ import serviceMeeting from '@/services/meeting'
 import { IDataHashMeeting } from '@/services/response.type'
 import { useCheckDataMeeting } from '@/stores/check-data-meeting/hooks'
 import { EActionStatus } from '@/stores/type'
-import { Button, Input, Modal, Row, Spin } from 'antd'
+import { Button, Modal, Row, Spin, Tooltip } from 'antd'
+import TextArea from 'antd/es/input/TextArea'
 import { useTranslations } from 'next-intl'
 import { ChangeEvent, useState } from 'react'
 
@@ -49,8 +50,8 @@ const ModalCheckDataInMtg = () => {
     const { checkDataMeetingState, setInfoCheckMeeting, setOpenModalCheck } =
         useCheckDataMeeting()
 
-    const pressHashInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setHashValue(e.target.value)
+    const pressHashInput = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        setHashValue(e.target.value.trim())
     }
 
     const handleCheckDataHash = async () => {
@@ -60,11 +61,6 @@ const ModalCheckDataInMtg = () => {
         for (let i = 0; i < arrayHashValue.length; i += 2) {
             objHashValue[arrayHashValue[i]] = arrayHashValue[i + 1]
         }
-        console.log('objHashValue: ', objHashValue)
-        console.log(
-            'objHashValue: ',
-            objHashValue['basicInformationMeetingHash'],
-        )
 
         try {
             setStatus(EActionStatus.Pending)
@@ -82,12 +78,9 @@ const ModalCheckDataInMtg = () => {
                     )
             }
             if (dataHashMeeting) {
-                console.log('dataHashMeeting: ', dataHashMeeting)
                 setStatus(EActionStatus.Succeeded)
                 const arrCheck: string[] = []
                 Object.values(MeetingHash).forEach((hash) => {
-                    // console.log('objHashValue: ', objHashValue[hash])
-                    // console.log('dataHashMeeting: ', dataHashMeeting[hash])
                     if (hash == MeetingHash.HASH_DETAIL_MEETING) {
                         objHashValue[hash] == dataHashMeeting[hash] &&
                             arrCheck.push(checkDataMessage[hash])
@@ -97,7 +90,6 @@ const ModalCheckDataInMtg = () => {
                     }
                 })
 
-                console.log('arrCheck: ', arrCheck)
                 setDataCheck([...arrCheck])
             }
         } catch (error) {
@@ -109,7 +101,7 @@ const ModalCheckDataInMtg = () => {
         <>
             <Modal
                 footer={null}
-                closeIcon={null}
+                // closeIcon={null}
                 onCancel={() => {
                     setOpenModalCheck(false)
                     setStatus(EActionStatus.Idle)
@@ -119,26 +111,46 @@ const ModalCheckDataInMtg = () => {
                 open={checkDataMeetingState.openModalCheckData}
                 centered
             >
-                <div className="mb-5 flex h-[38px] w-full items-center px-2">
-                    <span className="mx-auto max-w-full truncate text-xl">
-                        {t('CHECK_DATA_OF_MEETING', {
-                            name: checkDataMeetingState.name,
-                        })}
-                    </span>
+                <div className="mb-5 flex h-[38px] w-full items-center px-2 pt-2 hover:cursor-pointer">
+                    <Tooltip
+                        placement="top"
+                        color="white"
+                        overlayStyle={{ maxWidth: '378px' }}
+                        title={
+                            t('CHECK_DATA_OF_MEETING', {
+                                name: checkDataMeetingState.name,
+                            }).length > 80 ? (
+                                <span className="w-full text-black">
+                                    {t('CHECK_DATA_OF_MEETING', {
+                                        name: checkDataMeetingState.name,
+                                    })}
+                                </span>
+                            ) : (
+                                false
+                            )
+                        }
+                    >
+                        <span className="mx-auto line-clamp-2 max-w-full text-xl font-semibold">
+                            {t('CHECK_DATA_OF_MEETING', {
+                                name: checkDataMeetingState.name,
+                            })}
+                        </span>
+                    </Tooltip>
                 </div>
                 <div>
-                    <div className="mb-4 flex gap-2">
-                        <Input
+                    <div className="mb-4 flex items-center gap-2">
+                        <TextArea
                             onChange={(e) => pressHashInput(e)}
                             placeholder={t('PLEASE_INPUT_HASH_CODE')}
                             value={hashValue}
+                            autoSize={{ minRows: 2, maxRows: 2 }}
                         />
                         <Button
                             type="primary"
                             onClick={handleCheckDataHash}
                             disabled={!hashValue.length}
                         >
-                            Check
+                            {t('CHECK_DATA')}
                         </Button>
                     </div>
                     <div className="">
@@ -155,7 +167,29 @@ const ModalCheckDataInMtg = () => {
                         ) : (
                             <div className="flex flex-col gap-1 pl-6">
                                 {dataCheck.map((data) => {
-                                    return <div>&#x2022; {t(data)}</div>
+                                    if (
+                                        data ==
+                                        checkDataMessage[
+                                            MeetingHash.HASH_DETAIL_MEETING
+                                        ]
+                                    ) {
+                                        return (
+                                            <div>
+                                                &#x2022;{' '}
+                                                <span className="text-green-400">
+                                                    {t(data)}
+                                                </span>
+                                            </div>
+                                        )
+                                    }
+                                    return (
+                                        <div>
+                                            &#x2022;{' '}
+                                            <span className="text-red-400">
+                                                {t(data)}
+                                            </span>
+                                        </div>
+                                    )
                                 })}
                             </div>
                         )}
