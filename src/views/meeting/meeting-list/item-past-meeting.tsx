@@ -158,7 +158,7 @@ const ItemPastMeeting = ({
                 >
                     <a target="_blank" rel="noopener noreferrer">
                         <Text className="text-blue-500 hover:underline">
-                            {t('MEETING_LINK')}
+                            {t('MEETING_LINKS')}
                         </Text>
                     </a>
                 </Link>

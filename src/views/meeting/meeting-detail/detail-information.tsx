@@ -117,7 +117,6 @@ const DetailInformation = () => {
                     RoleMtgEnum.SHAREHOLDER.toUpperCase(),
             )
             .flatMap((shareholder) => shareholder.userParticipants)
-        console.log('listShareholderParticipant: ', listShareholderParticipant)
         if (
             listShareholderParticipant &&
             listShareholderParticipant.length > 0
@@ -125,7 +124,6 @@ const DetailInformation = () => {
             const quantityShareOfUser = listShareholderParticipant.find(
                 (shareholder) => shareholder.userId == authState.userData?.id,
             )
-            console.log('quantityShareOfUser', quantityShareOfUser)
             setQuantityShare(quantityShareOfUser?.userShareQuantity ?? 0)
         } else {
             setQuantityShare(0)
