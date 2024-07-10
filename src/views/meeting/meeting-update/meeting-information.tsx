@@ -285,7 +285,7 @@ const MeetingInformation = () => {
                     <Form layout="vertical">
                         <Form.Item
                             name="meetingLink"
-                            label={t('MEETING_LINK')}
+                            label={t('MEETING_LINKS')}
                             className="mb-0"
                             rules={[
                                 {
