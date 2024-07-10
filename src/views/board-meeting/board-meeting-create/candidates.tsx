@@ -39,7 +39,7 @@ const Candidates = () => {
                             (election) =>
                                 election.status ==
                                 ElectionEnum.VOTE_OF_CONFIDENCE,
-                        )[0].id,
+                        )[0].id ?? 1,
                     )
                 }
             })()
