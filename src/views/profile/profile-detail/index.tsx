@@ -23,7 +23,7 @@ const MyProfileDetail = () => {
 
     const permissionEditProfile = checkPermission(
         authState.userData?.permissionKeys,
-        Permissions.EDIT_PROFILE,
+        Permissions.BASIC_PERMISSION,
     )
 
     useEffect(() => {
@@ -67,4 +67,4 @@ const MyProfileDetail = () => {
     )
 }
 
-export default withAuth(MyProfileDetail, Permissions.DETAIL_PROFILE)
+export default withAuth(MyProfileDetail, Permissions.BASIC_PERMISSION)

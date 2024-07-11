@@ -442,4 +442,4 @@ const UpdateMyProfile = () => {
     )
 }
 
-export default withAuth(UpdateMyProfile, Permissions.EDIT_PROFILE)
+export default withAuth(UpdateMyProfile, Permissions.BASIC_PERMISSION)
