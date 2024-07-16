@@ -513,20 +513,32 @@ const BoardMeetingInformation = () => {
                                 defaultValue={data.status}
                                 onChange={onChangeStatus}
                                 options={enumToArray(MeetingStatus).map(
-                                    (status) => ({
-                                        value: status,
-                                        label: (
-                                            <span
-                                                style={{
-                                                    color: MeetingStatusColor[
-                                                        status
-                                                    ],
-                                                }}
-                                            >
-                                                {t(MeetingStatusName[status])}
-                                            </span>
-                                        ),
-                                    }),
+                                    (status) => {
+                                        const isDisabled = [
+                                            '0',
+                                            '1',
+                                            '2',
+                                        ].includes(status)
+                                        return {
+                                            value: status,
+                                            label: (
+                                                <span
+                                                    style={{
+                                                        color: MeetingStatusColor[
+                                                            status
+                                                        ],
+                                                    }}
+                                                >
+                                                    {t(
+                                                        MeetingStatusName[
+                                                            status
+                                                        ],
+                                                    )}
+                                                </span>
+                                            ),
+                                            disabled: isDisabled,
+                                        }
+                                    },
                                 )}
                             />
                         </Form.Item>
