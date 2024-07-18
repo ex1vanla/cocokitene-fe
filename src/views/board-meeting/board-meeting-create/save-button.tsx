@@ -18,20 +18,30 @@ const SaveCreateBoardMeetingButton = () => {
     const router = useRouter()
     const onValidate = (data: ICreateBoardMeeting) => {
         const payload = {
-            ...data,
+            title: data.title,
             meetingLink:
                 data.meetingLink && !data.meetingLink.startsWith('https://')
                     ? `https://${data.meetingLink}`
                     : data.meetingLink,
+            startTime: data.startTime,
+            endTime: data.endTime,
+            endVotingTime: data.endVotingTime,
+            note: data.note,
+            meetingMinutes: data.meetingMinutes,
+            meetingInvitations: data.meetingInvitations,
             managementAndFinancials: data.managementAndFinancials.filter(
                 (r) => r.title.trim() || r.description.trim(),
             ),
             elections: data.elections.filter(
                 (r) => r.title.trim() || r.description.trim(),
             ),
-            candidates: data.candidates.filter(
-                (r) => r.title.trim() || r.candidateName.trim(),
-            ),
+            personnelVoting: data.candidates
+                .filter((r) => r.title.trim() || r.candidateName.trim())
+                .map((personnelVote) => ({
+                    title: personnelVote.title,
+                    type: personnelVote.type,
+                    candidate: [{ candidateName: personnelVote.candidateName }],
+                })),
             participants: data.participants?.map((participant) => {
                 return {
                     roleMtgId: participant.roleMtgId,
@@ -70,6 +80,8 @@ const SaveCreateBoardMeetingButton = () => {
         try {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
+                console.log('validate.payload: ', validate.payload)
+
                 const res = await serviceBoardMeeting.createBoardMeeting(
                     validate.payload,
                 )

@@ -2,9 +2,7 @@ import { MeetingStatus } from '@/constants/meeting'
 import { IMeetingDocument, IMeetingResolution } from '@/stores/meeting/types'
 import {
     IBoardMeetingDocument,
-    IBoardMeetingExecutive,
     IBoardMeetingReport,
-    IBoardMeetingUpdateCandidate,
 } from '@/stores/board-meeting/types'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
 
@@ -39,11 +37,18 @@ export interface ICreateBoardMeetingPayload {
     meetingLink: string
     startTime: string
     endTime: string
+    endVotingTime: string
     meetingMinutes: IBoardMeetingDocument[]
     meetingInvitations: IBoardMeetingDocument[]
     managementAndFinancials: IBoardMeetingReport[]
     elections: IBoardMeetingReport[]
-    candidates: IBoardMeetingExecutive[]
+    personnelVoting: {
+        title: string
+        type: number
+        candidate: {
+            candidateName: string
+        }[]
+    }[]
     participants: IParticipantPayload[]
 }
 
@@ -107,7 +112,15 @@ export interface IUpdateBoardMeetingPayload {
     meetingInvitations: IBoardMeetingDocument[]
     managementAndFinancials: IBoardMeetingReport[]
     elections: IBoardMeetingReport[]
-    candidates: IBoardMeetingUpdateCandidate[]
+    personnelVoting: {
+        id?: number
+        title: string
+        type?: number
+        candidate: {
+            id?: number
+            candidateName: string
+        }[]
+    }[]
     participants: IParticipantPayload[]
 }
 
