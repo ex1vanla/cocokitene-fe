@@ -331,7 +331,7 @@ export const MessageChatItemToYou = ({
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`cursor-pointer rounded-md px-1 py-1 text-lg hover:scale-150 ${
+                                                    className={`cursor-pointer rounded-md px-1 py-1 text-lg leading-[14px] hover:scale-150 ${
                                                         ischecked
                                                             ? 'bg-gray-300'
                                                             : ''
@@ -501,7 +501,7 @@ export const MessageChatItemFromYou = ({
                                             return (
                                                 <div
                                                     key={index}
-                                                    className={`cursor-pointer rounded-md px-1 py-1 text-lg hover:scale-150 ${
+                                                    className={`cursor-pointer rounded-md px-1 py-1 text-lg leading-[14px] hover:scale-150 ${
                                                         ischecked
                                                             ? 'bg-gray-200'
                                                             : ''

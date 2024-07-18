@@ -32,7 +32,6 @@ const DetailCandidateItem = ({
     percentUnVoted,
     percentNotVoteYet,
     voteResult,
-
     id,
     voteErrorMessage = '',
 }: IDetailCandidateItem) => {

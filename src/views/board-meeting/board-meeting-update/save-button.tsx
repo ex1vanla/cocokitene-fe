@@ -34,10 +34,26 @@ const SaveUpdateBoardMeetingButton = () => {
             elections: data.elections.filter(
                 (report) => report.title.trim() || report.description.trim(),
             ),
-            candidates: data.candidates.filter(
-                (candidate) =>
-                    candidate.title.trim() || candidate.candidateName.trim(),
-            ),
+            personnelVoting: data.candidates
+                .filter(
+                    (candidate) =>
+                        candidate.title.trim() ||
+                        candidate.candidateName.trim(),
+                )
+                .map((personnelVote) => ({
+                    id:
+                        personnelVote.id && personnelVote.id > 1
+                            ? personnelVote.id
+                            : undefined,
+                    title: personnelVote.title,
+                    type: personnelVote.type,
+                    candidate: [
+                        {
+                            id: personnelVote.candidateId,
+                            candidateName: personnelVote.candidateName,
+                        },
+                    ],
+                })),
         }
 
         const rs: {

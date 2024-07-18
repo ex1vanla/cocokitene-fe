@@ -184,16 +184,6 @@ const UpdateCandidateItem = ({
                         onChange={onChange(onChangeContent)}
                     />
                 )}
-                {/* <TextArea
-                    className="placeholder:text-sm"
-                    placeholder={
-                        type === ResolutionType.EXECUTIVE_OFFICER
-                            ? t('ENTER_CANDIDATE_NAME')
-                            : t('ENTER_REPORT_DETAIL')
-                    }
-                    value={content}
-                    onChange={onChange(onChangeContent)}
-                /> */}
                 {type === ResolutionType.ELECTION && onChangeOldContent && (
                     <TextArea
                         className="placeholder:text-sm"
