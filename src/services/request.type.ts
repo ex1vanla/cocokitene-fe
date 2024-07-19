@@ -1,5 +1,5 @@
 import { MeetingStatus } from '@/constants/meeting'
-import { IMeetingDocument, IMeetingResolution } from '@/stores/meeting/types'
+import { IMeetingDocument, IMeetingPersonnelVote, IMeetingResolution } from '@/stores/meeting/types'
 import {
     IBoardMeetingDocument,
     IBoardMeetingReport,
@@ -15,6 +15,7 @@ export interface ICreateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
 
@@ -42,13 +43,7 @@ export interface ICreateBoardMeetingPayload {
     meetingInvitations: IBoardMeetingDocument[]
     managementAndFinancials: IBoardMeetingReport[]
     elections: IBoardMeetingReport[]
-    personnelVoting: {
-        title: string
-        type: number
-        candidate: {
-            candidateName: string
-        }[]
-    }[]
+    personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
 

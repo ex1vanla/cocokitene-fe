@@ -20,6 +20,7 @@ export interface ICreateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingExecutive
     participants: IParticipantsWithRole[]
 }
 
@@ -208,4 +209,17 @@ export interface IUpdateMeetingState {
     status: EActionStatus
     meeting: IUpdateMeeting
     error: FetchError | undefined
+}
+
+
+export interface IMeetingExecutive {
+    confidence: IMeetingPersonnelVote[]
+    notConfidence: IMeetingPersonnelVote[]
+}
+export interface IMeetingPersonnelVote {
+    title: string
+    type: number
+    candidate: {
+        candidateName: string
+    }[]
 }
