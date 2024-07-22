@@ -33,6 +33,10 @@ const SaveUpdateMeetingButton = () => {
             amendmentResolutions: data.amendmentResolutions.filter(
                 (r) => r.title.trim() || r.description.trim(),
             ),
+            personnelVoting: [
+                ...data.personnelVoting.confidence,
+                ...data.personnelVoting.notConfidence,
+            ],
         }
 
         const rs: {
@@ -78,6 +82,7 @@ const SaveUpdateMeetingButton = () => {
         try {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
+                console.log('validate.payload: ', validate.payload)
                 await serviceMeeting.updateMeeting(data.id, validate.payload)
                 notification.success({
                     message: t('UPDATED'),

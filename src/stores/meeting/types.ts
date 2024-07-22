@@ -202,6 +202,7 @@ export interface IUpdateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingExecutive
     participants: IParticipantsWithRole[]
 }
 
@@ -220,6 +221,7 @@ export interface IMeetingPersonnelVote {
     title: string
     type: number
     candidate: {
+        candidateID?:number
         candidateName: string
     }[]
 }

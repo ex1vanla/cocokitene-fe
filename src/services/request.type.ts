@@ -57,6 +57,7 @@ export interface IUpdateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
 

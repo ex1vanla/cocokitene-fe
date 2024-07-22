@@ -156,6 +156,7 @@ export interface IMeetingDetailResponse {
     type: MeetingType
     meetingFiles: IMeetingFileResponse[]
     proposals: IProposalResponse[]
+    personnelVoting: IPersonnelVoting[]
     participants: ParticipantDetailMeetingResponse[]
     shareholdersTotal: number
     shareholdersJoined: number

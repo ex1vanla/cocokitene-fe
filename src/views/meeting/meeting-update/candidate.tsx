@@ -1,12 +1,12 @@
 /* eslint-disable */
 
 import BoxArea from '@/components/box-area'
-import CreatePersonnelVoting from '@/components/create-personnel-voting'
+import UpdatePersonnelVoting from '@/components/update-personnel-voting'
 import { ElectionEnum } from '@/constants/election'
 import { ResolutionType } from '@/constants/resolution'
 import serviceElection from '@/services/election'
 import { IElectionResponse } from '@/services/response.type'
-import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
+import { useUpdateMeetingInformation } from '@/stores/meeting/hooks'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
@@ -15,11 +15,10 @@ import { useEffect, useState } from 'react'
 const Candidate = () => {
     const t = useTranslations()
 
-    const [data, setData] = useCreateMeetingInformation()
+    const [data, setUpdateMeetingInformation, status, initUpdateMeeting] =
+        useUpdateMeetingInformation()
 
     const [electionList, setElectionList] = useState<IElectionResponse[]>([])
-
-    console.log('data.candidate: ', data.personnelVoting)
 
     useEffect(() => {
         try {
@@ -30,35 +29,6 @@ const Candidate = () => {
                 })
                 if (electionList) {
                     setElectionList(electionList)
-                    setData({
-                        ...data,
-                        personnelVoting: {
-                            confidence: [
-                                ...data.personnelVoting.confidence,
-                                {
-                                    title: '',
-                                    type: electionList.filter(
-                                        (election) =>
-                                            election.status ==
-                                            ElectionEnum.VOTE_OF_CONFIDENCE,
-                                    )[0].id,
-                                    candidate: [{ candidateName: '' }],
-                                },
-                            ],
-                            notConfidence: [
-                                ...data.personnelVoting.notConfidence,
-                                {
-                                    title: '',
-                                    type: electionList.filter(
-                                        (election) =>
-                                            election.status ==
-                                            ElectionEnum.VOTE_OF_NOT_CONFIDENCE,
-                                    )[0].id,
-                                    candidate: [{ candidateName: '' }],
-                                },
-                            ],
-                        },
-                    })
                 }
             })()
         } catch (error) {
@@ -77,7 +47,7 @@ const Candidate = () => {
                     ...personnelVotingConfidence[index],
                     [name]: value,
                 }
-                setData({
+                setUpdateMeetingInformation({
                     ...data,
                     personnelVoting: {
                         ...data.personnelVoting,
@@ -93,7 +63,7 @@ const Candidate = () => {
                     ...personnelVotingNotConfidence[index],
                     [name]: value,
                 }
-                setData({
+                setUpdateMeetingInformation({
                     ...data,
                     personnelVoting: {
                         ...data.personnelVoting,
@@ -104,7 +74,7 @@ const Candidate = () => {
         }
 
     const onAddNewConfidence = () => {
-        setData({
+        setUpdateMeetingInformation({
             ...data,
             personnelVoting: {
                 ...data.personnelVoting,
@@ -117,7 +87,9 @@ const Candidate = () => {
                                 election.status ==
                                 ElectionEnum.VOTE_OF_CONFIDENCE,
                         )[0].id,
-                        candidate: [{ candidateName: '' }],
+                        candidate: [
+                            { candidateID: Math.random(), candidateName: '' },
+                        ],
                     },
                 ],
             },
@@ -125,7 +97,7 @@ const Candidate = () => {
     }
 
     const onAddNewNotConfidence = () => {
-        setData({
+        setUpdateMeetingInformation({
             ...data,
             personnelVoting: {
                 ...data.personnelVoting,
@@ -148,7 +120,7 @@ const Candidate = () => {
     const onDelete = (index: number, type: ElectionEnum) => () => {
         console.log('index Delete: ', index)
         if (type == ElectionEnum.VOTE_OF_CONFIDENCE) {
-            setData({
+            setUpdateMeetingInformation({
                 ...data,
                 personnelVoting: {
                     ...data.personnelVoting,
@@ -159,7 +131,7 @@ const Candidate = () => {
             })
         }
         if (type == ElectionEnum.VOTE_OF_NOT_CONFIDENCE) {
-            setData({
+            setUpdateMeetingInformation({
                 ...data,
                 personnelVoting: {
                     ...data.personnelVoting,
@@ -177,7 +149,7 @@ const Candidate = () => {
                 <div className="mb-6 flex flex-col gap-6">
                     {data.personnelVoting.confidence.map((x, index) => {
                         return (
-                            <CreatePersonnelVoting
+                            <UpdatePersonnelVoting
                                 type={ResolutionType.EXECUTIVE_OFFICER}
                                 index={index}
                                 title={x.title}
@@ -207,7 +179,7 @@ const Candidate = () => {
                 <div className="mb-6 flex flex-col gap-6">
                     {data.personnelVoting.notConfidence.map((x, index) => {
                         return (
-                            <CreatePersonnelVoting
+                            <UpdatePersonnelVoting
                                 type={ResolutionType.EXECUTIVE_OFFICER}
                                 index={index}
                                 title={x.title}
