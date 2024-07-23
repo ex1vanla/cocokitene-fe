@@ -28,6 +28,10 @@ const initialState: ICreateMeeting = {
             type: ResolutionType.AMENDMENT_RESOLUTION,
         },
     ],
+    personnelVoting:{
+        confidence: [],
+        notConfidence: [],
+    },
     participants: [],
 }
 

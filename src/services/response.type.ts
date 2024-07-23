@@ -110,6 +110,7 @@ export interface ICandidateResponse {
     unVotedQuantity: number | null
     notVoteYetQuantity: number | null
     voteResult: VoteProposalOption
+    votedQuantityShare: number | null
     // meetingId: number
     creatorId: number
 }
@@ -156,6 +157,7 @@ export interface IMeetingDetailResponse {
     type: MeetingType
     meetingFiles: IMeetingFileResponse[]
     proposals: IProposalResponse[]
+    personnelVoting: IPersonnelVoting[]
     participants: ParticipantDetailMeetingResponse[]
     shareholdersTotal: number
     shareholdersJoined: number

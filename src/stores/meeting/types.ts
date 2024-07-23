@@ -8,6 +8,7 @@ import { EActionStatus, FetchError } from '../type'
 import { IParticipantsWithRole } from '@/components/participant-selector'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
+import { IPersonnelVoting } from '@/services/response.type'
 
 export interface ICreateMeeting {
     title: string
@@ -20,6 +21,7 @@ export interface ICreateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingExecutive
     participants: IParticipantsWithRole[]
 }
 
@@ -161,6 +163,7 @@ export interface IMeetingDetail {
     type: MeetingType
     meetingFiles: IMeetingFile[]
     proposals: IProposal[]
+    personnelVoting: IPersonnelVoting[]
     participants: ParticipantDetailMeeting[]
     shareholdersTotal: number
     shareholdersJoined: number
@@ -201,6 +204,7 @@ export interface IUpdateMeeting {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingExecutive
     participants: IParticipantsWithRole[]
 }
 
@@ -208,4 +212,18 @@ export interface IUpdateMeetingState {
     status: EActionStatus
     meeting: IUpdateMeeting
     error: FetchError | undefined
+}
+
+
+export interface IMeetingExecutive {
+    confidence: IMeetingPersonnelVote[]
+    notConfidence: IMeetingPersonnelVote[]
+}
+export interface IMeetingPersonnelVote {
+    title: string
+    type: number
+    candidate: {
+        candidateID?:number
+        candidateName: string
+    }[]
 }

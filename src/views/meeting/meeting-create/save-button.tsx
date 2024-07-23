@@ -33,6 +33,10 @@ const SaveCreateMeetingButton = () => {
             amendmentResolutions: data.amendmentResolutions.filter(
                 (r) => r.title.trim() || r.description.trim(),
             ),
+            personnelVoting: [
+                ...data.personnelVoting.confidence,
+                ...data.personnelVoting.notConfidence,
+            ],
         }
 
         const rs: {
@@ -65,6 +69,7 @@ const SaveCreateMeetingButton = () => {
         try {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
+                console.log('payload: ', validate.payload)
                 const res = await serviceMeeting.createMeeting(validate.payload)
                 notification.success({
                     message: t('CREATED'),

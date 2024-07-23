@@ -75,7 +75,6 @@ const CreateReportItem = ({
     const onChange =
         // eslint-disable-next-line
 
-
             (callback: (value: string) => void) =>
             (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
                 callback(event.target.value)

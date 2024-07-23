@@ -1,10 +1,11 @@
 import { MeetingStatus } from '@/constants/meeting'
-import { IMeetingDocument, IMeetingResolution } from '@/stores/meeting/types'
+import { IMeetingDocument, IMeetingPersonnelVote, IMeetingResolution } from '@/stores/meeting/types'
 import {
     IBoardMeetingDocument,
     IBoardMeetingReport,
 } from '@/stores/board-meeting/types'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
+import { VoteProposalOption } from '@/constants/resolution'
 
 export interface ICreateMeetingPayload {
     title: string
@@ -15,6 +16,7 @@ export interface ICreateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
 
@@ -42,13 +44,7 @@ export interface ICreateBoardMeetingPayload {
     meetingInvitations: IBoardMeetingDocument[]
     managementAndFinancials: IBoardMeetingReport[]
     elections: IBoardMeetingReport[]
-    personnelVoting: {
-        title: string
-        type: number
-        candidate: {
-            candidateName: string
-        }[]
-    }[]
+    personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
 
@@ -62,6 +58,7 @@ export interface IUpdateMeetingPayload {
     meetingInvitations: IMeetingDocument[]
     resolutions: IMeetingResolution[]
     amendmentResolutions: IMeetingResolution[]
+    personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
 
@@ -128,4 +125,13 @@ export interface IUpdateBoardMeetingPayload {
 export interface ICreateReactionMessagePayload {
     messageId: number
     reactionIconId: number
+}
+
+//Vote Candidate in PersonnelVoting
+export interface IVotedCandidateInPersonnel {
+    candidate:{
+        id: number
+        result: VoteProposalOption,
+        quantityShare: number| null,
+    }[]
 }
