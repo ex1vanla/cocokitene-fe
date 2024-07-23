@@ -5,6 +5,7 @@ import {
     IBoardMeetingReport,
 } from '@/stores/board-meeting/types'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
+import { VoteProposalOption } from '@/constants/resolution'
 
 export interface ICreateMeetingPayload {
     title: string
@@ -124,4 +125,13 @@ export interface IUpdateBoardMeetingPayload {
 export interface ICreateReactionMessagePayload {
     messageId: number
     reactionIconId: number
+}
+
+//Vote Candidate in PersonnelVoting
+export interface IVotedCandidateInPersonnel {
+    candidate:{
+        id: number
+        result: VoteProposalOption,
+        quantityShare: number| null,
+    }[]
 }

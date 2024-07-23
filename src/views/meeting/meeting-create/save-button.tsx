@@ -70,7 +70,7 @@ const SaveCreateMeetingButton = () => {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
                 console.log('payload: ', validate.payload)
-                // const res = await serviceMeeting.createMeeting(validate.payload)
+                const res = await serviceMeeting.createMeeting(validate.payload)
                 notification.success({
                     message: t('CREATED'),
                     description: t('CREATED_MEETING_SUCCESSFULLY'),

@@ -8,6 +8,7 @@ import { EActionStatus, FetchError } from '../type'
 import { IParticipantsWithRole } from '@/components/participant-selector'
 import { ResolutionType, VoteProposalOption } from '@/constants/resolution'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
+import { IPersonnelVoting } from '@/services/response.type'
 
 export interface ICreateMeeting {
     title: string
@@ -162,6 +163,7 @@ export interface IMeetingDetail {
     type: MeetingType
     meetingFiles: IMeetingFile[]
     proposals: IProposal[]
+    personnelVoting: IPersonnelVoting[]
     participants: ParticipantDetailMeeting[]
     shareholdersTotal: number
     shareholdersJoined: number

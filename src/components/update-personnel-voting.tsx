@@ -84,8 +84,8 @@ const UpdatePersonnelVoting = ({
     }
 
     const onDeleteCandidate = (index: number, indexCandidate: number) => {
-        console.log('index:', index)
-        console.log('indexCandidate:', indexCandidate)
+        // console.log('index:', index)
+        // console.log('indexCandidate:', indexCandidate)
         if (electionStatus == ElectionEnum.VOTE_OF_CONFIDENCE) {
             const personnelVotingConfident = [
                 ...data.personnelVoting.confidence,

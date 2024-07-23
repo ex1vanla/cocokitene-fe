@@ -110,6 +110,7 @@ export interface ICandidateResponse {
     unVotedQuantity: number | null
     notVoteYetQuantity: number | null
     voteResult: VoteProposalOption
+    votedQuantityShare: number | null
     // meetingId: number
     creatorId: number
 }

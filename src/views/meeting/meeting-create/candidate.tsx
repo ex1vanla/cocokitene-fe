@@ -19,7 +19,7 @@ const Candidate = () => {
 
     const [electionList, setElectionList] = useState<IElectionResponse[]>([])
 
-    console.log('data.candidate: ', data.personnelVoting)
+    // console.log('data.candidate: ', data.personnelVoting)
 
     useEffect(() => {
         try {
