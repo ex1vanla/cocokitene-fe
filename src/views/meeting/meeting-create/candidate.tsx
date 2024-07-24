@@ -173,7 +173,7 @@ const Candidate = () => {
 
     return (
         <BoxArea title={t('EXECUTIVE_OFFICER_ELECTION')}>
-            <BoxArea title={t('VOTE_OF_CONFIDENCE')}>
+            <BoxArea title={t('APPOINTMENT')}>
                 <div className="mb-6 flex flex-col gap-6">
                     {data.personnelVoting.confidence.map((x, index) => {
                         return (
@@ -198,12 +198,21 @@ const Candidate = () => {
                     })}
                 </div>
 
-                <Button onClick={onAddNewConfidence} icon={<PlusOutlined />}>
+                <Button
+                    onClick={onAddNewConfidence}
+                    icon={<PlusOutlined />}
+                    disabled={
+                        [
+                            ...data.personnelVoting.confidence,
+                            ...data.personnelVoting.notConfidence,
+                        ].length >= 10
+                    }
+                >
                     {t('ADD_NEW')}
                 </Button>
             </BoxArea>
 
-            <BoxArea title={t('VOTE_OF_NOT_CONFIDENCE')}>
+            <BoxArea title={t('DISMISSAL')}>
                 <div className="mb-6 flex flex-col gap-6">
                     {data.personnelVoting.notConfidence.map((x, index) => {
                         return (
@@ -230,7 +239,16 @@ const Candidate = () => {
                     })}
                 </div>
 
-                <Button onClick={onAddNewNotConfidence} icon={<PlusOutlined />}>
+                <Button
+                    onClick={onAddNewNotConfidence}
+                    icon={<PlusOutlined />}
+                    disabled={
+                        [
+                            ...data.personnelVoting.confidence,
+                            ...data.personnelVoting.notConfidence,
+                        ].length >= 10
+                    }
+                >
                     {t('ADD_NEW')}
                 </Button>
             </BoxArea>

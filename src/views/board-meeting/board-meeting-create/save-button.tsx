@@ -18,7 +18,7 @@ const SaveCreateBoardMeetingButton = () => {
     const router = useRouter()
     const onValidate = (data: ICreateBoardMeeting) => {
         const payload = {
-            title: data.title,
+            title: data.title.trim(),
             meetingLink:
                 data.meetingLink && !data.meetingLink.startsWith('https://')
                     ? `https://${data.meetingLink}`
@@ -42,12 +42,26 @@ const SaveCreateBoardMeetingButton = () => {
             //         type: personnelVote.type,
             //         candidate: [{ candidateName: personnelVote.candidateName }],
             //     })),
-            managementAndFinancials: data.managementAndFinancials,
-            elections: data.elections,
+            managementAndFinancials: data.managementAndFinancials.map(
+                (management) => ({
+                    ...management,
+                    title: management.title.trim(),
+                    description: management.description.trim(),
+                    oldDescription: management.oldDescription?.trim(),
+                }),
+            ),
+            elections: data.elections.map((election) => ({
+                ...election,
+                title: election.title.trim(),
+                description: election.description.trim(),
+                oldDescription: election.oldDescription?.trim(),
+            })),
             personnelVoting: data.candidates.map((personnelVote) => ({
-                title: personnelVote.title,
+                title: personnelVote.title.trim(),
                 type: personnelVote.type,
-                candidate: [{ candidateName: personnelVote.candidateName }],
+                candidate: [
+                    { candidateName: personnelVote.candidateName.trim() },
+                ],
             })),
             participants: data.participants?.map((participant) => {
                 return {
@@ -78,8 +92,33 @@ const SaveCreateBoardMeetingButton = () => {
             rs.errors.meetingLink = 'meetingLink'
         }
 
-        // if (payload.managementAndFinancials) {
-        // }
+        //Check
+        if (
+            payload.managementAndFinancials.some(
+                (management) => !management.title.trim(),
+            )
+        ) {
+            rs.isValid = false
+            rs.errors.resolutions = 'managementAndFinancials'
+        }
+
+        if (payload.elections.some((election) => !election.title.trim())) {
+            rs.isValid = false
+            rs.errors.resolutions = 'elections'
+        }
+
+        if (
+            payload.personnelVoting.some(
+                (personnel) =>
+                    !personnel.title.trim() ||
+                    personnel.candidate.some(
+                        (candidate) => !candidate.candidateName.trim(),
+                    ),
+            )
+        ) {
+            rs.isValid = false
+            rs.errors.resolutions = 'personnelVoting'
+        }
 
         return rs
     }

@@ -227,6 +227,7 @@ const CreatePersonnelVoting = ({
                             onAddNewCandidate(index)
                         }}
                         icon={<PlusOutlined />}
+                        disabled={candidate.length >= 5}
                     ></Button>
                 )}
             </div>

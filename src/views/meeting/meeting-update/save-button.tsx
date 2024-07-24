@@ -18,6 +18,7 @@ const SaveUpdateMeetingButton = () => {
     const onValidate = (data: IUpdateMeeting) => {
         const payload = {
             ...data,
+            title: data.title.trim(),
             meetingLink:
                 data.meetingLink && !data.meetingLink.startsWith('https://')
                     ? `https://${data.meetingLink}`

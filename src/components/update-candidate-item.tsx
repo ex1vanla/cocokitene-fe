@@ -157,9 +157,14 @@ const UpdateCandidateItem = ({
 
     return (
         <div className="flex flex-row items-start gap-2">
-            <Text className="leading-10">
-                {t(ResolutionTitle[type])} {index}:
-            </Text>
+            <div>
+                <span className="mr-2 align-middle text-lg font-medium text-[#ff4d4f]">
+                    *
+                </span>
+                <Text className="leading-10">
+                    {t(ResolutionTitle[type])} {index}:
+                </Text>
+            </div>
 
             <div className="flex flex-grow flex-col gap-2">
                 <Input

@@ -106,6 +106,7 @@ const AmendmentResolutions = () => {
                 onClick={onAddNew}
                 icon={<PlusOutlined />}
                 className="ml-[24px]"
+                disabled={data.amendmentResolutions.length >= 10}
             >
                 {t('ADD_NEW')}
             </Button>

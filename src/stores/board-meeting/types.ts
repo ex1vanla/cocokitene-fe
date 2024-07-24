@@ -47,6 +47,7 @@ export interface IBoardMeetingReport {
 }
 
 export interface IBoardMeetingExecutive {
+    candidateID: number
     title: string
     type: number
     candidateName: string

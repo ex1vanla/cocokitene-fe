@@ -18,6 +18,7 @@ const SaveCreateMeetingButton = () => {
     const onValidate = (data: ICreateMeeting) => {
         const payload = {
             ...data,
+            title: data.title.trim(),
             meetingLink:
                 data.meetingLink && !data.meetingLink.startsWith('https://')
                     ? `https://${data.meetingLink}`
