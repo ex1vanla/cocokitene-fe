@@ -206,7 +206,7 @@ const CreatePersonnelVoting = ({
                             {electionStatus ==
                                 ElectionEnum.VOTE_OF_CONFIDENCE && (
                                 <MinusOutlined
-                                    className={`h-10 text-gray-500`}
+                                    className={`mr-[-100px] h-10 text-gray-500`}
                                     disabled={i === 1}
                                     onClick={() => {
                                         onDeleteCandidate(index, i)

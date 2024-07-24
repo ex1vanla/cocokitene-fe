@@ -11,6 +11,7 @@ import { IElectionResponse } from '@/services/response.type'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { ElectionEnum } from '@/constants/election'
+import Loader from '@/components/loader'
 
 export interface ICandidateForm {
     title: string
@@ -23,24 +24,29 @@ const Candidates = () => {
     const [data, setData] = useCreateBoardMeetingInformation()
     const [electionList, setElectionList] = useState<IElectionResponse[]>()
     const [defaultElection, setDefaultElection] = useState<number>(1)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         try {
             ;(async () => {
+                setLoading(true)
                 const electionList = await serviceElection.getAllElection({
                     page: 1,
                     limit: 10,
                 })
                 // console.log('electionList', electionList)
                 if (electionList) {
-                    setElectionList(electionList)
+                    setElectionList(
+                        electionList.sort((a, b) => +a.status - +b.status),
+                    )
                     setDefaultElection(
-                        electionList.filter(
+                        electionList.find(
                             (election) =>
                                 election.status ==
                                 ElectionEnum.VOTE_OF_CONFIDENCE,
-                        )[0].id ?? 1,
+                        )?.id ?? 0,
                     )
+                    setLoading(false)
                 }
             })()
         } catch (error) {
@@ -80,6 +86,10 @@ const Candidates = () => {
             ...data,
             candidates: data.candidates.filter((r, i) => i !== index),
         })
+    }
+
+    if (loading) {
+        return <Loader />
     }
 
     return (
