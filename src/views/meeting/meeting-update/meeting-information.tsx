@@ -409,7 +409,6 @@ const MeetingInformation = () => {
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
                             >
-                                handleSliderChange
                                 <Button icon={<UploadOutlined />}>
                                     {t('CLICK_TO_UPLOAD')}
                                 </Button>

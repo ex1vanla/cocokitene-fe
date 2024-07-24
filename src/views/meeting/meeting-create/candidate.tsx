@@ -35,27 +35,27 @@ const Candidate = () => {
                         personnelVoting: {
                             confidence: [
                                 ...data.personnelVoting.confidence,
-                                {
-                                    title: '',
-                                    type: electionList.filter(
-                                        (election) =>
-                                            election.status ==
-                                            ElectionEnum.VOTE_OF_CONFIDENCE,
-                                    )[0].id,
-                                    candidate: [{ candidateName: '' }],
-                                },
+                                // {
+                                //     title: '',
+                                //     type: electionList.filter(
+                                //         (election) =>
+                                //             election.status ==
+                                //             ElectionEnum.VOTE_OF_CONFIDENCE,
+                                //     )[0].id,
+                                //     candidate: [{ candidateName: '' }],
+                                // },
                             ],
                             notConfidence: [
                                 ...data.personnelVoting.notConfidence,
-                                {
-                                    title: '',
-                                    type: electionList.filter(
-                                        (election) =>
-                                            election.status ==
-                                            ElectionEnum.VOTE_OF_NOT_CONFIDENCE,
-                                    )[0].id,
-                                    candidate: [{ candidateName: '' }],
-                                },
+                                // {
+                                //     title: '',
+                                //     type: electionList.filter(
+                                //         (election) =>
+                                //             election.status ==
+                                //             ElectionEnum.VOTE_OF_NOT_CONFIDENCE,
+                                //     )[0].id,
+                                //     candidate: [{ candidateName: '' }],
+                                // },
                             ],
                         },
                     })

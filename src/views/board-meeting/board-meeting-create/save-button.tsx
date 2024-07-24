@@ -29,19 +29,26 @@ const SaveCreateBoardMeetingButton = () => {
             note: data.note,
             meetingMinutes: data.meetingMinutes,
             meetingInvitations: data.meetingInvitations,
-            managementAndFinancials: data.managementAndFinancials.filter(
-                (r) => r.title.trim() || r.description.trim(),
-            ),
-            elections: data.elections.filter(
-                (r) => r.title.trim() || r.description.trim(),
-            ),
-            personnelVoting: data.candidates
-                .filter((r) => r.title.trim() || r.candidateName.trim())
-                .map((personnelVote) => ({
-                    title: personnelVote.title,
-                    type: personnelVote.type,
-                    candidate: [{ candidateName: personnelVote.candidateName }],
-                })),
+            // managementAndFinancials: data.managementAndFinancials.filter(
+            //     (r) => r.title.trim() || r.description.trim(),
+            // ),
+            // elections: data.elections.filter(
+            //     (r) => r.title.trim() || r.description.trim(),
+            // ),
+            // personnelVoting: data.candidates
+            //     .filter((r) => r.title.trim() || r.candidateName.trim())
+            //     .map((personnelVote) => ({
+            //         title: personnelVote.title,
+            //         type: personnelVote.type,
+            //         candidate: [{ candidateName: personnelVote.candidateName }],
+            //     })),
+            managementAndFinancials: data.managementAndFinancials,
+            elections: data.elections,
+            personnelVoting: data.candidates.map((personnelVote) => ({
+                title: personnelVote.title,
+                type: personnelVote.type,
+                candidate: [{ candidateName: personnelVote.candidateName }],
+            })),
             participants: data.participants?.map((participant) => {
                 return {
                     roleMtgId: participant.roleMtgId,
@@ -70,6 +77,10 @@ const SaveCreateBoardMeetingButton = () => {
             rs.isValid = false
             rs.errors.meetingLink = 'meetingLink'
         }
+
+        // if (payload.managementAndFinancials) {
+        // }
+
         return rs
     }
     const validate = onValidate(data)

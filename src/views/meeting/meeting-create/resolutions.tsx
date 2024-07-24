@@ -93,7 +93,11 @@ const Resolutions = () => {
                     />
                 ))}
             </div>
-            <Button onClick={onAddNew} icon={<PlusOutlined />}>
+            <Button
+                onClick={onAddNew}
+                icon={<PlusOutlined />}
+                className="ml-[24px]"
+            >
                 {t('ADD_NEW')}
             </Button>
         </BoxArea>
