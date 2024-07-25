@@ -145,12 +145,23 @@ const DetailPersonnelVotingItem = ({
     const votedQuantityShare: number = useMemo(() => {
         const totalVotedQuantityShare = candidateInfo.reduce(
             (accumulator, currentValue) => {
-                accumulator += Number(currentValue.votedQuantityShare)
+                accumulator += Number(currentValue.votedQuantity)
                 return accumulator
             },
             0,
         )
         return totalVotedQuantityShare
+    }, [candidateInfo])
+
+    const votedQuantityShareUser: number = useMemo(() => {
+        const totalVotedQuantityShareUser = candidateInfo.reduce(
+            (accumulator, currentValue) => {
+                accumulator += Number(currentValue.votedQuantityShare)
+                return accumulator
+            },
+            0,
+        )
+        return totalVotedQuantityShareUser
     }, [candidateInfo])
 
     return (
@@ -162,7 +173,7 @@ const DetailPersonnelVotingItem = ({
                     </div>
                     <Text
                         title={title}
-                        className="text-bold text-base text-black decoration-1"
+                        className="text-bold break-words text-base text-black decoration-1"
                     >
                         {title}
                     </Text>
@@ -205,7 +216,7 @@ const DetailPersonnelVotingItem = ({
                                 className="flex w-full flex-grow items-center justify-between px-12"
                                 key={candidate.id}
                             >
-                                <div className="w-[20%]">
+                                <div className="w-[20%] break-words">
                                     {candidate.candidateName}
                                 </div>
 
@@ -248,16 +259,19 @@ const DetailPersonnelVotingItem = ({
                 centered
                 width={787}
                 okButtonProps={{
-                    disabled: votedQuantityShare > quantityShareOfUser,
+                    disabled: votedQuantityShareUser > quantityShareOfUser,
                 }}
                 cancelText={t('BTN_CANCEL')}
                 okText={t('OK')}
+                closable={false}
             >
                 <div className="flex w-full flex-grow items-center justify-between px-12">
                     {
                         <Text className="ml-[25%] h-5 text-red-500">
-                            {votedQuantityShare > quantityShareOfUser &&
-                                t('QUANTITY_VOTE_GREATER_THAN_ALLOWED')}
+                            {votedQuantityShareUser > quantityShareOfUser &&
+                                t('QUANTITY_VOTE_GREATER_THAN_ALLOWED', {
+                                    allowed: quantityShareOfUser,
+                                })}
                         </Text>
                     }
                 </div>
@@ -285,7 +299,7 @@ const DetailPersonnelVotingItem = ({
                                     className="flex w-full flex-grow items-center justify-between px-12"
                                     key={candidate.id}
                                 >
-                                    <div className="w-[25%]">
+                                    <div className="w-[25%] break-words">
                                         {candidate.candidateName}
                                     </div>
                                     <div className="w-[25%]">
@@ -333,7 +347,7 @@ const DetailPersonnelVotingItem = ({
                                 {t('REMAINING_SHARE')}:{' '}
                             </span>
                             <span>
-                                {quantityShareOfUser - votedQuantityShare}
+                                {quantityShareOfUser - votedQuantityShareUser}
                             </span>
                         </div>
                     </div>

@@ -186,6 +186,7 @@ const CreateReportItem = ({
                     size="large"
                     value={title}
                     onChange={onChange(onChangeTitle)}
+                    maxLength={50}
                 />
                 {type === ResolutionType.EXECUTIVE_OFFICER ? (
                     <Input
