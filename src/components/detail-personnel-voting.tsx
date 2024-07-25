@@ -72,9 +72,6 @@ const DetailPersonnelVotingItem = ({
     }
     //Modal Voting Personnel
     const handleOk = () => {
-        console.log('Okkkkkkkkkkk')
-        console.log('candidateInfo: ', candidateInfo)
-
         const config = {
             title,
             content: t('DO_YOU_WANT_TO_CHANGE_YOUR_VOTE_RESULT?'),
@@ -88,7 +85,6 @@ const DetailPersonnelVotingItem = ({
     }
 
     const handleCancel = () => {
-        console.log('Cancel::::::::::')
         setOpenModal(false)
         setCandidateInfo(candidateOrigin)
         setChecked(false)
@@ -109,7 +105,6 @@ const DetailPersonnelVotingItem = ({
                     })),
                 })
             //
-            console.log('personnelVoteResponse: ', personnelVoteResponse)
             if (personnelVoteResponse) {
                 setCandidateOrigin(personnelVoteResponse.candidate)
                 setCandidateInfo(personnelVoteResponse.candidate)
@@ -135,13 +130,7 @@ const DetailPersonnelVotingItem = ({
     // const handleOnChangeInput = (index: number) => (value: number | null) => {
     const handleOnChangeInput =
         (index: number) => (value: ChangeEvent<HTMLInputElement>) => {
-            console.log(
-                `String(${value.target.value}): `,
-                String(value.target.value),
-            )
-            console.log('value', value.target.value)
             if (/^\d*$/.test(String(value.target.value))) {
-                console.log('Hop le')
                 const candidateInfoChange = [...candidateInfo]
                 candidateInfoChange[index] = {
                     ...candidateInfoChange[index],
@@ -150,8 +139,6 @@ const DetailPersonnelVotingItem = ({
                 }
                 setCandidateInfo(candidateInfoChange)
                 setChecked(false)
-            } else {
-                console.log('Khong hop le')
             }
         }
 
@@ -265,7 +252,6 @@ const DetailPersonnelVotingItem = ({
                 }}
                 cancelText={t('BTN_CANCEL')}
                 okText={t('OK')}
-                // cancelButtonProps={{ disabled: true }}
             >
                 <div className="flex w-full flex-grow items-center justify-between px-12">
                     {
@@ -303,21 +289,6 @@ const DetailPersonnelVotingItem = ({
                                         {candidate.candidateName}
                                     </div>
                                     <div className="w-[25%]">
-                                        {/* <InputNumber
-                                            className="w-full"
-                                            maxLength={9}
-                                            defaultValue={Number(
-                                                candidate.votedQuantityShare,
-                                            )}
-                                            value={
-                                                candidate.votedQuantityShare ??
-                                                0
-                                            }
-                                            controls={false}
-                                            onChange={handleOnChangeInput(
-                                                index,
-                                            )}
-                                        /> */}
                                         <Input
                                             className="w-full"
                                             maxLength={9}
@@ -328,7 +299,6 @@ const DetailPersonnelVotingItem = ({
                                                 candidate.votedQuantityShare ??
                                                 0
                                             }
-                                            // controls={false}
                                             onChange={handleOnChangeInput(
                                                 index,
                                             )}
@@ -351,14 +321,6 @@ const DetailPersonnelVotingItem = ({
                             )
                         })}
                     </div>
-                    {/* <div className="flex w-full flex-grow items-center justify-between px-12">
-                        {
-                            <Text className="ml-[25%] h-5 text-red-500">
-                                {votedQuantityShare > quantityShareOfUser &&
-                                    t('QUANTITY_VOTE_GREATER_THAN_ALLOWED')}
-                            </Text>
-                        }
-                    </div> */}
                     <div className="flex w-full flex-grow items-center gap-[10%] px-12">
                         <div>
                             <span className="font-medium">
