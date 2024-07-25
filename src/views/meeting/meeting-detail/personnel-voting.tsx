@@ -21,8 +21,6 @@ const PersonnelVoting = () => {
 
     const [quantityShare, setQuantityShare] = useState<number>(0)
 
-    console.log('quantityShare: ', quantityShare)
-
     useEffect(() => {
         // calculate quantityShare in Meeting of User
         const listShareholderParticipant = meeting?.participants
@@ -125,6 +123,7 @@ const PersonnelVoting = () => {
                     totalQuantityShare={Number(meeting?.totalMeetingShares)}
                     voteErrorMessage={notifiEnableVote}
                     quantityShareOfUser={quantityShare}
+                    electionStatus={personnelVote.typeElection.status}
                 />
             )
         })
@@ -152,6 +151,7 @@ const PersonnelVoting = () => {
                     totalQuantityShare={Number(meeting?.totalMeetingShares)}
                     voteErrorMessage={notifiEnableVote}
                     quantityShareOfUser={quantityShare}
+                    electionStatus={personnelVote.typeElection.status}
                 />
             )
         })

@@ -8,16 +8,17 @@ import { formatNumber } from '@/utils/format-number'
 import {
     Button,
     Checkbox,
-    InputNumber,
+    Input,
     Modal,
     notification,
     Tooltip,
     Typography,
 } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useMemo, useState } from 'react'
+import { ChangeEvent, useMemo, useState } from 'react'
 
 import type { CheckboxProps } from 'antd'
+import { ElectionEnum } from '@/constants/election'
 
 const { Text } = Typography
 
@@ -29,6 +30,7 @@ interface IDetailPersonnelVoting {
     totalQuantityShare: number
     voteErrorMessage?: string
     quantityShareOfUser: number
+    electionStatus: ElectionEnum
 }
 
 const DetailPersonnelVotingItem = ({
@@ -39,6 +41,7 @@ const DetailPersonnelVotingItem = ({
     totalQuantityShare,
     voteErrorMessage,
     quantityShareOfUser,
+    electionStatus,
 }: IDetailPersonnelVoting) => {
     const t = useTranslations()
     const [candidateOrigin, setCandidateOrigin] =
@@ -55,8 +58,6 @@ const DetailPersonnelVotingItem = ({
     const [checked, setChecked] = useState<boolean>(false)
 
     const handleChangeCheckBox: CheckboxProps['onChange'] = (e) => {
-        console.log('checked = ', e.target.checked)
-
         setChecked(e.target.checked)
         if (e.target.checked) {
             const candidateInfoChange = [...candidateInfo].map((candidate) => ({
@@ -71,9 +72,6 @@ const DetailPersonnelVotingItem = ({
     }
     //Modal Voting Personnel
     const handleOk = () => {
-        console.log('Okkkkkkkkkkk')
-        console.log('candidateInfo: ', candidateInfo)
-
         const config = {
             title,
             content: t('DO_YOU_WANT_TO_CHANGE_YOUR_VOTE_RESULT?'),
@@ -87,7 +85,6 @@ const DetailPersonnelVotingItem = ({
     }
 
     const handleCancel = () => {
-        console.log('Cancel::::::::::')
         setOpenModal(false)
         setCandidateInfo(candidateOrigin)
         setChecked(false)
@@ -108,7 +105,6 @@ const DetailPersonnelVotingItem = ({
                     })),
                 })
             //
-            console.log('personnelVoteResponse: ', personnelVoteResponse)
             if (personnelVoteResponse) {
                 setCandidateOrigin(personnelVoteResponse.candidate)
                 setCandidateInfo(personnelVoteResponse.candidate)
@@ -121,20 +117,30 @@ const DetailPersonnelVotingItem = ({
                 })
             }
         } catch (error) {
+            notification.error({
+                message: t('VOTED_CANDIDATE'),
+                duration: 2,
+            })
+            console.log('Vote for candidate failed!!!')
+            setCandidateInfo(candidateOrigin)
             setVoteStatus(FETCH_STATUS.ERROR)
         }
     }
 
-    const handleOnChangeInput = (index: number) => (value: number | null) => {
-        const candidateInfoChange = [...candidateInfo]
-        candidateInfoChange[index] = {
-            ...candidateInfoChange[index],
-            votedQuantityShare: value,
-            voteResult: VoteProposalOption.VOTE,
+    // const handleOnChangeInput = (index: number) => (value: number | null) => {
+    const handleOnChangeInput =
+        (index: number) => (value: ChangeEvent<HTMLInputElement>) => {
+            if (/^\d*$/.test(String(value.target.value))) {
+                const candidateInfoChange = [...candidateInfo]
+                candidateInfoChange[index] = {
+                    ...candidateInfoChange[index],
+                    votedQuantityShare: Number(value.target.value),
+                    voteResult: VoteProposalOption.VOTE,
+                }
+                setCandidateInfo(candidateInfoChange)
+                setChecked(false)
+            }
         }
-        setCandidateInfo(candidateInfoChange)
-        setChecked(false)
-    }
 
     const votedQuantityShare: number = useMemo(() => {
         const totalVotedQuantityShare = candidateInfo.reduce(
@@ -244,8 +250,17 @@ const DetailPersonnelVotingItem = ({
                 okButtonProps={{
                     disabled: votedQuantityShare > quantityShareOfUser,
                 }}
-                // cancelButtonProps={{ disabled: true }}
+                cancelText={t('BTN_CANCEL')}
+                okText={t('OK')}
             >
+                <div className="flex w-full flex-grow items-center justify-between px-12">
+                    {
+                        <Text className="ml-[25%] h-5 text-red-500">
+                            {votedQuantityShare > quantityShareOfUser &&
+                                t('QUANTITY_VOTE_GREATER_THAN_ALLOWED')}
+                        </Text>
+                    }
+                </div>
                 <div className="flex flex-col items-start justify-between gap-2 border-b border-b-neutral/4 pb-8 pt-1">
                     <div className="flex w-full flex-grow items-center justify-between px-12">
                         <div className="flex w-[25%] gap-1">
@@ -253,7 +268,12 @@ const DetailPersonnelVotingItem = ({
                                 checked={checked}
                                 onChange={handleChangeCheckBox}
                             ></Checkbox>
-                            <span>{t('DISTRIBUTE_VOTE')}</span>
+                            <span>
+                                {electionStatus ==
+                                ElectionEnum.VOTE_OF_CONFIDENCE
+                                    ? t('DISTRIBUTE_VOTE')
+                                    : t('FULLY_APPROVE')}
+                            </span>
                         </div>
                         <div className="w-[25%]">{t('ENTER_NUMBER_VOTES')}</div>
                         <div className="w-[25%]">{t('PERCENTAGE')}</div>
@@ -269,7 +289,7 @@ const DetailPersonnelVotingItem = ({
                                         {candidate.candidateName}
                                     </div>
                                     <div className="w-[25%]">
-                                        <InputNumber
+                                        <Input
                                             className="w-full"
                                             maxLength={9}
                                             defaultValue={Number(
@@ -279,7 +299,6 @@ const DetailPersonnelVotingItem = ({
                                                 candidate.votedQuantityShare ??
                                                 0
                                             }
-                                            controls={false}
                                             onChange={handleOnChangeInput(
                                                 index,
                                             )}
@@ -301,13 +320,6 @@ const DetailPersonnelVotingItem = ({
                                 </div>
                             )
                         })}
-                    </div>
-                    <div className="flex w-full flex-grow items-center justify-between px-12">
-                        {votedQuantityShare > quantityShareOfUser && (
-                            <Text className="ml-[25%] text-red-500">
-                                {t('QUANTITY_VOTE_GREATER_THAN_ALLOWED')}
-                            </Text>
-                        )}
                     </div>
                     <div className="flex w-full flex-grow items-center gap-[10%] px-12">
                         <div>
