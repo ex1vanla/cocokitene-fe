@@ -196,6 +196,7 @@ const CreatePersonnelVoting = ({
                     value={title}
                     size="large"
                     onChange={onChange(onChangeTitle)}
+                    maxLength={100}
                 />
                 {candidate.map((candidate, i) => {
                     return (
@@ -207,6 +208,7 @@ const CreatePersonnelVoting = ({
                                 onChange={(event) => {
                                     onChangeCandidateName(event, i)
                                 }}
+                                maxLength={50}
                             />
                             {electionStatus ==
                                 ElectionEnum.VOTE_OF_CONFIDENCE && (
