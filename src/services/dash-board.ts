@@ -1,6 +1,6 @@
 import { IMeeting } from '@/stores/meeting/types';
 import { IGetAllMeetingInDayPayload } from './request.type';
-import { IGetAllDataReponse } from './response.type';
+import { IGetAllDataReponse, IStatisticMeetingInMonthResponse } from './response.type';
 import { get } from './fetcher';
 
 
@@ -18,7 +18,15 @@ const serviceDashBoard = {
         )
 
         return response.data
+    },
+    getStatisticMeetingInMonth: async ({
+        date
+    }:{date:Date}): Promise<IStatisticMeetingInMonthResponse> =>{
+        const payload = { date }
+        const response: {data: IStatisticMeetingInMonthResponse} = await get<IStatisticMeetingInMonthResponse>('/dash-board/meeting-in-month/statistics',payload)
+        return response.data
     }
 }
+
 
 export default serviceDashBoard

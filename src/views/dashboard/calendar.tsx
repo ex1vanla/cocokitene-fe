@@ -2,14 +2,16 @@ import { Calendar, Col, Row, Select } from 'antd'
 import type { Dayjs } from 'dayjs'
 
 interface ICalendarCustom {
+    isSupperAdmin: boolean
     // eslint-disable-next-line
     onSelectDate: (newValue: Dayjs) => void
 }
 
-const CalendarCustom = ({ onSelectDate }: ICalendarCustom) => {
+const CalendarCustom = ({ isSupperAdmin, onSelectDate }: ICalendarCustom) => {
     return (
         <>
             <Calendar
+                mode={isSupperAdmin ? 'year' : 'month'}
                 fullscreen={false}
                 headerRender={({ value, onChange }) => {
                     const start = 0

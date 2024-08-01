@@ -43,23 +43,23 @@ const NotificationSystem = () => {
         },
     ]
 
-    // const dataSource = Array.from<DataNotificationSys>({
-    //     length: 46,
-    // }).map<DataNotificationSys>((_, i) => ({
-    //     key: i,
-    //     title: `Title ${i}`,
-    //     date: new Date().toDateString(),
-    // }))
+    const dataSource = Array.from<DataNotificationSys>({
+        length: 46,
+    }).map<DataNotificationSys>((_, i) => ({
+        key: i,
+        title: `Title ${i}`,
+        date: new Date().toDateString(),
+    }))
 
     return (
         <div className="flex flex-col gap-3 p-2">
-            <span className="mx-auto text-xl">{t('SYSTEM_NOTIFICATION')}</span>
+            <span className="text-xl">{t('SYSTEM_NOTIFICATION')}</span>
             <div className="">
                 <Table
                     rowKey="id"
                     columns={columns}
-                    // dataSource={dataSource}
-                    dataSource={[]}
+                    dataSource={dataSource}
+                    // dataSource={[]}
                     pagination={{
                         pageSize: 4,
                     }}

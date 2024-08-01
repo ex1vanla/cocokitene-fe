@@ -488,3 +488,14 @@ export interface IDataHashMeeting {
     participantHash: string
     detailMeetingHash: string
 }
+
+export interface IStatisticMeetingInMonth{
+    totalMeeting: number,
+    totalParticipant: number,
+    totalParticipantJoined: number,
+}
+
+export interface IStatisticMeetingInMonthResponse {
+    shareholderMeetingInMonth: IStatisticMeetingInMonth,
+    boardMeetingInMonth: IStatisticMeetingInMonth,
+}
