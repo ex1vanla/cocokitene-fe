@@ -3,19 +3,18 @@ import {
     MeetingStatusColor,
     MeetingStatusName,
 } from '@/constants/meeting'
-import { RoleName } from '@/constants/role'
-import serviceProfile from '@/services/profile'
-import { IUserRole } from '@/services/response.type'
-import { useAuthLogin } from '@/stores/auth/hooks'
 import { IMeeting } from '@/stores/meeting/types'
 import { enumToArray } from '@/utils'
 import { calculateTimeDifference, formatTimeMeeting } from '@/utils/date'
-import { Spin } from 'antd'
 import Table, { ColumnsType } from 'antd/es/table'
 import { useTranslations } from 'next-intl'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import EmptyData from '../service-plan/service-plan-list/empty-plan'
 import serviceDashBoard from '@/services/dash-board'
+import { IStatisticMeetingInMonthResponse } from '@/services/response.type'
+
+import { Pie } from '@ant-design/plots'
+import { Spin } from 'antd'
 
 interface NotificationMeetingUser {
     key: React.Key
@@ -128,7 +127,7 @@ const NotificationUser = ({ date }: { date: Date }) => {
     ]
 
     return (
-        <div className="flex min-h-[350px] flex-col gap-3  p-2">
+        <div className="flex min-h-[350px] flex-col gap-3 border p-2 shadow-lg">
             <span className="text-lg">
                 {t('MEETING_SCHEDULE', {
                     date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
@@ -152,61 +151,229 @@ const NotificationUser = ({ date }: { date: Date }) => {
     )
 }
 
-interface INotificationPersonal {
-    date: Date
-}
-
-const NotificationPersonal = ({ date }: INotificationPersonal) => {
-    const { authState } = useAuthLogin()
-
-    const [loading, setLoading] = useState<boolean>(true)
-    const [roleOfProfile, setRoleOfProfile] = useState<IUserRole[]>([])
-
-    console.log('date: ', date)
+const NotificationSuperAdmin = ({ date }: { date: Date }) => {
+    const t = useTranslations()
+    const [dataStatistic, setDataStatistic] =
+        useState<IStatisticMeetingInMonthResponse>()
+    const [loadingFetchData, setLoadingFetchData] = useState<boolean>(true)
 
     useEffect(() => {
-        const fetchProfile = async (id: number) => {
-            setLoading(true)
-            const detailProfile = await serviceProfile.getDetailProfile(id)
-            if (detailProfile) {
-                console.log('Role User: ', detailProfile.roles)
-                setRoleOfProfile(detailProfile.roles)
-                setTimeout(() => {
-                    setLoading(false)
-                }, 1000)
+        const fetchDataMeeting = async () => {
+            setLoadingFetchData(true)
+            const meetingStatisticInMonth =
+                await serviceDashBoard.getStatisticMeetingInMonth({
+                    date: date,
+                })
+            if (meetingStatisticInMonth) {
+                setDataStatistic(meetingStatisticInMonth)
             }
+            setLoadingFetchData(false)
         }
+        fetchDataMeeting()
+    }, [date])
 
-        if (authState.userData?.id) {
-            fetchProfile(authState.userData.id)
-        }
-    }, [authState.userData?.id])
+    const configPie = useCallback(
+        (data: { type: string; value: number }[]) => {
+            const shareholderMeeting = data[0].value ?? 0
+            const boardMeeting = data[1].value ?? 0
+            const totalMeeting = shareholderMeeting + boardMeeting
 
-    const bodyNotificationOfSupperAdmin = useMemo(() => {
-        if (
-            roleOfProfile.find((role) => role.roleName == RoleName.SUPER_ADMIN)
-        ) {
+            return {
+                data: data,
+                angleField: 'value',
+                colorField: 'type',
+                marginRight: 180,
+                innerRadius: 0.65,
+                width: 450,
+                height: 350,
+                label: {
+                    text: ({ value }: { value: any }) =>
+                        value > 0 ? value : '',
+                    style: {
+                        fontWeight: '400',
+                        fontSize: 19,
+                    },
+                    pointerEvents: 'none',
+                },
+                legend: {
+                    color: {
+                        title: false,
+                        position: 'right-',
+                        rowPadding: 10,
+                        width: 250,
+                        cols: 1,
+                        maxRows: 1,
+                    },
+                },
+                annotations: [
+                    {
+                        type: 'text',
+                        style: {
+                            text: t('TOTAL') + ': ' + totalMeeting,
+                            x: '50%',
+                            y: '50%',
+                            textAlign: 'center',
+                            fontSize: 22,
+                            fontStyle: 'bold',
+                            pointerEvents: 'none', // Loại bỏ hover
+                        },
+                    },
+                ],
+            }
+        },
+        [dataStatistic],
+    )
+
+    console.log('Date: ', date.getMonth())
+    console.log('Date: ', date.getFullYear())
+
+    if (loadingFetchData) {
+        return (
+            <div className="flex h-[178px] items-center justify-center">
+                <Spin tip="Loading..." />
+            </div>
+        )
+    }
+
+    return (
+        <div className="flex min-h-[350px] flex-col gap-3 p-2">
+            <span className="text-xl">
+                {t('MEETING_INFORMATION_STATISTICS')} ({date.getMonth() + 1}/
+                {date.getFullYear()})
+            </span>
+            <div className="flex gap-5">
+                <div className="flex-1 border pb-10 shadow-xl">
+                    <div className="mt-3 pl-5 text-lg">
+                        {t('NUMBER_MEETINGS')}
+                    </div>
+                    <div className="mb-3 h-[24px] pl-5"></div>
+                    <Pie
+                        {...configPie([
+                            {
+                                type:
+                                    t('SHAREHOLDER_MEETING') +
+                                    ': ' +
+                                    dataStatistic?.shareholderMeetingInMonth
+                                        .totalMeeting,
+                                value:
+                                    dataStatistic?.shareholderMeetingInMonth
+                                        .totalMeeting ?? 0,
+                            },
+                            {
+                                type:
+                                    t('BOARD_MEETING') +
+                                    ': ' +
+                                    dataStatistic?.boardMeetingInMonth
+                                        .totalMeeting,
+                                value:
+                                    dataStatistic?.boardMeetingInMonth
+                                        .totalMeeting ?? 0,
+                            },
+                        ])}
+                    />
+                </div>
+                <div className="flex-1  border pb-10 shadow-xl">
+                    <div className="mt-3 pl-5 text-lg">
+                        {t('SHAREHOLDER_MEETING')}
+                    </div>
+                    <div className="mb-3 pl-5 text-base">
+                        {t('TOTAL_PARTICIPANT_JOINED')}/
+                        {t('TOTAL_PARTICIPANTS')}
+                    </div>
+                    <Pie
+                        {...configPie([
+                            {
+                                type:
+                                    t('TOTAL_PARTICIPANT_JOINED') +
+                                    ': ' +
+                                    dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipantJoined,
+                                value:
+                                    dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipantJoined ?? 0,
+                            },
+                            {
+                                type:
+                                    t('TOTAL_PARTICIPANTS') +
+                                    ': ' +
+                                    dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipant,
+                                value:
+                                    dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipant ?? 0,
+                            },
+                        ])}
+                    />
+                </div>
+                <div className="flex-1 border pb-10 shadow-xl">
+                    <div className="mt-3 pl-5 text-lg">
+                        {t('BOARD_MEETING')}
+                    </div>
+                    <div className="mb-3 pl-5 text-base">
+                        {t('TOTAL_PARTICIPANT_JOINED')}/
+                        {t('TOTAL_PARTICIPANTS')}
+                    </div>
+                    <Pie
+                        {...configPie([
+                            {
+                                type:
+                                    t('TOTAL_PARTICIPANT_JOINED') +
+                                    ': ' +
+                                    dataStatistic?.boardMeetingInMonth
+                                        .totalParticipantJoined,
+                                value:
+                                    dataStatistic?.boardMeetingInMonth
+                                        .totalParticipantJoined ?? 0,
+                            },
+                            {
+                                type:
+                                    t('TOTAL_PARTICIPANTS') +
+                                    ': ' +
+                                    dataStatistic?.boardMeetingInMonth
+                                        .totalParticipant,
+                                value:
+                                    dataStatistic?.boardMeetingInMonth
+                                        .totalParticipant ?? 0,
+                            },
+                        ])}
+                    />
+                </div>
+            </div>
+        </div>
+    )
+}
+
+interface INotificationPersonal {
+    date: Date
+    isSupperAdmin: boolean
+}
+
+const NotificationPersonal = ({
+    date,
+    isSupperAdmin,
+}: INotificationPersonal) => {
+    console.log('date: ', date)
+
+    console.log('isSupperAdmin: ', isSupperAdmin)
+
+    const bodyNotificationOfPersonal = useMemo(() => {
+        if (isSupperAdmin) {
             console.log('User is SupperAdmin!!!!')
-            return <div>User is SupperAdmin!!!!</div>
+            return (
+                <div>
+                    <NotificationSuperAdmin date={date} />
+                </div>
+            )
         } else {
-            // console.log('User is not SupperAdmin!!!')
             return (
                 <div>
                     <NotificationUser date={date} />
                 </div>
             )
         }
-    }, [roleOfProfile, date])
+    }, [isSupperAdmin, date])
 
-    if (loading) {
-        return (
-            <div className="flex justify-center">
-                <Spin tip="Loading..." />
-            </div>
-        )
-    }
-
-    return <div className="w-[100%]">{bodyNotificationOfSupperAdmin}</div>
+    return <div className="w-[100%]">{bodyNotificationOfPersonal}</div>
 }
 
 export default NotificationPersonal
