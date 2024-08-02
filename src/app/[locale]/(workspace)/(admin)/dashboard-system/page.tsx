@@ -1,5 +1,5 @@
 'use client'
 
-import DashboardView from '@/views/dashboard'
+import DashBoardSystem from '@/views/dashboard-system'
 
-export default DashboardView
+export default DashBoardSystem
