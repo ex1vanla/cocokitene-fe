@@ -11,6 +11,7 @@ import {
     Input,
     Modal,
     notification,
+    Radio,
     Tooltip,
     Typography,
 } from 'antd'
@@ -166,7 +167,7 @@ const DetailPersonnelVotingItem = ({
 
     return (
         <>
-            <div className="flex flex-col items-start justify-between gap-2 border-b border-b-neutral/4 px-8 pb-8 pt-1">
+            <div className="flex flex-col items-start justify-between gap-2 border-b border-b-neutral/4 pb-8 pl-8 pt-1">
                 <div className="flex items-center gap-3">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full border-neutral/5 bg-neutral/2">
                         <Text className="text-bold">{index + 1}</Text>
@@ -178,34 +179,18 @@ const DetailPersonnelVotingItem = ({
                         {title}
                     </Text>
                 </div>
-                <div className="flex w-full flex-grow items-center justify-between px-12">
-                    <div className="w-[20%]">{t('CANDIDATE_NAME')}</div>
+                <div className="flex w-full flex-grow items-center justify-between pl-12">
+                    <div className="w-[40%]">{t('CANDIDATE_NAME')}</div>
                     <div className="w-[20%] text-center">
                         {t('TOTAL_VOTES_FAVOR')}
                     </div>
-                    <div className="w-[20%] text-center">
-                        {t('TOTAL_VOTES_CAST')}
-                    </div>
-                    <div className="w-[20%]">
-                        <Tooltip placement="top" title={t(voteErrorMessage)}>
-                            <Button
-                                disabled={
-                                    voteStatus === FETCH_STATUS.LOADING ||
-                                    !!voteErrorMessage
-                                }
-                                onClick={() => {
-                                    setOpenModal(true)
-                                }}
-                            >
-                                {t('VOTE')}
-                            </Button>
-                        </Tooltip>
+                    <div className="w-[275px]">
+                        <div>{t('VOTED')}</div>
                     </div>
                 </div>
                 <div className="flex w-full flex-col gap-3">
                     {candidateInfo.map((candidate) => {
                         const votedQuantity = Number(candidate.votedQuantity)
-
                         const percentVoted =
                             totalQuantityShare === 0
                                 ? 0
@@ -213,10 +198,10 @@ const DetailPersonnelVotingItem = ({
 
                         return (
                             <div
-                                className="flex w-full flex-grow items-center justify-between px-12"
+                                className="flex w-full flex-grow items-center justify-between pl-12"
                                 key={candidate.id}
                             >
-                                <div className="w-[20%] break-words">
+                                <div className="w-[40%] break-words">
                                     {candidate.candidateName}
                                 </div>
 
@@ -232,13 +217,67 @@ const DetailPersonnelVotingItem = ({
                                         %)
                                     </Text>
                                 </div>
-                                <div className="w-[20%] text-center">
-                                    {Number(candidate.votedQuantityShare)}
+                                <div className="w-[275px]">
+                                    <Tooltip
+                                        placement="top"
+                                        title={t(voteErrorMessage)}
+                                    >
+                                        <Radio.Group
+                                            disabled={
+                                                voteStatus ===
+                                                    FETCH_STATUS.LOADING ||
+                                                !!voteErrorMessage
+                                            }
+                                        >
+                                            <Radio
+                                                value={VoteProposalOption.VOTE}
+                                            ></Radio>
+                                        </Radio.Group>
+                                    </Tooltip>
                                 </div>
-                                <span className="w-[20%]"></span>
                             </div>
                         )
                     })}
+                    <div className="flex w-full flex-grow items-center justify-between pl-12">
+                        <div className="w-[40%] break-words">
+                            <div>{t('NO_IDEA')}</div>
+                        </div>
+                        <div className="w-[20%] text-center">
+                            <Text>
+                                {totalQuantityShare - votedQuantityShare}/
+                                {totalQuantityShare}{' '}
+                            </Text>
+                            <Text className="text-polar-green">
+                                (
+                                {formatNumber(
+                                    ((totalQuantityShare - votedQuantityShare) *
+                                        100) /
+                                        totalQuantityShare,
+                                    {
+                                        maximumFractionDigits: 2,
+                                    },
+                                )}
+                                %)
+                            </Text>
+                        </div>
+                        <div className="w-[275px]">
+                            <Tooltip
+                                placement="top"
+                                title={t(voteErrorMessage)}
+                            >
+                                <Radio.Group
+                                    disabled={
+                                        voteStatus === FETCH_STATUS.LOADING ||
+                                        !!voteErrorMessage
+                                    }
+                                >
+                                    <Radio
+                                        value={VoteProposalOption.VOTE}
+                                    ></Radio>
+                                </Radio.Group>
+                            </Tooltip>
+                        </div>
+                    </div>
                 </div>
                 <div className="mt-2 flex w-full items-start justify-start gap-[10%] px-12">
                     <div>

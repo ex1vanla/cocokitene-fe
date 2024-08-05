@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import BoxArea from '@/components/box-area'
+import DetailCandidateItem from '@/components/detail-candidate-item'
 import DetailPersonnelVotingItem from '@/components/detail-personnel-voting'
 import { ElectionEnum } from '@/constants/election'
 import { titleTooltip } from '@/constants/meeting'
@@ -141,19 +142,40 @@ const PersonnelVoting = () => {
             )
         }
         return dismissPersonnelVote?.map((personnelVote, index) => {
-            return (
-                <DetailPersonnelVotingItem
-                    key={personnelVote.id}
-                    index={index}
-                    title={personnelVote.title}
-                    id={personnelVote.id}
-                    candidate={personnelVote.candidate}
-                    totalQuantityShare={Number(meeting?.totalMeetingShares)}
-                    voteErrorMessage={notifiEnableVote}
-                    quantityShareOfUser={quantityShare}
-                    electionStatus={personnelVote.typeElection.status}
-                />
-            )
+            return personnelVote.candidate.map((candidate, i) => {
+                const notVoteYetQuantity = Number(candidate.notVoteYetQuantity)
+                const votedQuantity = Number(candidate.votedQuantity)
+                const unVotedQuantity = Number(candidate.unVotedQuantity)
+                const totalParticipantSeparate =
+                    notVoteYetQuantity + votedQuantity + unVotedQuantity
+                const percentVoted =
+                    totalParticipantSeparate === 0
+                        ? 0
+                        : (votedQuantity * 100) / totalParticipantSeparate
+                const percentUnVoted =
+                    totalParticipantSeparate === 0
+                        ? 0
+                        : (unVotedQuantity * 100) / totalParticipantSeparate
+                const percentNotVoteYet =
+                    totalParticipantSeparate === 0
+                        ? 0
+                        : (notVoteYetQuantity * 100) / totalParticipantSeparate
+
+                return (
+                    <DetailCandidateItem
+                        index={index + 1}
+                        key={candidate.id}
+                        content={candidate.candidateName}
+                        percentVoted={percentVoted}
+                        percentUnVoted={percentUnVoted}
+                        percentNotVoteYet={percentNotVoteYet}
+                        voteResult={candidate.voteResult}
+                        id={candidate.id}
+                        title={personnelVote.title}
+                        voteErrorMessage={notifiEnableVote}
+                    />
+                )
+            })
         })
     }, [dismissPersonnelVote, quantityShare, notifiEnableVote])
 
