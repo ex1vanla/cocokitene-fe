@@ -141,3 +141,8 @@ export interface IGetAllMeetingInDayPayload {
     limit: number,
     date: Date
 }
+
+export interface ISystemNotification {
+    title: string,
+    content: string,
+}

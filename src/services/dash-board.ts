@@ -1,6 +1,6 @@
 import { IMeeting } from '@/stores/meeting/types';
-import { IGetAllMeetingInDayPayload } from './request.type';
-import { IGetAllDataReponse, IStatisticMeetingInMonthResponse } from './response.type';
+import { IGetAllMeetingInDayPayload, IGetAllDataRequest } from './request.type';
+import { IGetAllDataReponse, IStatisticMeetingInMonthResponse, ISystemNotificationResponse } from './response.type';
 import { get } from './fetcher';
 
 
@@ -25,7 +25,20 @@ const serviceDashBoard = {
         const payload = { date }
         const response: {data: IStatisticMeetingInMonthResponse} = await get<IStatisticMeetingInMonthResponse>('/dash-board/meeting-in-month/statistics',payload)
         return response.data
+    },
+
+    getSystemNotification: async ({
+        page,
+        limit,
+    }:IGetAllDataRequest):Promise<IGetAllDataReponse<ISystemNotificationResponse>> => {
+        const payload = {page,limit}
+        const response: {data: IGetAllDataReponse<ISystemNotificationResponse>} = await get(
+            '/dash-board/system-notification',
+            payload
+        )
+        return response.data
     }
+
 }
 
 

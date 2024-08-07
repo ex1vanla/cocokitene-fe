@@ -57,8 +57,6 @@ const NotificationUser = ({ date }: { date: Date }) => {
                 meeting.meetings_start_time,
             )
 
-            console.log('meeting.meetings_status: ', meeting.meetings_status)
-
             const statusMeeting =
                 enumToArray(MeetingStatus).find(
                     (status) => status == meeting.meetings_status,
