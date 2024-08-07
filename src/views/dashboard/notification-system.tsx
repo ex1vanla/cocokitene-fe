@@ -3,9 +3,13 @@ import EmptyData from '../service-plan/service-plan-list/empty-plan'
 import { useTranslations } from 'next-intl'
 import React, { useEffect, useMemo, useState } from 'react'
 import serviceDashBoard from '@/services/dash-board'
-import { ISysNotificationListResponse } from '@/services/response.type'
+import {
+    ISysNotificationListResponse,
+    ISystemNotificationResponse,
+} from '@/services/response.type'
 import { Button } from 'antd'
 import { formatDate } from '@/utils/date'
+import { ScreenDashBoard } from '@/constants/dash-board'
 
 interface DataNotificationSys {
     key: React.Key
@@ -14,7 +18,17 @@ interface DataNotificationSys {
     date: string
 }
 
-const NotificationSystem = () => {
+interface INotificationSystem {
+    // eslint-disable-next-line
+    changeScreen: (screen: ScreenDashBoard) => void
+    // eslint-disable-next-line
+    getSysNotification: (value: ISystemNotificationResponse) => void
+}
+
+const NotificationSystem = ({
+    changeScreen,
+    getSysNotification,
+}: INotificationSystem) => {
     const [dataSysNotification, setDataSysNotification] =
         useState<ISysNotificationListResponse>()
     const [loadingFetchData, setLoadingFetchData] = useState<boolean>(false)
@@ -73,11 +87,7 @@ const NotificationSystem = () => {
             title: t('TITLE_SYSTEM_NOTI'),
             dataIndex: 'title',
             render: (_, record) => {
-                return (
-                    <div className="w-[95%] truncate border">
-                        {record.title}
-                    </div>
-                )
+                return <div className="w-[95%] truncate">{record.title}</div>
             },
             width: '50%',
         },
@@ -87,7 +97,18 @@ const NotificationSystem = () => {
                     <Button
                         size="small"
                         onClick={() => {
-                            console.log('SysNotification Id: ', record.id)
+                            const sysNotification =
+                                dataSysNotification?.items.find(
+                                    (notification) =>
+                                        notification.system_notification_id ==
+                                        record.id,
+                                )
+                            if (sysNotification) {
+                                changeScreen(
+                                    ScreenDashBoard.DETAIL_SYSTEM_NOTIFICATION,
+                                )
+                                getSysNotification(sysNotification)
+                            }
                         }}
                     >
                         {t('BTN_VIEW_DETAIL')}
@@ -109,7 +130,7 @@ const NotificationSystem = () => {
                 id: sysNotification.system_notification_id,
                 date: formatDate(
                     sysNotification.system_notification_created_at,
-                    'YYYY-MM-DD hh:mm',
+                    'YYYY-MM-DD HH:mm',
                 ),
                 title: sysNotification.system_notification_title,
             }
