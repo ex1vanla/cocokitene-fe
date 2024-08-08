@@ -159,7 +159,7 @@ export interface IUpdateBoardMeeting {
     meetingInvitations: IBoardMeetingDocument[]
     managementAndFinancials: IBoardMeetingReport[]
     elections: IBoardMeetingReport[]
-    candidates: IBoardMeetingUpdateCandidate[]
+    personnelVoting: IMeetingExecutive
     participants: IParticipantsWithRole[]
 }
 

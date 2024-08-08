@@ -10,7 +10,7 @@ import { IElectionResponse } from '@/services/response.type'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { ElectionEnum } from '@/constants/election'
-import CreatePersonnelVoting from '@/components/create-personnel-voting'
+import CreatePersonnelVotingBoardMtg from '@/components/create-personnel-voting-board'
 
 export interface ICandidateForm {
     title: string
@@ -153,13 +153,15 @@ const Candidates = () => {
         }
     }
 
+    console.log('data.personnelVoting: ', data.personnelVoting)
+
     return (
         <BoxArea title={t('EXECUTIVE_OFFICER_ELECTION')}>
             <BoxArea title={t('APPOINTMENT')}>
                 <div className="mb-6 flex flex-col gap-6">
                     {data.personnelVoting.confidence.map((x, index) => {
                         return (
-                            <CreatePersonnelVoting
+                            <CreatePersonnelVotingBoardMtg
                                 type={ResolutionType.EXECUTIVE_OFFICER}
                                 index={index}
                                 title={x.title}
@@ -198,7 +200,7 @@ const Candidates = () => {
                 <div className="mb-6 flex flex-col gap-6">
                     {data.personnelVoting.notConfidence.map((x, index) => {
                         return (
-                            <CreatePersonnelVoting
+                            <CreatePersonnelVotingBoardMtg
                                 type={ResolutionType.EXECUTIVE_OFFICER}
                                 index={index}
                                 title={x.title}

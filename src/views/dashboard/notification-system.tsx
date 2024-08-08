@@ -10,6 +10,7 @@ import {
 import { Button } from 'antd'
 import { formatDate } from '@/utils/date'
 import { ScreenDashBoard } from '@/constants/dash-board'
+import { truncateString } from '@/utils/format-string'
 
 interface DataNotificationSys {
     key: React.Key
@@ -78,41 +79,53 @@ const NotificationSystem = ({
             dataIndex: 'date',
             render: (_, record) => {
                 return (
-                    <div className="flex items-center gap-2">{record.date}</div>
+                    <div className="flex w-full items-center gap-2">
+                        {record.date}
+                    </div>
                 )
             },
-            width: '30%',
+            width: '20%',
         },
         {
             title: t('TITLE_SYSTEM_NOTI'),
             dataIndex: 'title',
             render: (_, record) => {
-                return <div className="w-[95%] truncate">{record.title}</div>
+                return (
+                    <div className="w-[95%] truncate">
+                        {truncateString({
+                            text: record.title,
+                            start: 78,
+                            end: 0,
+                        })}
+                    </div>
+                )
             },
-            width: '50%',
+            width: '60%',
         },
         {
             render: (_, record) => {
                 return (
-                    <Button
-                        size="small"
-                        onClick={() => {
-                            const sysNotification =
-                                dataSysNotification?.items.find(
-                                    (notification) =>
-                                        notification.system_notification_id ==
-                                        record.id,
-                                )
-                            if (sysNotification) {
-                                changeScreen(
-                                    ScreenDashBoard.DETAIL_SYSTEM_NOTIFICATION,
-                                )
-                                getSysNotification(sysNotification)
-                            }
-                        }}
-                    >
-                        {t('BTN_VIEW_DETAIL')}
-                    </Button>
+                    <div className="">
+                        <Button
+                            size="small"
+                            onClick={() => {
+                                const sysNotification =
+                                    dataSysNotification?.items.find(
+                                        (notification) =>
+                                            notification.system_notification_id ==
+                                            record.id,
+                                    )
+                                if (sysNotification) {
+                                    changeScreen(
+                                        ScreenDashBoard.DETAIL_SYSTEM_NOTIFICATION,
+                                    )
+                                    getSysNotification(sysNotification)
+                                }
+                            }}
+                        >
+                            {t('BTN_VIEW_DETAIL')}
+                        </Button>
+                    </div>
                 )
             },
             width: '15%',

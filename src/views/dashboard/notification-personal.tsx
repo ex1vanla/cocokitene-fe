@@ -219,6 +219,7 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                 ],
             }
         },
+        // eslint-disable-next-line
         [dataStatistic],
     )
 

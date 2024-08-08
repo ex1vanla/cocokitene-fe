@@ -1,5 +1,4 @@
 import withAuth from '@/components/component-auth'
-import DetailTitle from '@/components/content-page-title/detail-title'
 import { Permissions } from '@/constants/permission'
 import { useTranslations } from 'next-intl'
 

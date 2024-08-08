@@ -4,7 +4,7 @@ import BoxArea from '@/components/box-area'
 import DetailCandidateItem from '@/components/detail-candidate-item'
 import DetailPersonnelVotingItem from '@/components/detail-personnel-voting'
 import { ElectionEnum } from '@/constants/election'
-import { titleTooltip } from '@/constants/meeting'
+import { MeetingType, titleTooltip } from '@/constants/meeting'
 import { RoleMtgEnum } from '@/constants/role-mtg'
 import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 import { useAuthLogin } from '@/stores/auth/hooks'
@@ -21,6 +21,8 @@ const PersonnelVoting = () => {
     const { authState } = useAuthLogin()
 
     const [quantityShare, setQuantityShare] = useState<number>(0)
+
+    console.log('meeting data: ', meeting)
 
     useEffect(() => {
         // calculate quantityShare in Meeting of User
@@ -119,16 +121,15 @@ const PersonnelVoting = () => {
                     key={personnelVote.id}
                     index={index}
                     title={personnelVote.title}
-                    id={personnelVote.id}
                     candidate={personnelVote.candidate}
-                    totalQuantityShare={Number(meeting?.totalMeetingShares)}
                     voteErrorMessage={notifiEnableVote}
-                    quantityShareOfUser={quantityShare}
-                    electionStatus={personnelVote.typeElection.status}
+                    meetingType={
+                        meeting?.type ?? MeetingType.SHAREHOLDER_MEETING
+                    }
                 />
             )
         })
-    }, [appointPersonnelVote, quantityShare, notifiEnableVote])
+    }, [appointPersonnelVote, quantityShare, notifiEnableVote, meeting])
 
     const bodyDismissPersonnelVoting = useMemo(() => {
         if (dismissPersonnelVote?.length === 0) {
@@ -173,6 +174,7 @@ const PersonnelVoting = () => {
                         id={candidate.id}
                         title={personnelVote.title}
                         voteErrorMessage={notifiEnableVote}
+                        meetingType={meeting?.type ?? MeetingType.SHAREHOLDER_MEETING}
                     />
                 )
             })

@@ -11,6 +11,7 @@ import { formatDate } from '@/utils/date'
 import { Button } from 'antd'
 import { EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
 import { ScreenDashBoard } from '@/constants/dash-board'
+import { truncateString } from '@/utils/format-string'
 
 interface DataNotificationSys {
     key: React.Key
@@ -87,7 +88,15 @@ const NotificationSystem = ({
             title: t('TITLE_SYSTEM_NOTI'),
             dataIndex: 'title',
             render: (_, record) => {
-                return <div className="w-[95%] truncate">{record.title}</div>
+                return (
+                    <div className="w-[95%] truncate">
+                        {truncateString({
+                            text: record.title,
+                            start: 78,
+                            end: 0,
+                        })}
+                    </div>
+                )
             },
             width: '55%',
         },
