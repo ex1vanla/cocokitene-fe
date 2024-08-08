@@ -5,10 +5,9 @@ import ViewHtml from '@/components/view-html'
 import { ScreenDashBoard } from '@/constants/dash-board'
 import { ISystemNotificationResponse } from '@/services/response.type'
 import { formatDate } from '@/utils/date'
-import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons'
-import { Button, Typography } from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import { Typography } from 'antd'
 import { useTranslations } from 'next-intl'
-import { ReactNode } from 'react'
 
 const { Title } = Typography
 

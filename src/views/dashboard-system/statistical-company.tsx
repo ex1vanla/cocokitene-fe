@@ -58,9 +58,8 @@ const StatisticalCompany = () => {
             setLoadingFetchData(false)
         }
         fetchDataStatistical()
+        // eslint-disable-next-line
     }, [])
-
-    console.log('dataStatistic: ', dataStatistic)
 
     const configPie = useCallback(
         (data: { type: string; value: number }[]) => {
@@ -121,6 +120,7 @@ const StatisticalCompany = () => {
                 ],
             }
         },
+        // eslint-disable-next-line
         [dataStatistic],
     )
 
