@@ -178,6 +178,7 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
 
             return {
                 data: data,
+                tooltip: false,
                 angleField: 'value',
                 colorField: 'type',
                 marginRight: 180,
@@ -201,6 +202,10 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                         width: 250,
                         cols: 1,
                         maxRows: 1,
+                        rowMargin: 10,
+                    },
+                    click: () => {
+                        console.log('Click!!!!!')
                     },
                 },
                 annotations: [
@@ -223,8 +228,50 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
         [dataStatistic],
     )
 
-    console.log('Date: ', date.getMonth())
-    console.log('Date: ', date.getFullYear())
+    //////
+    const config = {
+        data: [
+            { type: '分类一', value: 27 },
+            { type: '分类二', value: 25 },
+            { type: '分类三', value: 18 },
+            { type: '分类四', value: 15 },
+            { type: '分类五', value: 10 },
+            { type: '其他', value: 5 },
+        ],
+        tooltip: false,
+        angleField: 'value',
+        colorField: 'type',
+        innerRadius: 0.6,
+        label: {
+            text: 'value',
+            style: {
+                fontWeight: 'bold',
+            },
+        },
+        legend: {
+            color: {
+                title: false,
+                position: 'right',
+                rowPadding: 5,
+                rowPaddingLeft: 10,
+            },
+        },
+        annotations: [
+            {
+                type: 'text',
+                style: {
+                    text: 'AntV111\nCharts',
+                    x: '50%',
+                    y: '50%',
+                    textAlign: 'center',
+                    fontSize: 40,
+                    fontStyle: 'bold',
+                },
+            },
+        ],
+        // Tắt tính năng hover
+    }
+    ///
 
     if (loadingFetchData) {
         return (
@@ -338,6 +385,10 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                     />
                 </div>
             </div>
+            {/*  */}
+            <div>
+                <Pie {...config} />
+            </div>
         </div>
     )
 }
@@ -357,7 +408,6 @@ const NotificationPersonal = ({
 
     const bodyNotificationOfPersonal = useMemo(() => {
         if (isSupperAdmin) {
-            console.log('User is SupperAdmin!!!!')
             return (
                 <div>
                     <NotificationSuperAdmin date={date} />
