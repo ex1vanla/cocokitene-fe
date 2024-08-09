@@ -15,12 +15,13 @@ import { Typography } from 'antd'
 
 const { Title } = Typography
 
+let screenCurrent: ScreenDashBoard = ScreenDashBoard.DASH_BOARD
+let sysNotificationCurrent: ISystemNotificationResponse
+
 const DashBoardSystem = () => {
-    const [screen, setScreen] = useState<ScreenDashBoard>(
-        ScreenDashBoard.DASH_BOARD,
-    )
+    const [screen, setScreen] = useState<ScreenDashBoard>(screenCurrent)
     const [sysNotification, setSysNotification] =
-        useState<ISystemNotificationResponse>()
+        useState<ISystemNotificationResponse>(sysNotificationCurrent)
 
     const t = useTranslations()
 
@@ -30,11 +31,13 @@ const DashBoardSystem = () => {
 
     const changeScreen = (screen: ScreenDashBoard) => {
         console.log('screen: ', screen)
+        screenCurrent = screen
         setScreen(screen)
     }
 
     const getSysNotification = (value: ISystemNotificationResponse) => {
         setSysNotification(value)
+        sysNotificationCurrent = value
     }
 
     console.log('sysNotification-----36: ', sysNotification)

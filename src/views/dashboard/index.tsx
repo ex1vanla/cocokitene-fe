@@ -19,6 +19,9 @@ import { ISystemNotificationResponse } from '@/services/response.type'
 
 const { Title } = Typography
 
+let screenCurrent: ScreenDashBoard = ScreenDashBoard.DASH_BOARD
+let sysNotificationCurrent: ISystemNotificationResponse
+
 const DashboardView = () => {
     const t = useTranslations()
     const { authState } = useAuthLogin()
@@ -26,11 +29,9 @@ const DashboardView = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const [isSupperAdmin, setIsSupperAdmin] = useState<boolean>(false)
 
-    const [screen, setScreen] = useState<ScreenDashBoard>(
-        ScreenDashBoard.DASH_BOARD,
-    )
+    const [screen, setScreen] = useState<ScreenDashBoard>(screenCurrent)
     const [sysNotification, setSysNotification] =
-        useState<ISystemNotificationResponse>()
+        useState<ISystemNotificationResponse>(sysNotificationCurrent)
 
     useEffect(() => {
         const fetchProfile = async (id: number) => {
@@ -69,10 +70,12 @@ const DashboardView = () => {
 
     const changeScreen = (screen: ScreenDashBoard) => {
         setScreen(screen)
+        screenCurrent = screen
     }
 
     const getSysNotification = (value: ISystemNotificationResponse) => {
         setSysNotification(value)
+        sysNotificationCurrent = value
     }
 
     if (loading) {
