@@ -172,18 +172,16 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
 
     const configPie = useCallback(
         (data: { type: string; value: number }[]) => {
-            const shareholderMeeting = data[0].value ?? 0
-            const boardMeeting = data[1].value ?? 0
-            const totalMeeting = shareholderMeeting + boardMeeting
+            const totalMeeting = (data[0].value ?? 0) + (data[1].value ?? 0)
 
             return {
                 data: data,
                 tooltip: false,
                 angleField: 'value',
                 colorField: 'type',
-                marginRight: 180,
+                marginRight: 250,
                 innerRadius: 0.65,
-                width: 450,
+                width: 500,
                 height: 350,
                 label: {
                     text: ({ value }: { value: any }) =>
@@ -196,16 +194,15 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                 },
                 legend: {
                     color: {
+                        itemMarker: 'circle',
                         title: false,
                         position: 'right-',
                         rowPadding: 10,
-                        width: 250,
+                        width: 350,
                         cols: 1,
                         maxRows: 1,
                         rowMargin: 10,
-                    },
-                    click: () => {
-                        console.log('Click!!!!!')
+                        itemLabelFontSize: 15,
                     },
                 },
                 annotations: [
@@ -222,56 +219,14 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                         },
                     },
                 ],
+                interaction: {
+                    legendFilter: false,
+                },
             }
         },
         // eslint-disable-next-line
         [dataStatistic],
     )
-
-    //////
-    const config = {
-        data: [
-            { type: '分类一', value: 27 },
-            { type: '分类二', value: 25 },
-            { type: '分类三', value: 18 },
-            { type: '分类四', value: 15 },
-            { type: '分类五', value: 10 },
-            { type: '其他', value: 5 },
-        ],
-        tooltip: false,
-        angleField: 'value',
-        colorField: 'type',
-        innerRadius: 0.6,
-        label: {
-            text: 'value',
-            style: {
-                fontWeight: 'bold',
-            },
-        },
-        legend: {
-            color: {
-                title: false,
-                position: 'right',
-                rowPadding: 5,
-                rowPaddingLeft: 10,
-            },
-        },
-        annotations: [
-            {
-                type: 'text',
-                style: {
-                    text: 'AntV111\nCharts',
-                    x: '50%',
-                    y: '50%',
-                    textAlign: 'center',
-                    fontSize: 40,
-                    fontStyle: 'bold',
-                },
-            },
-        ],
-        // Tắt tính năng hover
-    }
-    ///
 
     if (loadingFetchData) {
         return (
@@ -385,10 +340,6 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                     />
                 </div>
             </div>
-            {/*  */}
-            <div>
-                <Pie {...config} />
-            </div>
         </div>
     )
 }
@@ -402,10 +353,6 @@ const NotificationPersonal = ({
     date,
     isSupperAdmin,
 }: INotificationPersonal) => {
-    console.log('date: ', date)
-
-    console.log('isSupperAdmin: ', isSupperAdmin)
-
     const bodyNotificationOfPersonal = useMemo(() => {
         if (isSupperAdmin) {
             return (

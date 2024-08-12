@@ -71,10 +71,12 @@ const StatisticalCompany = () => {
                 data: data,
                 angleField: 'value',
                 colorField: 'type',
-                marginRight: 180,
+                marginRight: 220,
                 innerRadius: 0.65,
-                width: 450,
+                width: 500,
                 height: 350,
+                // insetRight: 50,
+                tooltip: false,
                 label: {
                     text: ({ value }: { value: any }) =>
                         value > 0 ? value : '',
@@ -93,6 +95,7 @@ const StatisticalCompany = () => {
                         width: 250,
                         cols: 1,
                         maxRows: 1,
+                        itemLabelFontSize: 16,
                     },
                 },
                 annotations: [
@@ -109,15 +112,9 @@ const StatisticalCompany = () => {
                         },
                     },
                 ],
-                color: [
-                    '#001122',
-                    '#003322',
-                    '#004422',
-                    '#005522',
-                    '#006622',
-                    '#007722',
-                    '#008822',
-                ],
+                interaction: {
+                    legendFilter: false,
+                },
             }
         },
         // eslint-disable-next-line

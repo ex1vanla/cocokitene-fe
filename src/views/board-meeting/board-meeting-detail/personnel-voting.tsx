@@ -11,7 +11,6 @@ import { useMemo } from 'react'
 import { titleTooltipShow } from '@/constants/board-meeting'
 import { Empty } from 'antd'
 import { ElectionEnum } from '@/constants/election'
-import DetailCandidateItem from '@/components/detail-candidate-item'
 import { MeetingType } from '@/constants/meeting'
 import DetailPersonnelVotingItem from '@/components/detail-personnel-voting'
 
@@ -80,43 +79,18 @@ const PersonnelVoting = () => {
         }
         // return dismissals?.map((candidate, index) => {
         return dismissals?.map((personnelVoting, index) => {
-            return personnelVoting.candidate.map((candidate, index) => {
-                const notVoteYetQuantity = Number(candidate.notVoteYetQuantity)
-                const votedQuantity = Number(candidate.votedQuantity)
-                const unVotedQuantity = Number(candidate.unVotedQuantity)
-                const totalParticipantSeparate =
-                    notVoteYetQuantity + votedQuantity + unVotedQuantity
-                const percentVoted =
-                    totalParticipantSeparate === 0
-                        ? 0
-                        : (votedQuantity * 100) / totalParticipantSeparate
-                const percentUnVoted =
-                    totalParticipantSeparate === 0
-                        ? 0
-                        : (unVotedQuantity * 100) / totalParticipantSeparate
-                const percentNotVoteYet =
-                    totalParticipantSeparate === 0
-                        ? 0
-                        : (notVoteYetQuantity * 100) / totalParticipantSeparate
-
-                return (
-                    <DetailCandidateItem
-                        index={index + 1}
-                        key={candidate.id}
-                        content={candidate.candidateName}
-                        percentVoted={percentVoted}
-                        percentUnVoted={percentUnVoted}
-                        percentNotVoteYet={percentNotVoteYet}
-                        voteResult={candidate.voteResult}
-                        id={candidate.id}
-                        title={personnelVoting.title}
-                        voteErrorMessage={notifiEnableVote}
-                        meetingType={
-                            boardMeeting?.type ?? MeetingType.BOARD_MEETING
-                        }
-                    />
-                )
-            })
+            return (
+                <DetailPersonnelVotingItem
+                    key={personnelVoting.id}
+                    index={index}
+                    title={personnelVoting.title}
+                    candidate={personnelVoting.candidate}
+                    voteErrorMessage={notifiEnableVote}
+                    meetingType={
+                        boardMeeting?.type ?? MeetingType.BOARD_MEETING
+                    }
+                />
+            )
         })
     }, [notifiEnableVote, appointMents])
 
