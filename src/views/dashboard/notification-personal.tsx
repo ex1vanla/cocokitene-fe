@@ -50,8 +50,6 @@ const NotificationUser = ({ date }: { date: Date }) => {
     }, [date])
 
     const dataColumn: NotificationMeetingUser[] = useMemo(() => {
-        console.log('dataMeeting: ', dataMeeting)
-
         return dataMeeting.map((meeting, i) => {
             const differenceDate = calculateTimeDifference(
                 meeting.meetings_start_time,
@@ -108,7 +106,7 @@ const NotificationUser = ({ date }: { date: Date }) => {
             width: '25%',
         },
         {
-            title: t('MEETING_TAKE_PLACE'),
+            title: t('STATUS'),
             dataIndex: 'title',
             render: (_, record) => {
                 return (
@@ -128,7 +126,9 @@ const NotificationUser = ({ date }: { date: Date }) => {
         <div className="flex min-h-[350px] flex-col gap-3 border p-2 shadow-lg">
             <span className="text-lg">
                 {t('MEETING_SCHEDULE', {
-                    date: `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+                    date: `${date.getFullYear()}-${
+                        date.getMonth() + 1
+                    }-${date.getDate()}`,
                 })}
             </span>
             <div className="min-h-[300px]">
@@ -239,8 +239,8 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
     return (
         <div className="flex min-h-[350px] flex-col gap-3 p-2">
             <span className="text-xl">
-                {t('MEETING_INFORMATION_STATISTICS')} ({date.getMonth() + 1}/
-                {date.getFullYear()})
+                {t('MEETING_INFORMATION_STATISTICS')} ({date.getFullYear()}-
+                {date.getMonth() + 1})
             </span>
             <div className="flex gap-5">
                 <div className="flex-1 border pb-10 shadow-xl">
@@ -279,7 +279,7 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                     </div>
                     <div className="mb-3 pl-5 text-base">
                         {t('TOTAL_PARTICIPANT_JOINED')}/
-                        {t('TOTAL_PARTICIPANTS')}
+                        {t('ABSENT_PARTICIPANTS')}
                     </div>
                     <Pie
                         {...configPie([
@@ -295,13 +295,18 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                             },
                             {
                                 type:
-                                    t('TOTAL_PARTICIPANTS') +
+                                    t('ABSENT_PARTICIPANTS') +
                                     ': ' +
-                                    dataStatistic?.shareholderMeetingInMonth
-                                        .totalParticipant,
+                                    ((dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipant ?? 0) -
+                                        (dataStatistic
+                                            ?.shareholderMeetingInMonth
+                                            .totalParticipantJoined ?? 0)),
                                 value:
-                                    dataStatistic?.shareholderMeetingInMonth
-                                        .totalParticipant ?? 0,
+                                    (dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipant ?? 0) -
+                                    (dataStatistic?.shareholderMeetingInMonth
+                                        .totalParticipantJoined ?? 0),
                             },
                         ])}
                     />
@@ -312,7 +317,7 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                     </div>
                     <div className="mb-3 pl-5 text-base">
                         {t('TOTAL_PARTICIPANT_JOINED')}/
-                        {t('TOTAL_PARTICIPANTS')}
+                        {t('ABSENT_PARTICIPANTS')}
                     </div>
                     <Pie
                         {...configPie([
@@ -328,13 +333,17 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                             },
                             {
                                 type:
-                                    t('TOTAL_PARTICIPANTS') +
+                                    t('ABSENT_PARTICIPANTS') +
                                     ': ' +
-                                    dataStatistic?.boardMeetingInMonth
-                                        .totalParticipant,
+                                    ((dataStatistic?.boardMeetingInMonth
+                                        .totalParticipant ?? 0) -
+                                        (dataStatistic?.boardMeetingInMonth
+                                            .totalParticipantJoined ?? 0)),
                                 value:
-                                    dataStatistic?.boardMeetingInMonth
-                                        .totalParticipant ?? 0,
+                                    (dataStatistic?.boardMeetingInMonth
+                                        .totalParticipant ?? 0) -
+                                    (dataStatistic?.boardMeetingInMonth
+                                        .totalParticipantJoined ?? 0),
                             },
                         ])}
                     />
