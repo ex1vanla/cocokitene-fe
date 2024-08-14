@@ -11,7 +11,7 @@ const AboutSection = () => {
         <div className="absolute left-1/2 top-[40%] z-20 -translate-x-1/2 -translate-y-1/2">
             <Title
                 level={1}
-                className="max-w-2xl text-center font-medium text-yellow-sunrise"
+                className="mx-auto max-w-2xl text-center font-medium text-yellow-sunrise"
             >
                 {/* <span className="text-yellow-sunrise">
                     {t('EFFICIENTLY')} {t('STORE')}

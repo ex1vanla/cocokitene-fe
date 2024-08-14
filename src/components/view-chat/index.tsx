@@ -111,9 +111,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
     //Socket
     const [socket, setSocket] = useState<any>(undefined)
     useEffect(() => {
-        const socket = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
+        const socketIO = io(String(process.env.NEXT_PUBLIC_API_SOCKET))
 
-        socket.on(`receive_chat_public/${dataChat.roomChat}`, (message) => {
+        socketIO.on(`receive_chat_public/${dataChat.roomChat}`, (message) => {
             setDataChat((prev) => {
                 const newMessage = { ...message, isReaded: false }
                 return {
@@ -130,7 +130,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             }
         })
 
-        socket.on(
+        socketIO.on(
             `receive_chat_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (message) => {
                 setDataChat((prev) => {
@@ -160,7 +160,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         )
 
         //Reaction Message
-        socket.on(
+        socketIO.on(
             `receive_reaction_message_public/${dataChat.roomChat}`,
             (item) => {
                 // console.log('receive_reaction_message-public', item)
@@ -206,7 +206,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
             },
         )
 
-        socket.on(
+        socketIO.on(
             `receive_reaction_message_private/${dataChat.roomChat}/${authState.userData?.id}`,
             (item) => {
                 // console.log('receive_reaction_message-private', item)
@@ -252,14 +252,21 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
         )
 
         //Socket update permission of chat
-        socket.on(
+        socketIO.on(
             `permission_chat_meeting/${dataChat.roomChat}`,
             (permission) => {
                 setPermissionChat(permission)
             },
         )
 
-        setSocket(socket)
+        setSocket(socketIO)
+
+        return () => {
+            if (socket) {
+                socket.disconnect()
+                console.log('Disconnect socket!!!', socket)
+            }
+        }
     }, [dataChat.roomChat])
 
     useEffect(() => {

@@ -4,7 +4,7 @@ import { ICandidateResponse } from '@/services/response.type'
 import { formatNumber } from '@/utils/format-number'
 import { Modal, notification, Radio, Tooltip, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import type { RadioChangeEvent } from 'antd'
 import serviceCandidate from '@/services/candidate'
@@ -18,6 +18,7 @@ interface IDetailPersonnelVoting {
     candidate: ICandidateResponse[]
     voteErrorMessage?: string
     meetingType: MeetingType
+    isVoter: boolean
 }
 
 const DetailPersonnelVotingItem = ({
@@ -26,6 +27,7 @@ const DetailPersonnelVotingItem = ({
     candidate,
     voteErrorMessage,
     meetingType,
+    isVoter,
 }: IDetailPersonnelVoting) => {
     const t = useTranslations()
 
@@ -33,6 +35,10 @@ const DetailPersonnelVotingItem = ({
         useState<ICandidateResponse[]>(candidate)
 
     const [voteStatus, setVoteStatus] = useState(FETCH_STATUS.IDLE)
+
+    useEffect(() => {
+        setCandidateInfo(candidate)
+    }, [candidate])
 
     //Modal Voting Personnel
     const handleConfirmVote = (
@@ -163,6 +169,7 @@ const DetailPersonnelVotingItem = ({
                                                             )
                                                         }}
                                                         value={
+                                                            isVoter &&
                                                             candidate.voteResult
                                                         }
                                                         disabled={

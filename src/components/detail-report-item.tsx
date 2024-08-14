@@ -3,7 +3,7 @@ import {
     IBoardProposalCreator,
     IBoardProposalFile,
 } from '@/stores/board-meeting/types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import Color from 'color'
 import {
@@ -34,6 +34,7 @@ interface IDetailReportItem extends Resolution {
     proposalFiles?: IBoardProposalFile[]
     id: number
     voteErrorMessage?: string
+    isBoard: boolean
 }
 
 const DetailReportItem = ({
@@ -44,12 +45,12 @@ const DetailReportItem = ({
     percentVoted,
     percentUnVoted,
     percentNotVoteYet,
-
     voteResult,
     creator,
     proposalFiles,
     id,
     voteErrorMessage = '',
+    isBoard,
 }: IDetailReportItem) => {
     const [value, setValue] = useState(voteResult)
     const [openModal, setOpenModal] = useState<boolean>(false)
@@ -60,6 +61,14 @@ const DetailReportItem = ({
     })
     const [voteStatus, setVoteStatus] = useState(FETCH_STATUS.IDLE)
     const t = useTranslations()
+
+    useEffect(() => {
+        setVotePercent({
+            percentUnVoted,
+            percentVoted,
+            percentNotVoteYet,
+        })
+    }, [percentUnVoted, percentVoted, percentNotVoteYet])
 
     const toggleModelDetailReport = () => {
         setOpenModal(!openModal)
@@ -231,7 +240,7 @@ const DetailReportItem = ({
                         <Tooltip placement="top" title={t(voteErrorMessage)}>
                             <Radio.Group
                                 onChange={onVoteConfirm}
-                                value={value}
+                                value={isBoard && value}
                                 disabled={
                                     voteStatus === FETCH_STATUS.LOADING ||
                                     !!voteErrorMessage
