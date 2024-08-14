@@ -18,7 +18,7 @@ import {
 import Color from 'color'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const { Text } = Typography
 
@@ -32,6 +32,7 @@ interface IDetailResolutionItem extends Resolution {
     proposalFiles?: IProposalFile[]
     id: number
     voteErrorMessage?: string
+    isVoter: boolean
 }
 
 const DetailResolutionItem = ({
@@ -47,6 +48,7 @@ const DetailResolutionItem = ({
     proposalFiles,
     id,
     voteErrorMessage = '',
+    isVoter,
 }: IDetailResolutionItem) => {
     const [value, setValue] = useState(voteResult)
     const [modalOpen, setOpenModal] = useState<boolean>(false)
@@ -58,6 +60,14 @@ const DetailResolutionItem = ({
     const [voteStatus, setVoteStatus] = useState(FETCH_STATUS.IDLE)
 
     const t = useTranslations()
+
+    useEffect(() => {
+        setVotePercent({
+            percentUnVoted,
+            percentVoted,
+            percentNotVoteYet,
+        })
+    }, [percentUnVoted, percentVoted, percentNotVoteYet])
 
     const toggleModelDetailResolution = () => {
         setOpenModal(!modalOpen)
@@ -235,7 +245,7 @@ const DetailResolutionItem = ({
                 <Tooltip placement="top" title={t(voteErrorMessage)}>
                     <Radio.Group
                         onChange={onVoteConfirm}
-                        value={value}
+                        value={isVoter && value}
                         disabled={
                             voteStatus === FETCH_STATUS.LOADING ||
                             !!voteErrorMessage

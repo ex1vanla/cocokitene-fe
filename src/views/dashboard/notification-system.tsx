@@ -75,7 +75,7 @@ const NotificationSystem = ({
             className: 'text-center',
         },
         {
-            title: t('CREATED'),
+            title: t('CREATE_AT'),
             dataIndex: 'date',
             render: (_, record) => {
                 return (
