@@ -255,6 +255,9 @@ const UpdateMyProfile = () => {
                         username: values.username,
                         walletAddress: values.walletAddress || '',
                         avatar: urlAvatar || '',
+                        defaultAvatarHashColor:
+                            serviceUser.getInfoStorage()
+                                ?.defaultAvatarHashColor || '',
                     }
                     store?.dispatch(update(newAuth))
                     router.push(`/profile`)

@@ -32,15 +32,6 @@ const Candidates = () => {
                 })
                 if (electionList) {
                     setElectionList(electionList)
-                    setData({
-                        ...data,
-                        personnelVoting: {
-                            confidence: [...data.personnelVoting.confidence],
-                            notConfidence: [
-                                ...data.personnelVoting.notConfidence,
-                            ],
-                        },
-                    })
                 }
             })()
         } catch (error) {
