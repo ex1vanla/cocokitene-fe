@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Button, Form, Input, Typography, notification } from 'antd'
+import { Button, Form, Input, Spin, Typography, notification } from 'antd'
 import { useEffect, useState } from 'react'
 import AuthLayout from '@/components/auth-layout'
 import { useNotification } from '@/hooks/use-notification'
@@ -26,7 +26,6 @@ const ResetPassword = () => {
     //Get Token on Param Url
     const searchParams = useSearchParams()
     const tokenFromUrl = searchParams.get('token')
-
     useEffect(() => {
         if (tokenFromUrl) {
             const token = tokenFromUrl.split('-')
@@ -98,6 +97,16 @@ const ResetPassword = () => {
         return Promise.resolve()
     }
 
+    if (countdown == undefined) {
+        return (
+            <AuthLayout>
+                <div className="flex items-center justify-center">
+                    <Spin tip="Loading..." />
+                </div>
+            </AuthLayout>
+        )
+    }
+
     return (
         <>
             <AuthLayout>
@@ -125,7 +134,7 @@ const ResetPassword = () => {
                         </Text>
                     </div>
                     <div className="mb-4 flex items-center justify-center">
-                        {countdown !== 0 ? (
+                        {countdown && countdown > 0 ? (
                             <Text className="text-sm">
                                 {t('THE_LINK_EXPIRES_AFTER_{second}_SECONDS', {
                                     second: countdown,
@@ -138,7 +147,7 @@ const ResetPassword = () => {
                         )}
                     </div>
 
-                    {countdown ? (
+                    {countdown && countdown > 0 ? (
                         <div className="mb-6">
                             <Form
                                 name="resetPassword"

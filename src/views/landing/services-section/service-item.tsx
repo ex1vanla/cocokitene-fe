@@ -20,24 +20,26 @@ const ServiceItem = ({
     return (
         <div
             id="service-item-wrapper"
-            className="flex flex-col items-center border border-solid border-neutral/5 p-10"
+            className="flex items-center border-solid border-neutral/5 p-5 max-[639px]:gap-3 sm:flex-col sm:border"
         >
             <Image
                 src={serviceImage}
                 alt="service-image-alt"
                 width={150}
                 height={150}
-                className="mb-10"
+                className="sm:mb-10"
             />
-            <Title
-                level={4}
-                className="mb-4 max-w-[200px] text-center font-medium"
-            >
-                {t(serviceTitle)}
-            </Title>
-            <Text className="mb-4 text-center font-normal text-black/[45%]">
-                {t(serviceSubtitle)}
-            </Text>
+            <div>
+                <Title
+                    level={4}
+                    className="mb-4 font-medium sm:max-w-[200px] sm:text-center"
+                >
+                    {t(serviceTitle)}
+                </Title>
+                <Text className="text-center font-normal text-black/[45%] sm:mb-4">
+                    {t(serviceSubtitle)}
+                </Text>
+            </div>
         </div>
     )
 }

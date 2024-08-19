@@ -20,6 +20,21 @@ const PlanList = ({ add }: { add?: boolean }) => {
             return <div className="dot"></div>
         },
         dotsClass: 'slick-dots slick-thumb',
+        responsive: [
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                },
+            },
+        ],
     }
 
     if (!planState || planState?.status === EActionStatus.Pending) {
@@ -31,7 +46,7 @@ const PlanList = ({ add }: { add?: boolean }) => {
     }
 
     return (
-        <div className="mx-auto w-[1100px]">
+        <div className="mx-auto w-[80%]">
             <Sliders {...settings} className="">
                 {planState?.planList.map((item) => (
                     <div key={item.id} className="px-[12px] py-[32px]">
@@ -45,7 +60,7 @@ const PlanList = ({ add }: { add?: boolean }) => {
                             maxStorage={item.maxStorage}
                             price={item.price}
                             isRecommended={false}
-                            className="mx-auto w-[320px]"
+                            className="mx-auto max-w-[320px]"
                             add={add}
                         />
                     </div>
