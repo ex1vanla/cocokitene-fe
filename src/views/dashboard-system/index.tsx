@@ -40,8 +40,6 @@ const DashBoardSystem = () => {
         sysNotificationCurrent = value
     }
 
-    console.log('sysNotification-----36: ', sysNotification)
-
     return (
         <div>
             <LayoutTitle>
@@ -52,21 +50,22 @@ const DashBoardSystem = () => {
                 </div>
                 <div className="flex items-center gap-2"></div>
             </LayoutTitle>
-            <div className="p-6">
+            <div className="sm:p-6">
                 <div className="bg-white p-6 px-6 py-4 shadow-lg">
                     {screen === ScreenDashBoard.DASH_BOARD && (
                         <div className="flex flex-col gap-10">
-                            <div className="flex gap-5">
+                            <div className="flex flex-wrap gap-5 max-sm:flex-col">
                                 <div className="flex-[7_7_0%] border shadow-lg">
                                     <NotificationSystem
                                         changeScreen={changeScreen}
                                         getSysNotification={getSysNotification}
                                     />
                                 </div>
-                                <div className="h-[350px] min-w-[300px] max-w-[350px] flex-[3_3_0%] border shadow-lg">
+                                <div className="mx-auto min-w-[250px] max-w-[378px] flex-[3_3_0%] border shadow-lg">
                                     <CalendarCustom
                                         isSupperAdmin={false}
                                         onSelectDate={onSelect}
+                                        isSystemAdmin={true}
                                     />
                                 </div>
                             </div>

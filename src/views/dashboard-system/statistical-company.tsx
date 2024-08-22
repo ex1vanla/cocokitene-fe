@@ -5,6 +5,7 @@ import { Pie } from '@ant-design/plots'
 import { Spin } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useState } from 'react'
+import Sliders from 'react-slick'
 
 export interface IStatisticCompany {
     companyStatuses: { type: string; value: number }[]
@@ -61,6 +62,34 @@ const StatisticalCompany = () => {
         // eslint-disable-next-line
     }, [])
 
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        className: 'center',
+        customPaging: function () {
+            return <div className="dot mt-3"></div>
+        },
+        dotsClass: 'slick-dots slick-thumb',
+        responsive: [
+            {
+                breakpoint: 960,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 1400,
+                settings: {
+                    slidesToShow: 2,
+                },
+            },
+        ],
+    }
+
     const configPie = useCallback(
         (data: { type: string; value: number }[]) => {
             const total = data.reduce((acc, cur) => {
@@ -71,10 +100,13 @@ const StatisticalCompany = () => {
                 data: data,
                 angleField: 'value',
                 colorField: 'type',
-                marginRight: 220,
-                innerRadius: 0.65,
-                width: 500,
-                height: 350,
+                marginRight: 16,
+                marginBottom: 150,
+                marginTop: -45,
+                radius: 0.8,
+                innerRadius: 0.5,
+                maxWidth: 300,
+                height: 500,
                 // insetRight: 50,
                 tooltip: false,
                 label: {
@@ -89,9 +121,8 @@ const StatisticalCompany = () => {
                 legend: {
                     color: {
                         title: false,
-                        position: 'right-',
+                        position: 'bottom',
                         rowPadding: 10,
-                        leftPadding: 100,
                         width: 250,
                         cols: 1,
                         maxRows: 1,
@@ -115,6 +146,7 @@ const StatisticalCompany = () => {
                 interaction: {
                     legendFilter: false,
                 },
+                autoFit: true,
             }
         },
         // eslint-disable-next-line
@@ -130,31 +162,49 @@ const StatisticalCompany = () => {
     }
 
     return (
-        <div className="flex min-h-[350px] flex-col gap-3 px-2 py-5 ">
+        <div className="flex min-h-[350px] w-full flex-col gap-3 p-2 py-5">
             <span className="text-xl">
                 {t('COMPANY_INFORMATION_STATISTICS')}
             </span>
-            <div className="flex gap-5">
-                <div className="flex-1 border pb-10 shadow-xl">
-                    <div className="mt-3 pl-5 text-lg">{t('COMPANY')}</div>
-                    <div className="mb-3 h-[24px] pl-5 text-base">
-                        {t('COMPANY_STATUS_STATISTICS')}
-                    </div>
-                    <Pie {...configPie(dataStatistic?.companyStatuses ?? [])} />
-                </div>
-                <div className="flex-1  border pb-10 shadow-xl">
-                    <div className="mt-3 pl-5 text-lg">{t('SERVICE_PLAN')}</div>
-                    <div className="mb-3 pl-5 text-base">
-                        {t('SERVICE_PLAN_STATISTICS')}
-                    </div>
-                    <Pie {...configPie(dataStatistic?.servicePlan ?? [])} />
-                </div>
-                <div className="flex-1 border pb-10 shadow-xl">
-                    <div className="mt-3 pl-5 text-lg">{t('USER')}</div>
-                    <div className="mb-3 pl-5 text-base">
-                        {t('USER_STATUS_STATISTICS')}
-                    </div>
-                    <Pie {...configPie(dataStatistic?.userStatuses ?? [])} />
+            <div className="mx-auto w-[95%]">
+                <div className="mx-auto max-w-[1200px]">
+                    <Sliders {...settings} className="mx-auto pb-3">
+                        <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3">
+                            <div className="mt-3 pl-5 text-lg">
+                                {t('COMPANY')}
+                            </div>
+                            <div className="pl-5 text-sm">
+                                {t('COMPANY_STATUS_STATISTICS')}
+                            </div>
+                            <Pie
+                                {...configPie(
+                                    dataStatistic?.companyStatuses ?? [],
+                                )}
+                            />
+                        </div>
+                        <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3 ">
+                            <div className="mt-3 pl-5 text-lg">
+                                {t('SERVICE_PLAN')}
+                            </div>
+                            <div className="pl-5 text-sm ">
+                                {t('SERVICE_PLAN_STATISTICS')}
+                            </div>
+                            <Pie
+                                {...configPie(dataStatistic?.servicePlan ?? [])}
+                            />
+                        </div>
+                        <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3 ">
+                            <div className="mt-3 pl-5 text-lg">{t('USER')}</div>
+                            <div className="pl-5 text-sm ">
+                                {t('USER_STATUS_STATISTICS')}
+                            </div>
+                            <Pie
+                                {...configPie(
+                                    dataStatistic?.userStatuses ?? [],
+                                )}
+                            />
+                        </div>
+                    </Sliders>
                 </div>
             </div>
         </div>

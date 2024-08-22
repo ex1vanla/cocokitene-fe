@@ -34,23 +34,23 @@ body {
         rgb(var(--background-start-rgb));
 } */
 
-.slick-next:before,.slick-prev:before  {
+.slick-next:before,
+.slick-prev:before {
     font-size: 34px !important;
-    color : gray
-  }
-  .slick-next{
-    right:-30px !important;
-  }
-  .slick-prev{
+    color: gray;
+}
+.slick-next {
+    right: -15px !important;
+}
+.slick-prev {
     left: -30px !important;
-  }
-  
-  
-  .slick-slider .slick-track{
-    align-items :stretch !important;
+}
+
+.slick-slider .slick-track {
+    align-items: stretch !important;
     display: flex;
-  }
-.slick-dots{
+}
+.slick-dots {
     bottom: -7px !important;
 }
 
@@ -58,9 +58,9 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
-  
-  .slick-dots.slick-thumb li {
+}
+
+.slick-dots.slick-thumb li {
     width: 6px;
     height: 6px;
     margin: 0 3px;
@@ -68,90 +68,83 @@ body {
     transition: all 0.5s ease-in-out;
     will-change: width;
     background-color: black;
-  }
-  
-  .slick-dots.slick-thumb li.slick-active {
+}
+
+.slick-dots.slick-thumb li.slick-active {
     background-color: red;
     width: 24px;
-  }
-  .slick-track{
+}
+.slick-track {
     display: flex;
     justify-content: center;
-  }
-  .ant-tabs-tab {
-      padding: 8px !important;
-      border: 1px solid #5151E5 !important;
-      background-color: #5151E5 !important;
-      opacity: 0.6 !important;
-      border-radius: 15px 15px 0 0;
-      margin: 0 0 0 2px !important;
-      /* width: 100px !important; */
-      text-align: center !important;
-
-  }
-
+}
+.ant-tabs-tab {
+    padding: 8px !important;
+    border: 1px solid #5151e5 !important;
+    background-color: #5151e5 !important;
+    opacity: 0.6 !important;
+    border-radius: 15px 15px 0 0;
+    margin: 0 0 0 2px !important;
+    /* width: 100px !important; */
+    text-align: center !important;
+}
 
 .ant-tabs-tab-active {
     padding: 8px !important;
-    opacity: 1.0 !important;
+    opacity: 1 !important;
     color: white !important;
     margin: 0 0 0 2px !important;
 }
 .ant-tabs-ink-bar {
-    display: none  ;
+    display: none;
 }
 .ant-tabs-tab-btn {
     color: white !important;
     font-weight: 500;
     width: 200px;
-
 }
 
-.ant-tabs-nav{
+.ant-tabs-nav {
     margin-bottom: 0 !important;
 }
 
-
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+    width: 7px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  /* display: none; */
-  visibility: hidden
+    /* display: none; */
+    visibility: hidden;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #cccccc;
-  border-radius: 5px; 
+    background: #cccccc;
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:scroll {
-  background: #888;
-  border-radius: 5px; 
+    background: #888;
+    border-radius: 5px;
 }
 
 /* Custom responsive */
 .custom-connect-wallet {
-  display: none;
+    display: none;
 }
 @media (min-width: 430px) {
-  .custom-connect-wallet {
-    display: flex;
-  }
+    .custom-connect-wallet {
+        display: flex;
+    }
 }
 
 .custom-connect-wallet__chain-name {
-  display: none;
+    display: none;
 }
-@media (min-width: 1024px){
-  .custom-connect-wallet__chain-name {
-    display: flex;
-  }
+@media (min-width: 1024px) {
+    .custom-connect-wallet__chain-name {
+        display: flex;
+    }
 }
-
-
-
