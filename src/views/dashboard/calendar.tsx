@@ -16,9 +16,14 @@ interface ICalendarCustom {
     isSupperAdmin: boolean
     // eslint-disable-next-line
     onSelectDate: (newValue: Dayjs) => void
+    isSystemAdmin?: boolean
 }
 
-const CalendarCustom = ({ isSupperAdmin, onSelectDate }: ICalendarCustom) => {
+const CalendarCustom = ({
+    isSupperAdmin,
+    onSelectDate,
+    isSystemAdmin = false,
+}: ICalendarCustom) => {
     const t = useTranslations()
     const [month, setMonth] = useState<number>(new Date().getMonth() + 1)
     const [year, setYear] = useState<number>(new Date().getFullYear())
@@ -150,7 +155,7 @@ const CalendarCustom = ({ isSupperAdmin, onSelectDate }: ICalendarCustom) => {
                         )
                     }
                     return (
-                        <div className="flex items-center justify-between">
+                        <div className="flex w-full items-center justify-between">
                             <div style={{ padding: 8 }}>
                                 <Row gutter={8}>
                                     <Col>
@@ -174,6 +179,9 @@ const CalendarCustom = ({ isSupperAdmin, onSelectDate }: ICalendarCustom) => {
                                             size="small"
                                             dropdownMatchSelectWidth={false}
                                             value={month}
+                                            className={`${
+                                                isSupperAdmin ? 'hidden' : ''
+                                            }`}
                                             onChange={(newMonth) => {
                                                 const now = value
                                                     .clone()
@@ -186,7 +194,7 @@ const CalendarCustom = ({ isSupperAdmin, onSelectDate }: ICalendarCustom) => {
                                     </Col>
                                 </Row>
                             </div>
-                            {isSupperAdmin || (
+                            {isSupperAdmin || isSystemAdmin || (
                                 <div className="flex flex-col px-2">
                                     <div className="flex items-center gap-1">
                                         <div className="h-2 w-2 rounded border bg-[#135af2]"></div>
@@ -206,9 +214,10 @@ const CalendarCustom = ({ isSupperAdmin, onSelectDate }: ICalendarCustom) => {
                     )
                 }}
                 onSelect={handleSelectDate}
-                cellRender={!isSupperAdmin ? cellRender : undefined}
+                cellRender={
+                    !isSupperAdmin && !isSystemAdmin ? cellRender : undefined
+                }
             />
-            {/* <Calendar fullscreen={false} cellRender={cellRender} /> */}
         </>
     )
 }

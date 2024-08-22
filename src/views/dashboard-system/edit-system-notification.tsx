@@ -186,9 +186,9 @@ const EditSystemNotificationScreen = ({
     }
 
     return (
-        <div>
+        <div className="z-0">
             <div>
-                <div className="bg-white px-6 pb-6 shadow-01">
+                <div className="bg-white pb-6 shadow-01 sm:px-6">
                     <Form
                         onFinish={onFinish}
                         form={form}
@@ -245,7 +245,7 @@ const EditSystemNotificationScreen = ({
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            <div className="mt-2 min-h-[100px]">
+                            <div className="mt-2 min-h-[100px] max-[470px]:mt-8">
                                 <div>
                                     {showPreView ? (
                                         <Button
@@ -273,7 +273,11 @@ const EditSystemNotificationScreen = ({
                                         </Button>
                                     )}
                                 </div>
-                                {showPreView && <ViewHtml value={value} />}
+                                {showPreView && (
+                                    <div className="border">
+                                        <ViewHtml value={value} />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </Form>

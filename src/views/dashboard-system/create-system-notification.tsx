@@ -167,9 +167,9 @@ const CreateSystemNotificationScreen = ({
     }
 
     return (
-        <div>
+        <div className="z-0">
             <div>
-                <div className="bg-white px-6 pb-6 shadow-01">
+                <div className="bg-white pb-6 shadow-01 sm:px-6">
                     <Form onFinish={onFinish} form={form} layout="vertical">
                         <Header
                             pageName={
@@ -184,7 +184,7 @@ const CreateSystemNotificationScreen = ({
                             }
                         />
                         <div className="p-6">
-                            <Row gutter={[16, 24]}>
+                            <Row gutter={[16, 24]} className="mb-2">
                                 <Col xs={24} lg={24}>
                                     <Form.Item
                                         name="title"
@@ -219,7 +219,7 @@ const CreateSystemNotificationScreen = ({
                                     </Form.Item>
                                 </Col>
                             </Row>
-                            <div className="mt-2 min-h-[100px]">
+                            <div className="min-h-[100px] max-[470px]:mt-8">
                                 <div>
                                     {showPreView ? (
                                         <Button
@@ -247,7 +247,11 @@ const CreateSystemNotificationScreen = ({
                                         </Button>
                                     )}
                                 </div>
-                                {showPreView && <ViewHtml value={value} />}
+                                {showPreView && (
+                                    <div className="border">
+                                        <ViewHtml value={value} />
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </Form>
