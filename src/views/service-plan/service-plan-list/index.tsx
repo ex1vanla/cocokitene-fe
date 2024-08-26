@@ -46,10 +46,10 @@ const PlanList = ({ add }: { add?: boolean }) => {
     }
 
     return (
-        <div className="mx-auto w-[80%]">
+        <div className="mx-auto w-[97%]">
             <Sliders {...settings} className="">
                 {planState?.planList.map((item) => (
-                    <div key={item.id} className="px-[12px] py-[32px]">
+                    <div key={item.id} className="mx-auto px-[12px] py-[32px]">
                         <PlanItem
                             key={item.id}
                             id={item.id}
