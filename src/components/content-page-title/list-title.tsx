@@ -44,7 +44,10 @@ const ListTitle = ({
     }
     return (
         <LayoutTitle>
-            <Title level={4} className="mb-0 font-medium max-[470px]:text-base">
+            <Title
+                level={4}
+                className="mb-0 pr-1 font-medium max-[470px]:text-base"
+            >
                 {pageName}
             </Title>
             <div className="items flex items-center gap-2">

@@ -5,14 +5,13 @@ import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import EmptyData from '@/views/service-plan/service-plan-list/empty-plan'
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons'
-import { Avatar, Badge, Grid, Typography } from 'antd'
+import { Avatar, Badge, Typography } from 'antd'
 import Table, { ColumnsType } from 'antd/es/table'
 import Color from 'color'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 
 const { Text } = Typography
-const { useBreakpoint } = Grid
 
 const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
     .lighten(0.6)
@@ -25,7 +24,6 @@ interface CompanyListProps {
 const CompanyList = ({ data }: CompanyListProps) => {
     const t = useTranslations()
     const router = useRouter()
-    const screens = useBreakpoint()
 
     let locale = {
         emptyText: <EmptyData />,
@@ -47,7 +45,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
         {
             title: t('SERVICE_PLAN'),
             dataIndex: 'servicePlan',
-            width: screens.lg ? '20%' : 110,
+            width: '15%',
         },
         {
             title: t('REPRESENTATIVE'),
@@ -74,20 +72,18 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     </div>
                 )
             },
-            width: screens.xl ? '20%' : 128,
+            width: '15%',
         },
         {
             title: t('TOTAL_CREATED_ACCOUNT'),
             dataIndex: 'totalCreatedAccount',
-            width: '20%',
-            // responsive: ['lg'],
+            width: '10%',
             className: 'px-2',
         },
         {
             title: t('TOTAL_CREATED_MTGS'),
             dataIndex: 'totalCreatedMTGs',
-            width: '20%',
-            // responsive: ['lg'],
+            width: '10%',
         },
         {
             title: t('STATUS'),
@@ -101,7 +97,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     )}{' '}
                 </>
             ),
-            width: screens.xl ? '20%' : 80,
+            width: '15%',
             className: 'px-[6px] max-[470px]:px-0',
         },
         {
@@ -125,7 +121,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     />
                 </div>
             ),
-            width: screens.xl ? '15%' : 70,
+            width: '15%',
             className: 'px-3',
         },
     ]
@@ -145,7 +141,6 @@ const CompanyList = ({ data }: CompanyListProps) => {
 
     return (
         <div className="bg-white p-6 max-[470px]:px-1">
-            {/* <div className="overflow-x-auto"> */}
             <Table
                 columns={columns}
                 dataSource={dataFinal}
@@ -158,9 +153,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                 }}
                 locale={locale}
                 scroll={{ x: 845 }}
-                // style={{ minWidth: '845px' }}
             />
-            {/* </div> */}
         </div>
     )
 }
