@@ -43,7 +43,6 @@ const CompanyList = ({ data }: CompanyListProps) => {
             title: t('COMPANY_NAME'),
             dataIndex: 'companyName',
             width: '40%',
-            // ellipsis: true,
         },
         {
             title: t('SERVICE_PLAN'),
@@ -55,7 +54,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
             dataIndex: 'representative',
             render: (_, record) => {
                 return (
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                         <Avatar
                             style={{
                                 backgroundColor: backgroundAvatarColor,
@@ -76,8 +75,6 @@ const CompanyList = ({ data }: CompanyListProps) => {
                 )
             },
             width: screens.xl ? '20%' : 128,
-            ellipsis: true,
-            // responsive: ['md'],
         },
         {
             title: t('TOTAL_CREATED_ACCOUNT'),
