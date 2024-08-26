@@ -5,13 +5,14 @@ import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import EmptyData from '@/views/service-plan/service-plan-list/empty-plan'
 import { EditTwoTone, EyeTwoTone } from '@ant-design/icons'
-import { Avatar, Badge, Typography } from 'antd'
+import { Avatar, Badge, Grid, Typography } from 'antd'
 import Table, { ColumnsType } from 'antd/es/table'
 import Color from 'color'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 
 const { Text } = Typography
+const { useBreakpoint } = Grid
 
 const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
     .lighten(0.6)
@@ -24,6 +25,7 @@ interface CompanyListProps {
 const CompanyList = ({ data }: CompanyListProps) => {
     const t = useTranslations()
     const router = useRouter()
+    const screens = useBreakpoint()
 
     let locale = {
         emptyText: <EmptyData />,
@@ -33,38 +35,20 @@ const CompanyList = ({ data }: CompanyListProps) => {
         {
             title: t('NO'),
             dataIndex: 'index',
-            width: '60px',
+            width: 55,
             className: 'text-center',
+            responsive: ['md'],
         },
         {
             title: t('COMPANY_NAME'),
             dataIndex: 'companyName',
+            width: '40%',
+            // ellipsis: true,
         },
         {
             title: t('SERVICE_PLAN'),
             dataIndex: 'servicePlan',
-            // render: (_, record) => {
-            //     const indexItem = SERVICE_PLAN_ITEMS.find(
-            //         (item) => item.value === record.servicePlan,
-            //     )
-            //     const planOptions: {
-            //         [key: number]: { text: string; textColorClass: string }
-            //     } = {
-            //         1: { text: t('FREE'), textColorClass: 'text-black' },
-            //         2: { text: t('TRIAL'), textColorClass: 'text-orange-500' },
-            //         3: {
-            //             text: t('PAY_OF_MONTH'),
-            //             textColorClass: 'text-green-500',
-            //         },
-            //         4: { text: 'Error', textColorClass: 'text-red-500' },
-            //     }
-
-            //     const { text, textColorClass } =
-            //         planOptions[indexItem?.key ?? 4]
-
-            //     return <span className={textColorClass}>{text}</span>
-            // },
-            width: '10%',
+            width: screens.lg ? '20%' : 110,
         },
         {
             title: t('REPRESENTATIVE'),
@@ -91,17 +75,22 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     </div>
                 )
             },
-            width: '18%',
+            width: screens.xl ? '20%' : 128,
+            ellipsis: true,
+            // responsive: ['md'],
         },
         {
             title: t('TOTAL_CREATED_ACCOUNT'),
             dataIndex: 'totalCreatedAccount',
-            width: '9%',
+            width: '20%',
+            // responsive: ['lg'],
+            className: 'px-2',
         },
         {
             title: t('TOTAL_CREATED_MTGS'),
             dataIndex: 'totalCreatedMTGs',
-            width: '9%',
+            width: '20%',
+            // responsive: ['lg'],
         },
         {
             title: t('STATUS'),
@@ -115,13 +104,14 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     )}{' '}
                 </>
             ),
-            width: '8%',
+            width: screens.xl ? '20%' : 80,
+            className: 'px-[6px] max-[470px]:px-0',
         },
         {
             title: '',
             key: 'action',
             render: (_, record) => (
-                <div className="flex gap-3">
+                <div className="flex gap-3 max-lg:gap-2">
                     <EditTwoTone
                         style={{ fontSize: '18px' }}
                         twoToneColor="#5151e5"
@@ -138,7 +128,8 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     />
                 </div>
             ),
-            width: '8%',
+            width: screens.xl ? '15%' : 70,
+            className: 'px-3',
         },
     ]
     const { companyState, getListCompanyAction } = useListCompany()
@@ -156,7 +147,8 @@ const CompanyList = ({ data }: CompanyListProps) => {
     }))
 
     return (
-        <div className="bg-white p-6 ">
+        <div className="bg-white p-6 max-[470px]:px-1">
+            {/* <div className="overflow-x-auto"> */}
             <Table
                 columns={columns}
                 dataSource={dataFinal}
@@ -168,7 +160,10 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     onChange: handlePageChange,
                 }}
                 locale={locale}
+                scroll={{ x: 845 }}
+                // style={{ minWidth: '845px' }}
             />
+            {/* </div> */}
         </div>
     )
 }

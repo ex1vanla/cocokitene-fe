@@ -10,7 +10,7 @@ interface IBoxArea {
 
 const BoxArea = ({ title, children, ...rest }: IBoxArea) => {
     return (
-        <div {...rest} className="bg-white">
+        <div {...rest} className="w-full bg-white">
             <div className="px-6 py-4 shadow-01">
                 <Title level={5} className="mb-0 font-medium">
                     {title}

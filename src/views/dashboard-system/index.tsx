@@ -43,7 +43,7 @@ const DashBoardSystem = () => {
     return (
         <div>
             <LayoutTitle>
-                <div className="flex items-center gap-2">
+                <div className="z-50 flex items-center gap-2">
                     <Title level={4} className="mb-0 font-medium">
                         {t('DASHBOARD')}
                     </Title>

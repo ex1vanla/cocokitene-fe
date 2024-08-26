@@ -17,11 +17,14 @@ const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
 const CompanyInfo = () => {
     const t = useTranslations()
     const [{ company }] = useCompanyDetail()
+
+    console.log('company: ', company)
+
     const dataCompanyInfoLeft: IRowInfo[] = [
         {
             label: 'COMPANY_NAME',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className="w-full truncate hover:text-clip">
                     {company?.companyName}
                 </p>
             ),
@@ -44,14 +47,6 @@ const CompanyInfo = () => {
             ),
         },
         {
-            label: 'BUSINESS_TYPE',
-            content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.businessType}
-                </p>
-            ),
-        },
-        {
             label: 'FAX',
             content: (
                 <p className="max-w-[415px] truncate hover:text-clip">
@@ -63,7 +58,7 @@ const CompanyInfo = () => {
             label: 'REPRESENTATIVE',
             content: (
                 <div
-                    className={`mt-[-3px] flex flex-wrap content-start items-center gap-[4px]`}
+                    className={`flex flex-wrap content-start items-center gap-[4px]`}
                 >
                     <Avatar
                         style={{
@@ -82,36 +77,46 @@ const CompanyInfo = () => {
                 </div>
             ),
         },
+        {
+            label: 'TOTAL_CREATED_ACCOUNT',
+            content: (
+                <p className=" truncate hover:text-clip">
+                    {company?.totalCreatedAccount || ''}
+                </p>
+            ),
+        },
+        {
+            label: 'TOTAL_CREATED_MTGS',
+            content: (
+                <p className=" truncate hover:text-clip">
+                    {company?.totalCreateMeeting || ''}
+                </p>
+            ),
+        },
     ]
     const dataCompanyInfoRight: IRowInfo[] = [
         {
             label: 'ADDRESS',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.address}
-                </p>
+                <p className=" truncate hover:text-clip">{company?.address}</p>
             ),
         },
         {
             label: 'EMAIL',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.email}
-                </p>
+                <p className=" truncate hover:text-clip">{company?.email}</p>
             ),
         },
         {
             label: 'PHONE',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.phone}
-                </p>
+                <p className=" truncate hover:text-clip">{company?.phone}</p>
             ),
         },
         {
             label: 'TAX_OF_COMPANY',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className=" truncate hover:text-clip">
                     {company?.taxCompany}
                 </p>
             ),
@@ -125,17 +130,17 @@ const CompanyInfo = () => {
                             company?.status.status == CompanyStatus.ACTIVE
                                 ? ' bg-green-300'
                                 : company?.status.status ==
-                                    CompanyStatus.INACTIVE
-                                  ? ' bg-red-500'
-                                  : null
+                                  CompanyStatus.INACTIVE
+                                ? ' bg-red-500'
+                                : null
                         } `}
                     ></div>
                     <p>
                         {company?.status.status == CompanyStatus.ACTIVE
                             ? t('ACTIVE')
                             : company?.status.status == CompanyStatus.INACTIVE
-                              ? t('INACTIVE')
-                              : null}
+                            ? t('INACTIVE')
+                            : null}
                     </p>
                 </div>
             ),
@@ -143,47 +148,31 @@ const CompanyInfo = () => {
         {
             label: 'SERVICE_PLAN',
             content: (
-                // company?.servicePlan.planName == ServicePlan.TRIAL ? (
-                //     <p className="text-o text-sm text-orange-500">
-                //         {t('TRIAL')}
-                //     </p>
-                // ) : company?.servicePlan.planName == ServicePlan.FREE ? (
-                //     <div className="flex flex-col items-start">
-                //         <div className="h-[30px] text-sm">
-                //             <span className="mr-1 text-black/[85%]">
-                //                 {t('FREE')}
-                //             </span>
-                //             <span className="text-orange-500">
-                //                 ({t('TRIAL_HAS_EXPIRED')})
-                //             </span>
-                //         </div>
-                //         <Button className="h-[32px] border-[1px] border-primary bg-primary px-4 py-1 text-neutral/2 shadow-02 hover:cursor-pointer">
-                //             {t('UPGRADE_PLAN')}
-                //         </Button>
-                //     </div>
-                // ) : company?.servicePlan.planName ==
-                //   ServicePlan.PAY_OF_MONTH ? (
-                //     <p className="text-sm text-polar-green">
-                //         {t('PAY_OF_MONTH')}
-                //     </p>
-                // ) : null,
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className=" truncate hover:text-clip">
                     {convertSnakeCaseToTitleCase(
                         company?.servicePlan.planName || '',
                     )}
                 </p>
             ),
         },
+        {
+            label: 'BUSINESS_TYPE',
+            content: (
+                <p className="max-w-[415px] truncate hover:text-clip">
+                    {company?.businessType}
+                </p>
+            ),
+        },
     ]
 
     return (
-        <div>
+        <div className="w-full">
             <BoxArea title={t('COMPANY_INFORMATION')}>
-                <Row gutter={[0, 0]} className="min-w-[1184px]">
-                    <Col xs={24} lg={12}>
+                <Row gutter={[{ xs: 0, lg: 32 }, 0]}>
+                    <Col md={24} lg={12} className="" span={24}>
                         {dataCompanyInfoLeft.map((item) => {
                             return (
-                                <Col xs={24} key={item.label}>
+                                <Col key={item.label} className="max-sm:px-0">
                                     <RowInfo
                                         label={t(item.label)}
                                         content={item.content}
@@ -191,11 +180,12 @@ const CompanyInfo = () => {
                                 </Col>
                             )
                         })}
+                        {/* <div className="h-52 w-full "></div> */}
                     </Col>
-                    <Col xs={24} lg={12}>
+                    <Col md={24} lg={12} className="" span={24}>
                         {dataCompanyInfoRight.map((item) => {
                             return (
-                                <Col xs={24} key={item.label}>
+                                <Col key={item.label} className="max-sm:px-0">
                                     <RowInfo
                                         label={t(item.label)}
                                         content={item.content}

@@ -23,7 +23,7 @@ const SuperAdminInfo = () => {
             label: 'USERNAME',
             content: company?.superAdminInfo?.username && (
                 <div
-                    className={`mt-[-3px] flex flex-wrap content-start items-center gap-[4px]`}
+                    className={`flex flex-wrap content-start items-center gap-[4px]`}
                 >
                     <Avatar
                         style={{
@@ -44,7 +44,7 @@ const SuperAdminInfo = () => {
         {
             label: 'WALLET_ADDRESS',
             content: company?.superAdminInfo?.walletAddress && (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className="truncate hover:text-clip">
                     {truncateString({
                         text: String(company?.superAdminInfo?.walletAddress),
                         start: 5,
@@ -63,9 +63,9 @@ const SuperAdminInfo = () => {
                             UserStatus.ACTIVE
                                 ? 'bg-green-300'
                                 : company?.superAdminInfo?.userStatus?.status ==
-                                    UserStatus.INACTIVE
-                                  ? 'bg-red-500'
-                                  : null
+                                  UserStatus.INACTIVE
+                                ? 'bg-red-500'
+                                : null
                         } `}
                     ></div>
                     <p>
@@ -73,9 +73,9 @@ const SuperAdminInfo = () => {
                         UserStatus.ACTIVE
                             ? t('ACTIVE')
                             : company?.superAdminInfo?.userStatus?.status ==
-                                UserStatus.INACTIVE
-                              ? t('INACTIVE')
-                              : null}
+                              UserStatus.INACTIVE
+                            ? t('INACTIVE')
+                            : null}
                     </p>
                 </div>
             ),
@@ -83,7 +83,7 @@ const SuperAdminInfo = () => {
         {
             label: 'EMAIL',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className="truncate hover:text-clip">
                     {company?.superAdminInfo?.email}
                 </p>
             ),
@@ -93,7 +93,7 @@ const SuperAdminInfo = () => {
     return (
         <div>
             <BoxArea title={t('SUPER_ADMIN_INFORMATION')}>
-                <Row gutter={[16, 0]} className="min-w-[1184px]">
+                <Row gutter={[16, 0]} className="">
                     {dataSuperAdminInfo.map((item) => {
                         return (
                             <Col xs={24} lg={12} key={item.label}>
