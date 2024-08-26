@@ -1,6 +1,4 @@
-import LayoutTitle, {
-    IBaseTitle,
-} from '@/components/content-page-title/layout-title'
+import { IBaseTitle } from '@/components/content-page-title/layout-title'
 import ViewHtml from '@/components/view-html'
 import { ScreenDashBoard } from '@/constants/dash-board'
 import { ISystemNotificationResponse } from '@/services/response.type'
@@ -26,7 +24,7 @@ const DetailTitle = ({
     changeScreen,
 }: IDetailTitle) => {
     return (
-        <LayoutTitle>
+        <div className="content-title z-1 sticky top-12 flex items-center justify-between bg-white px-6 py-4 max-[470px]:px-2">
             <div className="flex items-center gap-2">
                 <ArrowLeftOutlined
                     onClick={() => {
@@ -41,7 +39,7 @@ const DetailTitle = ({
                 {editButton}
                 {extraButton}
             </div>
-        </LayoutTitle>
+        </div>
     )
 }
 

@@ -1,6 +1,4 @@
-import LayoutTitle, {
-    IBaseTitle,
-} from '@/components/content-page-title/layout-title'
+import { IBaseTitle } from '@/components/content-page-title/layout-title'
 import Loader from '@/components/loader'
 import ViewHtml from '@/components/view-html'
 import { FETCH_STATUS } from '@/constants/common'
@@ -48,7 +46,7 @@ const Header = ({
 }: IHeaderScreenSysNotification) => {
     const t = useTranslations()
     return (
-        <LayoutTitle>
+        <div className="content-title z-1 sticky top-12 flex items-center justify-between bg-white px-6 py-4 max-[470px]:px-2">
             <div className="flex items-center gap-2">
                 <ArrowLeftOutlined
                     onClick={() => {
@@ -63,7 +61,7 @@ const Header = ({
                 {saveButton}
                 {extraButton}
             </div>
-        </LayoutTitle>
+        </div>
     )
 }
 

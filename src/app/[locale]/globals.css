@@ -130,6 +130,22 @@ body {
     border-radius: 5px;
 }
 
+
+/* Custom scroll table */
+.ant-table-content::-webkit-scrollbar {
+    width: 8px;
+    height: 7px;
+}
+
+.ant-table-content::-webkit-scrollbar-track {
+    background: orange;
+}
+
+.ant-table-content::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+}
+
+
 /* Custom responsive */
 .custom-connect-wallet {
     display: none;
