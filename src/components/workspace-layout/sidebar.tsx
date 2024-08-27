@@ -123,8 +123,8 @@ const Sidebar = ({
 
             <Drawer
                 title={
-                    <div className="mx-auto flex h-12 items-center justify-center bg-primary px-1 py-0">
-                        <div className="flex items-center justify-center gap-1">
+                    <div className="mx-auto flex h-12 w-full items-center justify-center bg-primary py-0 max-[470px]:pr-1">
+                        <div className="flex w-full items-center justify-center gap-1">
                             <Button
                                 type="text"
                                 icon={

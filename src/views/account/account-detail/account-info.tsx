@@ -137,18 +137,14 @@ const AccountInfo = () => {
         },
         {
             label: 'QUANTITY',
-            content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {account?.shareQuantity || ''}
-                </p>
-            ),
+            content: <p className="flex-1">{account?.shareQuantity || ''}</p>,
             lg: 3,
         },
     ]
 
     return (
-        <div className="bg-white p-6 px-6 py-4 shadow-01">
-            <Row gutter={[16, 16]}>
+        <div className="bg-white p-6 px-6 py-4 shadow-01 max-[470px]:px-2">
+            <Row gutter={[16, 0]}>
                 <Col md={24} lg={12} className="" span={24}>
                     {dataAccountDetailLeft.map((item, index) => {
                         return (

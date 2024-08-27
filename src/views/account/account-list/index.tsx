@@ -113,6 +113,9 @@ const AccountList = () => {
         {
             title: t('EMAIL'),
             dataIndex: 'email',
+            render: (_, record) => {
+                return <div className="break-all">{record.email}</div>
+            },
             width: '25%',
         },
         {

@@ -28,7 +28,7 @@ const ShareholderInfo = () => {
         {
             label: 'COMPANY_NAME',
             content: (
-                <p className="truncate hover:text-clip">
+                <p className="flex-1 break-words">
                     {shareholder?.companyName || ''}
                 </p>
             ),
@@ -37,16 +37,14 @@ const ShareholderInfo = () => {
         {
             label: 'PHONE',
             content: (
-                <p className="truncate hover:text-clip">
-                    {shareholder?.phone || ''}
-                </p>
+                <p className="flex-1 break-all">{shareholder?.phone || ''}</p>
             ),
             lg: 6,
         },
         {
             label: 'ROLE',
             content: (
-                <div className="mt-[-2px] flex gap-1 truncate hover:text-clip">
+                <div className="mt-[-2px] flex flex-wrap gap-1">
                     {shareholder?.roles.map((item) => (
                         <RoleInfo key={item.id} roleName={item.roleName} />
                     ))}
@@ -57,7 +55,7 @@ const ShareholderInfo = () => {
         {
             label: 'WALLET_ADDRESS',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className="flex-1 break-all">
                     {shareholder?.walletAddress || ''}
                 </p>
             ),
@@ -69,7 +67,9 @@ const ShareholderInfo = () => {
         {
             label: 'SHAREHOLDER_NAME',
             content: shareholder?.userName && (
-                <div>
+                <div
+                    className={`mt-[-1px] flex flex-wrap content-start items-center gap-[4px]`}
+                >
                     {shareholder?.avatar ? (
                         <Avatar
                             src={shareholder.avatar}
@@ -93,7 +93,7 @@ const ShareholderInfo = () => {
                             {getFirstCharacterUpperCase(shareholder.userName)}
                         </Avatar>
                     )}
-                    <span>{shareholder.userName}</span>
+                    <span className="flex-1">{shareholder.userName}</span>
                 </div>
             ),
             lg: 6,
@@ -101,18 +101,14 @@ const ShareholderInfo = () => {
         {
             label: 'EMAIL',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {shareholder?.email || ''}
-                </p>
+                <p className="flex-1 break-all">{shareholder?.email || ''}</p>
             ),
             lg: 6,
         },
         {
             label: 'SHARES_QUANTITY',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {shareholder?.shareQuantity || ''}
-                </p>
+                <p className="flex-1">{shareholder?.shareQuantity || ''}</p>
             ),
             lg: 6,
         },
@@ -127,9 +123,9 @@ const ShareholderInfo = () => {
                                     shareholder?.userStatus == UserStatus.ACTIVE
                                         ? 'bg-green-500'
                                         : shareholder?.userStatus ==
-                                            UserStatus.INACTIVE
-                                          ? 'bg-red-500'
-                                          : null
+                                          UserStatus.INACTIVE
+                                        ? 'bg-red-500'
+                                        : null
                                 } `}
                             ></div>
                             <span
@@ -149,12 +145,12 @@ const ShareholderInfo = () => {
         },
     ]
     return (
-        <div className="bg-white p-6 px-6 py-4 shadow-01">
-            <Row gutter={[0, 0]} className="min-w-[1184px]">
-                <Col xs={24} lg={12}>
+        <div className="bg-white p-6 px-6 py-4 shadow-01 max-[470px]:px-2">
+            <Row gutter={[16, 0]} className="">
+                <Col xs={24} lg={12} span={24}>
                     {dataShareholderDetailLeft.map((item, index) => {
                         return (
-                            <Col xs={24} key={index}>
+                            <Col key={index} className="max-sm:px-0">
                                 <RowShareholderInfo
                                     label={t(item.label)}
                                     content={item.content}
@@ -166,10 +162,10 @@ const ShareholderInfo = () => {
                     })}
                 </Col>
 
-                <Col xs={24} lg={12}>
+                <Col xs={24} lg={12} span={24}>
                     {dataShareholderDetailRight.map((item, index) => {
                         return (
-                            <Col xs={24} key={index}>
+                            <Col key={index} className="max-sm:px-0">
                                 <RowShareholderInfo
                                     label={t(item.label)}
                                     content={item.content}

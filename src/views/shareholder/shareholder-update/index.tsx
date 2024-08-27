@@ -599,48 +599,50 @@ const UpdateShareholder = () => {
                                     <Input size="large" maxLength={9} />
                                 </Form.Item>
                             </Col>
+                            {/* Avatar Update */}
+                            <Col xs={24} lg={24}>
+                                <Form.Item
+                                    name="avatar"
+                                    label={t('AVATAR')}
+                                    rules={[{ required: false }]}
+                                    className="mb-0"
+                                >
+                                    <Upload
+                                        onChange={handleChange}
+                                        fileList={fileList}
+                                        beforeUpload={beforeUpload}
+                                        multiple={true}
+                                        // method="PUT"
+                                        customRequest={onUpload(
+                                            'avatarAccount',
+                                            AccountFileType.AVATAR,
+                                        )}
+                                        listType="picture-card"
+                                        accept={ACCEPT_AVATAR_TYPES}
+                                        onPreview={handlePreview}
+                                    >
+                                        {fileList.length >= 1
+                                            ? null
+                                            : uploadButton}
+                                    </Upload>
+                                    <Modal
+                                        open={previewOpen}
+                                        title={previewTitle}
+                                        footer={null}
+                                        onCancel={handleCancel}
+                                    >
+                                        <img
+                                            alt="example"
+                                            style={{ width: '100%' }}
+                                            src={previewImage}
+                                        />
+                                    </Modal>
+                                </Form.Item>
+                                <span className="text-black/[45%]">
+                                    {t('INVITATION_AVATAR_UPLOAD_NOTICE')}
+                                </span>
+                            </Col>
                         </Row>
-                        {/* Avatar Update */}
-                        <Col xs={24} lg={24}>
-                            <Form.Item
-                                name="avatar"
-                                label={t('AVATAR')}
-                                rules={[{ required: false }]}
-                                className="mb-0"
-                            >
-                                <Upload
-                                    onChange={handleChange}
-                                    fileList={fileList}
-                                    beforeUpload={beforeUpload}
-                                    multiple={true}
-                                    // method="PUT"
-                                    customRequest={onUpload(
-                                        'avatarAccount',
-                                        AccountFileType.AVATAR,
-                                    )}
-                                    listType="picture-card"
-                                    accept={ACCEPT_AVATAR_TYPES}
-                                    onPreview={handlePreview}
-                                >
-                                    {fileList.length >= 1 ? null : uploadButton}
-                                </Upload>
-                                <Modal
-                                    open={previewOpen}
-                                    title={previewTitle}
-                                    footer={null}
-                                    onCancel={handleCancel}
-                                >
-                                    <img
-                                        alt="example"
-                                        style={{ width: '100%' }}
-                                        src={previewImage}
-                                    />
-                                </Modal>
-                            </Form.Item>
-                            <span className="text-black/[45%]">
-                                {t('INVITATION_AVATAR_UPLOAD_NOTICE')}
-                            </span>
-                        </Col>
                     </div>
                 </div>
             </Form>
