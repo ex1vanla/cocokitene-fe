@@ -145,8 +145,8 @@ const ShareholderInfo = () => {
         },
     ]
     return (
-        <div className="bg-white p-6 px-6 py-4 shadow-01">
-            <Row gutter={[16, 16]} className="">
+        <div className="bg-white p-6 px-6 py-4 shadow-01 max-[470px]:px-2">
+            <Row gutter={[16, 0]} className="">
                 <Col xs={24} lg={12} span={24}>
                     {dataShareholderDetailLeft.map((item, index) => {
                         return (

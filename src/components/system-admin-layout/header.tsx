@@ -19,7 +19,7 @@ const Header = ({ setIsOpenDraw }: IHeader) => {
         setMounted(true)
     }, [])
     return (
-        <Layout.Header className="fixed z-10 h-12 w-full bg-primary px-4 py-0 text-white">
+        <Layout.Header className="fixed z-10 h-12 w-full bg-primary px-4 py-0 text-white max-[470px]:px-2">
             <div className="flex h-full items-center justify-between">
                 <div className="flex items-center justify-between gap-1">
                     <Button
