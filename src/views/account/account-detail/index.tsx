@@ -48,6 +48,7 @@ const AccountDetail = () => {
                             icon={<EditOutlined />}
                             type="default"
                             size="large"
+                            // className="max-[470px]:px-2"
                             onClick={() =>
                                 router.push(`/account/update/${accountId}`)
                             }
@@ -57,7 +58,7 @@ const AccountDetail = () => {
                     )
                 }
             />
-            <div className="p-6">
+            <div className="p-6 max-sm:px-0">
                 <AccountInfo />
             </div>
         </div>

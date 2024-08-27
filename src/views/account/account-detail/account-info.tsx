@@ -27,7 +27,7 @@ const AccountInfo = () => {
         {
             label: 'COMPANY',
             content: (
-                <p className="truncate hover:text-clip">
+                <p className="flex-1 break-words">
                     {account?.companyName || ''}
                 </p>
             ),
@@ -35,17 +35,13 @@ const AccountInfo = () => {
         },
         {
             label: 'PHONE',
-            content: (
-                <p className="truncate hover:text-clip">
-                    {account?.phone || ''}
-                </p>
-            ),
+            content: <p className="flex-1 break-all">{account?.phone || ''}</p>,
             lg: 6,
         },
         {
             label: 'ROLE',
             content: (
-                <div className="mt-[-2px] flex gap-1 truncate hover:text-clip">
+                <div className="mt-[-2px] flex flex-wrap gap-1 truncate hover:text-clip">
                     {account?.roles.map((item) => (
                         <RoleInfo
                             key={item.id}
@@ -61,7 +57,7 @@ const AccountInfo = () => {
         {
             label: 'WALLET_ADDRESS',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className="flex-1 break-all">
                     {account?.walletAddress || ''}
                 </p>
             ),
@@ -99,7 +95,7 @@ const AccountInfo = () => {
                             {getFirstCharacterUpperCase(account.userName)}
                         </Avatar>
                     )}
-                    <span>{account.userName}</span>
+                    <span className="flex-1">{account.userName}</span>
                 </div>
             ),
             lg: 3,
@@ -107,11 +103,7 @@ const AccountInfo = () => {
 
         {
             label: 'EMAIL',
-            content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {account?.email || ''}
-                </p>
-            ),
+            content: <p className="flex-1 break-all">{account?.email || ''}</p>,
             lg: 3,
         },
         {
@@ -125,9 +117,9 @@ const AccountInfo = () => {
                                     account?.userStatus == UserStatus.ACTIVE
                                         ? 'bg-green-500'
                                         : account?.userStatus ==
-                                            UserStatus.INACTIVE
-                                          ? 'bg-red-500'
-                                          : null
+                                          UserStatus.INACTIVE
+                                        ? 'bg-red-500'
+                                        : null
                                 } `}
                             ></div>
                             <span
@@ -156,11 +148,11 @@ const AccountInfo = () => {
 
     return (
         <div className="bg-white p-6 px-6 py-4 shadow-01">
-            <Row gutter={[0, 0]} className="min-w-[1184px]">
-                <Col xs={24} lg={12}>
+            <Row gutter={[16, 16]}>
+                <Col md={24} lg={12} className="" span={24}>
                     {dataAccountDetailLeft.map((item, index) => {
                         return (
-                            <Col xs={24} key={index}>
+                            <Col key={index} className="max-sm:px-0">
                                 <RowAccountInfo
                                     label={t(item.label)}
                                     content={item.content}
@@ -171,10 +163,10 @@ const AccountInfo = () => {
                         )
                     })}
                 </Col>
-                <Col xs={24} lg={12}>
+                <Col md={24} lg={12} className="" span={24}>
                     {dataAccountDetailRight.map((item, index) => {
                         return (
-                            <Col xs={24} key={index}>
+                            <Col key={index} className="max-sm:px-0">
                                 <RowAccountInfo
                                     label={t(item.label)}
                                     content={item.content}
