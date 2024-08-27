@@ -18,47 +18,37 @@ const CompanyInfo = () => {
     const t = useTranslations()
     const [{ company }] = useCompanyDetail()
 
-    console.log('company: ', company)
-
     const dataCompanyInfoLeft: IRowInfo[] = [
         {
             label: 'COMPANY_NAME',
             content: (
-                <p className="w-full truncate hover:text-clip">
-                    {company?.companyName}
-                </p>
+                <p className="flex-1 break-words">{company?.companyName}</p>
             ),
         },
         {
             label: 'COMPANY_INFORMATION',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.description}
-                </p>
+                <p className="flex-1 break-words">{company?.description}</p>
             ),
         },
 
         {
             label: 'DATE_OF_INCORPORATION',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
+                <p className="flex-1 break-words">
                     {company?.dateOfCorporation}
                 </p>
             ),
         },
         {
             label: 'FAX',
-            content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.fax}
-                </p>
-            ),
+            content: <p className="flex-1 break-words">{company?.fax}</p>,
         },
         {
             label: 'REPRESENTATIVE',
             content: (
                 <div
-                    className={`flex flex-wrap content-start items-center gap-[4px]`}
+                    className={`flex flex-nowrap content-start items-center gap-[4px]`}
                 >
                     <Avatar
                         style={{
@@ -73,7 +63,7 @@ const CompanyInfo = () => {
                                 company?.representativeUser,
                             )}
                     </Avatar>
-                    <p>{company?.representativeUser}</p>
+                    <p className="flex-1">{company?.representativeUser}</p>
                 </div>
             ),
         },
@@ -97,28 +87,20 @@ const CompanyInfo = () => {
     const dataCompanyInfoRight: IRowInfo[] = [
         {
             label: 'ADDRESS',
-            content: (
-                <p className=" truncate hover:text-clip">{company?.address}</p>
-            ),
+            content: <p className=" flex-1 break-words">{company?.address}</p>,
         },
         {
             label: 'EMAIL',
-            content: (
-                <p className=" truncate hover:text-clip">{company?.email}</p>
-            ),
+            content: <p className="flex-1 break-all">{company?.email}</p>,
         },
         {
             label: 'PHONE',
-            content: (
-                <p className=" truncate hover:text-clip">{company?.phone}</p>
-            ),
+            content: <p className="flex-1 break-all">{company?.phone}</p>,
         },
         {
             label: 'TAX_OF_COMPANY',
             content: (
-                <p className=" truncate hover:text-clip">
-                    {company?.taxCompany}
-                </p>
+                <p className="flex-1 break-words">{company?.taxCompany}</p>
             ),
         },
         {
@@ -128,7 +110,7 @@ const CompanyInfo = () => {
                     <div
                         className={`h-[6px] w-[6px] rounded-full  ${
                             company?.status.status == CompanyStatus.ACTIVE
-                                ? ' bg-green-300'
+                                ? ' bg-green-500'
                                 : company?.status.status ==
                                   CompanyStatus.INACTIVE
                                 ? ' bg-red-500'
@@ -158,9 +140,7 @@ const CompanyInfo = () => {
         {
             label: 'BUSINESS_TYPE',
             content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {company?.businessType}
-                </p>
+                <p className="flex-1 break-words">{company?.businessType}</p>
             ),
         },
     ]

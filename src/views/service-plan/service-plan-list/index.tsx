@@ -46,7 +46,7 @@ const PlanList = ({ add }: { add?: boolean }) => {
     }
 
     return (
-        <div className="mx-auto w-[97%]">
+        <div className="mx-auto w-[97%] max-w-[1200px]">
             <Sliders {...settings} className="">
                 {planState?.planList.map((item) => (
                     <div key={item.id} className="mx-auto px-[12px] py-[32px]">

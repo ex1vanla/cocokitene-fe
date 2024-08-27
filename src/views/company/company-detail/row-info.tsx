@@ -8,7 +8,7 @@ export interface IRowInfo {
 
 export const RowInfo = ({ label, content }: IRowInfo) => {
     return (
-        <Row className="h-[40px] py-2">
+        <Row className="min-h-[40px] py-2" wrap={false}>
             <Col className="w-[150px] whitespace-nowrap">
                 {label && (
                     <div className="w-[100%] text-sm text-black-45">
@@ -16,9 +16,7 @@ export const RowInfo = ({ label, content }: IRowInfo) => {
                     </div>
                 )}
             </Col>
-            <Col className="flex-1 truncate text-sm text-black/[85%]">
-                {content}
-            </Col>
+            <Col className="flex-1 text-sm text-black/[85%]">{content}</Col>
         </Row>
     )
 }

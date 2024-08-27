@@ -23,7 +23,7 @@ const SuperAdminInfo = () => {
             label: 'USERNAME',
             content: company?.superAdminInfo?.username && (
                 <div
-                    className={`flex flex-wrap content-start items-center gap-[4px]`}
+                    className={`flex flex-nowrap content-start items-center gap-[4px]`}
                 >
                     <Avatar
                         style={{
@@ -37,14 +37,16 @@ const SuperAdminInfo = () => {
                             company?.superAdminInfo?.username,
                         )}
                     </Avatar>
-                    <span>{company?.superAdminInfo?.username}</span>
+                    <span className="flex-1">
+                        {company?.superAdminInfo?.username}
+                    </span>
                 </div>
             ),
         },
         {
             label: 'WALLET_ADDRESS',
             content: company?.superAdminInfo?.walletAddress && (
-                <p className="truncate hover:text-clip">
+                <p className="flex-1 break-all">
                     {truncateString({
                         text: String(company?.superAdminInfo?.walletAddress),
                         start: 5,
@@ -83,7 +85,7 @@ const SuperAdminInfo = () => {
         {
             label: 'EMAIL',
             content: (
-                <p className="truncate hover:text-clip">
+                <p className="flex-1 break-all">
                     {company?.superAdminInfo?.email}
                 </p>
             ),
