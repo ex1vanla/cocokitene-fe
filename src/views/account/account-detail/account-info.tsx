@@ -143,8 +143,8 @@ const AccountInfo = () => {
     ]
 
     return (
-        <div className="bg-white p-6 px-6 py-4 shadow-01">
-            <Row gutter={[16, 16]}>
+        <div className="bg-white p-6 px-6 py-4 shadow-01 max-[470px]:px-2">
+            <Row gutter={[16, 0]}>
                 <Col md={24} lg={12} className="" span={24}>
                     {dataAccountDetailLeft.map((item, index) => {
                         return (

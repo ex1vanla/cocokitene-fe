@@ -107,7 +107,7 @@ const Sidebar = ({
             </Layout.Sider>
             <Drawer
                 title={
-                    <div className="mx-auto flex h-12 items-center justify-center bg-primary px-1 py-0">
+                    <div className="mx-auto flex h-12 items-center justify-center bg-primary px-0 py-0 max-[470px]:pr-1">
                         <div className="flex items-center justify-center gap-1">
                             <Button
                                 type="text"
