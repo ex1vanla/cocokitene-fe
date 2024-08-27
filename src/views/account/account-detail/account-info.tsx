@@ -137,11 +137,7 @@ const AccountInfo = () => {
         },
         {
             label: 'QUANTITY',
-            content: (
-                <p className="max-w-[415px] truncate hover:text-clip">
-                    {account?.shareQuantity || ''}
-                </p>
-            ),
+            content: <p className="flex-1">{account?.shareQuantity || ''}</p>,
             lg: 3,
         },
     ]
