@@ -133,7 +133,7 @@ const DetailResolutionItem = ({
     }
 
     return (
-        <div className="flex items-center justify-between border-b border-b-neutral/4 py-3">
+        <div className="flex items-center justify-between gap-8 border-b border-b-neutral/4 py-3">
             <Modal
                 title={title}
                 open={modalOpen}
@@ -220,19 +220,19 @@ const DetailResolutionItem = ({
                     </div>
                 </div>
             </Modal>
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-1 items-center justify-center gap-4 max-[470px]:gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full border border-neutral/5 bg-neutral/2">
                     <Text className="text-bold">{index}</Text>
                 </div>
                 <Text
                     title={content}
-                    className="cursor-pointer text-primary underline decoration-1"
+                    className="flex-1 cursor-pointer text-primary underline decoration-1"
                     onClick={toggleModelDetailResolution}
                 >
                     {title}
                 </Text>
             </div>
-            <div className="flex items-center gap-8">
+            <div className="flex flex-1 items-center justify-end gap-8">
                 {/* <div className="flex items-center gap-2">
                     <Text className="text-polar-green">
                         {formatNumber(percentVoted, {
@@ -250,10 +250,17 @@ const DetailResolutionItem = ({
                             voteStatus === FETCH_STATUS.LOADING ||
                             !!voteErrorMessage
                         }
+                        // className="flex flex-wrap max-[470px]:flex-col"
+                        className="flex justify-end max-sm:flex-col"
                     >
-                        <Radio value={VoteProposalOption.VOTE}>
+                        <Radio
+                            value={VoteProposalOption.VOTE}
+                            className="max-sm:w-28"
+                        >
                             <div className="flex flex-col">
-                                <div>{t('VOTED')}</div>
+                                <div style={{ whiteSpace: 'nowrap' }}>
+                                    {t('VOTED')}
+                                </div>
                                 <Text className="text-polar-green">
                                     {formatNumber(votePercent.percentVoted, {
                                         maximumFractionDigits: 2,
@@ -262,8 +269,14 @@ const DetailResolutionItem = ({
                                 </Text>
                             </div>
                         </Radio>
-                        <Radio value={VoteProposalOption.UN_VOTE}>
-                            <div className="flex flex-col">
+                        <Radio
+                            value={VoteProposalOption.UN_VOTE}
+                            className="max-sm:w-28"
+                        >
+                            <div
+                                className="flex flex-col"
+                                style={{ whiteSpace: 'nowrap' }}
+                            >
                                 <div>{t('UNVOTED')}</div>
                                 <Text className="text-polar-green">
                                     {formatNumber(votePercent.percentUnVoted, {
@@ -273,7 +286,11 @@ const DetailResolutionItem = ({
                                 </Text>
                             </div>
                         </Radio>
-                        <Radio value={VoteProposalOption.NO_IDEA}>
+                        <Radio
+                            value={VoteProposalOption.NO_IDEA}
+                            className="max-sm:w-28"
+                            style={{ whiteSpace: 'nowrap' }}
+                        >
                             <div className="flex flex-col">
                                 <div>{t('NO_IDEA')}</div>
                                 <Text className="text-polar-green">

@@ -817,7 +817,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
 
     return (
         <>
-            <div className="fixed bottom-7 right-5 h-auto">
+            <div className="fixed bottom-7 right-5 z-20 h-auto max-[470px]:bottom-3">
                 <div
                     className={`mb-14 mr-3 border bg-white ${
                         chatModalOpen
@@ -826,9 +826,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     }`}
                 >
                     <div
-                        className={`flex w-[400px] flex-col ${
-                            initMessage ? 'h-[680px]' : 'h-[600px]'
-                        }`}
+                        className={`flex h-[600px] w-[400px] flex-col max-[470px]:w-[330px]`}
                     >
                         {initStatus === FETCH_STATUS.LOADING ? (
                             <Row
@@ -839,8 +837,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                 <Spin tip="Loading..." />
                             </Row>
                         ) : (
-                            <>
-                                <div className="relative flex h-[7%] w-full items-center bg-[#5151e5] px-2">
+                            <div className="flex h-full w-full flex-col">
+                                <div className="relative flex h-10 w-full flex-none items-center bg-[#5151e5] px-2">
                                     <span className="max-w-[90%] truncate text-xl font-medium text-[#ffffff]	">
                                         Chat {meetingInfo.title}
                                     </span>
@@ -853,11 +851,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                         }}
                                     />
                                 </div>
-                                <div
-                                    className={`${
-                                        initMessage ? 'h-[70%]' : 'h-[76%]'
-                                    } mt-2`}
-                                >
+                                <div className={`mt-2 h-1 flex-auto`}>
                                     {/* <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-hidden border px-2 hover:overflow-y-auto"> */}
                                     <div
                                         className="border-black-500 custom-class relative mx-auto h-full w-[95%] overflow-y-auto overscroll-contain border px-2"
@@ -1208,9 +1202,9 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                     </div>
                                 </div>
                                 <div
-                                    className={`mx-1 my-1 flex gap-5 px-2 ${
-                                        initMessage ? 'h-[23%]' : 'h-[16%]'
-                                    }`}
+                                    className={`mx-1 my-1 flex ${
+                                        initMessage ? 'h-36' : 'h-24'
+                                    } gap-5 px-2`}
                                 >
                                     <div className="flex w-[95%] flex-col gap-2">
                                         <div className="flex w-full items-center">
@@ -1292,10 +1286,6 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                                                             permission.name,
                                                                                         )}
                                                                                     </span>
-                                                                                    {/* {permissionChat ==
-                                                                                        permission.id && (
-                                                                                        <CheckOutlined className="mr-1" />
-                                                                                    )} */}
                                                                                     <CheckOutlined
                                                                                         className={`ml-3 mr-1 ${
                                                                                             permissionChat !==
@@ -1420,7 +1410,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                         </div>
                                     </div>
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>

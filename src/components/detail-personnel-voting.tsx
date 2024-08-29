@@ -109,7 +109,7 @@ const DetailPersonnelVotingItem = ({
 
     return (
         <>
-            <div className="flex flex-col items-start justify-between gap-2 border-b border-b-neutral/4 pb-8 pl-8 pt-1">
+            <div className="flex flex-col items-start justify-between gap-2 border-b border-b-neutral/4 pb-8 pl-0 pr-[-24px] pt-1 max-sm:pl-0">
                 <div className="flex items-center gap-3">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full border-neutral/5 bg-neutral/2">
                         <Text className="text-bold">{index + 1}</Text>
@@ -121,7 +121,7 @@ const DetailPersonnelVotingItem = ({
                         {title}
                     </Text>
                 </div>
-                <div className="flex w-full flex-grow items-center justify-between pl-12">
+                <div className="flex w-full flex-grow items-center justify-between pl-11 max-sm:pl-6">
                     <div className="w-[50%]">{t('CANDIDATE_NAME')}</div>
                     <div className=""></div>
                 </div>
@@ -143,13 +143,13 @@ const DetailPersonnelVotingItem = ({
                         return (
                             <>
                                 <div
-                                    className="flex w-full flex-grow items-center justify-between pl-12"
+                                    className="flex w-full flex-grow items-center justify-between gap-8 pl-11 max-sm:pl-6"
                                     key={candidate.id}
                                 >
-                                    <div className=" max-w-[60%] break-words">
+                                    <div className="flex-1 break-words">
                                         {candidate.candidateName}
                                     </div>
-                                    <div className="">
+                                    <div className="flex flex-1 items-center justify-end gap-8">
                                         {candidate?.votedQuantity !==
                                             undefined &&
                                             candidate?.unVotedQuantity !==
@@ -177,14 +177,21 @@ const DetailPersonnelVotingItem = ({
                                                                 FETCH_STATUS.LOADING ||
                                                             !!voteErrorMessage
                                                         }
+                                                        className="flex justify-end max-sm:flex-col"
                                                     >
                                                         <Radio
                                                             value={
                                                                 VoteProposalOption.VOTE
                                                             }
+                                                            className="max-sm:w-28"
                                                         >
                                                             <div className="flex flex-col">
-                                                                <div>
+                                                                <div
+                                                                    style={{
+                                                                        whiteSpace:
+                                                                            'nowrap',
+                                                                    }}
+                                                                >
                                                                     {t('VOTED')}
                                                                 </div>
                                                                 <Text className="text-polar-green">
@@ -207,9 +214,15 @@ const DetailPersonnelVotingItem = ({
                                                             value={
                                                                 VoteProposalOption.UN_VOTE
                                                             }
+                                                            className="max-sm:w-28"
                                                         >
                                                             <div className="flex flex-col">
-                                                                <div>
+                                                                <div
+                                                                    style={{
+                                                                        whiteSpace:
+                                                                            'nowrap',
+                                                                    }}
+                                                                >
                                                                     {t(
                                                                         'UNVOTED',
                                                                     )}
@@ -234,9 +247,15 @@ const DetailPersonnelVotingItem = ({
                                                             value={
                                                                 VoteProposalOption.NO_IDEA
                                                             }
+                                                            className="max-sm:w-28"
                                                         >
                                                             <div className="flex flex-col">
-                                                                <div>
+                                                                <div
+                                                                    style={{
+                                                                        whiteSpace:
+                                                                            'nowrap',
+                                                                    }}
+                                                                >
                                                                     {t(
                                                                         'NO_IDEA',
                                                                     )}

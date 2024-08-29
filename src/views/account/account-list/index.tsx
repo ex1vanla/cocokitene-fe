@@ -92,7 +92,7 @@ const AccountList = () => {
                     </div>
                 )
             },
-            width: '22%',
+            width: '26%',
         },
         {
             title: t('WALLET_ADDRESS'),
