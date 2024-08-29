@@ -38,7 +38,14 @@ const ListPastMeeting = ({ data }: ListPastMeetingProps) => {
                 {data && data.length > 0 ? (
                     <>
                         {data.map((item, index) => (
-                            <ItemPastMeeting key={index} {...item} />
+                            <div
+                                className="overflow-auto"
+                                key={item.meetings_id}
+                            >
+                                <div className="min-w-[845px]">
+                                    <ItemPastMeeting key={index} {...item} />
+                                </div>
+                            </div>
                         ))}
                         <div className="mt-6 flex justify-end">
                             <Pagination
