@@ -7,12 +7,11 @@ import serviceMeeting from '@/services/meeting'
 import { IMeetingParticipantsResponse } from '@/services/response.type'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
 import { SettingOutlined } from '@ant-design/icons'
-import { Empty, Input, Typography } from 'antd'
+import { Empty, Input } from 'antd'
 import { useTranslations } from 'next-intl'
 import { useParams } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-const { Text } = Typography
 const Participants = () => {
     const t = useTranslations()
     const [query, setQuery] = useState('')

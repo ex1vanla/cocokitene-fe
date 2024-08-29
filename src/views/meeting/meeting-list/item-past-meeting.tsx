@@ -64,7 +64,7 @@ const ItemPastMeeting = ({
                     document.body.removeChild(textArea)
                 }
                 setCopySuccess(true)
-                // Reset the message after 1 second
+                // Reset the message after 1,5 second
                 setTimeout(() => setCopySuccess(false), 1500)
             } catch (error) {
                 console.log('Failed to copy text:', error)

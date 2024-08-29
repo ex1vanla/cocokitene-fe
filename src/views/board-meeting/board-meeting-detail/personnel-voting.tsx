@@ -217,13 +217,15 @@ const PersonnelVoting = () => {
     return (
         <BoxArea title={t('EXECUTIVE_OFFICER_ELECTION')}>
             <BoxArea title={t('APPOINTMENT')}>
-                <div className="mb-6 flex flex-col gap-6">
+                <div className="mb-6 flex flex-col gap-6 max-md:mr-[-24px]">
                     {bodyAppontMents}
                 </div>
             </BoxArea>
 
             <BoxArea title={t('DISMISSAL')}>
-                <div className="mb-6 flex flex-col gap-6">{bodyDismissals}</div>
+                <div className="mb-6 flex flex-col gap-6 max-md:mr-[-24px]">
+                    {bodyDismissals}
+                </div>
             </BoxArea>
         </BoxArea>
     )
