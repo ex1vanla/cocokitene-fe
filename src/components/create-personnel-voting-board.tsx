@@ -179,8 +179,8 @@ const CreatePersonnelVotingBoardMtg = ({
 
     return (
         <div className="flex flex-row items-start gap-2">
-            <div>
-                <span className="mr-2 align-middle text-lg font-medium text-[#ff4d4f]">
+            <div className="flex flex-none max-[470px]:max-w-[100px]">
+                <span className="mr-2 mt-2 align-middle text-lg font-medium text-[#ff4d4f]">
                     *
                 </span>
                 <Text className="leading-10">

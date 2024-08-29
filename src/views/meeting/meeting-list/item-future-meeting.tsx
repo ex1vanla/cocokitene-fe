@@ -84,7 +84,7 @@ const ItemFutureMeeting = ({
                 className="border-true-gray-300 m-0 mb-2 w-full rounded-lg border p-2"
                 gutter={[16, 16]}
             >
-                <Col span={6} className="flex items-center space-x-2  px-0">
+                <Col span={6} className="flex items-center space-x-2 px-0">
                     <Image
                         src="/images/logo-meeting-future.png"
                         alt="service-image-alt"
@@ -119,9 +119,7 @@ const ItemFutureMeeting = ({
                         overlayClassName=" lg:max-2xl:max-w-[370px] 2xl:max-w-[500px]"
                         color={'rgba(81, 81, 229, 1)'}
                     >
-                        <Text className="overflow-hidden overflow-ellipsis whitespace-nowrap ">
-                            {meetings_title}
-                        </Text>
+                        <Text className="line-clamp-2">{meetings_title}</Text>
                     </Tooltip>
                 </Col>
                 <Col span={4} xl={5} className=""></Col>
