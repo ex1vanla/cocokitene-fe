@@ -28,8 +28,8 @@ export const BoxGeneralInformation = ({
     return (
         <div className="bg-white p-6 max-[470px]:px-3">
             <div className="flex items-end justify-between gap-2">
-                <div className="flex items-end justify-center gap-2">
-                    {icon}
+                <div className="flex justify-center gap-2">
+                    <div className="h-4 w-4">{icon}</div>
                     <Text className="leading-none">{title}</Text>
                 </div>
                 <div>
@@ -79,8 +79,8 @@ export const BoxInformationQuantityShareOfParticipant = ({
     return (
         <div className="h-full bg-white p-6 max-[470px]:px-3">
             <div className="flex items-end justify-between gap-2">
-                <div className="flex items-end justify-center gap-2">
-                    {icon}
+                <div className="flex justify-center gap-2">
+                    <div className="h-4 w-4">{icon}</div>
                     <Text className="leading-none">{title}</Text>
                 </div>
                 <div>
@@ -153,7 +153,11 @@ const DetailInformation = () => {
                 </Col>
                 <Col xs={24} sm={12} xl={7}>
                     <BoxInformationQuantityShareOfParticipant
-                        icon={<PieChartOutlined style={{ color: '#5151e5' }} />}
+                        icon={
+                            <PieChartOutlined
+                                style={{ fontSize: '16px', color: '#5151e5' }}
+                            />
+                        }
                         title={t('QUANTITY_SHARE_AT_MEETING')}
                         quantityShare={quantityShare}
                     />

@@ -26,8 +26,8 @@ export const BoxGeneralInformation = ({
     return (
         <div className="h-full bg-white p-6 max-[470px]:px-3">
             <div className="flex items-center justify-between gap-2">
-                <div className="flex items-end justify-center gap-2">
-                    {icon}
+                <div className="flex justify-center gap-2">
+                    <div className="h-4 w-4">{icon}</div>
                     <Text className="leading-none">{title}</Text>
                 </div>
                 <div>
