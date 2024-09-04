@@ -39,10 +39,21 @@ body {
     font-size: 34px !important;
     color: gray;
 }
+
+.slider_dash_board .slick-next {
+    right: -15px !important;
+}
+
+.slider_dash_board .slick-prev {
+    left: -30px !important;
+}
+
 .slick-next {
+    /* right: -15px !important; */
     right: -15px !important;
 }
 .slick-prev {
+    /* left: -30px !important; */
     left: -30px !important;
 }
 
@@ -68,18 +79,20 @@ body {
     transition: all 0.5s ease-in-out;
     will-change: width;
     background-color: black;
+    cursor:default;
 }
 
 .slick-dots.slick-thumb li.slick-active {
     background-color: red;
     width: 24px;
+    cursor:default;
 }
 .slick-track {
     display: flex;
     justify-content: center;
 }
 .ant-tabs-tab {
-    padding: 8px !important;
+    /* padding: 8px !important; */
     border: 1px solid #5151e5 !important;
     background-color: #5151e5 !important;
     opacity: 0.6 !important;
@@ -90,7 +103,7 @@ body {
 }
 
 .ant-tabs-tab-active {
-    padding: 8px !important;
+    /* padding: 8px !important; */
     opacity: 1 !important;
     color: white !important;
     margin: 0 0 0 2px !important;
@@ -102,6 +115,10 @@ body {
     color: white !important;
     font-weight: 500;
     width: 200px;
+    @media (max-width: 991px) {
+        /* width: fit-content; */
+        width: 120px;
+    }
 }
 
 .ant-tabs-nav {

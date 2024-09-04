@@ -43,8 +43,11 @@ const PricesSection = () => {
                         {t('PRICING_SUB_TITLE')}
                     </Text>
                 </div>
-                <div id="pricing-list" className="flex justify-center gap-6">
-                    <PlanList add={true} />
+                <div
+                    id="pricing-list"
+                    className="flex justify-center gap-6 px-10"
+                >
+                    <PlanList ad={true} />
                 </div>
             </div>
         </div>

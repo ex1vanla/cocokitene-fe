@@ -6,12 +6,12 @@ import { EActionStatus } from '@/stores/type'
 import Loader from '@/components/loader'
 import EmptyServicePlan from './empty-plan'
 
-const PlanList = ({ add }: { add?: boolean }) => {
+const PlanList = ({ ad }: { ad?: boolean }) => {
     const { planState } = useListPlan()
 
     const settings = {
         dots: true,
-        infinite: false,
+        infinite: true,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -61,7 +61,7 @@ const PlanList = ({ add }: { add?: boolean }) => {
                             price={item.price}
                             isRecommended={false}
                             className="mx-auto max-w-[320px]"
-                            add={add}
+                            ad={ad}
                         />
                     </div>
                 ))}

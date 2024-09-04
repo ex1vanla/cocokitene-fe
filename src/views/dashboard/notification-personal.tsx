@@ -277,8 +277,11 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                 {date.getMonth() + 1})
             </span>
             <div className="mx-auto w-[90%]">
-                <div className="mx-auto max-w-[1200px]">
-                    <Sliders {...settings} className="mx-auto pb-3">
+                <div className="mx-auto max-w-[1200px] px-0">
+                    <Sliders
+                        {...settings}
+                        className="slider_dash_board mx-auto pb-3"
+                    >
                         <div className="mx-auto flex h-[470px] max-w-[320px] flex-col justify-between border">
                             <div>
                                 <div className="mt-3 pl-5 text-lg">
@@ -449,7 +452,9 @@ const NotificationPersonal = ({
         }
     }, [isSupperAdmin, date])
 
-    return <div className="w-[100%]">{bodyNotificationOfPersonal}</div>
+    return (
+        <div className="w-[100%] shadow-lg">{bodyNotificationOfPersonal}</div>
+    )
 }
 
 export default NotificationPersonal
