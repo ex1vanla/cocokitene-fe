@@ -67,6 +67,7 @@ const BoardMeetingParticipants = () => {
                 ],
             })
         }
+        // eslint-disable-next-line
     }, [roleBoardMtgList, authState])
 
     const onSelect =

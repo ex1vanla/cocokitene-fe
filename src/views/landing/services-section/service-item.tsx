@@ -2,7 +2,7 @@ import { Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 export interface IServiceItem {
     serviceImage: string
@@ -27,18 +27,18 @@ const ServiceItem = ({
                 alt="service-image-alt"
                 width={150}
                 height={150}
-                className="sm:mb-10"
+                className="mx-auto sm:mb-10"
             />
             <div>
                 <Title
                     level={4}
-                    className="mb-4 font-medium sm:max-w-[200px] sm:text-center"
+                    className="mx-auto mb-3 font-medium sm:max-w-[200px] sm:text-center"
                 >
                     {t(serviceTitle)}
                 </Title>
-                <Text className="text-center font-normal text-black/[45%] sm:mb-4">
+                <p className="mx-auto text-center text-sm font-normal text-black/[45%] sm:mb-4">
                     {t(serviceSubtitle)}
-                </Text>
+                </p>
             </div>
         </div>
     )

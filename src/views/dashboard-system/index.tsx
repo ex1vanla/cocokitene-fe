@@ -69,7 +69,7 @@ const DashBoardSystem = () => {
                                     />
                                 </div>
                             </div>
-                            <div>
+                            <div className="border shadow-lg">
                                 <StatisticalCompany />
                             </div>
                         </div>
