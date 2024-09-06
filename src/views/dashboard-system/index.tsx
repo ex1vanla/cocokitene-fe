@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl'
 import StatisticalCompany from './statistical-company'
 import CalendarCustom from '../dashboard/calendar'
 import { Dayjs } from 'dayjs'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ScreenDashBoard } from '@/constants/dash-board'
 import CreateSystemNotificationScreen from './create-system-notification'
 import DetailSystemNotification from './detail-system-notification'
@@ -22,15 +22,21 @@ const DashBoardSystem = () => {
     const [screen, setScreen] = useState<ScreenDashBoard>(screenCurrent)
     const [sysNotification, setSysNotification] =
         useState<ISystemNotificationResponse>(sysNotificationCurrent)
+    const [date, setDate] = useState<{ month: number; year: number }>({
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear(),
+    })
 
     const t = useTranslations()
 
     const onSelect = (newValue: Dayjs) => {
-        console.log(newValue.toDate())
+        setDate({
+            month: newValue.month() + 1,
+            year: newValue.year(),
+        })
     }
 
     const changeScreen = (screen: ScreenDashBoard) => {
-        console.log('screen: ', screen)
         screenCurrent = screen
         setScreen(screen)
     }
@@ -39,6 +45,10 @@ const DashBoardSystem = () => {
         setSysNotification(value)
         sysNotificationCurrent = value
     }
+
+    const bodySystemAdminStatistical = useMemo(() => {
+        return <StatisticalCompany month={date.month} year={date.year} />
+    }, [date.month, date.year])
 
     return (
         <div>
@@ -70,7 +80,8 @@ const DashBoardSystem = () => {
                                 </div>
                             </div>
                             <div className="border shadow-lg">
-                                <StatisticalCompany />
+                                {/* <StatisticalCompany /> */}
+                                {bodySystemAdminStatistical}
                             </div>
                         </div>
                     )}

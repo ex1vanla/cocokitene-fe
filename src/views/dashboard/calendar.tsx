@@ -113,7 +113,7 @@ const CalendarCustom = ({
     return (
         <>
             <Calendar
-                mode={isSupperAdmin ? 'year' : 'month'}
+                mode={isSupperAdmin || isSystemAdmin ? 'year' : 'month'}
                 fullscreen={false}
                 headerRender={({ value, onChange }) => {
                     const start = 0
@@ -181,7 +181,9 @@ const CalendarCustom = ({
                                             dropdownMatchSelectWidth={false}
                                             value={month}
                                             className={`${
-                                                isSupperAdmin ? 'hidden' : ''
+                                                isSupperAdmin || isSystemAdmin
+                                                    ? 'hidden'
+                                                    : ''
                                             }`}
                                             onChange={(newMonth) => {
                                                 const now = value

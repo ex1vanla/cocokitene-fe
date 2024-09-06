@@ -56,9 +56,15 @@ const CreateResolutionItem = ({
 
     const onUpload = async ({ file }: RcCustomRequestOptions) => {
         try {
+            const meetingFileType =
+                type == ResolutionType.MANAGEMENT_FINANCIAL
+                    ? MeetingFileType.REPORTS
+                    : MeetingFileType.PROPOSAL_FILES
+
             const res = await serviceUpload.getPresignedUrl(
                 [file as File],
-                MeetingFileType.PROPOSAL_FILES,
+                // MeetingFileType.PROPOSAL_FILES,
+                meetingFileType,
             )
             await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
 
