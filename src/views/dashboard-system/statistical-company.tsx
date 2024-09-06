@@ -13,7 +13,13 @@ export interface IStatisticCompany {
     servicePlan: { type: string; value: number }[]
 }
 
-const StatisticalCompany = () => {
+const StatisticalCompany = ({
+    month,
+    year,
+}: {
+    month: number
+    year: number
+}) => {
     const t = useTranslations()
     const [dataStatistic, setDataStatistic] = useState<IStatisticCompany>()
     const [loadingFetchData, setLoadingFetchData] = useState<boolean>(true)
@@ -21,7 +27,10 @@ const StatisticalCompany = () => {
     useEffect(() => {
         const fetchDataStatistical = async () => {
             setLoadingFetchData(true)
-            const statisticalCompany = await serviceDashBoard.getStatistical()
+            const statisticalCompany = await serviceDashBoard.getStatistical(
+                month,
+                year,
+            )
 
             if (statisticalCompany) {
                 const statisticalCompanyData = {
@@ -60,7 +69,7 @@ const StatisticalCompany = () => {
         }
         fetchDataStatistical()
         // eslint-disable-next-line
-    }, [])
+    }, [month, year])
 
     const settings = {
         dots: true,
@@ -164,7 +173,7 @@ const StatisticalCompany = () => {
     return (
         <div className="flex min-h-[350px] w-full flex-col gap-3 p-2 py-5">
             <span className="text-xl">
-                {t('COMPANY_INFORMATION_STATISTICS')}
+                {t('COMPANY_INFORMATION_STATISTICS')} ({year}-{month})
             </span>
             <div className="mx-auto w-[95%]">
                 <div className="mx-auto max-w-[1200px]">
@@ -194,7 +203,9 @@ const StatisticalCompany = () => {
                             />
                         </div>
                         <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3 ">
-                            <div className="mt-3 pl-5 text-lg">{t('USER')}</div>
+                            <div className="mt-3 pl-5 text-lg">
+                                {t('ACCOUNT')}
+                            </div>
                             <div className="pl-5 text-sm ">
                                 {t('USER_STATUS_STATISTICS')}
                             </div>
