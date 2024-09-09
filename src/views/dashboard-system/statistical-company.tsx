@@ -114,7 +114,7 @@ const StatisticalCompany = ({
                 marginTop: -45,
                 radius: 0.8,
                 innerRadius: 0.5,
-                maxWidth: 300,
+                width: 276,
                 height: 500,
                 // insetRight: 50,
                 tooltip: false,
@@ -155,7 +155,7 @@ const StatisticalCompany = ({
                 interaction: {
                     legendFilter: false,
                 },
-                autoFit: true,
+                // autoFit: true,
             }
         },
         // eslint-disable-next-line
@@ -175,21 +175,26 @@ const StatisticalCompany = ({
             <span className="text-xl">
                 {t('COMPANY_INFORMATION_STATISTICS')} ({year}-{month})
             </span>
-            <div className="mx-auto w-[95%]">
-                <div className="mx-auto max-w-[1200px]">
+            <div className="mx-auto w-[90%]">
+                <div className="mx-auto max-w-[1200px] px-0">
                     <Sliders {...settings} className="mx-auto pb-3">
-                        <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3">
+                        <div className="mx-auto box-border flex max-w-[320px] flex-col justify-between border pb-3">
                             <div className="mt-3 pl-5 text-lg">
                                 {t('COMPANY')}
                             </div>
                             <div className="pl-5 text-sm">
                                 {t('COMPANY_STATUS_STATISTICS')}
                             </div>
-                            <Pie
-                                {...configPie(
-                                    dataStatistic?.companyStatuses ?? [],
-                                )}
-                            />
+                            <div className="flex justify-center">
+                                <div>
+                                    <Pie
+                                        {...configPie(
+                                            dataStatistic?.companyStatuses ??
+                                                [],
+                                        )}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3 ">
                             <div className="mt-3 pl-5 text-lg">
@@ -198,9 +203,15 @@ const StatisticalCompany = ({
                             <div className="pl-5 text-sm ">
                                 {t('SERVICE_PLAN_STATISTICS')}
                             </div>
-                            <Pie
-                                {...configPie(dataStatistic?.servicePlan ?? [])}
-                            />
+                            <div className="flex justify-center">
+                                <div>
+                                    <Pie
+                                        {...configPie(
+                                            dataStatistic?.servicePlan ?? [],
+                                        )}
+                                    />
+                                </div>
+                            </div>
                         </div>
                         <div className="mx-auto box-border flex max-w-[320px] flex-col border pb-3 ">
                             <div className="mt-3 pl-5 text-lg">
@@ -209,11 +220,15 @@ const StatisticalCompany = ({
                             <div className="pl-5 text-sm ">
                                 {t('USER_STATUS_STATISTICS')}
                             </div>
-                            <Pie
-                                {...configPie(
-                                    dataStatistic?.userStatuses ?? [],
-                                )}
-                            />
+                            <div className="flex justify-center">
+                                <div>
+                                    <Pie
+                                        {...configPie(
+                                            dataStatistic?.userStatuses ?? [],
+                                        )}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </Sliders>
                 </div>

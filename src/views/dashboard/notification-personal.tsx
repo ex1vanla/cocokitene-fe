@@ -212,7 +212,7 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                 marginRight: 16,
                 innerRadius: 0.55,
                 radius: 0.85,
-                maxWidth: 300,
+                width: 276,
                 height: 350,
                 label: {
                     text: ({ value }: { value: any }) =>
@@ -282,42 +282,44 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                         {...settings}
                         className="slider_dash_board mx-auto pb-3"
                     >
-                        <div className="mx-auto flex h-[470px] max-w-[320px] flex-col justify-between border">
+                        <div className=" mx-auto flex h-[470px] max-w-[320px] flex-col justify-between border">
                             <div>
                                 <div className="mt-3 pl-5 text-lg">
                                     {t('NUMBER_MEETINGS')}
                                 </div>
                                 <div className="mb-3 h-[24px] pl-5"></div>
                             </div>
-                            <div className="pb-5">
-                                <Pie
-                                    {...configPie([
-                                        {
-                                            type:
-                                                t('SHAREHOLDER_MEETING') +
-                                                ': ' +
-                                                dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalMeeting,
-                                            value:
-                                                dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalMeeting ?? 0,
-                                        },
-                                        {
-                                            type:
-                                                t('BOARD_MEETING') +
-                                                ': ' +
-                                                dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalMeeting,
-                                            value:
-                                                dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalMeeting ?? 0,
-                                        },
-                                    ])}
-                                />
+                            <div className="flex justify-center pb-5">
+                                <div>
+                                    <Pie
+                                        {...configPie([
+                                            {
+                                                type:
+                                                    t('SHAREHOLDER_MEETING') +
+                                                    ': ' +
+                                                    dataStatistic
+                                                        ?.shareholderMeetingInMonth
+                                                        .totalMeeting,
+                                                value:
+                                                    dataStatistic
+                                                        ?.shareholderMeetingInMonth
+                                                        .totalMeeting ?? 0,
+                                            },
+                                            {
+                                                type:
+                                                    t('BOARD_MEETING') +
+                                                    ': ' +
+                                                    dataStatistic
+                                                        ?.boardMeetingInMonth
+                                                        .totalMeeting,
+                                                value:
+                                                    dataStatistic
+                                                        ?.boardMeetingInMonth
+                                                        .totalMeeting ?? 0,
+                                            },
+                                        ])}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="mx-auto flex h-[470px] max-w-[320px] flex-col justify-between border pb-5">
@@ -330,44 +332,50 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                                     {t('ABSENT_PARTICIPANTS')}
                                 </div>
                             </div>
-                            <div>
-                                <Pie
-                                    {...configPie([
-                                        {
-                                            type:
-                                                t('TOTAL_PARTICIPANT_JOINED') +
-                                                ': ' +
-                                                dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalParticipantJoined,
-                                            value:
-                                                dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalParticipantJoined ??
-                                                0,
-                                        },
-                                        {
-                                            type:
-                                                t('ABSENT_PARTICIPANTS') +
-                                                ': ' +
-                                                ((dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalParticipant ?? 0) -
+                            <div className="flex justify-center pb-5">
+                                <div>
+                                    <Pie
+                                        {...configPie([
+                                            {
+                                                type:
+                                                    t(
+                                                        'TOTAL_PARTICIPANT_JOINED',
+                                                    ) +
+                                                    ': ' +
+                                                    dataStatistic
+                                                        ?.shareholderMeetingInMonth
+                                                        .totalParticipantJoined,
+                                                value:
+                                                    dataStatistic
+                                                        ?.shareholderMeetingInMonth
+                                                        .totalParticipantJoined ??
+                                                    0,
+                                            },
+                                            {
+                                                type:
+                                                    t('ABSENT_PARTICIPANTS') +
+                                                    ': ' +
+                                                    ((dataStatistic
+                                                        ?.shareholderMeetingInMonth
+                                                        .totalParticipant ??
+                                                        0) -
+                                                        (dataStatistic
+                                                            ?.shareholderMeetingInMonth
+                                                            .totalParticipantJoined ??
+                                                            0)),
+                                                value:
+                                                    (dataStatistic
+                                                        ?.shareholderMeetingInMonth
+                                                        .totalParticipant ??
+                                                        0) -
                                                     (dataStatistic
                                                         ?.shareholderMeetingInMonth
                                                         .totalParticipantJoined ??
-                                                        0)),
-                                            value:
-                                                (dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalParticipant ?? 0) -
-                                                (dataStatistic
-                                                    ?.shareholderMeetingInMonth
-                                                    .totalParticipantJoined ??
-                                                    0),
-                                        },
-                                    ])}
-                                />
+                                                        0),
+                                            },
+                                        ])}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="mx-auto flex h-[470px] max-w-[320px] flex-col justify-between border pb-5">
@@ -380,44 +388,50 @@ const NotificationSuperAdmin = ({ date }: { date: Date }) => {
                                     {t('ABSENT_PARTICIPANTS')}
                                 </div>
                             </div>
-                            <div>
-                                <Pie
-                                    {...configPie([
-                                        {
-                                            type:
-                                                t('TOTAL_PARTICIPANT_JOINED') +
-                                                ': ' +
-                                                dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalParticipantJoined,
-                                            value:
-                                                dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalParticipantJoined ??
-                                                0,
-                                        },
-                                        {
-                                            type:
-                                                t('ABSENT_PARTICIPANTS') +
-                                                ': ' +
-                                                ((dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalParticipant ?? 0) -
+                            <div className="flex justify-center pb-5">
+                                <div>
+                                    <Pie
+                                        {...configPie([
+                                            {
+                                                type:
+                                                    t(
+                                                        'TOTAL_PARTICIPANT_JOINED',
+                                                    ) +
+                                                    ': ' +
+                                                    dataStatistic
+                                                        ?.boardMeetingInMonth
+                                                        .totalParticipantJoined,
+                                                value:
+                                                    dataStatistic
+                                                        ?.boardMeetingInMonth
+                                                        .totalParticipantJoined ??
+                                                    0,
+                                            },
+                                            {
+                                                type:
+                                                    t('ABSENT_PARTICIPANTS') +
+                                                    ': ' +
+                                                    ((dataStatistic
+                                                        ?.boardMeetingInMonth
+                                                        .totalParticipant ??
+                                                        0) -
+                                                        (dataStatistic
+                                                            ?.boardMeetingInMonth
+                                                            .totalParticipantJoined ??
+                                                            0)),
+                                                value:
+                                                    (dataStatistic
+                                                        ?.boardMeetingInMonth
+                                                        .totalParticipant ??
+                                                        0) -
                                                     (dataStatistic
                                                         ?.boardMeetingInMonth
                                                         .totalParticipantJoined ??
-                                                        0)),
-                                            value:
-                                                (dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalParticipant ?? 0) -
-                                                (dataStatistic
-                                                    ?.boardMeetingInMonth
-                                                    .totalParticipantJoined ??
-                                                    0),
-                                        },
-                                    ])}
-                                />
+                                                        0),
+                                            },
+                                        ])}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </Sliders>
