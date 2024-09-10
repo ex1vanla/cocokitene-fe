@@ -10,6 +10,15 @@
     border-right: 3px solid rgb(var(--primary));
 }
 
+.select-custom .ant-select-selector {
+    background-color:transparent !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.select-custom .ant-select-arrow {
+    color: #fff !important;
+}
 /* :root {
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;

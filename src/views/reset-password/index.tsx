@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Button, Form, Input, Typography, notification } from 'antd'
+import { Button, Form, Input, Spin, Typography, notification } from 'antd'
 import { useEffect, useState } from 'react'
 import AuthLayout from '@/components/auth-layout'
 import { useNotification } from '@/hooks/use-notification'
@@ -94,6 +94,16 @@ const ResetPassword = () => {
         setConfirmPasswordError(null)
 
         return Promise.resolve()
+    }
+
+    if (countdown == undefined) {
+        return (
+            <AuthLayout>
+                <div className="flex items-center justify-center">
+                    <Spin tip="Loading..." />
+                </div>
+            </AuthLayout>
+        )
     }
 
     return (

@@ -80,7 +80,7 @@ const DetailSystemNotification = ({
             <div className="sm:px-6">
                 <div className="flex flex-col gap-3 bg-white p-6 py-4 sm:px-6">
                     <div>
-                        <div className="mx-auto flex max-w-[80%] flex-col p-2">
+                        <div className="mx-auto flex flex-col p-2">
                             <span className="mx-auto max-w-full break-words text-3xl font-semibold">
                                 {sysNotification?.system_notification_title}
                             </span>

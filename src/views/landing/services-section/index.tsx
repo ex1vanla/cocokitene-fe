@@ -39,7 +39,7 @@ const ServicesSection = () => {
             </div>
             <div
                 id="services-list"
-                className="flex justify-center gap-6 max-[639px]:flex-col"
+                className="flex justify-center gap-6 max-sm:flex-col"
             >
                 {servicesList.map((service, index) => (
                     <ServiceItem

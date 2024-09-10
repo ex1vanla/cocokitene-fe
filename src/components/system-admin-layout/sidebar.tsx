@@ -9,7 +9,7 @@ import {
     MenuOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons'
-import { Button, Drawer, Layout, Menu, MenuProps } from 'antd'
+import { Button, Drawer, Grid, Layout, Menu, MenuProps } from 'antd'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -17,6 +17,7 @@ import { createElement, useCallback } from 'react'
 import { LogoAppIcon } from '../svgs'
 
 type MenuItem = Required<MenuProps>['items'][number]
+const { useBreakpoint } = Grid
 
 interface ISidebar {
     isCollapsed: boolean
@@ -34,12 +35,19 @@ const Sidebar = ({
     setIsOpenDraw,
 }: ISidebar) => {
     const pathname = usePathname()
+    const screens = useBreakpoint()
 
     const router = useRouter()
     const t = useTranslations()
 
-    const redirect = ({ key }: { key: string }) => {
-        router.push(key)
+    const redirect = async ({ key }: { key: string }) => {
+        await router.push(key)
+        setTimeout(() => {
+            setIsOpenDraw(false)
+        }, 345)
+        if (!screens.xl) {
+            setIsCollapsed(true)
+        }
     }
 
     const toggleSidebar = () => {

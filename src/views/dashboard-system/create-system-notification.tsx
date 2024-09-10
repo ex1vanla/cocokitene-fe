@@ -44,7 +44,7 @@ const Header = ({
 }: IHeaderScreenSysNotification) => {
     const t = useTranslations()
     return (
-        <div className="content-title z-1 sticky top-12 flex items-center justify-between bg-white px-6 py-4 max-[470px]:px-2">
+        <div className="content-title z-1 sticky top-12 flex items-center justify-between gap-4 bg-white px-2 py-4 max-[470px]:px-0">
             <div className="flex items-center gap-2">
                 <ArrowLeftOutlined
                     onClick={() => {
@@ -181,7 +181,7 @@ const CreateSystemNotificationScreen = ({
                                 />
                             }
                         />
-                        <div className="p-6">
+                        <div className="p-6 max-[470px]:px-0">
                             <Row gutter={[16, 24]} className="mb-2">
                                 <Col xs={24} lg={24}>
                                     <Form.Item

@@ -294,7 +294,8 @@ const ButtonConnectWallet = ({
                                             onClick={showModal}
                                             type="default"
                                             size="large"
-                                            className="text-base font-normal text-primary "
+                                            className="text-base font-normal text-primary"
+                                            style={{ width: '96px' }}
                                         >
                                             {t('LOGIN')}
                                         </Button>
