@@ -168,6 +168,7 @@ const ResetPassword = () => {
                                     <Input.Password
                                         size="large"
                                         className="font-normal"
+                                        maxLength={250}
                                     />
                                 </Form.Item>
 
@@ -211,6 +212,7 @@ const ResetPassword = () => {
                                     <Input.Password
                                         size="large"
                                         className="font-normal"
+                                        maxLength={250}
                                     />
                                 </Form.Item>
 

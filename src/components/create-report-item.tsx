@@ -138,7 +138,10 @@ const CreateReportItem = ({
 
     const onUpload = async ({ file }: RcCustomRequestOptions) => {
         try {
-            const meetingFileType = type == ResolutionType.MANAGEMENT_FINANCIAL? MeetingFileType.REPORTS : MeetingFileType.PROPOSAL_FILES
+            const meetingFileType =
+                type == ResolutionType.MANAGEMENT_FINANCIAL
+                    ? MeetingFileType.REPORTS
+                    : MeetingFileType.PROPOSAL_FILES
 
             const res = await serviceUpload.getPresignedUrl(
                 [file as File],
@@ -175,13 +178,14 @@ const CreateReportItem = ({
                     size="large"
                     value={title}
                     onChange={onChange(onChangeTitle)}
-                    maxLength={50}
+                    maxLength={250}
                 />
                 <TextArea
                     className="placeholder:text-sm"
                     placeholder={t('ENTER_REPORT_DETAIL')}
                     value={content}
                     onChange={onChange(onChangeContent)}
+                    maxLength={250}
                 />
                 {/* <TextArea
                     className="placeholder:text-sm"
@@ -199,6 +203,7 @@ const CreateReportItem = ({
                         placeholder={t('ENTER_OLD_ELECTION_DETAIL')}
                         value={oldContent}
                         onChange={onChange(onChangeOldContent)}
+                        maxLength={250}
                     />
                 )}
                 {(title || content) &&

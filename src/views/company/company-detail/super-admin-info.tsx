@@ -1,4 +1,4 @@
-import { Avatar, Col, Row } from 'antd'
+import { Avatar, Col, Row, Typography } from 'antd'
 import { useTranslations } from 'next-intl'
 import Color from 'color'
 
@@ -9,6 +9,8 @@ import { IRowInfo, RowInfo } from './row-info'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import { UserStatus } from '@/constants/user-status'
+
+const { Text } = Typography
 
 const backgroundAvatarColor = Color(AvatarBgHexColors.GOLDEN_PURPLE)
     .lighten(0.6)
@@ -32,27 +34,24 @@ const SuperAdminInfo = () => {
                             color: AvatarBgHexColors.GOLDEN_PURPLE,
                         }}
                         size="small"
+                        className="mb-auto"
                     >
                         {getFirstCharacterUpperCase(
                             company?.superAdminInfo?.username,
                         )}
                     </Avatar>
-                    <span className="flex-1">
+                    <Text className="flex-1">
                         {company?.superAdminInfo?.username}
-                    </span>
+                    </Text>
                 </div>
             ),
         },
         {
             label: 'WALLET_ADDRESS',
             content: company?.superAdminInfo?.walletAddress && (
-                <p className="flex-1 break-all">
-                    {truncateString({
-                        text: String(company?.superAdminInfo?.walletAddress),
-                        start: 5,
-                        end: 3,
-                    })}
-                </p>
+                <Text className="">
+                    {company?.superAdminInfo?.walletAddress}
+                </Text>
             ),
         },
         {
@@ -70,7 +69,7 @@ const SuperAdminInfo = () => {
                                 : null
                         } `}
                     ></div>
-                    <p>
+                    <Text>
                         {company?.superAdminInfo?.userStatus?.status ==
                         UserStatus.ACTIVE
                             ? t('ACTIVE')
@@ -78,16 +77,16 @@ const SuperAdminInfo = () => {
                               UserStatus.INACTIVE
                             ? t('INACTIVE')
                             : null}
-                    </p>
+                    </Text>
                 </div>
             ),
         },
         {
             label: 'EMAIL',
             content: (
-                <p className="flex-1 break-all">
+                <Text className="flex-1 break-all">
                     {company?.superAdminInfo?.email}
-                </p>
+                </Text>
             ),
         },
     ]

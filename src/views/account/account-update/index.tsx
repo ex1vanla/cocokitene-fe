@@ -477,7 +477,7 @@ const UpdateAccount = () => {
                                     ]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" maxLength={50} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>
@@ -495,7 +495,7 @@ const UpdateAccount = () => {
                                     ]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" maxLength={11} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>
@@ -600,7 +600,7 @@ const UpdateAccount = () => {
                                     rules={[{ required: false }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" />
+                                    <Input size="large" maxLength={50} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>

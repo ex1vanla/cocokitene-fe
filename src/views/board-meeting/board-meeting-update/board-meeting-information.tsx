@@ -280,7 +280,7 @@ const BoardMeetingInformation = () => {
                                 size="large"
                                 value={data.title}
                                 onChange={onChange}
-                                maxLength={255}
+                                maxLength={100}
                             />
                         </Form.Item>
                     </Form>
@@ -311,6 +311,7 @@ const BoardMeetingInformation = () => {
                                 // addonBefore="https://"
                                 value={data.meetingLink}
                                 onChange={onChange}
+                                maxLength={100}
                             />
                         </Form.Item>
                     </Form>
@@ -571,7 +572,7 @@ const BoardMeetingInformation = () => {
                                 size="large"
                                 value={data.note}
                                 onChange={onChange}
-                                maxLength={5000}
+                                maxLength={4000}
                             />
                         </Form.Item>
                     </Form>

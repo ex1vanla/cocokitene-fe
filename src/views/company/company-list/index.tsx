@@ -40,50 +40,62 @@ const CompanyList = ({ data }: CompanyListProps) => {
         {
             title: t('COMPANY_NAME'),
             dataIndex: 'companyName',
+            render: (_, record) => {
+                return <Text>{record.companyName}</Text>
+            },
             width: '40%',
+            className: 'min-w-[248px]',
         },
         {
             title: t('SERVICE_PLAN'),
             dataIndex: 'servicePlan',
+            render: (_, record) => {
+                return <Text>{record.servicePlan}</Text>
+            },
             width: '15%',
+            className: 'min-w-[109px] px-2',
         },
         {
             title: t('REPRESENTATIVE'),
             dataIndex: 'representative',
             render: (_, record) => {
                 return (
-                    <div className="flex flex-wrap items-center gap-2">
-                        <Avatar
-                            style={{
-                                backgroundColor: backgroundAvatarColor,
-                                verticalAlign: 'middle',
-                                color: AvatarBgHexColors.GOLDEN_PURPLE,
-                            }}
-                            size="small"
-                        >
-                            {getFirstCharacterUpperCase(record.representative)}
-                        </Avatar>
-                        <Text
-                            title={record.representative}
-                            className="cursor-pointer"
-                        >
+                    <div className="flex items-center gap-2">
+                        <div className="w-6">
+                            <Avatar
+                                style={{
+                                    backgroundColor: backgroundAvatarColor,
+                                    verticalAlign: 'middle',
+                                    color: AvatarBgHexColors.GOLDEN_PURPLE,
+                                }}
+                                size="small"
+                                className="w-[24px] flex-initial"
+                            >
+                                {getFirstCharacterUpperCase(
+                                    record.representative,
+                                )}
+                            </Avatar>
+                        </div>
+                        <Text title={record.representative} className="">
                             {record.representative}
                         </Text>
                     </div>
                 )
             },
             width: '15%',
+            className: 'min-w-[126px]',
         },
         {
             title: t('TOTAL_CREATED_ACCOUNT'),
             dataIndex: 'totalCreatedAccount',
             width: '10%',
-            className: 'px-2',
+            className: 'px-2 min-w-[78px]',
         },
         {
             title: t('TOTAL_CREATED_MTGS'),
             dataIndex: 'totalCreatedMTGs',
             width: '10%',
+            className: 'min-w-[85px]',
         },
         {
             title: t('STATUS'),
@@ -98,7 +110,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                 </>
             ),
             width: '15%',
-            className: 'px-[6px] max-[470px]:px-0',
+            className: 'px-[6px] max-[470px]:px-0 min-w-[79px]',
         },
         {
             title: '',
@@ -122,7 +134,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                 </div>
             ),
             width: '15%',
-            className: 'px-3',
+            className: 'px-3 min-w-[68px]',
         },
     ]
     const { companyState, getListCompanyAction } = useListCompany()
