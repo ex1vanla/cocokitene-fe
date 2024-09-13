@@ -7,13 +7,15 @@ import {
     RowShareholderInfo,
 } from '@/views/shareholder/shareholder-detail/shareholder-rowinfo'
 import RoleInfo from '@/components/role-info'
-import { Avatar, Col, Row } from 'antd'
+import { Avatar, Col, Row, Typography } from 'antd'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import {
     UserStatus,
     UserStatusColor,
     UserStatusName,
 } from '@/constants/user-status'
+
+const { Text } = Typography
 
 const ShareholderInfo = () => {
     const t = useTranslations()
@@ -28,16 +30,18 @@ const ShareholderInfo = () => {
         {
             label: 'COMPANY_NAME',
             content: (
-                <p className="flex-1 break-words">
+                <Text className="flex-1 break-words">
                     {shareholder?.companyName || ''}
-                </p>
+                </Text>
             ),
             lg: 6,
         },
         {
             label: 'PHONE',
             content: (
-                <p className="flex-1 break-all">{shareholder?.phone || ''}</p>
+                <Text className="flex-1 break-all">
+                    {shareholder?.phone || ''}
+                </Text>
             ),
             lg: 6,
         },
@@ -55,9 +59,9 @@ const ShareholderInfo = () => {
         {
             label: 'WALLET_ADDRESS',
             content: (
-                <p className="flex-1 break-all">
+                <Text className="flex-1 break-all">
                     {shareholder?.walletAddress || ''}
-                </p>
+                </Text>
             ),
             lg: 6,
         },
@@ -93,7 +97,7 @@ const ShareholderInfo = () => {
                             {getFirstCharacterUpperCase(shareholder.userName)}
                         </Avatar>
                     )}
-                    <span className="flex-1">{shareholder.userName}</span>
+                    <Text className="flex-1">{shareholder.userName}</Text>
                 </div>
             ),
             lg: 6,
@@ -101,7 +105,9 @@ const ShareholderInfo = () => {
         {
             label: 'EMAIL',
             content: (
-                <p className="flex-1 break-all">{shareholder?.email || ''}</p>
+                <Text className="flex-1 break-all">
+                    {shareholder?.email || ''}
+                </Text>
             ),
             lg: 6,
         },

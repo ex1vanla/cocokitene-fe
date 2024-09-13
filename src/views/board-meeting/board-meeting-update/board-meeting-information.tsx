@@ -527,9 +527,11 @@ const BoardMeetingInformation = () => {
                                             label: (
                                                 <span
                                                     style={{
-                                                        color: MeetingStatusColor[
-                                                            status
-                                                        ],
+                                                        color: !isDisabled
+                                                            ? MeetingStatusColor[
+                                                                  status
+                                                              ]
+                                                            : '',
                                                     }}
                                                 >
                                                     {t(

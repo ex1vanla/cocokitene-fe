@@ -4,7 +4,6 @@ import Color from 'color'
 
 import BoxArea from '@/components/box-area'
 import { useCompanyDetail } from '@/stores/company/hooks'
-import { truncateString } from '@/utils/format-string'
 import { IRowInfo, RowInfo } from './row-info'
 import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
