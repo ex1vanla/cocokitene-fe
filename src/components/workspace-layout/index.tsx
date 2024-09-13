@@ -13,10 +13,10 @@ export interface IWorkspaceLayout {
 
 const WorkspaceLayout = (props: IWorkspaceLayout) => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
-        if (typeof window !== 'undefined') {
-            // Client-side-only code
-            return !(window.innerWidth > 1280)
-        }
+        // if (typeof window !== 'undefined') {
+        //     // Client-side-only code
+        //     return !(window.innerWidth > 1280)
+        // }
         return true
     })
 

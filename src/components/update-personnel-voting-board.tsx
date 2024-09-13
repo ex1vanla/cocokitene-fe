@@ -195,7 +195,7 @@ const UpdatePersonnelVotingBoard = ({
                     value={title}
                     size="large"
                     onChange={onChange(onChangeTitle)}
-                    maxLength={250}
+                    maxLength={255}
                 />
                 {candidate.map((candidate, i) => {
                     return (

@@ -600,7 +600,7 @@ const UpdateAccount = () => {
                                     rules={[{ required: false }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" maxLength={50} />
+                                    <Input size="large" maxLength={42} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>

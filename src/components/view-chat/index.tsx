@@ -826,7 +826,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                     }`}
                 >
                     <div
-                        className={`flex h-[600px] w-[400px] flex-col max-[470px]:w-[330px]`}
+                        // className={`flex h-[600px] w-[400px] flex-col max-[470px]:w-[330px]`}
+                        className={`flex h-[70vh] w-[400px] flex-col max-[470px]:w-[330px]`}
                     >
                         {initStatus === FETCH_STATUS.LOADING ? (
                             <Row
@@ -851,23 +852,28 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                         }}
                                     />
                                 </div>
-                                <div className={`mt-2 h-1 flex-auto`}>
+                                <div
+                                    className={`mt-2 flex h-1 flex-auto flex-col`}
+                                >
                                     {/* <div className="border-black-500 relative mx-auto h-full w-[95%] overflow-hidden border px-2 hover:overflow-y-auto"> */}
+                                    <div
+                                        // className="fixed right-[50%] top-[7%] z-10 flex w-[95%] translate-x-2/4 border border-gray-400 bg-[#A8C3EB] px-[12px]"
+                                        className="z-10 mx-auto flex w-[95%] border border-gray-400 bg-[#A8C3EB] px-[12px]"
+                                    >
+                                        <p className="mx-auto">
+                                            {t(
+                                                listPermissionChat.find(
+                                                    (permission) =>
+                                                        permission.id ===
+                                                        permissionChat,
+                                                )?.name,
+                                            )}
+                                        </p>
+                                    </div>
                                     <div
                                         className="border-black-500 custom-class relative mx-auto h-full w-[95%] overflow-y-auto overscroll-contain border px-2"
                                         ref={chatRef}
                                     >
-                                        <div className="fixed right-[50%] top-[7%] z-10 flex w-[95%] translate-x-2/4 border border-gray-400 bg-[#A8C3EB] px-[12px]">
-                                            <p className="mx-auto">
-                                                {t(
-                                                    listPermissionChat.find(
-                                                        (permission) =>
-                                                            permission.id ===
-                                                            permissionChat,
-                                                    )?.name,
-                                                )}
-                                            </p>
-                                        </div>
                                         {showBtnSeenUnreadMess &&
                                             !newMessageIncoming &&
                                             unReadRef.current && (
@@ -875,7 +881,7 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     onClick={
                                                         scrollToUnReadMessage
                                                     }
-                                                    className="fixed right-[50%] top-[13%] z-10 translate-x-2/4 rounded-lg bg-[#0059ff] px-2 py-1 text-xs text-[#ffff]"
+                                                    className="fixed right-[50%] top-[72px] z-10 translate-x-2/4 rounded-lg bg-[#0059ff] px-2 py-1 text-xs text-[#ffff]"
                                                 >
                                                     {t('UNREAD_MESSAGE')}
                                                 </Button>
@@ -1191,8 +1197,8 @@ const MeetingChat = ({ meetingInfo }: IMeetingChat) => {
                                                     }}
                                                     className={`fixed right-[50%] ${
                                                         initMessage
-                                                            ? 'bottom-[23%]'
-                                                            : 'bottom-[17%]'
+                                                            ? 'bottom-[155px]'
+                                                            : 'bottom-[107px]'
                                                     } z-10 translate-x-2/4 rounded-lg bg-[#0059ff] px-2 py-1 text-xs text-[#ffff]`}
                                                 >
                                                     {t('NEW_MESSAGE')}

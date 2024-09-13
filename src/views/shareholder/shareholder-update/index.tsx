@@ -574,19 +574,13 @@ const UpdateShareholder = () => {
                                     rules={[{ required: false }]}
                                     className="mb-0"
                                 >
-                                    <Input size="large" maxLength={50} />
+                                    <Input size="large" maxLength={42} />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} lg={12}>
                                 <Form.Item
                                     name="shareQuantity"
                                     label={t('QUANTITY')}
-                                    // rules={[
-                                    //     {
-                                    //         required: requiredQuantity,
-                                    //         validator: validateQuantity,
-                                    //     },
-                                    // ]}
                                     rules={[
                                         {
                                             required: requiredQuantity,

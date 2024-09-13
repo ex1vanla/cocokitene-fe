@@ -54,7 +54,7 @@ const DashBoardSystem = () => {
         <div>
             <LayoutTitle>
                 <div className="z-50 flex items-center gap-2">
-                    <Title level={4} className="mb-0 font-medium">
+                    <Title level={3} className="mb-0 font-semibold">
                         {t('DASHBOARD')}
                     </Title>
                 </div>

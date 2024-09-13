@@ -172,7 +172,7 @@ const StatisticalCompany = ({
 
     return (
         <div className="flex min-h-[350px] w-full flex-col gap-3 p-2 py-5">
-            <span className="text-xl">
+            <span className="text-xl font-medium">
                 {t('COMPANY_INFORMATION_STATISTICS')} ({year}-{month})
             </span>
             <div className="mx-auto w-[90%]">

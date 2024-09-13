@@ -220,7 +220,7 @@ const EditSystemNotificationScreen = ({
                                             },
                                         ]}
                                     >
-                                        <Input size="large" maxLength={250} />
+                                        <Input size="large" maxLength={255} />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} lg={24}>

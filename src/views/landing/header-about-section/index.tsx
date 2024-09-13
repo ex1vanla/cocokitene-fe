@@ -14,7 +14,7 @@ const HeaderAboutSection = () => {
             <LandingHeader />
             <div
                 id="abouts"
-                className="relative min-h-[85vh] [clip-path:polygon(0_0,100%_0,100%_70vh,0_100%)]"
+                className="relative h-[725px] [clip-path:polygon(0_0,100%_0,100%_587px,0_100%)]"
             >
                 <AboutSection />
                 <Masks />

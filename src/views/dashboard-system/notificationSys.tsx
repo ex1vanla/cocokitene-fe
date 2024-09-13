@@ -71,7 +71,8 @@ const NotificationSystem = ({
 
     const columns: ColumnsType<DataNotificationSys> = [
         {
-            title: t('NO'),
+            // title: t('NO'),
+            title: <div className="">{t('NO')}</div>,
             dataIndex: 'key',
             className: 'text-center',
             responsive: ['xl'],
@@ -175,7 +176,9 @@ const NotificationSystem = ({
     return (
         <div className="flex flex-col gap-3 p-2">
             <div className="flex justify-between">
-                <span className="text-xl">{t('SYSTEM_NOTIFICATION')}</span>
+                <span className="text-xl font-medium">
+                    {t('SYSTEM_NOTIFICATION')}
+                </span>
                 <Button
                     className="flex items-center"
                     onClick={() => {

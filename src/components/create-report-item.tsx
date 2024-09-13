@@ -178,14 +178,14 @@ const CreateReportItem = ({
                     size="large"
                     value={title}
                     onChange={onChange(onChangeTitle)}
-                    maxLength={250}
+                    maxLength={255}
                 />
                 <TextArea
                     className="placeholder:text-sm"
                     placeholder={t('ENTER_REPORT_DETAIL')}
                     value={content}
                     onChange={onChange(onChangeContent)}
-                    maxLength={250}
+                    maxLength={255}
                 />
                 {/* <TextArea
                     className="placeholder:text-sm"
@@ -203,7 +203,7 @@ const CreateReportItem = ({
                         placeholder={t('ENTER_OLD_ELECTION_DETAIL')}
                         value={oldContent}
                         onChange={onChange(onChangeOldContent)}
-                        maxLength={250}
+                        maxLength={255}
                     />
                 )}
                 {(title || content) &&

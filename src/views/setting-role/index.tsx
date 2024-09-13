@@ -433,7 +433,7 @@ const SettingRoleView = () => {
                         loading={isLoading != FETCH_STATUS.SUCCESS}
                         // pagination={false}
                         locale={locale}
-                        scroll={{ x: 845 }}
+                        scroll={{ x: 845, y: 'calc(100vh - 287px)' }}
                     />
                 ) : (
                     <RoleMtgList />

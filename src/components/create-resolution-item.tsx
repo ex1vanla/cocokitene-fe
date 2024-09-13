@@ -174,14 +174,14 @@ const CreateResolutionItem = ({
                     size="large"
                     value={title}
                     onChange={onChange(onChangeTitle)}
-                    maxLength={250}
+                    maxLength={255}
                 />
                 <TextArea
                     className="placeholder:text-sm"
                     placeholder={t('ENTER_RESOLUTION_DETAIL')}
                     value={content}
                     onChange={onChange(onChangeContent)}
-                    maxLength={250}
+                    maxLength={255}
                 />
                 {type === ResolutionType.AMENDMENT_RESOLUTION &&
                     onChangeOldContent && (
@@ -190,7 +190,7 @@ const CreateResolutionItem = ({
                             placeholder={t('ENTER_OLD_RESOLUTION_DETAIL')}
                             value={oldContent}
                             onChange={onChange(onChangeOldContent)}
-                            maxLength={250}
+                            maxLength={255}
                         />
                     )}
                 {(title || content) && (

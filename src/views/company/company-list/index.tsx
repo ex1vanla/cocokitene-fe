@@ -164,7 +164,7 @@ const CompanyList = ({ data }: CompanyListProps) => {
                     onChange: handlePageChange,
                 }}
                 locale={locale}
-                scroll={{ x: 845 }}
+                scroll={{ x: 845, y: 'calc(100vh - 337px)' }}
             />
         </div>
     )

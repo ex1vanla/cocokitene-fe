@@ -57,7 +57,7 @@ const SuperAdminInformation = () => {
                         label={t('WALLET_ADDRESS')}
                         rules={[{ required: false }]}
                     >
-                        <Input size="large" maxLength={50} />
+                        <Input size="large" maxLength={42} />
                     </Form.Item>
                 </Col>
                 <Col xs={24} lg={12}>
@@ -103,7 +103,7 @@ const SuperAdminInformation = () => {
                         ]}
                         className="mb-0"
                     >
-                        <Input size="large" maxLength={250} />
+                        <Input size="large" maxLength={255} />
                     </Form.Item>
                 </Col>
             </Row>

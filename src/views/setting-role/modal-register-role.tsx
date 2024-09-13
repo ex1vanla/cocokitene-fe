@@ -123,7 +123,7 @@ const ModalRegisterRole = () => {
                         <Input
                             size="large"
                             placeholder={t('DESCRIPTION')}
-                            maxLength={250}
+                            maxLength={255}
                         />
                     </Form.Item>
 

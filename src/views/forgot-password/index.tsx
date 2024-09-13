@@ -15,26 +15,24 @@ const ForgotPassword = () => {
     const { forgotPasswordState } = useForgotPassword()
 
     return (
-        <div className="w-full">
-            <AuthLayout>
-                {contextHolder}
-                <div className="mb-10 flex items-center justify-center gap-5">
-                    <Image
-                        src={'/images/logo-icon.png'}
-                        alt={''}
-                        width={48}
-                        height={48}
-                    />
-                    <Text className="text-3xl font-bold">
-                        {t('COCOKITENE')}
-                    </Text>
-                </div>
-                {forgotPasswordState.currentScreen ===
-                    ScreenForgotPassword.SEND_MAIL && <SendMailForgot />}
-                {forgotPasswordState.currentScreen ===
-                    ScreenForgotPassword.CONFIRM && <ConfirmCodeForgot />}
-            </AuthLayout>
-        </div>
+        // <div className="w-full">
+        <AuthLayout>
+            {contextHolder}
+            <div className="mb-10 flex items-center justify-center gap-5">
+                <Image
+                    src={'/images/logo-icon.png'}
+                    alt={''}
+                    width={48}
+                    height={48}
+                />
+                <Text className="text-3xl font-bold">{t('COCOKITENE')}</Text>
+            </div>
+            {forgotPasswordState.currentScreen ===
+                ScreenForgotPassword.SEND_MAIL && <SendMailForgot />}
+            {forgotPasswordState.currentScreen ===
+                ScreenForgotPassword.CONFIRM && <ConfirmCodeForgot />}
+        </AuthLayout>
+        // </div>
     )
 }
 

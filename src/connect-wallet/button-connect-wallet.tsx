@@ -340,7 +340,9 @@ const ButtonConnectWallet = ({
                                             <span className="custom-connect-wallet__chain-name">
                                                 {chain && chain.name}
                                             </span>
-                                            <DownOutlined className="h-[10px] w-[10px] text-white" />
+                                            {chain && chain.iconUrl && (
+                                                <DownOutlined className="h-[10px] w-[10px] text-white" />
+                                            )}
                                         </button>
                                     </div>
                                 )
