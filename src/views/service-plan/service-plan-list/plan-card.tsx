@@ -92,7 +92,7 @@ const PlanCard = ({
                         }`}
                         level={1}
                     >
-                        {price}$
+                        {price}¥
                     </Title>
                     <Text
                         className={`font-medium text-primary ${

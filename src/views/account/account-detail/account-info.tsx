@@ -1,7 +1,7 @@
 import { useAccountDetail } from '@/stores/account/hook'
 import { useTranslations } from 'next-intl'
 import { IRowAccountInfo, RowAccountInfo } from './account-rowinfo'
-import { Avatar, Col, Row } from 'antd'
+import { Avatar, Col, Row, Typography } from 'antd'
 import {
     UserStatus,
     UserStatusColor,
@@ -12,6 +12,8 @@ import { AvatarBgHexColors } from '@/constants/common'
 import { getFirstCharacterUpperCase } from '@/utils/get-first-character'
 import RoleInfo from '@/components/role-info'
 import { convertSnakeCaseToTitleCase } from '@/utils/format-string'
+
+const { Text } = Typography
 
 const AccountInfo = () => {
     const t = useTranslations()
@@ -27,15 +29,17 @@ const AccountInfo = () => {
         {
             label: 'COMPANY',
             content: (
-                <p className="flex-1 break-words">
+                <Text className="flex-1 break-words">
                     {account?.companyName || ''}
-                </p>
+                </Text>
             ),
             lg: 6,
         },
         {
             label: 'PHONE',
-            content: <p className="flex-1 break-all">{account?.phone || ''}</p>,
+            content: (
+                <Text className="flex-1 break-all">{account?.phone || ''}</Text>
+            ),
             lg: 6,
         },
         {
@@ -57,9 +61,9 @@ const AccountInfo = () => {
         {
             label: 'WALLET_ADDRESS',
             content: (
-                <p className="flex-1 break-all">
+                <Text className="flex-1 break-all">
                     {account?.walletAddress || ''}
-                </p>
+                </Text>
             ),
             lg: 6,
         },
@@ -80,6 +84,7 @@ const AccountInfo = () => {
                             style={{
                                 verticalAlign: 'middle',
                             }}
+                            className="mb-auto"
                         />
                     ) : (
                         <Avatar
@@ -91,11 +96,12 @@ const AccountInfo = () => {
                                     AvatarBgHexColors.GOLDEN_PURPLE,
                             }}
                             size="small"
+                            className="mb-auto"
                         >
                             {getFirstCharacterUpperCase(account.userName)}
                         </Avatar>
                     )}
-                    <span className="flex-1">{account.userName}</span>
+                    <Text className="flex-1">{account.userName}</Text>
                 </div>
             ),
             lg: 3,
@@ -103,7 +109,9 @@ const AccountInfo = () => {
 
         {
             label: 'EMAIL',
-            content: <p className="flex-1 break-all">{account?.email || ''}</p>,
+            content: (
+                <Text className="flex-1 break-all">{account?.email || ''}</Text>
+            ),
             lg: 3,
         },
         {

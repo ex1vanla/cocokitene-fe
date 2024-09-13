@@ -44,8 +44,6 @@ const BoardMeetingParticipants = () => {
                 roleMtg.roleName.toUpperCase() ==
                 MeetingRole.HOST.toUpperCase(),
         )
-        console.log(!!roleMtgHost)
-        console.log(!!authState.userData)
         if (roleMtgHost && authState.userData) {
             setData({
                 ...data,

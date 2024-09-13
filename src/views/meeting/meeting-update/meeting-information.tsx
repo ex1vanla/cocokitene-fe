@@ -31,6 +31,7 @@ import { getShortNameFromUrl } from '@/utils/meeting'
 import { enumToArray } from '@/utils'
 import { useState } from 'react'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
+import { useParams } from 'next/navigation'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -39,6 +40,8 @@ const { Text } = Typography
 
 const MeetingInformation = () => {
     const t = useTranslations()
+    const params = useParams()
+    const locale = params.locale
     const [data, setData] = useUpdateMeetingInformation()
 
     const [fileData, setFileData] = useState<{
@@ -318,8 +321,17 @@ const MeetingInformation = () => {
                     <Form layout="horizontal">
                         <Form.Item
                             name="invitation"
-                            label={t('MEETING_INVITATION') + ':'}
+                            label={
+                                <div
+                                    className={`${
+                                        locale == 'ja' ? 'w-20' : 'w-32'
+                                    }`}
+                                >
+                                    {t('MEETING_INVITATION')}
+                                </div>
+                            }
                             className="mb-0"
+                            labelAlign="left"
                         >
                             <Upload
                                 // defaultFileList={data?.meetingInvitations?.map(
@@ -384,8 +396,17 @@ const MeetingInformation = () => {
                     <Form layout="horizontal">
                         <Form.Item
                             name="minutes"
-                            label={t('MEETING_MINUTES') + ':'}
+                            label={
+                                <div
+                                    className={`${
+                                        locale == 'ja' ? 'w-20' : 'w-32'
+                                    }`}
+                                >
+                                    {t('MEETING_MINUTES')}
+                                </div>
+                            }
                             className="mb-0"
+                            labelAlign="left"
                         >
                             <Upload
                                 // defaultFileList={data?.meetingMinutes?.map(
@@ -545,9 +566,11 @@ const MeetingInformation = () => {
                                                 >
                                                     <span
                                                         style={{
-                                                            color: MeetingStatusColor[
-                                                                status
-                                                            ],
+                                                            color: !isDisabled
+                                                                ? MeetingStatusColor[
+                                                                      status
+                                                                  ]
+                                                                : '',
                                                         }}
                                                     >
                                                         {t(

@@ -15,8 +15,6 @@ import {
     Typography,
     UploadFile,
     DatePicker,
-    TimePicker,
-    notification,
 } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
@@ -24,7 +22,7 @@ import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker'
 import dayjs from 'dayjs'
 import { urlRegex } from '@/constants/common'
 import { useState } from 'react'
-import { error } from 'console'
+import { useParams } from 'next/navigation'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -33,6 +31,8 @@ const { Text } = Typography
 
 const MeetingInformation = () => {
     const t = useTranslations()
+    const params = useParams()
+    const locale = params.locale
     const [data, setData] = useCreateMeetingInformation()
 
     const [fileData, setFileData] = useState<{
@@ -299,8 +299,17 @@ const MeetingInformation = () => {
                     <Form layout="horizontal">
                         <Form.Item
                             name="invitation"
-                            label={t('MEETING_INVITATION') + ':'}
+                            label={
+                                <div
+                                    className={`${
+                                        locale == 'ja' ? 'w-20' : 'w-32'
+                                    }`}
+                                >
+                                    {t('MEETING_INVITATION')}
+                                </div>
+                            }
                             className="mb-0"
+                            labelAlign="left"
                         >
                             <Upload
                                 onChange={onFileChange(
@@ -359,8 +368,17 @@ const MeetingInformation = () => {
                     <Form layout="horizontal">
                         <Form.Item
                             name="minutes"
-                            label={t('MEETING_MINUTES') + ':'}
+                            label={
+                                <div
+                                    className={`${
+                                        locale == 'ja' ? 'w-20' : 'w-32'
+                                    }`}
+                                >
+                                    {t('MEETING_MINUTES')}
+                                </div>
+                            }
                             className="mb-0"
+                            labelAlign="left"
                         >
                             <Upload
                                 onChange={onFileChange(
