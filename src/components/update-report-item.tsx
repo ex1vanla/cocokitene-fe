@@ -5,10 +5,7 @@ import {
     ResolutionTitle,
     ResolutionType,
 } from '@/constants/resolution'
-import {
-    IBoardProposalFile,
-    IBoardProposalRedux,
-} from '@/stores/board-meeting/types'
+import { IBoardProposalFile } from '@/stores/board-meeting/types'
 import { useTranslations } from 'next-intl'
 import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons'
@@ -24,7 +21,7 @@ import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
 const { Text } = Typography
 const { TextArea } = Input
 
-interface ICreateReportItem extends Resolution {
+interface IUpdateReportItem extends Resolution {
     type: ResolutionType
     index: number
     // eslint-disable-next-line
@@ -34,7 +31,7 @@ interface ICreateReportItem extends Resolution {
     // eslint-disable-next-line
     onChangeOldContent?: (value: string) => void
     // eslint-disable-next-line
-    onAddFile?: (file: IBoardProposalRedux) => void
+    onAddFile?: (file: IBoardProposalFile) => void
     // eslint-disable-next-line
     onRemoveFile?: (uuid: string) => void
     onDelete: () => void
@@ -42,7 +39,7 @@ interface ICreateReportItem extends Resolution {
     defaultElection?: number
 }
 
-const CreateReportItem = ({
+const UpdateReportItem = ({
     type,
     index,
     title,
@@ -57,7 +54,7 @@ const CreateReportItem = ({
     onDelete,
     electionList,
     defaultElection,
-}: ICreateReportItem) => {
+}: IUpdateReportItem) => {
     const t = useTranslations()
     const [data, setData] = useCreateBoardMeetingInformation()
 
@@ -83,7 +80,7 @@ const CreateReportItem = ({
             if (url) {
                 onAddFile &&
                     onAddFile({
-                        file: info.file as RcFile,
+                        url: url.split('?')[0],
                         uid: info.file.uid,
                     })
             }
@@ -141,21 +138,21 @@ const CreateReportItem = ({
 
     const onUpload = async ({ file }: RcCustomRequestOptions) => {
         try {
-            // const meetingFileType =
-            //     type == ResolutionType.MANAGEMENT_FINANCIAL
-            //         ? MeetingFileType.REPORTS
-            //         : MeetingFileType.PROPOSAL_FILES
+            const meetingFileType =
+                type == ResolutionType.MANAGEMENT_FINANCIAL
+                    ? MeetingFileType.REPORTS
+                    : MeetingFileType.PROPOSAL_FILES
 
-            // const res = await serviceUpload.getPresignedUrl(
-            //     [file as File],
-            //     // MeetingFileType.PROPOSAL_FILES,
-            //     meetingFileType,
-            // )
-            // await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+            const res = await serviceUpload.getPresignedUrl(
+                [file as File],
+                // MeetingFileType.PROPOSAL_FILES,
+                meetingFileType,
+            )
+            await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
 
             onAddFile &&
                 onAddFile({
-                    file: file,
+                    url: res.uploadUrls[0].split('?')[0],
                     uid: (file as RcFile).uid,
                 })
         } catch (error) {
@@ -262,4 +259,4 @@ const CreateReportItem = ({
     )
 }
 
-export default CreateReportItem
+export default UpdateReportItem

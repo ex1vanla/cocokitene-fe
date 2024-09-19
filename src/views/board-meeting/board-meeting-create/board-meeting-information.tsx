@@ -64,19 +64,31 @@ const BoardMeetingInformation = () => {
         ) =>
         async ({ file }: RcCustomRequestOptions) => {
             try {
-                console.log('upload file board mtg-----')
-                const res = await serviceUpload.getPresignedUrl(
-                    [file as File],
-                    fileType,
-                )
-                await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+                // console.log('upload file board mtg-----')
+                // const res = await serviceUpload.getPresignedUrl(
+                //     [file as File],
+                //     fileType,
+                // )
+                // await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+                // const values = data[name]
+                // setData({
+                //     ...data,
+                //     [name]: [
+                //         ...values,
+                //         {
+                //             url: res.uploadUrls[0].split('?')[0],
+                //             fileType,
+                //             uid: (file as RcFile).uid,
+                //         },
+                //     ],
+                // })
                 const values = data[name]
                 setData({
                     ...data,
                     [name]: [
                         ...values,
                         {
-                            url: res.uploadUrls[0].split('?')[0],
+                            file: file,
                             fileType,
                             uid: (file as RcFile).uid,
                         },

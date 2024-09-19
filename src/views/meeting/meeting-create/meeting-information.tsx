@@ -1,7 +1,6 @@
 /* eslint-disable */
 import BoxArea from '@/components/box-area'
 import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
-import serviceUpload from '@/services/upload'
 import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import { UploadOutlined } from '@ant-design/icons'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
@@ -75,19 +74,31 @@ const MeetingInformation = () => {
         ) =>
         async ({ file }: RcCustomRequestOptions) => {
             try {
-                const res = await serviceUpload.getPresignedUrl(
-                    [file as File],
-                    fileType,
-                )
+                // const res = await serviceUpload.getPresignedUrl(
+                //     [file as File],
+                //     fileType,
+                // )
 
-                await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+                // await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+                // const values = data[name]
+                // setData({
+                //     ...data,
+                //     [name]: [
+                //         ...values,
+                //         {
+                //             url: res.uploadUrls[0].split('?')[0],
+                //             fileType,
+                //             uid: (file as RcFile).uid,
+                //         },
+                //     ],
+                // })
                 const values = data[name]
                 setData({
                     ...data,
                     [name]: [
                         ...values,
                         {
-                            url: res.uploadUrls[0].split('?')[0],
+                            file: file,
                             fileType,
                             uid: (file as RcFile).uid,
                         },
@@ -398,31 +409,29 @@ const MeetingInformation = () => {
                                 <Button icon={<UploadOutlined />}>
                                     {t('CLICK_TO_UPLOAD')}
                                 </Button>
-                                <div className="flex flex-col items-start">
-                                    <Text className="text-black-45">
-                                        {t('INVITATION_FILE_UPLOAD_NOTICE')}
-                                    </Text>
-                                    {fileData.meetingMinutes
-                                        .errorUniqueFile && (
-                                        <Text className="text-dust-red">
-                                            {t('UNIQUE_FILE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                    {fileData.meetingMinutes
-                                        .errorWrongFileType && (
-                                        <Text className="text-dust-red">
-                                            {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
-                                        </Text>
-                                    )}
-                                    {fileData.meetingMinutes.errorFileSize && (
-                                        <Text className="text-dust-red">
-                                            {t(
-                                                'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
-                                            )}
-                                        </Text>
-                                    )}
-                                </div>
                             </Upload>
+                            <div className="flex flex-col items-start">
+                                <Text className="text-black-45">
+                                    {t('INVITATION_FILE_UPLOAD_NOTICE')}
+                                </Text>
+                                {fileData.meetingMinutes.errorUniqueFile && (
+                                    <Text className="text-dust-red">
+                                        {t('UNIQUE_FILE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                                {fileData.meetingMinutes.errorWrongFileType && (
+                                    <Text className="text-dust-red">
+                                        {t('WRONG_FILE_TYPE_ERROR_MESSAGE')}
+                                    </Text>
+                                )}
+                                {fileData.meetingMinutes.errorFileSize && (
+                                    <Text className="text-dust-red">
+                                        {t(
+                                            'FILE_THROUGH_THE_CAPACITY_FOR_UPLOAD',
+                                        )}
+                                    </Text>
+                                )}
+                            </div>
                         </Form.Item>
                     </Form>
                 </Col>
