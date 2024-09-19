@@ -1,10 +1,16 @@
 /*eslint-disable*/
 import { FETCH_STATUS, urlRegex } from '@/constants/common'
+import { MeetingFileType } from '@/constants/meeting'
 import serviceMeeting from '@/services/meeting'
-import { ICreateMeetingPayload } from '@/services/request.type'
+import {
+    ICreateMeetingPayload,
+    ISaveCreateMeetingPayload,
+} from '@/services/request.type'
+import serviceUpload from '@/services/upload'
 import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
-import { ICreateMeeting } from '@/stores/meeting/types'
+import { ICreateMeeting, IMeetingResolution } from '@/stores/meeting/types'
 import { Button, Spin, notification } from 'antd'
+import { RcFile } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -61,7 +67,7 @@ const SaveCreateMeetingButton = () => {
         const rs: {
             isValid: boolean
             errors: { [key: string]: string }
-            payload: ICreateMeetingPayload
+            payload: ISaveCreateMeetingPayload
         } = {
             isValid: true,
             errors: {},
@@ -118,7 +124,123 @@ const SaveCreateMeetingButton = () => {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
                 console.log('payload: ', validate.payload)
-                const res = await serviceMeeting.createMeeting(validate.payload)
+
+                const resolutions: IMeetingResolution[] = []
+                const amendmentResolutions: IMeetingResolution[] = []
+
+                validate.payload.resolutions.forEach(async (resolution) => {
+                    const resolutionItem: IMeetingResolution = {
+                        ...resolution,
+                        files:
+                            resolution.files &&
+                            (await Promise.all(
+                                resolution.files.map(async (file) => {
+                                    const res =
+                                        await serviceUpload.getPresignedUrl(
+                                            [file.file as File],
+                                            MeetingFileType.PROPOSAL_FILES,
+                                        )
+                                    await serviceUpload.uploadFile(
+                                        file.file as File,
+                                        res.uploadUrls[0],
+                                    )
+
+                                    return {
+                                        id: file.id,
+                                        url: res.uploadUrls[0].split('?')[0],
+                                        uid: file.uid,
+                                    }
+                                }),
+                            )),
+                    }
+                    resolutions.push(resolutionItem)
+                })
+
+                validate.payload.amendmentResolutions.forEach(
+                    async (amendmentResolution) => {
+                        const amendmentResolutionItem: IMeetingResolution = {
+                            ...amendmentResolution,
+                            files:
+                                amendmentResolution.files &&
+                                (await Promise.all(
+                                    amendmentResolution.files.map(
+                                        async (file) => {
+                                            const res =
+                                                await serviceUpload.getPresignedUrl(
+                                                    [file.file as File],
+                                                    MeetingFileType.PROPOSAL_FILES,
+                                                )
+                                            await serviceUpload.uploadFile(
+                                                file.file as File,
+                                                res.uploadUrls[0],
+                                            )
+
+                                            return {
+                                                id: file.id,
+                                                url: res.uploadUrls[0].split(
+                                                    '?',
+                                                )[0],
+                                                uid: file.uid,
+                                            }
+                                        },
+                                    ),
+                                )),
+                        }
+                        amendmentResolutions.push(amendmentResolutionItem)
+                    },
+                )
+
+                const payloadCreateMeeting: ICreateMeetingPayload = {
+                    ...validate.payload,
+                    meetingInvitations: await Promise.all(
+                        validate.payload.meetingInvitations.map(
+                            async (meetingInvitation) => {
+                                const res = await serviceUpload.getPresignedUrl(
+                                    [meetingInvitation.file as File],
+                                    meetingInvitation.fileType,
+                                )
+                                await serviceUpload.uploadFile(
+                                    meetingInvitation.file as File,
+                                    res.uploadUrls[0],
+                                )
+
+                                return {
+                                    url: res.uploadUrls[0].split('?')[0],
+                                    fileType: meetingInvitation.fileType,
+                                    uid: (meetingInvitation.file as RcFile).uid,
+                                }
+                            },
+                        ),
+                    ),
+                    meetingMinutes: await Promise.all(
+                        validate.payload.meetingMinutes.map(
+                            async (meetingMinute) => {
+                                const res = await serviceUpload.getPresignedUrl(
+                                    [meetingMinute.file as File],
+                                    meetingMinute.fileType,
+                                )
+                                await serviceUpload.uploadFile(
+                                    meetingMinute.file as File,
+                                    res.uploadUrls[0],
+                                )
+
+                                return {
+                                    url: res.uploadUrls[0].split('?')[0],
+                                    fileType: meetingMinute.fileType,
+                                    uid: (meetingMinute.file as RcFile).uid,
+                                }
+                            },
+                        ),
+                    ),
+                    resolutions: resolutions,
+                    amendmentResolutions: amendmentResolutions,
+                }
+
+                console.log('payloadCreateMeeting: ', payloadCreateMeeting)
+
+                const res = await serviceMeeting.createMeeting(
+                    payloadCreateMeeting,
+                )
                 notification.success({
                     message: t('CREATED'),
                     description: t('CREATED_MEETING_SUCCESSFULLY'),

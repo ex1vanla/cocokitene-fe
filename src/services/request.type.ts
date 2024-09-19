@@ -1,7 +1,8 @@
 import { MeetingStatus } from '@/constants/meeting'
-import { IMeetingDocument, IMeetingPersonnelVote, IMeetingResolution } from '@/stores/meeting/types'
+import { IMeetingDocument, IMeetingFileDocument, IMeetingPersonnelVote, IMeetingResolution, IMeetingResolutionRedux } from '@/stores/meeting/types'
 import {
     IBoardMeetingDocument,
+    IBoardMeetingFileDocument,
     IBoardMeetingReport,
 } from '@/stores/board-meeting/types'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
@@ -19,6 +20,20 @@ export interface ICreateMeetingPayload {
     personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
+
+export interface ISaveCreateMeetingPayload {
+    title: string
+    meetingLink: string
+    startTime: string
+    endTime: string
+    meetingMinutes: IMeetingFileDocument[]
+    meetingInvitations: IMeetingFileDocument[]
+    resolutions: IMeetingResolutionRedux[]
+    amendmentResolutions: IMeetingResolutionRedux[]
+    personnelVoting: IMeetingPersonnelVote[]
+    participants: IParticipantPayload[]
+}
+
 
 export interface IParticipantPayload {
     roleMtgId: number
@@ -47,6 +62,21 @@ export interface ICreateBoardMeetingPayload {
     personnelVoting: IMeetingPersonnelVote[]
     participants: IParticipantPayload[]
 }
+
+export interface ISaveCreateBoardMeetingPayload {
+    title: string
+    meetingLink: string
+    startTime: string
+    endTime: string
+    endVotingTime: string
+    meetingMinutes: IBoardMeetingFileDocument[]
+    meetingInvitations: IBoardMeetingFileDocument[]
+    managementAndFinancials: IMeetingResolutionRedux[]
+    elections: IMeetingResolutionRedux[]
+    personnelVoting: IMeetingPersonnelVote[]
+    participants: IParticipantPayload[]
+}
+
 
 export interface IUpdateMeetingPayload {
     title: string

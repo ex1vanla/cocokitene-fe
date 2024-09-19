@@ -3,7 +3,7 @@ import { ACCEPT_FILE_TYPES, MeetingFileType } from '@/constants/meeting'
 import { ResolutionTitle, ResolutionType } from '@/constants/resolution'
 import { Resolution } from '@/constants/resolution'
 import serviceUpload from '@/services/upload'
-import { IProposalFile, IProposalFileMeeting } from '@/stores/meeting/types'
+import { IProposalFile } from '@/stores/meeting/types'
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Input, Typography, Upload, UploadFile } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
@@ -14,18 +14,18 @@ import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/int
 const { Text } = Typography
 const { TextArea } = Input
 
-interface ICreateResolutionItem extends Resolution {
+interface IUpdateResolutionItem extends Resolution {
     type: ResolutionType
     index: number
     onChangeTitle: (value: string) => void
     onChangeContent: (value: string) => void
     onChangeOldContent?: (value: string) => void
-    onAddFile?: (file: IProposalFileMeeting) => void
+    onAddFile?: (file: IProposalFile) => void
     onRemoveFile?: (uuid: string) => void
     onDelete: () => void
 }
 
-const CreateResolutionItem = ({
+const UpdateResolutionItem = ({
     type,
     index,
     title,
@@ -38,7 +38,7 @@ const CreateResolutionItem = ({
     onAddFile,
     onRemoveFile,
     onDelete,
-}: ICreateResolutionItem) => {
+}: IUpdateResolutionItem) => {
     const t = useTranslations()
 
     const onChange =
@@ -61,16 +61,16 @@ const CreateResolutionItem = ({
                     ? MeetingFileType.REPORTS
                     : MeetingFileType.PROPOSAL_FILES
 
-            // const res = await serviceUpload.getPresignedUrl(
-            //     [file as File],
-            //     // MeetingFileType.PROPOSAL_FILES,
-            //     meetingFileType,
-            // )
-            // await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
+            const res = await serviceUpload.getPresignedUrl(
+                [file as File],
+                // MeetingFileType.PROPOSAL_FILES,
+                meetingFileType,
+            )
+            await serviceUpload.uploadFile(file as File, res.uploadUrls[0])
 
             onAddFile &&
                 onAddFile({
-                    file: file,
+                    url: res.uploadUrls[0].split('?')[0],
                     uid: (file as RcFile).uid,
                 })
         } catch (error) {}
@@ -81,7 +81,7 @@ const CreateResolutionItem = ({
             if (url) {
                 onAddFile &&
                     onAddFile({
-                        file: info.file as RcFile,
+                        url: url.split('?')[0],
                         uid: info.file.uid,
                     })
                 // const values = data[name]
@@ -243,4 +243,4 @@ const CreateResolutionItem = ({
     )
 }
 
-export default CreateResolutionItem
+export default UpdateResolutionItem
