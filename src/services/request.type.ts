@@ -7,6 +7,7 @@ import {
 } from '@/stores/board-meeting/types'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
 import { VoteProposalOption } from '@/constants/resolution'
+import { PaymentMethod, SubscriptionEnum } from '@/constants/service-subscript'
 
 export interface ICreateMeetingPayload {
     title: string
@@ -176,3 +177,16 @@ export interface ISystemNotification {
     title: string,
     content: string,
 }
+
+export interface ISubscriptionServicePlanPayload {
+    companyId: number
+    planId: number
+    amount: number
+    type: SubscriptionEnum
+    paymentMethod: PaymentMethod
+    activationDate: string
+    expirationDate: string
+    note?: string
+    transferReceipt?:string
+}
+ 

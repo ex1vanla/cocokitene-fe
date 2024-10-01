@@ -11,6 +11,7 @@ import { UserMeetingStatusEnum } from '@/stores/attendance/type'
 import { ICompanyStatusResponse } from './system-admin/response.type'
 import { ElectionEnum } from '@/constants/election'
 import { TypeRoleMeeting } from '@/constants/role-mtg'
+import { PaymentMethod, StatusSubscriptionEnum, SubscriptionEnum } from '@/constants/service-subscript'
 
 export interface IMeta {
     totalItems: number
@@ -525,4 +526,46 @@ export interface IMeetingInMonthResponse {
     meetings_end_time: string,
     meetings_company_id: number,
     meetings_type: MeetingType
+}
+
+export interface IServicePlanOfCompany {
+    id: number,
+    companyId: number,
+    planId: number,
+    meetingLimit: number,
+    meetingCreated: number,
+    accountLimit: number,
+    accountCreated: number,
+    storageLimit: number,
+    storageUsed: number,
+    expirationDate: string,
+    createdAt: string,
+    createdSystemId?: number,
+    updatedAt: string,
+    updatedSystemId?: number,
+    plan: {
+      id: number,
+      planName: string,
+      description: string,
+      price: number,
+    },
+    company: {
+      id: number,
+      companyName: string,
+      companyShortName: string,
+      planId: number,
+      statusId: number,
+    }
+}
+
+export interface IServiceSubscription {
+    service_subscription_id: number,
+    service_subscription_type: SubscriptionEnum,
+    service_subscription_total_free: number,
+    service_subscription_status: StatusSubscriptionEnum,
+    planName: string,
+    company_id: number,
+    payment_method: PaymentMethod,
+    activation_date: string,
+    expiration_date: string,
 }

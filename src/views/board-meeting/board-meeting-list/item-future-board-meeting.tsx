@@ -225,7 +225,7 @@ const ItemFutureBoardMeeting = ({
                 open={isModalOpen}
                 onOk={() => handleOk(meetings_id)}
                 onCancel={handleCancel}
-                okText={t('BTN_CONFIRM')}
+                okText={t('CONFIRM')}
                 cancelText={t('BTN_CANCEL')}
             >
                 <p>{t('CONTENT_CONFIRM_MEETING_POPUP')}</p>
