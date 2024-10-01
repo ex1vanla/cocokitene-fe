@@ -249,6 +249,7 @@ const CompanyInformation = () => {
                             placeholder={t('SELECT_COMPANY_PLAN')}
                             size="large"
                             style={{ width: '100%' }}
+                            disabled={true}
                             options={planList.map((plan) => ({
                                 value: plan.id,
                                 label: (

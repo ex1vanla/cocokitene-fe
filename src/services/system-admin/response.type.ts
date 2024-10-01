@@ -1,4 +1,5 @@
 import { CompanyStatus } from '@/constants/company-status'
+import { PaymentMethod, StatusSubscriptionEnum, SubscriptionEnum } from '@/constants/service-subscript'
 import { UserStatus } from '@/constants/user-status'
 
 export interface ApiResponse<T = {}> {
@@ -140,4 +141,87 @@ export interface IStatisticCompanyResponse {
         totalCompany: number,
     }[]
 
+}
+
+export interface IListServiceSubscription {
+    service_subscription_id: number,
+    service_subscription_type: SubscriptionEnum,
+    service_subscription_total_free: number,
+    service_subscription_status: StatusSubscriptionEnum,
+    planName: string,
+    plan_id: number,
+    companyName: string,
+    company_id: number,
+    payment_method: PaymentMethod
+  }
+
+export interface IServiceSubscriptionDetailResponse {
+    id: number
+    companyId: number
+    planId: number
+    note: string
+    type: SubscriptionEnum
+    amount: number
+    paymentMethod: PaymentMethod
+    activationDate: string
+    expirationDate: string
+    status: StatusSubscriptionEnum
+    transferReceipt?: string 
+    createdAt: string,
+    createdSystemId: number,
+    updatedAt: string,
+    updatedSystemId?: number,
+    plan: {
+        id: number,
+        planName: string
+        price: number
+    }
+    company: {
+        id: number
+        companyName: string
+        taxNumber: string
+        planId: number
+    }
+}
+
+export interface IServicePlanOfCompanyResponse {
+    id: number,
+    companyId: number,
+    planId: number,
+    meetingLimit: number,
+    meetingCreated: number,
+    accountLimit: number,
+    accountCreated: number,
+    storageLimit: number,
+    storageUsed: number,
+    expirationDate: string,
+    createdAt: string,
+    createdSystemId?: number,
+    updatedAt: string,
+    updatedSystemId?: number,
+    plan: {
+      id: number,
+      planName: string,
+      description: string,
+      price: number,
+    },
+    company: {
+      id: number,
+      companyName: string,
+      companyShortName: string,
+      planId: number,
+      statusId: number,
+    }
+}
+
+export interface IServiceSubscription {
+    service_subscription_id: number,
+    service_subscription_type: SubscriptionEnum,
+    service_subscription_total_free: number,
+    service_subscription_status: StatusSubscriptionEnum,
+    planName: string,
+    company_id: number,
+    payment_method: PaymentMethod,
+    activation_date: string,
+    expiration_date: string,
 }
