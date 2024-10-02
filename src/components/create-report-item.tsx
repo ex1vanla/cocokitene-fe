@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Button, Input, Select, Typography, Upload } from 'antd'
+import { Button, Input, Select, Tooltip, Typography, Upload } from 'antd'
 import {
     Resolution,
     ResolutionTitle,
@@ -40,6 +40,7 @@ interface ICreateReportItem extends Resolution {
     onDelete: () => void
     electionList?: IElectionResponse[] | []
     defaultElection?: number
+    allowUploadFile?: boolean
 }
 
 const CreateReportItem = ({
@@ -57,6 +58,7 @@ const CreateReportItem = ({
     onDelete,
     electionList,
     defaultElection,
+    allowUploadFile,
 }: ICreateReportItem) => {
     const t = useTranslations()
     const [data, setData] = useCreateBoardMeetingInformation()
@@ -220,10 +222,23 @@ const CreateReportItem = ({
                                 accept={ACCEPT_FILE_TYPES}
                                 name="proposal-files"
                                 // showUploadList={false}
+                                disabled={!allowUploadFile}
                             >
-                                <Button icon={<UploadOutlined />}>
-                                    {t('CLICK_TO_UPLOAD')}
-                                </Button>
+                                <Tooltip
+                                    placement="bottomRight"
+                                    title={
+                                        allowUploadFile
+                                            ? ''
+                                            : t('UNABLE_TO_CREATE_MORE')
+                                    }
+                                >
+                                    <Button
+                                        icon={<UploadOutlined />}
+                                        disabled={!allowUploadFile}
+                                    >
+                                        {t('CLICK_TO_UPLOAD')}
+                                    </Button>
+                                </Tooltip>
                             </Upload>
                             <div className="flex flex-col items-start">
                                 <Text className="break-words text-black-45">

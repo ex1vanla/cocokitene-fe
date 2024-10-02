@@ -5,7 +5,7 @@ import { Resolution } from '@/constants/resolution'
 import serviceUpload from '@/services/upload'
 import { IProposalFile, IProposalFileMeeting } from '@/stores/meeting/types'
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons'
-import { Button, Input, Typography, Upload, UploadFile } from 'antd'
+import { Button, Input, Tooltip, Typography, Upload, UploadFile } from 'antd'
 import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { useTranslations } from 'next-intl'
 import { ChangeEvent, useState } from 'react'
@@ -23,6 +23,7 @@ interface ICreateResolutionItem extends Resolution {
     onAddFile?: (file: IProposalFileMeeting) => void
     onRemoveFile?: (uuid: string) => void
     onDelete: () => void
+    allowUploadFile: boolean
 }
 
 const CreateResolutionItem = ({
@@ -38,6 +39,7 @@ const CreateResolutionItem = ({
     onAddFile,
     onRemoveFile,
     onDelete,
+    allowUploadFile,
 }: ICreateResolutionItem) => {
     const t = useTranslations()
 
@@ -204,10 +206,23 @@ const CreateResolutionItem = ({
                             customRequest={onUpload}
                             accept={ACCEPT_FILE_TYPES}
                             name="proposal-files"
+                            disabled={!allowUploadFile}
                         >
-                            <Button icon={<UploadOutlined />}>
-                                {t('CLICK_TO_UPLOAD')}
-                            </Button>
+                            <Tooltip
+                                placement="bottomRight"
+                                title={
+                                    allowUploadFile
+                                        ? ''
+                                        : t('UNABLE_TO_CREATE_MORE')
+                                }
+                            >
+                                <Button
+                                    icon={<UploadOutlined />}
+                                    disabled={!allowUploadFile}
+                                >
+                                    {t('CLICK_TO_UPLOAD')}
+                                </Button>
+                            </Tooltip>
                         </Upload>
                         <div className="flex flex-col items-start">
                             <Text className="break-words text-black-45">

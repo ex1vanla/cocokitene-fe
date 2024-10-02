@@ -7,6 +7,7 @@ import {
     Form,
     Input,
     Row,
+    Tooltip,
     Typography,
     Upload,
 } from 'antd'
@@ -29,7 +30,11 @@ const { Text } = Typography
 const { TextArea } = Input
 const { RangePicker } = DatePicker
 
-const BoardMeetingInformation = () => {
+const BoardMeetingInformation = ({
+    allowUploadFile,
+}: {
+    allowUploadFile: boolean
+}) => {
     const t = useTranslations()
     const params = useParams()
     const locale = params.locale
@@ -327,10 +332,23 @@ const BoardMeetingInformation = () => {
                                     'meetingInvitations',
                                     MeetingFileType.MEETING_INVITATION,
                                 )}
+                                disabled={!allowUploadFile}
                             >
-                                <Button icon={<UploadOutlined />}>
-                                    {t('CLICK_TO_UPLOAD')}
-                                </Button>
+                                <Tooltip
+                                    placement="bottomRight"
+                                    title={
+                                        allowUploadFile
+                                            ? ''
+                                            : t('UNABLE_TO_CREATE_MORE')
+                                    }
+                                >
+                                    <Button
+                                        icon={<UploadOutlined />}
+                                        disabled={!allowUploadFile}
+                                    >
+                                        {t('CLICK_TO_UPLOAD')}
+                                    </Button>
+                                </Tooltip>
                             </Upload>
                             <div className="flex flex-col items-start">
                                 <Text className="text-black-45">
@@ -388,10 +406,23 @@ const BoardMeetingInformation = () => {
                                     'meetingMinutes',
                                     MeetingFileType.MEETING_MINUTES,
                                 )}
+                                disabled={!allowUploadFile}
                             >
-                                <Button icon={<UploadOutlined />}>
-                                    {t('CLICK_TO_UPLOAD')}
-                                </Button>
+                                <Tooltip
+                                    placement="bottomRight"
+                                    title={
+                                        allowUploadFile
+                                            ? ''
+                                            : t('UNABLE_TO_CREATE_MORE')
+                                    }
+                                >
+                                    <Button
+                                        icon={<UploadOutlined />}
+                                        disabled={!allowUploadFile}
+                                    >
+                                        {t('CLICK_TO_UPLOAD')}
+                                    </Button>
+                                </Tooltip>
                             </Upload>
                             <div className="flex flex-col items-start">
                                 <Text className="text-black-45">

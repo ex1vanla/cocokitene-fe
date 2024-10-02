@@ -8,7 +8,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { IBoardProposalRedux } from '@/stores/board-meeting/types'
 import { IProposalFileMeeting } from '@/stores/meeting/types'
 
-const Elections = () => {
+const Elections = ({ allowUploadFile }: { allowUploadFile: boolean }) => {
     const t = useTranslations()
 
     const [data, setData] = useCreateBoardMeetingInformation()
@@ -94,6 +94,7 @@ const Elections = () => {
                         onAddFile={onAddFile(index)}
                         onRemoveFile={onRemoveFile(index)}
                         onDelete={onDelete(index)}
+                        allowUploadFile={allowUploadFile}
                     />
                 ))}
             </div>
