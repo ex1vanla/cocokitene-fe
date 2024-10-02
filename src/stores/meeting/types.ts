@@ -104,6 +104,7 @@ export interface IMeetingState extends IGetAllMeetingQuery, FetchError {
     status: EActionStatus
     meetingFutureList: IMeeting[]
     meetingPassList: IMeeting[]
+    allowCreate: boolean
     totalFutureMeetingItem: number
     totalPassMeetingItem: number
 }

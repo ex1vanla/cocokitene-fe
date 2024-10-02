@@ -18,6 +18,7 @@ import serviceBoardMeeting from '@/services/board-meeting'
 import serviceUpload from '@/services/upload'
 import { RcFile } from 'antd/es/upload'
 import { MeetingFileType } from '@/constants/meeting'
+import companyServicePlan from '@/services/company-service-plan'
 
 const SaveCreateBoardMeetingButton = () => {
     const t = useTranslations()
@@ -135,6 +136,8 @@ const SaveCreateBoardMeetingButton = () => {
             ;(async () => {
                 setStatus(FETCH_STATUS.LOADING)
 
+                let storageUsed: number = 0
+
                 const managementAndFinancials: IBoardMeetingReport[] = []
                 const elections: IBoardMeetingReport[] = []
 
@@ -148,6 +151,9 @@ const SaveCreateBoardMeetingButton = () => {
                                     (await Promise.all(
                                         managementAndFinancial.files.map(
                                             async (file) => {
+                                                // @ts-ignore
+                                                storageUsed += +file.file.size
+
                                                 const res =
                                                     await serviceUpload.getPresignedUrl(
                                                         [file.file as File],
@@ -180,6 +186,9 @@ const SaveCreateBoardMeetingButton = () => {
                             election.files &&
                             (await Promise.all(
                                 election.files.map(async (file) => {
+                                    // @ts-ignore
+                                    storageUsed += +file.file.size
+
                                     const res =
                                         await serviceUpload.getPresignedUrl(
                                             [file.file as File],
@@ -206,6 +215,9 @@ const SaveCreateBoardMeetingButton = () => {
                     meetingInvitations: await Promise.all(
                         validate.payload.meetingInvitations.map(
                             async (meetingInvitation) => {
+                                // @ts-ignore
+                                storageUsed += +meetingInvitation.file.size
+
                                 const res = await serviceUpload.getPresignedUrl(
                                     [meetingInvitation.file as File],
                                     meetingInvitation.fileType,
@@ -226,6 +238,9 @@ const SaveCreateBoardMeetingButton = () => {
                     meetingMinutes: await Promise.all(
                         validate.payload.meetingMinutes.map(
                             async (meetingMinute) => {
+                                // @ts-ignore
+                                storageUsed += +meetingMinute.file.size
+
                                 const res = await serviceUpload.getPresignedUrl(
                                     [meetingMinute.file as File],
                                     meetingMinute.fileType,
@@ -250,11 +265,22 @@ const SaveCreateBoardMeetingButton = () => {
                 const res = await serviceBoardMeeting.createBoardMeeting(
                     payloadCreateBoardMeeting,
                 )
+
+                // console.log(
+                //     'storageUsed(GB): ',
+                //     +(storageUsed / (1024 * 1024)).toFixed(3),
+                // )
+
                 notification.success({
                     message: t('CREATED'),
                     description: t('CREATE_BOARD_MEETING_SUCCESSFULLY'),
                     duration: 2,
                 })
+
+                const response = companyServicePlan.updateStorageUsed(
+                    +(storageUsed / (1024 * 1024)).toFixed(3),
+                )
+
                 resetData()
                 setStatus(FETCH_STATUS.SUCCESS)
                 router.push('/board-meeting')

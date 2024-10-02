@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import { FETCH_STATUS, urlRegex } from '@/constants/common'
 import { MeetingFileType } from '@/constants/meeting'
+import companyServicePlan from '@/services/company-service-plan'
 import serviceMeeting from '@/services/meeting'
 import {
     ICreateMeetingPayload,
@@ -11,6 +12,7 @@ import { useCreateMeetingInformation } from '@/stores/meeting/hooks'
 import { ICreateMeeting, IMeetingResolution } from '@/stores/meeting/types'
 import { Button, Spin, notification } from 'antd'
 import { RcFile } from 'antd/es/upload'
+import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -122,8 +124,10 @@ const SaveCreateMeetingButton = () => {
         }
         try {
             ;(async () => {
-                setStatus(FETCH_STATUS.LOADING)
+                // setStatus(FETCH_STATUS.LOADING)
                 console.log('payload: ', validate.payload)
+
+                let storageUsed: number = 0
 
                 const resolutions: IMeetingResolution[] = []
                 const amendmentResolutions: IMeetingResolution[] = []
@@ -135,11 +139,15 @@ const SaveCreateMeetingButton = () => {
                             resolution.files &&
                             (await Promise.all(
                                 resolution.files.map(async (file) => {
+                                    // @ts-ignore
+                                    storageUsed += +file.file.size
+
                                     const res =
                                         await serviceUpload.getPresignedUrl(
                                             [file.file as File],
                                             MeetingFileType.PROPOSAL_FILES,
                                         )
+
                                     await serviceUpload.uploadFile(
                                         file.file as File,
                                         res.uploadUrls[0],
@@ -165,6 +173,9 @@ const SaveCreateMeetingButton = () => {
                                 (await Promise.all(
                                     amendmentResolution.files.map(
                                         async (file) => {
+                                            // @ts-ignore
+                                            storageUsed += +file.file.size
+
                                             const res =
                                                 await serviceUpload.getPresignedUrl(
                                                     [file.file as File],
@@ -195,11 +206,15 @@ const SaveCreateMeetingButton = () => {
                     meetingInvitations: await Promise.all(
                         validate.payload.meetingInvitations.map(
                             async (meetingInvitation) => {
+                                // @ts-ignore
+                                storageUsed += +meetingInvitation.file.size
+
                                 const res = await serviceUpload.getPresignedUrl(
                                     [meetingInvitation.file as File],
                                     meetingInvitation.fileType,
                                 )
-                                await serviceUpload.uploadFile(
+
+                                const response = await serviceUpload.uploadFile(
                                     meetingInvitation.file as File,
                                     res.uploadUrls[0],
                                 )
@@ -215,6 +230,9 @@ const SaveCreateMeetingButton = () => {
                     meetingMinutes: await Promise.all(
                         validate.payload.meetingMinutes.map(
                             async (meetingMinute) => {
+                                // @ts-ignore
+                                storageUsed += +meetingMinute.file.size
+
                                 const res = await serviceUpload.getPresignedUrl(
                                     [meetingMinute.file as File],
                                     meetingMinute.fileType,
@@ -236,6 +254,11 @@ const SaveCreateMeetingButton = () => {
                     amendmentResolutions: amendmentResolutions,
                 }
 
+                // console.log(
+                //     'storageUsed(GB): ',
+                //     +(storageUsed / (1024 * 1024)).toFixed(3),
+                // )
+
                 console.log('payloadCreateMeeting: ', payloadCreateMeeting)
 
                 const res = await serviceMeeting.createMeeting(
@@ -246,6 +269,9 @@ const SaveCreateMeetingButton = () => {
                     description: t('CREATED_MEETING_SUCCESSFULLY'),
                     duration: 2,
                 })
+                const response = companyServicePlan.updateStorageUsed(
+                    +(storageUsed / (1024 * 1024)).toFixed(3),
+                )
 
                 resetData()
 
@@ -253,11 +279,13 @@ const SaveCreateMeetingButton = () => {
                 router.push('/meeting')
             })()
         } catch (error) {
-            notification.error({
-                message: 'Error',
-                description: 'Something went wrong!',
-                duration: 2,
-            })
+            if (error instanceof AxiosError) {
+                notification.error({
+                    message: t('ERROR'),
+                    description: t(error.response?.data.info.message),
+                    duration: 3,
+                })
+            }
             setStatus(FETCH_STATUS.ERROR)
         }
     }

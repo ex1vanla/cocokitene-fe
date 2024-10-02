@@ -8,7 +8,11 @@ import { IProposalFileMeeting } from '@/stores/meeting/types'
 import { IBoardProposalRedux } from '@/stores/board-meeting/types'
 import CreateReportItem from '@/components/create-report-item'
 
-const ManagementAndFinancialReports = () => {
+const ManagementAndFinancialReports = ({
+    allowUploadFile,
+}: {
+    allowUploadFile: boolean
+}) => {
     const t = useTranslations()
     const [data, setData] = useCreateBoardMeetingInformation()
 
@@ -95,6 +99,7 @@ const ManagementAndFinancialReports = () => {
                         onAddFile={onAddFile(index)}
                         onRemoveFile={onRemoveFile(index)}
                         onDelete={onDelete(index)}
+                        allowUploadFile={allowUploadFile}
                     />
                 ))}
             </div>
