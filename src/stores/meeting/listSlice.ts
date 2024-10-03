@@ -44,6 +44,7 @@ export const getAllMeetings = createAsyncThunk<
         return {
             ...data,
             items: data.meetings.items,
+            meta: data.meetings.meta,
             allowCreate: data.allowCreate,
         } as unknown as IGetAllDataAllowControlResponse<IMeeting>
     } catch (error) {
@@ -68,6 +69,7 @@ export const getAllPassMeetings = createAsyncThunk<
         return {
             ...data,
             items: data.meetings.items,
+            meta: data.meetings.meta,
             allowCreate: data.allowCreate,
         } as unknown as IGetAllDataAllowControlResponse<IMeeting>
     } catch (error) {
@@ -99,7 +101,7 @@ const meetingListSlice = createSlice({
                 state.meetingFutureList = action.payload?.items ?? []
                 state.allowCreate = action.payload.allowCreate
                 state.totalFutureMeetingItem =
-                    action.payload?.meta?.totalItems ?? 0
+                    action.payload?.meta.totalItems ?? 0
             })
             .addCase(getAllMeetings.rejected, (state, action) => {
                 state.status = EActionStatus.Failed

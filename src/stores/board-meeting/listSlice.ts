@@ -46,6 +46,7 @@ export const getAllBoardMeetings = createAsyncThunk<
             return {
                 ...data,
                 items: data.meetings.items,
+                meta: data.meetings.meta,
                 allowCreate: data.allowCreate,
             } as unknown as IGetAllDataAllowControlResponse<IMeeting>
         } catch (error) {
@@ -71,6 +72,7 @@ export const getAllPassBoardMeetings = createAsyncThunk<
         return {
             ...data,
             items: data.meetings.items,
+            meta: data.meetings.meta,
             allowCreate: data.allowCreate,
         } as unknown as IGetAllDataAllowControlResponse<IMeeting>
     } catch (error) {
