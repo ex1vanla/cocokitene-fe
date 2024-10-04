@@ -185,7 +185,7 @@ const BoardMeetingInformation = ({
                     errorUniqueFile: false,
                 },
             })
-            if (file.size > 10 * (1024 * 1024)) {
+            if (file.size > 20 * (1024 * 1024 * 1024)) {
                 setFileData({
                     ...fileData,
                     [name]: {

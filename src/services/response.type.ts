@@ -576,6 +576,7 @@ export interface IServiceSubscription {
     planName: string
     company_id: number
     payment_method: PaymentMethod
+    approval_time: string
     activation_date: string
     expiration_date: string
 }

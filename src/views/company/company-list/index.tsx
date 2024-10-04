@@ -146,9 +146,10 @@ const CompanyList = ({ data }: CompanyListProps) => {
         })
     }
 
-    const dataFinal = data.map((item) => ({
+    const dataFinal = data.map((item, index) => ({
         ...item,
         servicePlan: convertSnakeCaseToTitleCase(item.servicePlan),
+        index: companyState.limit * (companyState.page - 1) + index + 1,
     }))
 
     return (

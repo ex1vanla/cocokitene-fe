@@ -278,7 +278,7 @@ const SaveCreateBoardMeetingButton = () => {
                 })
 
                 const response = companyServicePlan.updateStorageUsed(
-                    +(storageUsed / (1024 * 1024)).toFixed(3),
+                    +(storageUsed / (1024 * 1024 * 1024)).toFixed(9),
                 )
 
                 resetData()

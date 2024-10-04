@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import ServiceSubscriptionInfo from './service-subscription-info'
 import { StatusSubscriptionEnum } from '@/constants/service-subscript'
 import { Button, Modal, notification } from 'antd'
-import { CheckOutlined } from '@ant-design/icons'
+import { CheckOutlined, EditOutlined } from '@ant-design/icons'
 import serviceSubscriptionService from '@/services/system-admin/service-subscription'
 import { AxiosError } from 'axios'
 
@@ -74,6 +74,8 @@ const ServiceSubscriptionDetail = () => {
         }
     }
 
+    console.log('serviceSubscription: ', serviceSubscription)
+
     if (!serviceSubscription || status === EActionStatus.Pending) {
         return <Loader />
     }
@@ -84,17 +86,38 @@ const ServiceSubscriptionDetail = () => {
                 urlBack="/service-subscription"
                 pageName={t('SERVICE_SUBSCRIPTION_DETAIL')}
                 editButton={
-                    serviceSubscription.status ==
-                        StatusSubscriptionEnum.PENDING && (
+                    serviceSubscription.status !==
+                        StatusSubscriptionEnum.CANCEL && (
                         <Button
                             icon={<CheckOutlined />}
-                            type="default"
-                            size="large"
+                            type="primary"
+                            size="middle"
                             onClick={() => {
                                 onConfirm(serviceSubscriptionId)
                             }}
+                            className="px-2"
                         >
                             {t('APPLY_IMMEDIATELY')}
+                        </Button>
+                    )
+                }
+                extraButton={
+                    serviceSubscription.status !==
+                        StatusSubscriptionEnum.CANCEL &&
+                    serviceSubscription.status !==
+                        StatusSubscriptionEnum.APPLIED && (
+                        <Button
+                            icon={<EditOutlined />}
+                            type="default"
+                            size="middle"
+                            className="px-2"
+                            onClick={() =>
+                                router.push(
+                                    `/service-subscription/update/${serviceSubscriptionId}`,
+                                )
+                            }
+                        >
+                            {t('EDIT')}
                         </Button>
                     )
                 }

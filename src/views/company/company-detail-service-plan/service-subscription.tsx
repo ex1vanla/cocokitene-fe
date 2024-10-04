@@ -80,7 +80,7 @@ const ServicePlanSubscription = () => {
                 className: 'px-[6px] max-[470px]:px-0 min-w-[79px]',
             },
             {
-                title: t('TOTAL_FREE'),
+                title: t('TOTAL_FEE'),
                 dataIndex: 'service_subscription_amount',
                 render: (_, record) => {
                     return <Text>{record.service_subscription_total_free}</Text>

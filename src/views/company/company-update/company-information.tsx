@@ -1,11 +1,6 @@
 /* eslint-disable */
 import BoxArea from '@/components/box-area'
 import {
-    ServicePlan,
-    ServicePlanColor,
-    ServicePlanName,
-} from '@/constants/company'
-import {
     CompanyStatus,
     CompanyStatusColor,
     CompanyStatusName,

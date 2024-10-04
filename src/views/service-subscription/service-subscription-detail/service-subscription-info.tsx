@@ -15,6 +15,7 @@ import {
 import serviceSubscriptionService from '@/services/system-admin/service-subscription'
 import { useParams } from 'next/navigation'
 import { AxiosError } from 'axios'
+import { formatDate, formatLocalDate } from '@/utils/date'
 
 const { Text } = Typography
 
@@ -48,19 +49,10 @@ const ServiceSubscriptionInfo = () => {
             lg: 6,
         },
         {
-            label: `${t('TOTAL_FREE')} (¥)`,
+            label: `${t('TOTAL_FEE')} (¥)`,
             content: (
                 <Text className="flex-1">
                     {serviceSubscription?.amount || ''}
-                </Text>
-            ),
-            lg: 6,
-        },
-        {
-            label: t('ACTIVATION_DATE'),
-            content: (
-                <Text className="flex-1">
-                    {serviceSubscription?.activationDate ?? ''}
                 </Text>
             ),
             lg: 6,
@@ -81,10 +73,44 @@ const ServiceSubscriptionInfo = () => {
             lg: 6,
         },
         {
+            label: t('ACTIVATION_DATE'),
+            content: (
+                <Text className="flex-1">
+                    {serviceSubscription?.activationDate ?? ''}
+                </Text>
+            ),
+            lg: 6,
+        },
+        {
             label: t('EXPIRATION_DATE'),
             content: (
                 <Text className="flex-1">
                     {serviceSubscription?.expirationDate ?? ''}
+                </Text>
+            ),
+            lg: 6,
+        },
+        {
+            label: t('REQUEST_TIME'),
+            content: (
+                <Text className="flex-1">
+                    {formatDate(
+                        serviceSubscription?.createdAt ?? '',
+                        'YYYY-MM-DD HH:mm',
+                    )}
+                </Text>
+            ),
+            lg: 6,
+        },
+        {
+            label: t('APPROVAL_TIME'),
+            content: (
+                <Text className="flex-1">
+                    {serviceSubscription?.approvalTime
+                        ? formatLocalDate(
+                              new Date(serviceSubscription.approvalTime),
+                          )
+                        : ''}
                 </Text>
             ),
             lg: 6,
@@ -118,56 +144,69 @@ const ServiceSubscriptionInfo = () => {
                             : ''}
                     </Text>
                     <div>
-                        {serviceSubscription?.status ==
-                            StatusSubscriptionEnum.PENDING && (
+                        {
                             <div className="mt-[2px] flex gap-1">
-                                <Button
-                                    style={{
-                                        background: serviceSubscription?.status
-                                            ? StatusSubscriptionColor[
-                                                  StatusSubscriptionEnum
-                                                      .CONFIRMED
-                                              ]
-                                            : '',
-                                        color: 'white',
-                                        borderRadius: '7px',
-                                    }}
-                                    size="small"
-                                    onClick={() => {
-                                        onConfirm(
-                                            StatusSubscriptionEnum.CONFIRMED,
-                                        )
-                                    }}
-                                >
-                                    {t(
-                                        StatusSubscription[
-                                            StatusSubscriptionEnum.CONFIRMED
-                                        ],
+                                {serviceSubscription?.status ==
+                                    StatusSubscriptionEnum.PENDING && (
+                                    <Button
+                                        style={{
+                                            background:
+                                                serviceSubscription?.status
+                                                    ? StatusSubscriptionColor[
+                                                          StatusSubscriptionEnum
+                                                              .CONFIRMED
+                                                      ]
+                                                    : '',
+                                            color: 'white',
+                                            borderRadius: '7px',
+                                        }}
+                                        size="small"
+                                        onClick={() => {
+                                            onConfirm(
+                                                StatusSubscriptionEnum.CONFIRMED,
+                                            )
+                                        }}
+                                    >
+                                        {t(
+                                            StatusSubscription[
+                                                StatusSubscriptionEnum.CONFIRMED
+                                            ],
+                                        )}
+                                    </Button>
+                                )}
+                                {serviceSubscription?.status !==
+                                    StatusSubscriptionEnum.CANCEL &&
+                                    serviceSubscription?.status !==
+                                        StatusSubscriptionEnum.APPLIED && (
+                                        <Button
+                                            style={{
+                                                background:
+                                                    serviceSubscription?.status
+                                                        ? StatusSubscriptionColor[
+                                                              StatusSubscriptionEnum
+                                                                  .CANCEL
+                                                          ]
+                                                        : '',
+                                                color: 'white',
+                                                borderRadius: '7px',
+                                            }}
+                                            size="small"
+                                            onClick={() => {
+                                                onConfirm(
+                                                    StatusSubscriptionEnum.CANCEL,
+                                                )
+                                            }}
+                                        >
+                                            {t(
+                                                StatusSubscription[
+                                                    StatusSubscriptionEnum
+                                                        .CANCEL
+                                                ],
+                                            )}
+                                        </Button>
                                     )}
-                                </Button>
-                                <Button
-                                    style={{
-                                        background: serviceSubscription?.status
-                                            ? StatusSubscriptionColor[
-                                                  StatusSubscriptionEnum.CANCEL
-                                              ]
-                                            : '',
-                                        color: 'white',
-                                        borderRadius: '7px',
-                                    }}
-                                    size="small"
-                                    onClick={() => {
-                                        onConfirm(StatusSubscriptionEnum.CANCEL)
-                                    }}
-                                >
-                                    {t(
-                                        StatusSubscription[
-                                            StatusSubscriptionEnum.CANCEL
-                                        ],
-                                    )}
-                                </Button>
                             </div>
-                        )}
+                        }
                     </div>
                 </div>
             ),

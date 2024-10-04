@@ -8,7 +8,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useTranslations } from 'next-intl'
 
-const Resolutions = () => {
+const Resolutions = ({ allowUploadFile }: { allowUploadFile: boolean }) => {
     const t = useTranslations()
     const [data, setData] = useUpdateMeetingInformation()
 
@@ -99,6 +99,7 @@ const Resolutions = () => {
                         onAddFile={onAddFile(index)}
                         onRemoveFile={onRemoveFile(index)}
                         onDelete={onDelete(index)}
+                        allowUploadFile={allowUploadFile}
                     />
                 ))}
             </div>

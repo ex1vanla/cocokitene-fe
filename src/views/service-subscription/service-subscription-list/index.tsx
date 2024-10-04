@@ -2,15 +2,18 @@ import {
     PaymentMethodName,
     StatusSubscription,
     StatusSubscriptionColor,
+    StatusSubscriptionEnum,
     SubscriptionType,
 } from '@/constants/service-subscript'
 import { useListServiceSubscription } from '@/stores/service-subscription/hooks'
 import { IServiceSubscriptionList } from '@/stores/service-subscription/type'
+import { formatLocalDate } from '@/utils/date'
 import EmptyData from '@/views/service-plan/service-plan-list/empty-plan'
-import { FormOutlined } from '@ant-design/icons'
-import { Button, Table, Typography } from 'antd'
+import { EditOutlined, EyeOutlined } from '@ant-design/icons'
+import { Table, Typography } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 const { Text } = Typography
@@ -47,22 +50,19 @@ const ServiceSubscriptionList = () => {
             render: (_, record) => {
                 return (
                     <div>
-                        <Text>{record.companyName}</Text>
-                        <Button
-                            size="small"
-                            className="ml-2 px-[4px]"
-                            onClick={() => {
-                                router.push(
-                                    `/company/${record.companyId}/service-plan`,
-                                )
-                            }}
+                        <Link
+                            href={`/company/${record.companyId}/service-plan`}
+                            passHref
+                            legacyBehavior
                         >
-                            {t('DETAIL_SERVICE')}
-                        </Button>
+                            <Text className="hover:cursor-pointer hover:underline">
+                                {record.companyName}
+                            </Text>
+                        </Link>
                     </div>
                 )
             },
-            width: '30%',
+            width: '25%',
             className: 'min-w-[248px]',
         },
         {
@@ -71,11 +71,11 @@ const ServiceSubscriptionList = () => {
             render: (_, record) => {
                 return <Text>{record.planName}</Text>
             },
-            width: '17%',
+            width: '15%',
             className: 'min-w-[109px] px-2',
         },
         {
-            title: `${t('TOTAL_FREE')}(¥)`,
+            title: `${t('TOTAL_FEE')}(¥)`,
             dataIndex: 'amount',
             width: '10%',
             className: 'px-2 min-w-[78px]',
@@ -86,7 +86,7 @@ const ServiceSubscriptionList = () => {
             render: (_, record) => {
                 return <Text>{t(PaymentMethodName[record.paymentMethod])}</Text>
             },
-            width: '15%',
+            width: '12%',
             className: 'min-w-[85px]',
         },
         {
@@ -95,7 +95,22 @@ const ServiceSubscriptionList = () => {
             render: (_, record) => {
                 return <Text>{t(SubscriptionType[record.type])}</Text>
             },
-            width: '10%',
+            width: '8%',
+            className: 'px-[6px] max-[470px]:px-0 min-w-[79px]',
+        },
+        {
+            title: t('APPROVAL_TIME'),
+            dataIndex: 'approvalTime',
+            render: (_, record) => {
+                return (
+                    <Text>
+                        {record.approvalTime
+                            ? formatLocalDate(new Date(record.approvalTime))
+                            : ''}
+                    </Text>
+                )
+            },
+            width: '12%',
             className: 'px-[6px] max-[470px]:px-0 min-w-[79px]',
         },
         {
@@ -120,7 +135,7 @@ const ServiceSubscriptionList = () => {
             key: 'action',
             render: (_, record) => (
                 <div className="flex gap-3 max-lg:gap-2">
-                    <FormOutlined
+                    <EyeOutlined
                         style={{ fontSize: '18px' }}
                         twoToneColor="#5151e5"
                         onClick={() => {
@@ -129,6 +144,18 @@ const ServiceSubscriptionList = () => {
                             )
                         }}
                     />
+                    {record.status !== StatusSubscriptionEnum.CANCEL &&
+                        record.status !== StatusSubscriptionEnum.APPLIED && (
+                            <EditOutlined
+                                style={{ fontSize: '18px' }}
+                                twoToneColor="#5151e5"
+                                onClick={() => {
+                                    router.push(
+                                        `/service-subscription/update/${record.id}`,
+                                    )
+                                }}
+                            />
+                        )}
                 </div>
             ),
             width: '8%',
@@ -143,11 +170,6 @@ const ServiceSubscriptionList = () => {
             filter: { ...serviceSubscriptionState.filter },
         })
     }
-
-    console.log(
-        'serviceSubscriptionState.serviceSubList: ',
-        serviceSubscriptionState.serviceSubList,
-    )
 
     return (
         <div className="bg-white p-6 max-[470px]:px-1">

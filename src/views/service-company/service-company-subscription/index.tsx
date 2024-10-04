@@ -20,6 +20,7 @@ import companyServicePlan from '@/services/company-service-plan'
 import { AxiosError } from 'axios'
 import withAuth from '@/components/component-auth'
 import { Permissions } from '@/constants/permission'
+import { RangePickerProps } from 'antd/es/date-picker'
 
 export interface IServiceSubscriptionCreateForm {
     companyId: number
@@ -54,6 +55,7 @@ const ServiceCompanySubscription = () => {
             activationDate: dayjs(value.activationDate).format('YYYY-MM-DD'),
             expirationDate: dayjs(value.expirationDate).format('YYYY-MM-DD'),
         })
+        setStatus(FETCH_STATUS.LOADING)
 
         try {
             const response =
@@ -112,6 +114,25 @@ const ServiceCompanySubscription = () => {
 
         // eslint-disable-next-line
     }, [serviceSubscriptionCreateState, authState])
+
+    const handleChangeActiveDate = (dateString: string) => {
+        form.setFieldsValue({
+            // @ts-ignore
+            expirationDate: dayjs(dateString).add(12, 'month'),
+        })
+    }
+
+    const disabledDate: RangePickerProps['disabledDate'] = (current) => {
+        return (
+            (current &&
+                current >
+                    dayjs(
+                        serviceSubscriptionCreateState.exServicePlan
+                            ?.expirationDate,
+                    ).add(1, 'days')) ||
+            current <= dayjs(new Date()).add(-1, 'days')
+        )
+    }
 
     if (
         !serviceSubscriptionCreateState.subscriptionServicePlan?.planId ||
@@ -292,8 +313,13 @@ const ServiceCompanySubscription = () => {
                                         placeholder={t('SELECT_DATE')}
                                         format="YYYY-MM-DD"
                                         style={{ width: '100%' }}
-                                        disabled={true}
-                                        // disabledDate={disabledDate}
+                                        disabled={
+                                            !!serviceSubscriptionCreateState
+                                                .exServicePlan?.price
+                                        }
+                                        disabledDate={disabledDate}
+                                        // @ts-ignore
+                                        onChange={handleChangeActiveDate}
                                     />
                                 </Form.Item>
                             </Col>
@@ -323,7 +349,7 @@ const ServiceCompanySubscription = () => {
                             <Col xs={24} lg={12}>
                                 <Form.Item
                                     name="amount"
-                                    label={`${t('TOTAL_FREE')} (¥)`}
+                                    label={`${t('TOTAL_FEE')} (¥)`}
                                     rules={[
                                         {
                                             required: true,

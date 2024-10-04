@@ -1,20 +1,20 @@
-import { ICreateServiceSubscriptionPayload } from './request.type';
+import { ICreateServiceSubscriptionPayload, IUpdateServiceSubscriptionPayload } from './request.type';
 import { IGetAllServiceSubscriptionQuery } from "@/stores/service-subscription/type";
-import { IGetAllDataReponse, IListServiceSubscription, IServiceSubscriptionDetailResponse } from "./response.type";
+import { ICompanyOption, IGetAllDataReponse, IListServiceSubscription, IServiceSubscriptionDetailResponse } from "./response.type";
 import { get, patch, post } from "./fetcher-system";
 import { StatusSubscriptionEnum } from '@/constants/service-subscript';
 
 
 
 const serviceSubscriptionService = {
-    getAllCompanyOption: async ():Promise<{id:number,companyName:string}[]> =>{
-        const response: { data: {id:number,companyName:string}[]} = await get('/system-admin/get-all-option-company')
+    getAllCompanyOption: async ():Promise<ICompanyOption[]> =>{
+        const response: { data: ICompanyOption[]} = await get('/system-admin/get-all-option-company')
 
         return response.data
     },
 
-    getAllServicePlanOption: async ():Promise<{id:number, planName:string,prince:number}[]>  => {
-        const response: { data: {id:number, planName:string,prince:number}[]} = await get('/system-admin/get-all-option-plan')
+    getAllServicePlanOption: async ():Promise<{id:number, planName:string,price:number}[]>  => {
+        const response: { data: {id:number, planName:string,price:number}[]} = await get('/system-admin/get-all-option-plan')
         return response.data
     },
 
@@ -52,7 +52,7 @@ const serviceSubscriptionService = {
         id: number,
         payload: {status: StatusSubscriptionEnum}
     ) => {
-        const response = await patch<any>(`/system-admin/service-subscription/${id}`,
+        const response = await patch<any>(`/system-admin/service-subscription/${id}/change-status`,
             payload
         )
         return response.data
@@ -65,6 +65,15 @@ const serviceSubscriptionService = {
         const response = await patch<any>(`/system-admin/service-subscription/${id}/apply-now`,
             payload
         )
+        return response.data
+    },
+
+    updateServicePlanSubscription: async (
+        id: number,
+        payload: IUpdateServiceSubscriptionPayload,
+    ) => {
+        const response = await patch<any>(`/system-admin/service-subscription/${id}`,payload)
+
         return response.data
     }
 

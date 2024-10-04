@@ -194,7 +194,8 @@ const ItemFutureBoardMeeting = ({
                 >
                     <div className="flex gap-2">
                         {permissionEdit &&
-                            meetings_status !== MeetingStatus.CANCELED && (
+                            meetings_status !== MeetingStatus.CANCELED &&
+                            !authState.serviceIsExpired && (
                                 <EditTwoTone
                                     style={{ fontSize: '18px' }}
                                     twoToneColor="#5151e5"

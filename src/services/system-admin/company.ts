@@ -25,13 +25,13 @@ const serviceCompany = {
     > => {
         const payload = { page, limit, ...filter }
         const response: { data: IGetAllDataReponse<IListCompanyResponse> } =
-            await get('/system-admin/get-all-companys', payload)
+            await get('/system-admin/get-all-company', payload)
 
         return response.data
     },
 
     createCompany: async (payload: ICreateCompanyPayload) => {
-        const response = await post<any>('/system-admin/companys', payload)
+        const response = await post<any>('/system-admin/company', payload)
         return response.data
     },
 

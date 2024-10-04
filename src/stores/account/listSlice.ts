@@ -36,6 +36,8 @@ export const getAllAccount = createAsyncThunk<
 >('users/getUserAll', async (param, { rejectWithValue }) => {
     try {
         const data = await serviceAccount.getAllUsers(param)
+        console.log('data: ', data)
+
         const mappedData = data.users.items.map((item, index) => {
             return {
                 id: item.users_id,
@@ -54,6 +56,7 @@ export const getAllAccount = createAsyncThunk<
             ...data,
             items: mappedData,
             allowCreate: data.allowCreate,
+            meta: data.users.meta
         } as unknown as IGetAllDataAllowControlResponse<IAccountList>
     } catch (error) {
         const err = error as AxiosError
@@ -79,11 +82,11 @@ const accountListSlice = createSlice({
                 state.status = EActionStatus.Pending
             })
             .addCase(getAllAccount.fulfilled, (state, action) => {
-                state.status = EActionStatus.Succeeded
-                state.accountList = action.payload?.items ?? []
-                ;(state.allowCreate = action.payload.allowCreate),
-                    (state.totalAccountItem =
-                        action.payload?.meta?.totalItems ?? 0)
+                state.status = EActionStatus.Succeeded,
+                state.accountList = action.payload?.items ?? [],
+                state.allowCreate = action.payload.allowCreate,
+                state.totalAccountItem =action.payload?.meta?.totalItems ?? 0
+                state.page = action.payload.meta.currentPage
             })
             .addCase(getAllAccount.rejected, (state, action) => {
                 state.status = EActionStatus.Failed

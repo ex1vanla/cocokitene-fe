@@ -61,4 +61,6 @@ export interface ICreateServiceSubscriptionPayload {
     expirationDate: string
     note?: string
 }
+
+export interface IUpdateServiceSubscriptionPayload extends ICreateServiceSubscriptionPayload{}
  

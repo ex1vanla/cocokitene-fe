@@ -12,7 +12,7 @@ import {
     IServiceSubscription,
 } from '@/services/response.type'
 import { useServiceSubscriptionCreate } from '@/stores/service-subscription/hooks'
-import { formatDate } from '@/utils/date'
+import { formatDate, formatLocalDate } from '@/utils/date'
 import EmptyData from '@/views/service-plan/service-plan-list/empty-plan'
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Typography } from 'antd'
@@ -113,7 +113,7 @@ const ServiceCompanyDetail = () => {
             className: 'min-w-[109px] px-2',
         },
         {
-            title: `${t('MEETING_CREATED')}/${t('MEETING_LIMIT')}`,
+            title: `${t('MEETINGS')}`,
             dataIndex: 'maxMeeting',
             render: (_, record) => {
                 return (
@@ -133,7 +133,7 @@ const ServiceCompanyDetail = () => {
         //     // width: 130,
         // },
         {
-            title: `${t('ACCOUNT_CREATED')}/${t('ACCOUNT_LIMIT')}`,
+            title: `${t('ACCOUNT')}`,
             dataIndex: 'maxAccount',
             render: (_, record) => {
                 return (
@@ -153,12 +153,15 @@ const ServiceCompanyDetail = () => {
         //     // width: 130,
         // },
         {
-            title: `${t('STORAGE_CREATED')}/${t('STORAGE_LIMIT')}(GB)`,
+            title: `${t('STORAGE')}(GB)`,
             dataIndex: 'maxStorage',
             render: (_, record) => {
                 return (
                     <Text>
-                        {record.storageUsed}/{record.storageLimit}
+                        {record.storageUsed > 0
+                            ? record.storageUsed.toFixed(6)
+                            : record.storageUsed}
+                        /{record.storageLimit}
                     </Text>
                 )
             },
@@ -254,7 +257,7 @@ const ServiceCompanyDetail = () => {
                 className: 'px-[6px] max-[470px]:px-0 min-w-[79px]',
             },
             {
-                title: t('TOTAL_FREE'),
+                title: t('TOTAL_FEE'),
                 dataIndex: 'service_subscription_amount',
                 render: (_, record) => {
                     return <Text>{record.service_subscription_total_free}</Text>
@@ -272,7 +275,7 @@ const ServiceCompanyDetail = () => {
                         </Text>
                     )
                 },
-                width: '15%',
+                width: '12%',
                 className: 'min-w-[85px]',
             },
             {
@@ -281,7 +284,7 @@ const ServiceCompanyDetail = () => {
                 render: (_, record) => {
                     return <Text>{record.activation_date}</Text>
                 },
-                width: '15%',
+                width: '12%',
                 className: 'min-w-[85px]',
             },
             {
@@ -290,7 +293,16 @@ const ServiceCompanyDetail = () => {
                 render: (_, record) => {
                     return <Text>{record.expiration_date}</Text>
                 },
-                width: '15%',
+                width: '12%',
+                className: 'min-w-[85px]',
+            },
+            {
+                title: t('APPROVAL_TIME'),
+                dataIndex: 'expirationDate',
+                render: (_, record) => {
+                    return <Text>{record.approval_time}</Text>
+                },
+                width: '12%',
                 className: 'min-w-[85px]',
             },
             {
@@ -340,6 +352,11 @@ const ServiceCompanyDetail = () => {
                     serviceSubscription.expiration_date,
                     'YYYY-MM-DD',
                 ),
+                approval_time: serviceSubscription?.approval_time
+                    ? formatLocalDate(
+                          new Date(serviceSubscription.approval_time),
+                      )
+                    : '',
             }
         })
     }, [dataServiceSubOfCompany])
@@ -385,7 +402,7 @@ const ServiceCompanyDetail = () => {
                         className="flex items-center"
                         onClick={() => {
                             setInfoSubscriptionCreate({
-                                type: SubscriptionEnum.EXTEND,
+                                type: SubscriptionEnum.CHANGE_SERVICE,
                                 exServicePlan: {
                                     planId:
                                         dataServicePlanOfCompany?.planId ?? 0,

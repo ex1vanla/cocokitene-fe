@@ -43,7 +43,7 @@ const ServicePlanDetail = () => {
             className: 'min-w-[109px] px-2',
         },
         {
-            title: `${t('MEETING_CREATED')}/${t('MEETING_LIMIT')}`,
+            title: `${t('MEETINGS')}`,
             dataIndex: 'maxMeeting',
             render: (_, record) => {
                 return (
@@ -55,7 +55,7 @@ const ServicePlanDetail = () => {
             // width: 130,
         },
         {
-            title: `${t('ACCOUNT_CREATED')}/${t('ACCOUNT_LIMIT')}`,
+            title: `${t('ACCOUNT')}`,
             dataIndex: 'maxAccount',
             render: (_, record) => {
                 return (
@@ -67,12 +67,15 @@ const ServicePlanDetail = () => {
             // width: 130,
         },
         {
-            title: `${t('STORAGE_CREATED')}/${t('STORAGE_LIMIT')}(GB)`,
+            title: `${t('STORAGE')}(GB)`,
             dataIndex: 'maxStorage',
             render: (_, record) => {
                 return (
                     <Text>
-                        {record.storageUsed}/{record.storageLimit}
+                        {record.storageUsed > 0
+                            ? record.storageUsed.toFixed(6)
+                            : record.storageUsed}
+                        /{record.storageLimit}
                     </Text>
                 )
             },

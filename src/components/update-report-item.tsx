@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Button, Input, Select, Typography, Upload } from 'antd'
+import { Button, Input, Select, Tooltip, Typography, Upload } from 'antd'
 import {
     Resolution,
     ResolutionTitle,
@@ -37,6 +37,7 @@ interface IUpdateReportItem extends Resolution {
     onDelete: () => void
     electionList?: IElectionResponse[] | []
     defaultElection?: number
+    allowUploadFile: boolean
 }
 
 const UpdateReportItem = ({
@@ -54,6 +55,7 @@ const UpdateReportItem = ({
     onDelete,
     electionList,
     defaultElection,
+    allowUploadFile,
 }: IUpdateReportItem) => {
     const t = useTranslations()
     const [data, setData] = useCreateBoardMeetingInformation()
@@ -115,7 +117,7 @@ const UpdateReportItem = ({
             fileList: [...fileData.fileList, ...newUploadFiles],
             errorUniqueFile: false,
         })
-        if (file.size > 10 * (1024 * 1024)) {
+        if (file.size > 20 * (1024 * 1024 * 1024)) {
             setFileData({
                 ...fileData,
                 errorFileSize: true,
@@ -217,10 +219,23 @@ const UpdateReportItem = ({
                                 accept={ACCEPT_FILE_TYPES}
                                 name="proposal-files"
                                 // showUploadList={false}
+                                disabled={!allowUploadFile}
                             >
-                                <Button icon={<UploadOutlined />}>
-                                    {t('CLICK_TO_UPLOAD')}
-                                </Button>
+                                <Tooltip
+                                    placement="bottomRight"
+                                    title={
+                                        allowUploadFile
+                                            ? ''
+                                            : t('UNABLE_TO_CREATE_MORE')
+                                    }
+                                >
+                                    <Button
+                                        icon={<UploadOutlined />}
+                                        disabled={!allowUploadFile}
+                                    >
+                                        {t('CLICK_TO_UPLOAD')}
+                                    </Button>
+                                </Tooltip>
                             </Upload>
                             <div className="flex flex-col items-start">
                                 <Text className="break-words text-black-45">

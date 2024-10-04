@@ -45,6 +45,7 @@ export const getAllServiceSubscription = createAsyncThunk<
                 amount: item.service_subscription_total_free,
                 status: item.service_subscription_status,
                 paymentMethod: item.payment_method,
+                approvalTime: item.approval_time,
             }
         }) as IServiceSubscriptionList[]
 

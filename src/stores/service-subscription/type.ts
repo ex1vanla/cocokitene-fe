@@ -1,8 +1,10 @@
-import { PaymentMethod, StatusSubscriptionEnum, SubscriptionEnum } from "@/constants/service-subscript"
-import { ListParamsFilter } from "../meeting/types"
-import { EActionStatus, FetchError } from "../type"
-
-
+import {
+    PaymentMethod,
+    StatusSubscriptionEnum,
+    SubscriptionEnum,
+} from '@/constants/service-subscript'
+import { ListParamsFilter } from '../meeting/types'
+import { EActionStatus, FetchError } from '../type'
 
 export interface IServiceSubscriptionList {
     id: number
@@ -15,16 +17,18 @@ export interface IServiceSubscriptionList {
     amount: number
     status: StatusSubscriptionEnum
     paymentMethod: PaymentMethod
+    approvalTime: string
 }
 
 export interface IGetAllServiceSubscriptionQuery {
-    page: number,
-    limit: number,
+    page: number
+    limit: number
     filter?: ListParamsFilter
 }
 
-
-export interface IServiceSubState extends IGetAllServiceSubscriptionQuery, FetchError {
+export interface IServiceSubState
+    extends IGetAllServiceSubscriptionQuery,
+        FetchError {
     status: EActionStatus
     serviceSubList: IServiceSubscriptionList[]
     totalServiceSubItem: number
@@ -41,13 +45,14 @@ export interface IServiceSubscriptionDetail {
     activationDate: string
     expirationDate: string
     status: StatusSubscriptionEnum
-    transferReceipt?: string 
-    createdAt: string,
-    createdSystemId: number,
-    updatedAt: string,
-    updatedSystemId?: number,
+    approvalTime: string
+    transferReceipt?: string
+    createdAt: string
+    createdSystemId: number
+    updatedAt: string
+    updatedSystemId?: number
     plan: {
-        id: number,
+        id: number
         planName: string
         price: number
     }
@@ -67,14 +72,14 @@ export interface IDetailServiceSubscriptionState {
 
 export interface ICreateServiceSubscriptionState {
     subscriptionServicePlan?: {
-        planId: number,
-        planName: string,
+        planId: number
+        planName: string
         price: number
-    },
-    type?: SubscriptionEnum,
+    }
+    type?: SubscriptionEnum
     exServicePlan?: {
-        planId: number,
-        price: number,
-        expirationDate: string,
+        planId: number
+        price: number
+        expirationDate: string
     }
 }

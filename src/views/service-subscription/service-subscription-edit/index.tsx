@@ -1,5 +1,17 @@
+/* eslint-disable */
+
+import { AxiosError } from 'axios'
+import { useTranslations } from 'next-intl'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { Col, DatePicker, Form, Input, notification, Row, Select } from 'antd'
+import { useForm } from 'antd/es/form/Form'
+import TextArea from 'antd/es/input/TextArea'
+import dayjs from 'dayjs'
+
 import withAuthAdmin from '@/components/component-auth-admin'
-import CreateTitle from '@/components/content-page-title/create-title'
+import UpdateTitle from '@/components/content-page-title/update-title'
+import Loader from '@/components/loader'
 import { FETCH_STATUS } from '@/constants/common'
 import {
     PaymentMethod,
@@ -11,18 +23,9 @@ import {
     SubscriptionType,
 } from '@/constants/service-subscript'
 import serviceSubscriptionService from '@/services/system-admin/service-subscription'
-import { Col, DatePicker, Form, Input, notification, Row, Select } from 'antd'
-import { useForm } from 'antd/es/form/Form'
-import TextArea from 'antd/es/input/TextArea'
-import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import SaveCreateServiceSubscriptionButton from './save-button'
-import dayjs from 'dayjs'
-import { AxiosError } from 'axios'
-import { RangePickerProps } from 'antd/es/date-picker'
+import SaveUpdatePlanButton from './save-button'
 
-export interface IServiceSubscriptionCreateForm {
+export interface IServiceSubscriptionUpdate {
     companyId: number
     planId: number
     amount: number
@@ -34,17 +37,18 @@ export interface IServiceSubscriptionCreateForm {
     note?: string
 }
 
-const CreateServiceSubscription = () => {
-    const [status, setStatus] = useState<FETCH_STATUS>(FETCH_STATUS.IDLE)
-    const [optionCompany, setOptionCompany] = useState<
-        {
-            value: number
-            label: string
-            servicePlanId: number
-            expirationDate: string
-            servicePlanPrice: number
-        }[]
-    >([])
+const UpdateServiceSubscription = () => {
+    const t = useTranslations()
+    const router = useRouter()
+    const param = useParams()
+    const serviceSubscriptionId = +param.id
+    const [form] = useForm<IServiceSubscriptionUpdate>()
+
+    const [companyInfo, setCompanyInfo] = useState<{
+        companyId: number
+        companyName: string
+        planId: number
+    }>()
     const [optionServicePlan, setOptionServicePlan] = useState<
         {
             value: number
@@ -52,153 +56,126 @@ const CreateServiceSubscription = () => {
             price: number
         }[]
     >([])
-
-    const [companyChoose, setCompanyChoose] = useState<{
-        value: number
-        label: string
-        servicePlanId: number
-        expirationDate: string
-        servicePlanPrice: number
-    }>()
-
-    const [servicePlanChoose, setServicePlanChoose] = useState<{
-        value: number
-        label: string
-        price: number
-    }>()
-
-    const t = useTranslations()
-    const router = useRouter()
-
-    const [form] = useForm<IServiceSubscriptionCreateForm>()
+    const [initServiceSubscription, setInitServiceSubscription] =
+        useState<IServiceSubscriptionUpdate>()
+    const [initStatus, setInitStatus] = useState<FETCH_STATUS>(
+        FETCH_STATUS.IDLE,
+    )
+    const [status, setStatus] = useState<FETCH_STATUS>(FETCH_STATUS.IDLE)
 
     useEffect(() => {
-        const fetchData = async () => {
-            const optionCompanyList =
-                await serviceSubscriptionService.getAllCompanyOption()
+        const fetchInitData = async () => {
+            try {
+                const res =
+                    await serviceSubscriptionService.getDetailServiceSubscription(
+                        serviceSubscriptionId,
+                    )
 
-            const optionServicePlanList =
-                await serviceSubscriptionService.getAllServicePlanOption()
+                const optionServicePlanList =
+                    await serviceSubscriptionService.getAllServicePlanOption()
 
-            if (optionCompanyList) {
-                setOptionCompany(
-                    optionCompanyList.map((option) => ({
-                        value: option.company_id,
-                        label: option.company_company_name,
-                        servicePlanId: option.servicePlanId,
-                        expirationDate: option.expirationDate,
-                        servicePlanPrice: option.servicePlanPrice,
-                    })),
-                )
-            }
-            if (optionServicePlanList) {
-                setOptionServicePlan(
-                    optionServicePlanList.map((option) => ({
-                        value: option.id,
-                        label: option.planName,
-                        price: option.price,
-                    })),
-                )
+                if (res) {
+                    setInitServiceSubscription({
+                        companyId: res.companyId,
+                        planId: res.planId,
+                        amount: res.amount,
+                        type: res.type,
+                        paymentMethod: res.paymentMethod,
+                        status: res.status,
+                        activationDate: res.activationDate,
+                        expirationDate: res.expirationDate,
+                        note: res?.note,
+                    })
+                    setCompanyInfo({
+                        companyId: res.company.id,
+                        companyName: res.company.companyName,
+                        planId: res.company.planId,
+                    })
+                }
+                if (optionServicePlanList) {
+                    setOptionServicePlan(
+                        optionServicePlanList.map((option) => ({
+                            value: option.id,
+                            label: option.planName,
+                            price: option.price,
+                        })),
+                    )
+                }
+
+                setInitStatus(FETCH_STATUS.SUCCESS)
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    notification.error({
+                        message: t('ERROR'),
+                        description: error.response?.data.info.message,
+                        duration: 3,
+                    })
+                }
+                setInitStatus(FETCH_STATUS.ERROR)
             }
         }
-
-        form.setFieldsValue({
-            status: StatusSubscriptionEnum.PENDING,
-        })
-        fetchData()
-        // eslint-disable-next-line
-    }, [])
-
-    const handleChangeCompany = (value: number) => {
-        const companyChoose = optionCompany.find(
-            (option) => option.value == value,
-        )
-
-        if (companyChoose) {
-            setCompanyChoose(companyChoose)
+        if (serviceSubscriptionId) {
+            fetchInitData()
         }
-    }
+    }, [serviceSubscriptionId])
 
     const handleChangeServicePlan = (value: number) => {
-        const servicePlanChoose = optionServicePlan.find(
-            (option) => option.value == value,
-        )
-
-        if (servicePlanChoose) {
-            setServicePlanChoose(servicePlanChoose)
-        }
+        form.setFieldsValue({
+            type:
+                companyInfo?.planId == value
+                    ? SubscriptionEnum.EXTEND
+                    : SubscriptionEnum.CHANGE_SERVICE,
+            amount:
+                optionServicePlan.find((service) => service.value == value)
+                    ?.price ?? 0,
+        })
     }
 
-    useEffect(() => {
-        if (companyChoose && servicePlanChoose) {
-            form.setFieldsValue({
-                type:
-                    companyChoose.servicePlanId == servicePlanChoose.value
-                        ? SubscriptionEnum.EXTEND
-                        : SubscriptionEnum.CHANGE_SERVICE,
-            })
-        }
-
-        form.setFieldsValue({
-            // @ts-ignore
-            activationDate:
-                dayjs(companyChoose?.expirationDate) > dayjs(new Date())
-                    ? dayjs(companyChoose?.expirationDate).add(1, 'days')
-                    : dayjs(new Date()),
-            // @ts-ignore
-            expirationDate:
-                dayjs(companyChoose?.expirationDate) > dayjs(new Date())
-                    ? dayjs(companyChoose?.expirationDate)
-                          .add(1, 'days')
-                          .add(12, 'month')
-                    : dayjs(new Date()).add(12, 'month'),
-        })
-        // eslint-disable-next-line
-    }, [companyChoose])
-
-    useEffect(() => {
-        if (companyChoose && servicePlanChoose) {
-            form.setFieldsValue({
-                type:
-                    companyChoose.servicePlanId == servicePlanChoose.value
-                        ? SubscriptionEnum.EXTEND
-                        : SubscriptionEnum.CHANGE_SERVICE,
-            })
-        }
-        form.setFieldsValue({
-            amount: servicePlanChoose?.price ?? 0,
-        })
-        // eslint-disable-next-line
-    }, [servicePlanChoose])
-
-    const onFinish = async (value: IServiceSubscriptionCreateForm) => {
+    const onFinish = async (value: IServiceSubscriptionUpdate) => {
         setStatus(FETCH_STATUS.LOADING)
+
         console.log('value: ', {
-            ...value,
+            companyId: value.companyId,
+            planId: value.planId,
+            amount: +value.amount,
+            type: value.type,
+            paymentMethod: value.paymentMethod,
+            status: value.status,
             activationDate: dayjs(value.activationDate).format('YYYY-MM-DD'),
             expirationDate: dayjs(value.expirationDate).format('YYYY-MM-DD'),
+            note: value?.note,
         })
+
         try {
-            const response =
-                await serviceSubscriptionService.createServiceSubscription({
-                    ...value,
-                    amount: +value.amount,
-                    activationDate: dayjs(value.activationDate).format(
-                        'YYYY-MM-DD',
-                    ),
-                    expirationDate: dayjs(value.expirationDate).format(
-                        'YYYY-MM-DD',
-                    ),
-                })
-            if (response) {
+            const updateServicePlanSubscription =
+                await serviceSubscriptionService.updateServicePlanSubscription(
+                    serviceSubscriptionId,
+                    {
+                        companyId: value.companyId,
+                        planId: value.planId,
+                        amount: +value.amount,
+                        type: value.type,
+                        paymentMethod: value.paymentMethod,
+                        status: value.status,
+                        activationDate: dayjs(value.activationDate).format(
+                            'YYYY-MM-DD',
+                        ),
+                        expirationDate: dayjs(value.expirationDate).format(
+                            'YYYY-MM-DD',
+                        ),
+                        note: value?.note,
+                    },
+                )
+            if (updateServicePlanSubscription) {
                 notification.success({
-                    message: t('CREATED'),
-                    description: t(''),
+                    message: t('UPDATED'),
+                    description: t('UPDATE_SUBSCRIPTION_SERVICE_SUCCESSFULLY'),
                     duration: 2,
                 })
-                router.push('/service-subscription')
-                form.resetFields()
                 setStatus(FETCH_STATUS.SUCCESS)
+                router.push(
+                    `/service-subscription/detail/${serviceSubscriptionId}`,
+                )
             }
         } catch (error) {
             if (error instanceof AxiosError) {
@@ -212,29 +189,41 @@ const CreateServiceSubscription = () => {
         }
     }
 
-    const handleChangeActiveDate = (dateString: string) => {
-        form.setFieldsValue({
-            // @ts-ignore
-            expirationDate: dayjs(dateString).add(12, 'month'),
+    if (
+        initServiceSubscription?.status == StatusSubscriptionEnum.CANCEL ||
+        initServiceSubscription?.status == StatusSubscriptionEnum.APPLIED
+    ) {
+        notification.error({
+            message: t('ERROR'),
+            duration: 3,
         })
+        router.push(`/service-subscription/detail/${serviceSubscriptionId}`)
     }
 
-    const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-        return (
-            (current &&
-                current >
-                    dayjs(companyChoose?.expirationDate).add(1, 'days')) ||
-            current <= dayjs(new Date()).add(-1, 'days')
-        )
+    if (!initServiceSubscription || initStatus === FETCH_STATUS.LOADING) {
+        return <Loader />
     }
 
     return (
         <div>
-            <Form onFinish={onFinish} layout="vertical" form={form}>
-                <CreateTitle
-                    pageName={t('CREATE_SERVICE_SUBSCRIPTION')}
+            <Form
+                onFinish={onFinish}
+                form={form}
+                layout="vertical"
+                initialValues={{
+                    ...initServiceSubscription,
+                    activationDate: dayjs(
+                        initServiceSubscription.activationDate,
+                    ),
+                    expirationDate: dayjs(
+                        initServiceSubscription.expirationDate,
+                    ),
+                }}
+            >
+                <UpdateTitle
+                    pageName={t('UPDATE_SUBSCRIPTION_SERVICE')}
                     saveButton={
-                        <SaveCreateServiceSubscriptionButton
+                        <SaveUpdatePlanButton
                             form={form}
                             isLoading={status === FETCH_STATUS.LOADING}
                         />
@@ -259,8 +248,13 @@ const CreateServiceSubscription = () => {
                                         showSearch
                                         placeholder=""
                                         optionFilterProp="label"
-                                        onChange={handleChangeCompany}
-                                        options={optionCompany}
+                                        disabled={true}
+                                        options={[
+                                            {
+                                                label: companyInfo?.companyName,
+                                                value: companyInfo?.companyId,
+                                            },
+                                        ]}
                                     />
                                 </Form.Item>
                             </Col>
@@ -378,12 +372,8 @@ const CreateServiceSubscription = () => {
                                         placeholder={t('SELECT_DATE')}
                                         format="YYYY-MM-DD"
                                         style={{ width: '100%' }}
-                                        disabled={
-                                            !!companyChoose?.servicePlanPrice
-                                        }
-                                        disabledDate={disabledDate}
-                                        // @ts-ignore
-                                        onChange={handleChangeActiveDate}
+                                        // disabledDate={disabledDate}
+                                        disabled={true}
                                     />
                                 </Form.Item>
                             </Col>
@@ -511,26 +501,6 @@ const CreateServiceSubscription = () => {
                                                     </span>
                                                 ),
                                             },
-                                            {
-                                                value: StatusSubscriptionEnum.APPLIED,
-                                                label: (
-                                                    <span
-                                                        style={{
-                                                            color: StatusSubscriptionColor[
-                                                                StatusSubscriptionEnum
-                                                                    .APPLIED
-                                                            ],
-                                                        }}
-                                                    >
-                                                        {t(
-                                                            StatusSubscription[
-                                                                StatusSubscriptionEnum
-                                                                    .APPLIED
-                                                            ],
-                                                        )}
-                                                    </span>
-                                                ),
-                                            },
                                         ]}
                                     />
                                 </Form.Item>
@@ -567,4 +537,4 @@ const CreateServiceSubscription = () => {
     )
 }
 
-export default withAuthAdmin(CreateServiceSubscription)
+export default withAuthAdmin(UpdateServiceSubscription)

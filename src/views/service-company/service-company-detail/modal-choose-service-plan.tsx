@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { SubscriptionEnum } from '@/constants/service-subscript'
 import { useListPlan } from '@/stores/service-plan/hooks'
 import { useServiceSubscriptionCreate } from '@/stores/service-subscription/hooks'
 import { EActionStatus } from '@/stores/type'
@@ -24,6 +25,7 @@ interface IServicePlanOption {
         planName: string,
         price: number,
     ) => void
+    disabled?: boolean
 }
 
 const ServicePlanOption = ({
@@ -35,6 +37,7 @@ const ServicePlanOption = ({
     maxAccount,
     handleChooseServicePlan,
     isRecommended,
+    disabled = false,
 }: IServicePlanOption) => {
     const t = useTranslations()
 
@@ -86,6 +89,7 @@ const ServicePlanOption = ({
                     onClick={() => {
                         handleChooseServicePlan(id, planName, price)
                     }}
+                    disabled={disabled}
                 >
                     {t('SUBSCRIPTION')}
                 </Button>
@@ -107,7 +111,8 @@ const ModalChooseServicePlan = ({
     const t = useTranslations()
     const router = useRouter()
 
-    const { setIdServicePlanSubscription } = useServiceSubscriptionCreate()
+    const { serviceSubscriptionCreateState, setIdServicePlanSubscription } =
+        useServiceSubscriptionCreate()
 
     const { planState, getListPlanAction } = useListPlan()
 
@@ -183,6 +188,13 @@ const ModalChooseServicePlan = ({
                                             price={servicePlan.price}
                                             handleChooseServicePlan={
                                                 handleChoseServicePlanSubscription
+                                            }
+                                            disabled={
+                                                serviceSubscriptionCreateState.type ===
+                                                    SubscriptionEnum.CHANGE_SERVICE &&
+                                                serviceSubscriptionCreateState
+                                                    .exServicePlan?.planId ==
+                                                    servicePlan.id
                                             }
                                         />
                                     )

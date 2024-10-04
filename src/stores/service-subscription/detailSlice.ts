@@ -33,6 +33,7 @@ export const getServiceSubscriptionDetail = createAsyncThunk<
             expirationDate: serviceSubscriptionDetail.expirationDate,
             status: serviceSubscriptionDetail.status,
             transferReceipt: serviceSubscriptionDetail.transferReceipt, 
+            approvalTime: serviceSubscriptionDetail.approvalTime,
             createdAt: serviceSubscriptionDetail.createdAt,
             createdSystemId: serviceSubscriptionDetail.createdSystemId,
             updatedAt: serviceSubscriptionDetail.updatedAt,
