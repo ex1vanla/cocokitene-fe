@@ -125,7 +125,7 @@ const SaveCreateMeetingButton = () => {
         try {
             // ;(async () => {
             setStatus(FETCH_STATUS.LOADING)
-            console.log('payload: ', validate.payload)
+            // console.log('payload: ', validate.payload)
 
             let storageUsed: number = 0
 

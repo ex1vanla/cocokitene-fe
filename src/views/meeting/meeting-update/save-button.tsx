@@ -116,7 +116,7 @@ const SaveUpdateMeetingButton = () => {
         try {
             // ;(async () => {
             setStatus(FETCH_STATUS.LOADING)
-            console.log('validate.payload: ', validate.payload)
+            // console.log('validate.payload: ', validate.payload)
             await serviceMeeting.updateMeeting(data.id, validate.payload)
             notification.success({
                 message: t('UPDATED'),

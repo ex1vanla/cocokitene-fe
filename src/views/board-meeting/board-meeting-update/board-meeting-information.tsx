@@ -126,7 +126,6 @@ const BoardMeetingInformation = ({
             fileType: MeetingFileType,
         ) =>
         (info: UploadChangeParam<UploadFile>) => {
-            console.log(info)
             if (info.file.status === 'done') {
                 const url = info.file?.xhr?.responseURL
                 if (url) {
