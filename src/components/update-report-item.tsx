@@ -17,6 +17,7 @@ import { RcFile, UploadChangeParam } from 'antd/es/upload'
 import { IElectionResponse } from '@/services/response.type'
 import { ElectionColor, ElectionName } from '@/constants/election'
 import { useCreateBoardMeetingInformation } from '@/stores/board-meeting/hook'
+import { FolderType } from '@/constants/s3'
 
 const { Text } = Typography
 const { TextArea } = Input
@@ -38,6 +39,7 @@ interface IUpdateReportItem extends Resolution {
     electionList?: IElectionResponse[] | []
     defaultElection?: number
     allowUploadFile: boolean
+    meetingCode: string
 }
 
 const UpdateReportItem = ({
@@ -56,6 +58,7 @@ const UpdateReportItem = ({
     electionList,
     defaultElection,
     allowUploadFile,
+    meetingCode,
 }: IUpdateReportItem) => {
     const t = useTranslations()
     const [data, setData] = useCreateBoardMeetingInformation()
@@ -153,6 +156,8 @@ const UpdateReportItem = ({
                     : MeetingFileType.PROPOSAL_FILES
 
             const res = await serviceUpload.getPresignedUrl(
+                FolderType.MEETING,
+                meetingCode,
                 [file as File],
                 // MeetingFileType.PROPOSAL_FILES,
                 meetingFileType,

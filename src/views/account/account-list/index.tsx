@@ -58,7 +58,10 @@ const AccountList = () => {
                     <div className="flex items-center gap-2">
                         {record.avatar ? (
                             <Avatar
-                                src={record.avatar}
+                                src={
+                                    process.env.NEXT_PUBLIC_PRE_URL_S3_LINK +
+                                    record.avatar
+                                }
                                 alt="avatar-alt"
                                 size="small"
                                 style={{

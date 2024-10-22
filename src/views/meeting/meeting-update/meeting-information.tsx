@@ -33,6 +33,7 @@ import { enumToArray } from '@/utils'
 import { useState } from 'react'
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface'
 import { useParams } from 'next/navigation'
+import { FolderType } from '@/constants/s3'
 
 const { RangePicker } = DatePicker
 const { TextArea } = Input
@@ -101,6 +102,8 @@ const MeetingInformation = ({
         async ({ file }: RcCustomRequestOptions) => {
             try {
                 const res = await serviceUpload.getPresignedUrl(
+                    FolderType.MEETING,
+                    data.meetingCode,
                     [file as File],
                     fileType,
                 )

@@ -19,6 +19,14 @@ const SaveUpdateMeetingButton = () => {
     const onValidate = (data: IUpdateMeeting) => {
         const payload = {
             ...data,
+            meetingInvitations: data.meetingInvitations.map((file) => ({
+                ...file,
+                url: file.url.split('.amazonaws.com/')[1],
+            })),
+            meetingMinutes: data.meetingMinutes.map((file) => ({
+                ...file,
+                url: file.url.split('.amazonaws.com/')[1],
+            })),
             title: data.title.trim(),
             meetingLink:
                 data.meetingLink && !data.meetingLink.startsWith('https://')
@@ -33,6 +41,10 @@ const SaveUpdateMeetingButton = () => {
                 ...resolution,
                 title: resolution.title.trim(),
                 description: resolution.description.trim(),
+                files: resolution.files?.map((file) => ({
+                    ...file,
+                    url: file.url.split('.amazonaws.com/')[1],
+                })),
             })),
             amendmentResolutions: data.amendmentResolutions.map(
                 (amendment) => ({
@@ -40,6 +52,10 @@ const SaveUpdateMeetingButton = () => {
                     title: amendment.title.trim(),
                     description: amendment.description.trim(),
                     oldDescription: amendment.oldDescription?.trim(),
+                    files: amendment.files?.map((file) => ({
+                        ...file,
+                        url: file.url.split('.amazonaws.com/')[1],
+                    })),
                 }),
             ),
             personnelVoting: [
